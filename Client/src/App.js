@@ -29,7 +29,7 @@ function App() {
                         <Route path="/personal-salud" element={<Personal />} />
                         <Route path="/reset-password" element={<ResetPassword />} />
                         <Route path="/contact-administrador" element={<ContactAdmi />} />
-                        <Route path="/restablecer" element={<Restablecer />} />
+                        <Route path="/new-password/:token" element={<Restablecer />} />
                     </Routes>
                 </AuthProvider>
             </BrowserRouter>

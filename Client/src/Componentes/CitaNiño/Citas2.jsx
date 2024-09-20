@@ -1,39 +1,85 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import HorasCita from '../Complementos/HorasCita';
 import FormCitas from './FormCitas';
-const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
 
+const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
     const [verForm, setVerForm] = useState(false);
     const [horaSeleccionada, setHoraSeleccionada] = useState('');
 
     const handleAgregarCita = (hora) => {
-        setHoraSeleccionada(hora); // Guardamos la hora seleccionada
-        setVerForm(true);          // Mostramos el formulario
+        setHoraSeleccionada(hora);
+        setVerForm(true);
     };
 
     const handleCloseForm = () => {
         setVerForm(false);
-        setHoraSeleccionada('');   // Reseteamos la hora seleccionada
+        setHoraSeleccionada('');
     };
 
-    const renderRow = (horario) => {
-        // Aquí asumimos que horario tiene las mismas propiedades que en Citas1, como AtencionEspecial y Receso
+    const renderRow = (horario, index, horarios) => {
         const citaActual = citas.find(cita => cita.hora === horario.hora);
         const profesional = personal.find(profesional => profesional.especial_cita === especialidad);
-        const esReceso = horario.receso;  // Verificamos si es un receso
-        const atencionEspecial = horario.AtencionEspecial;  // Verificamos si es atención especial
-    
+        const esReceso = horario.receso;
+        const esAtencionEspecial = horario.AtencionEspecial;
+
         let rowClass = '';
-        if (atencionEspecial) {
-            rowClass = 'atencion-especial';  // Clase para atención especial
-        } else if (esReceso) {
-            rowClass = 'receso';  // Clase para receso
+        let turno = 'Mañana'; // Por defecto, antes del receso es "Mañana"
+
+        // Verificamos si hay un receso y cambiamos el turno según la posición
+        const recesoIndex = horarios.findIndex(h => h.receso);
+        if (recesoIndex !== -1 && index > recesoIndex) {
+            turno = 'Tarde'; // Si estamos después del receso, el turno será "Tarde"
         }
-    
+
+        // Renderizar fila para "Receso"
+        if (esReceso) {
+            return (
+                <tr key={horario.hora} className="receso">
+                    <td>{horario.receso}</td>
+                    <td colSpan="10">RECESO</td>
+                </tr>
+            );
+        }
+
+        // Renderizar fila para "Atención Especial"
+        if (esAtencionEspecial) {
+            return horario.AtencionEspecial.map((especial, index) => (
+                <tr key={`especial-${index}`} className="atencion-especial">
+                    <td>{especial.hora}</td>
+                    <td>{turno}</td> {/* Mostrar el turno aquí */}
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    {especialidad === 'Medicina' && <td> </td>}
+                    {especialidad === 'Obstetricia_CPN' && <td> </td>}
+                    {especialidad === 'Planificación' && <td> </td>}
+                    <td> </td>
+                    <td>
+                        {profesional ? (
+                            <span>{profesional.nombres} {profesional.paterno}</span>
+                        ) : (
+                            <span>No disponible</span>
+                        )}
+                    </td>
+                    <td>
+                        {citaActual ? (
+                            <button className="btn btn-danger">CANCELAR CITA</button>
+                        ) : (
+                            <button className="btn btn-primary" onClick={() => handleAgregarCita(especial.hora)}>AGREGAR CITA</button>
+                        )}
+                    </td>
+                </tr>
+            ));
+        }
+
+        // Renderizar fila para citas normales
         return (
-            <tr key={horario.hora} className={rowClass}>
-                <td>{esReceso ? `${horario.receso} RECESO` : horario.hora}</td>
+            <tr key={horario.hora}>
+                <td>{horario.hora}</td>
+                <td>{turno}</td> {/* Mostrar el turno aquí */}
                 <td> </td>
                 <td> </td>
                 <td> </td>
@@ -45,34 +91,32 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
                 {especialidad === 'Planificación' && <td> </td>}
                 <td> </td>
                 <td>
-                    {!esReceso && profesional ? (
+                    {profesional ? (
                         <span>{profesional.nombres} {profesional.paterno}</span>
                     ) : (
-                        !esReceso && <span>No disponible</span>
+                        <span>No disponible</span>
                     )}
                 </td>
                 <td>
-                    {esReceso ? null : (
-                        citaActual ? (
-                            <button className="btn btn-danger">CANCELAR CITA</button>
-                        ) : (
-                            <button className="btn btn-primary" onClick={() => handleAgregarCita(horario.hora)}>AGREGAR CITA</button>
-                        )
+                    {citaActual ? (
+                        <button className="btn btn-danger">CANCELAR CITA</button>
+                    ) : (
+                        <button className="btn btn-primary" onClick={() => handleAgregarCita(horario.hora)}>AGREGAR CITA</button>
                     )}
                 </td>
             </tr>
         );
     };
-    
 
     return (
         <div className="citas2">
-            <h4>Citas para el día {fecha} en consultorio {consultorio2}</h4>
+            <h4>Citas para el día {fecha} en consultorio {consultorio2} - {especialidad}</h4>
             <div>
                 <table>
                     <thead>
                         <tr>
                             <th>Hora</th>
+                            <th>Turno</th>
                             <th>Hist. Clínico</th>
                             <th>DNI</th>
                             <th>Apellidos y Nombres</th>
@@ -88,15 +132,15 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {HorasCita[especialidad]?.map(renderRow)}
+                        {HorasCita[especialidad]?.map((horario, index, horarios) => renderRow(horario, index, horarios))}
                     </tbody>
                 </table>
             </div>
-            { verForm && (
-                <FormCitas 
+            {verForm && (
+                <FormCitas
                     especialidad={especialidad}
                     fecha={fecha}
-                    hora = {horaSeleccionada}
+                    hora={horaSeleccionada}
                     consultorio={consultorio2}
                     handleCloseForm={handleCloseForm}
                 />

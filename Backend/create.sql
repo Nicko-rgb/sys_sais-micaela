@@ -8,7 +8,8 @@ USE db_sais;
 
 -- Eliminar tablas si existen para evitar errores
 DROP TABLE IF EXISTS responsable_de_paciente;
-DROP TABLE IF EXISTS pacientes;  -- Asegúrate de que esta tabla se defina más adelante si es necesaria
+DROP TABLE IF EXISTS pacientes; 
+DROP TABLE IF EXISTS personal_salud;
 
 -- Crear el usuario con contraseña
 CREATE USER 'db-sais90'@'%' IDENTIFIED BY 'db-sais90';
@@ -65,11 +66,24 @@ CREATE TABLE pacientes (
 
 --CREAR UNA TABLA PARA LA CITAS PARA EL PACIENTE DE TIPO NIÑO
 CREATE TABLE cita_ninhos (
-    id_cita INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    especialidad VARCHAR(50) NOT NULL,
     fecha DATE NOT NULL,
-    hora TIME NOT NULL,
-    
-)
+    hora VARCHAR(20) NOT NULL,
+    consultorio INT NOT NULL,
+    hisClinico VARCHAR(50) NOT NULL,
+    dni VARCHAR(15) NOT NULL,
+    apellidos VARCHAR(100) NOT NULL,
+    nombres VARCHAR(100) NOT NULL,
+    fechaNacimiento DATE NOT NULL,
+    edad INT NOT NULL,
+    telefono VARCHAR(15) NOT NULL,
+    motivoConsulta TEXT NOT NULL,
+    direccion VARCHAR(100),
+    metodo VARCHAR(50),
+    semEmbarazo INT,
+    fechaRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 -- CREAMOS UNA TABLA PARA REGISTRAR A LOS PERSONALES DE SALUD
 CREATE TABLE personal_salud (
@@ -86,5 +100,6 @@ CREATE TABLE personal_salud (
     celular VARCHAR(20) NOT NULL,
     correo VARCHAR(100) NOT NULL,
     usuario VARCHAR(50) NOT NULL,
-    contraseña VARCHAR(50) NOT NULL
+    contrasena VARCHAR(50) NOT NULL,
+    reset_token VARCHAR(255)
 )

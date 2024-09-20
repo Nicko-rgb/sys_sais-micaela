@@ -12,6 +12,34 @@
     box-sizing: border-box;
     padding-bottom: 120px;
 }
+
+.form-cita .form-fechaHora{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+    padding: 0;
+}
+
+.form-cita .form-fechaHora .sub-formfechaHora{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.form-cita .cstr{
+    margin: auto;
+}
+.form-cita .form-fechaHora p{
+    text-align: center;
+    padding: 2px;
+    border: none;
+    box-shadow: 0 0 2px rgb(95, 214, 103);
+    border-radius: 5px;
+    background: gray;
+    color: white;
+    
+}
+
 .form-cita main{
     display: flex;
     flex-direction: column;
@@ -35,7 +63,6 @@
 .form-cita main form h2{
     text-align: center;
     margin: 0;
-    margin-bottom: 15px;
 }
 .form-cita form div{
     display: flex;

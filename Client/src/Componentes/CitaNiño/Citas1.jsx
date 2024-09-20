@@ -17,6 +17,7 @@ const Cita1 = ({ especialidad, agregarCita }) => {
     const [verForm, setVerForm] = useState(false);
     const [personalList, setPersonalList] = useState([]);
 
+    // Fetch para obtener personal
     const fetchPersonal = async () => {
         try {
             const response = await fetch('http://localhost:5000/api/obtener/personal-salud');
@@ -34,12 +35,14 @@ const Cita1 = ({ especialidad, agregarCita }) => {
     // Filtrar los profesionales que coinciden con la especialidad seleccionada
     const profesionalesFiltrados = personalList.filter(profesional => profesional.especial_cita === especialidad);
 
+    // Cambio de fecha
     const onDateChange = (date) => {
         setSelectedDate(date);
         const formattedDate = date.toISOString().split('T')[0];
         fetchCitas(formattedDate);
     };
 
+    // Fetch para obtener citas (simulación con datos mock)
     const fetchCitas = (fecha) => {
         const citasPorFecha = [
             { fecha: '2024-09-10', hora: '07:30 - 08:15', paciente: 'Paciente 1', observaciones: 'Consulta general' },
@@ -49,6 +52,7 @@ const Cita1 = ({ especialidad, agregarCita }) => {
         setCitas(citasFiltradas);
     };
 
+    // Manejo de agregar cita
     const handleAgregarCita = (hora) => {
         setSelectedHora(hora);
         setVerForm(true);
@@ -58,22 +62,33 @@ const Cita1 = ({ especialidad, agregarCita }) => {
         setVerForm(false);
     };
 
-    const renderRow = (horario) => {
+    // Renderizar las filas de horarios y manejar Atención Especial y recesos
+    const renderRow = (horario, index, horarios) => {
         const citaActual = citas.find(cita => cita.hora === horario.hora);
         const esAtencionEspecial = horario.AtencionEspecial;
         const esReceso = horario.receso;
-
+    
         let rowClass = '';
-        if (esAtencionEspecial) {
-            rowClass = 'atencion-especial';
-        } else if (esReceso) {
-            rowClass = 'receso';
+        let turno = 'Mañana'; // Por defecto, antes del receso es "Mañana"
+    
+        // Verificamos si el receso ya ocurrió
+        const recesoIndex = horarios.findIndex(h => h.receso); // Encontrar el índice del receso
+        if (recesoIndex !== -1 && index > recesoIndex) {
+            turno = 'Tarde'; // Si estamos después del receso, el turno será "Tarde"
         }
-
-        if (!esAtencionEspecial) {
-            return (
-                <tr key={horario.hora} className={rowClass}>
-                    <td>{esReceso ? `${horario.receso} RECESO` : horario.hora}</td>
+    
+        if (esAtencionEspecial) {
+            rowClass = 'atencion-especial'; // Clase CSS para Atención Especial
+        } else if (esReceso) {
+            rowClass = 'receso'; // Clase CSS para recesos
+        }
+    
+        // Renderización de las filas de Atención Especial con todas las columnas
+        if (esAtencionEspecial) {
+            return horario.AtencionEspecial.map((especial, especialIndex) => (
+                <tr key={`especial-${especialIndex}`} className={rowClass}>
+                    <td>{especial.hora}</td>
+                    <td>{turno}</td> {/* Mostrar el turno aquí */}
                     <td> </td>
                     <td> </td>
                     <td> </td>
@@ -85,30 +100,73 @@ const Cita1 = ({ especialidad, agregarCita }) => {
                     {especialidad === 'Planificación' && <td> </td>}
                     <td> </td>
                     <td>
-                        {!esReceso && profesionalesFiltrados.length > 0 ? (
+                        {profesionalesFiltrados.length > 0 ? (
                             profesionalesFiltrados.map((profesional) => (
                                 <span key={profesional.id}>
                                     {profesional.nombres} {profesional.paterno}
                                 </span>
                             ))
                         ) : (
-                            !esReceso && <span>No disponible</span>
+                            <span>No disponible</span>
                         )}
                     </td>
                     <td>
-                        {esReceso ? null : (
-                            citaActual ? (
-                                <button className="btn btn-danger">CANCELAR CITA</button>
-                            ) : (
-                                <button className="btn btn-primary" onClick={() => handleAgregarCita(horario.hora)}>AGREGAR CITA</button>
-                            )
-                        )}
+                        <button className="btn btn-primary" onClick={() => handleAgregarCita(especial.hora)}>
+                            AGREGAR CITA
+                        </button>
                     </td>
+                </tr>
+            ));
+        }
+    
+        // Renderización de la fila de receso con colSpan="9"
+        if (esReceso) {
+            return (
+                <tr key={horario.receso} className={rowClass}>
+                    <td>{`${horario.receso}`}</td> 
+                    <td colSpan="10">RECESO</td>
                 </tr>
             );
         }
-        return null;
+    
+        // Renderización de filas normales
+        return (
+            <tr key={horario.hora} className={rowClass}>
+                <td>{horario.hora}</td>
+                <td>{turno}</td> {/* Mostrar el turno aquí */}
+                <td></td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td></td>
+                {especialidad === 'Medicina' && <td> </td>}
+                {especialidad === 'Obstetricia_CPN' && <td> </td>}
+                {especialidad === 'Planificación' && <td> </td>}
+                <td> </td>
+                <td>
+                    {profesionalesFiltrados.length > 0 ? (
+                        profesionalesFiltrados.map((profesional) => (
+                            <span key={profesional.id}>
+                                {profesional.nombres} {profesional.paterno}
+                            </span>
+                        ))
+                    ) : (
+                        <span>No disponible</span>
+                    )}
+                </td>
+                <td>
+                    {citaActual ? (
+                        <button className="btn btn-danger">CANCELAR CITA</button>
+                    ) : (
+                        <button className="btn btn-primary" onClick={() => handleAgregarCita(horario.hora)}>AGREGAR CITA</button>
+                    )}
+                </td>
+            </tr>
+        );
     };
+    
+    
 
     return (
         <div className="calendar-cita">
@@ -117,15 +175,25 @@ const Cita1 = ({ especialidad, agregarCita }) => {
                 {especialidad && <h3>CITA PARA EL NIÑO ({especialidad})</h3>}
                 <div className='box-calendar'>
                     <p>Selecciona una fecha para ver o agregar citas</p>
-                    <Calendar onChange={onDateChange} className="custom-calendar" />
+                    <Calendar
+                    onChange={onDateChange}
+                    className="custom-calendar"
+                    tileClassName={({ date, view }) => {
+                        if (view === 'month' && date.getDay() === 0) {
+                            return 'react-calendar__tile--sunday'; // Aplica la clase para los domingos
+                        }
+                        return null; // No aplica clase para otros días
+                    }}
+                />
                 </div>
                 <hr />
                 <div className='list-cita'>
-                    <h4>Citas para el día {selectedDate.toISOString().split('T')[0]} en consultorio {consultorio1}</h4>
+                    <h4>Citas para el día {selectedDate.toISOString().split('T')[0]} en consultorio {consultorio1} - {especialidad}</h4>
                     <table>
                         <thead>
                             <tr>
                                 <th>Hora</th>
+                                <th>Turno</th>
                                 <th>Hist. Clínica</th>
                                 <th>DNI</th>
                                 <th>Apellidos y Nombres</th>
@@ -145,15 +213,17 @@ const Cita1 = ({ especialidad, agregarCita }) => {
                         </tbody>
                     </table>
                 </div>
-                {especialidad === 'Enfermería' || especialidad === 'Medicina' || especialidad === 'Odontología' || especialidad === 'Obstetricia_CPN' ? (
+
+                {['Enfermería', 'Medicina', 'Odontología', 'Obstetricia_CPN'].includes(especialidad) ? (
                     <Citas2
                         fecha={selectedDate.toISOString().split('T')[0]}
                         especialidad={especialidad}
                         consultorio2={consultorio2}
-                        citas={citas} // Pasamos las citas a Citas2
-                        personal={profesionalesFiltrados} // Pasamos el personal filtrado
+                        citas={citas}
+                        personal={profesionalesFiltrados}
                     />
-                ) : (<p style={{textAlign: 'center'}}>No hay Consultorio 2</p>)}
+                ) : (<p style={{ textAlign: 'center' }}>No hay Consultorio 2</p>)}
+
                 <button className='close-cita' onClick={agregarCita}>CERRAR TABLAS CITA</button>
             </main>
             <NavPie />

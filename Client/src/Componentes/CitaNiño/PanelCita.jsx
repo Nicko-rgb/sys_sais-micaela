@@ -53,7 +53,7 @@ const OpcionesCita = () => {
                         <button className="box" onClick={() => agregarCita(especialidades.obstetricia)}><FaBaby className='icon' />{especialidades.obstetricia}</button>
                     </div>
                 </section>
-                <div className="container-tabla">
+                <div className="container-tabla"> 
                     <p>CITAS PENDIENTES CERCANAS</p>
                     <table>
                         <thead>

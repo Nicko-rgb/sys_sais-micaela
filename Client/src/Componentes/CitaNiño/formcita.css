@@ -1,0 +1,98 @@
+.form-cita{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 55;
+    background: white;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding-bottom: 120px;
+}
+.form-cita main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    box-sizing: border-box;
+    margin-top: 100px;
+}
+.form-cita main form{
+    max-width: 500px;
+    box-shadow: 0 0 6px rgb(52, 206, 52);
+    border-radius: 6px;
+    padding: 25px;
+    padding-right: 35px;
+    box-sizing: border-box;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    font-family: 'poppins';
+}
+.form-cita main form h2{
+    text-align: center;
+    margin: 0;
+    margin-bottom: 15px;
+}
+.form-cita form div{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+.form-cita form div label{
+    width: 100%;
+}
+.form-cita form input{
+    padding: 5px;
+    font-size: 15px;
+    outline: none;
+    font-family: 'poppins';
+    border: none;
+    box-shadow: 0 0 2px black;
+    border-radius: 4px ;
+}
+
+.form-cita form .btns{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    border: none;
+    width: 102%;
+}
+
+.form-cita .btns button{
+    padding: 10px 20px;
+    width: 190px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-family: 'poppins';
+    font-weight: bold;
+    cursor: pointer;
+    transition: .3s ease;
+}
+.form-cita .btns .btn-register{
+    background: rgb(17, 149, 17);
+    box-shadow: 0 0 3px #eb3553;
+}
+.form-cita .btns .btn-register:hover{
+    box-shadow: 0 0 8px #eb3553;
+}
+.form-cita .btns .btn-close{
+    background: #eb3553;
+    box-shadow: 0 0 3px rgb(52, 206, 52);
+}
+.form-cita .btns .btn-close:hover{
+    background: #eb3553;
+    box-shadow: 0 0 8px rgb(52, 206, 52);
+}
+.form-cita .btns .ico{
+    cursor: pointer;
+}

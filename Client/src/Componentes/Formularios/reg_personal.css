@@ -1,0 +1,159 @@
+.reg-personal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.585);
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 0;
+}
+.reg-personal .sub-reg {
+    animation: scaleIn 0.3s forwards;
+    margin: auto;
+    padding-bottom: 100px;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+.reg-personal form{
+    position: relative;
+    margin: auto;
+    max-width: 500px;
+    padding: 20px;
+    padding-right: 27px;
+    background-color: white;
+    box-shadow: 0 0 6px rgb(52, 206, 52);
+    border-radius: 6px;
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-family:'poppins';
+}
+.reg-personal form h3{
+    margin: 0;
+    text-align: center;
+}
+.reg-personal .close-personal-form{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    padding: 5px;
+    font-weight: bold;
+    border: red solid 1px;
+    border-radius: 50%;
+    color: red;
+    cursor: pointer;
+    transition: 0.3s ease;
+} 
+.reg-personal .close-personal-form:hover{
+    transform: scale(1.05);
+}
+.reg-personal form div{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.reg-personal form div label{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.reg-personal form .combos{
+    width: 102%;
+}
+.reg-personal form input, select{
+    padding: 5px;
+    font-family: 'poppins';
+    border: none;
+    box-shadow: 0 0 1.5px black;
+    border-radius: 2px;
+    outline: none;
+}
+.reg-personal form input{
+    width: initial;
+    width: 100%;
+}
+.reg-personal .especialidad{
+    height: 50px;
+}
+.reg-personal .label-especialidad {
+    display: flex;
+    flex-direction: row;
+    font-size: 12px;
+    align-items: center;
+    cursor: pointer;
+}
+.reg-personal .label-especialidad input{
+    width: auto;
+    padding: 0;
+    box-shadow: none;
+    height:15px;
+    cursor: pointer;
+    width: 15px;
+}
+
+.reg-personal form .btn-personal{
+    padding: 9px 40px;
+    margin: auto;
+    margin-top: 10px;
+    cursor: pointer;
+    font-family: 'poppins';
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(97, 208, 97);
+    color: white;
+    box-shadow: 0 0 3px black;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    transition: .3s ease;
+}
+.reg-personal form .btn-personal:hover{
+    background-color: rgb(64, 184, 64);
+}
+.reg-personal form .ico{
+    font-size: 22px;
+}
+.reg-personal form .flotar{
+    animation: flotar .5s;
+    transition: 4s ease;
+}
+@keyframes flotar {
+    0% {
+        transform: translateY(0);
+    }
+    50%{
+        transform: translateY(-4px);
+    }
+    100% {
+        transform: scaleY(0);
+    }
+}
+.reg-personal .box-msg{
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+.reg-personal .msg-personal{
+    color: rgb(246, 58, 89);
+    font-size: 14px;
+    text-align: center;
+    margin: 0;
+}

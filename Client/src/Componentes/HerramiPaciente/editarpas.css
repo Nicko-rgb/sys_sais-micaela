@@ -1,0 +1,118 @@
+.editar-paciente {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: white;
+    display: flex;
+    z-index: 50;
+}
+.editar-paciente main {
+    margin-left: 230px;
+    display: flex;
+    flex: 1;
+    height: auto;
+    position: relative;
+}
+.editar-paciente main section{
+    height: auto;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.editar-paciente main .opcion-editar {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 3px;
+}
+
+.editar-paciente main .opcion-editar button {
+    padding: 7px 10px;
+    font-family: 'poppins';
+    font-weight: bold;
+    font-size: 12px;
+    width: 170px;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 2px aqua;
+    background-color: #f5ce71;
+    border-radius: 3px;
+}
+
+.editar-paciente main .opcion-editar .active {
+    background-color: #3058a6;
+    color: white;
+}
+
+.opcion-editar button:hover {
+    background-color: #ddd;
+}
+
+.container-editar-paciente,
+.container-editar-nacimiento,
+.container-editar-responsable {
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.506);
+    flex: 1;
+    transform-origin: top left;
+    animation-duration: .6s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+    box-sizing: border-box;
+    background: white;
+    overflow-y: auto;
+}
+
+/* Animación para expandir desde la esquina superior izquierda */
+@keyframes expand {
+    0% {
+        transform: scale(0);
+        /* Comenzar con un tamaño de 0 */
+        opacity: 0;
+        /* Comenzar oculto */
+    }
+
+    100% {
+        transform: scale(1);
+        /* Expandir hasta llenar el contenedor */
+        opacity: 1;
+        /* Hacer visible */
+    }
+}
+
+/* Clase para activar la animación */
+.animate {
+    animation-name: expand;
+    /* Usar la animación definida */
+}
+.editar-paciente h3{
+    text-align: center;
+    margin: 0;
+}
+
+.editar-paciente form {
+    max-width: 500px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+    
+    padding-bottom: 200px;
+}
+
+.editar-paciente section label {
+    font-family: 'poppins';
+    font-size: 14px;
+}
+
+.editar-paciente section input {
+    border: none;
+    border: gray solid 1px;
+    padding: 6px 4px;
+    font-size: 15px;
+    border-radius: 0;
+    outline: none;
+}

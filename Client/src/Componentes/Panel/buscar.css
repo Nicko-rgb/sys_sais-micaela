@@ -1,0 +1,154 @@
+/* buscar.css */
+.buscar {
+  margin-left: 200px;
+  height: calc(100% - 90px);
+  box-sizing: border-box;
+}
+
+.buscar .sub_buscar {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buscar h3 {
+  margin: 0;
+  margin-top: 20px;
+  font-family: 'poppins';
+  font-size: 16px;
+  margin-top: 40px;
+}
+
+.buscar .box_buscar {
+  position: relative;
+}
+
+.buscar .ico_buscar {
+  position: absolute;
+}
+
+.buscar main {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
+.buscar .box_buscar {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.buscar main .box_buscar input {
+  outline: none;
+  padding: 4px;
+  padding-left: 35px;
+  font-size: 14px;
+  border: none;
+  box-shadow: 0 0 2px black;
+  max-width: 650px;
+  width: 100%;
+  font-family: 'poppins';
+  text-transform: uppercase;
+  /* transform: skewX(-10deg); */
+}
+
+.buscar main .box_buscar .buscar_input::placeholder {
+  color: rgb(131, 129, 129);
+  font-style: italic;
+  text-transform: none;
+}
+
+.buscar .ico_buscar {
+  position: absolute;
+  left: 10px;
+  color: gray;
+  font-size: 20px;
+  top: 4px;
+}
+
+.buscar main .btn-registrar-pas {
+  display: flex;
+  width: 200px;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 4px rgb(202, 247, 202);
+  border-radius: 8px;
+  font-family: 'poppins';
+  color: white;
+  padding: 7px;
+  background-color: #00796b;
+  transition: .3s ease;
+}
+.buscar .btn-registrar-pas:hover{
+  transform: scale(1.02);
+}
+.buscar main .btn-registrar-pas .ico{
+  font-size: 16px;
+}
+.buscar table .hist-clinico{
+  background: none;
+  border: none;
+  margin: 0;
+  text-decoration: underline rgb(100, 28, 122);
+  color: rgb(100, 28, 122);
+}
+
+.buscar hr {
+  width: 97%;
+  margin-top: -7px;
+}
+
+.box_resultados {
+  width: 97%;
+  margin: 10px;
+  padding-bottom: 60px;
+}
+
+.buscar table {
+  border-collapse: collapse;
+  /* width: 80%; */
+  margin-top: -5px;
+}
+.buscar table button{
+  margin: 0;
+}
+
+.buscar table th {
+  font-size: 14px;
+  font-family: calibri;
+}
+
+.buscar th{
+  padding: 8px;
+  text-align: left;
+  border: 1px solid gray;
+  background: rgb(245,206,113);
+}
+.buscar tbody{
+  height: auto;
+  margin: 0;
+}
+.buscar tbody tr{
+  height: 5px;
+  margin: 0;
+}
+.buscar tbody td {
+  font-family: 'poppins';
+  font-size: 12px;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0 5px
+}
+
+.buscar tr:hover {
+  background-color: #e7e7e7;
+}

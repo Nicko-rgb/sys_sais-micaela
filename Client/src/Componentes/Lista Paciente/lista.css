@@ -1,0 +1,56 @@
+.listas-paciente {
+    position: relative;
+    width: 100%;
+}
+
+.listas-paciente main {
+    margin-left: 232px;
+    margin-top: 46px;
+    padding: 0 5px;
+    padding-bottom: 0;
+    padding-left: 20px;
+}
+
+.listas-paciente .hist-clinico{
+    background: none;
+    border: none;
+    text-decoration: underline rgb(100, 28, 122);
+    color: rgb(100, 28, 122);
+  }
+
+.listas-paciente table {
+    border-collapse: collapse;
+}
+
+.listas-paciente table th {
+    font-size: 14px;
+    font-family: calibri;
+}
+
+.listas-paciente th {
+    padding: 6px;
+    text-align: left;
+    font-size: 14px;
+    border: 1px solid gray;
+}
+
+.listas-paciente tbody tr {
+    height: 5px;
+    padding: 0;
+}
+
+.listas-paciente tbody td {
+    font-family: 'poppins';
+    font-size: 14px;
+    text-transform: uppercase;
+    height: 5px;
+    padding: 5px;
+}
+
+th {
+    background-color: #cecece;
+}
+
+tr:hover {
+    background-color: #f0f0f0;
+}

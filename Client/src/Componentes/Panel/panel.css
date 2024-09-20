@@ -1,0 +1,68 @@
+.panel{
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    box-sizing: border-box; /* Incluye el padding en el tamaño total */
+} 
+.panel .opciones{
+    padding-bottom: 100px;
+    display: flex;
+    flex-direction: column;
+    border-right: gray solid 1px;
+    position: fixed;
+    top: 37px;
+    width: 200px;
+    height: calc(100% - 185px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+        width: 12px; /* Ancho de la barra de desplazamiento vertical */
+    }
+}
+.panel .opciones>p{
+    position: sticky;
+    top: 0;
+    font-family: 'poppins';
+    font-size: 12px;
+    padding: 5px 10px;
+    margin: 0;
+    text-align: center;
+    background: #00796b;
+    color: white;
+    z-index: 2;
+}
+.panel .opciones .box{
+    background-color: #f0f0f0;
+    height: 50px;
+    padding: 10px;
+    font-family: 'poppins';
+    text-decoration: none;
+    position: relative;
+    transition: .3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: gray solid 1px;
+    z-index: 1;
+}
+
+.panel .opciones .box:hover{
+    transform: scale(1.01);
+    box-shadow: 0 0 3px gray;
+     
+}
+.panel .opciones .box p{
+    color: black;
+    font-size: 16px;
+    margin: 0;
+}
+.panel .opciones .box .edad{
+    position: absolute;
+    top: 3px;
+    left: 5px;
+    font-size: 13px;
+}
+.panel .opciones img{
+    width: 30px;
+    margin: 0;
+}

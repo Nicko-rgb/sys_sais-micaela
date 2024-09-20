@@ -1,0 +1,141 @@
+.personal-salud {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.personal-salud .sub-personal {
+    padding-top: 37px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-left: 30px;
+}
+
+.personal-salud .sub-personal h3 {
+    margin: 0;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.personal-salud .sub-personal .div-btn {
+    display: flex;
+    justify-content: right;
+    padding-right: 40px;
+}
+
+.personal-salud .div-btn button {
+    padding: 8px 15px;
+    display: flex;
+    gap: 5px;
+    border: none;
+    box-shadow: 0 0 3px black;
+    border-radius: 5px;
+    font-family: 'poppins';
+    align-items: center;
+    cursor: pointer;
+}
+
+.personal-salud section {
+    margin: auto;
+    position: relative;
+}
+
+.personal-salud .volver_link {
+    left: -30px;
+    top: -38px;
+    transition: .3s ease;
+    padding-left: 5px;
+    height: 20px;
+    border-radius: 2px;
+}
+
+.personal-salud .volver_link:hover {
+    background: rgb(238, 238, 238);
+}
+
+.personal-salud .box-buscar {
+    position: relative;
+    max-width: 500px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.personal-salud .box-buscar .buscar-personal {
+    outline: none;
+    padding: 4px;
+    padding-left: 35px;
+    font-size: 14px;
+    border: none;
+    box-shadow: 0 0 3px black;
+    /* border-radius: 4px; */
+    max-width: 500px;
+    width: 100%;
+    font-family: 'poppins';
+    text-transform: uppercase;
+}
+
+.personal-salud  .buscar-personal::placeholder {
+    color: rgb(131, 129, 129);
+    font-style: italic;
+    text-transform: none;
+}
+
+.personal-salud .ico_buscar {
+    position: absolute;
+    left: 10px;
+    color: gray;
+    font-size: 20px;
+    top: 3px;
+}
+
+
+.personal-salud table {
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+
+.personal-salud table th {
+    font-size: 14px;
+    font-family: calibri;
+    background-color: #f5ce71;
+}
+
+.personal-salud table td {
+    font-family: 'poppins';
+    font-size: 12px;
+    border: gray solid 1px;
+}
+
+.personal-salud tbody button {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.personal-salud th,
+td {
+    padding: 6px;
+    text-align: left;
+    border: 1px solid gray;
+}
+
+.personal-salud tbody td {
+    font-family: 'poppins';
+    font-size: 12px;
+    text-transform: uppercase;
+    height: 5px;
+    padding: 5px;
+}
+
+.personal-salud th {
+    background-color: #cecece;
+}
+
+.personal-salud .container-tabla tr:hover {
+    background-color: rgb(228, 228, 228);
+}

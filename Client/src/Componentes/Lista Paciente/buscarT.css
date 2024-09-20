@@ -1,0 +1,29 @@
+.buscar-tipo {
+    position: relative;
+}
+
+.buscar-tipo input {
+    outline: none;
+    padding: 7px;
+    padding-left: 35px;
+    font-size: 14px;
+    border: none;
+    box-shadow: 0 0 2px black;
+    max-width: 650px;
+    width: 100%;
+    font-family: 'poppins';
+    margin-bottom: 20px;
+}
+
+.buscar-tipo input::placeholder {
+    color: rgb(131, 129, 129);
+    font-style: italic;
+}
+
+.buscar-tipo .ico-buscar {
+    position: absolute;
+    left: 10px;
+    color: gray;
+    font-size: 20px;
+    top: 7px;
+}

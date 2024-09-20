@@ -1,0 +1,320 @@
+/*ESTULOS DE FORULARIO DE REGISTRO*/
+.registrar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.585);
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.scale-in-center {
+  -webkit-animation: scale-in-center 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: scale-in-center 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  height: auto;
+  margin: auto;
+  border-radius: 10px;
+  transition: .3s ease;
+}
+
+.registrar .sub_reg {
+  padding: 30px 0;
+}
+
+.registrar .close_reg {
+  position: absolute;
+  top: 10px;
+  right: 18px;
+  font-size: 40px;
+  cursor: pointer;
+  background: rgb(222, 221, 221);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  color: rgb(132, 132, 132);
+  transition: .3s ease;
+}
+
+.registrar .close_reg:hover {
+  background: white;
+  box-shadow: 0 0 1px gray;
+
+}
+
+.registrar .sub_reg h3 {
+  font-size: 23px;
+  text-align: center;
+}
+
+.registrar form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 4px rgb(34, 244, 34);
+  background-color: white;
+  transition: .5s ease;
+  width: auto;
+}
+
+.registrar form>div {
+  display: flex;
+  gap: 40px;
+  width: auto;
+  transition: .5s ease;
+  margin-top: -30px;
+}
+
+.registrar form .form_paciente {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: 'poppins';
+  width: auto;
+  max-width: 540px;
+  width: 100%;
+}
+
+.registrar form .form_responsable {
+  max-width: 520px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.registrar form .form_paciente>div {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.registrar form .form_paciente .datos_cortos {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.registrar form .form_paciente .datos_cortos label {
+  font-size: 15px;
+}
+
+.registrar form .datos_cortos>div {
+  display: flex;
+  flex-direction: column;
+}
+
+.registrar form .form_paciente .box_datos {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+.registrar form .form_paciente .box_datos>div,
+input {
+  width: 100%;
+}
+
+.registrar form input {
+  outline: none;
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 3px;
+  border: none;
+  box-shadow: 0 0 2px gray;
+}
+
+.registrar form .form_paciente #fechas {
+  display: flex;
+  flex-direction: row;
+}
+
+.registrar #fechas label {
+  font-size: 15px;
+}
+
+.registrar form .box_edad label {
+  width: 70px;
+}
+
+.registrar .box_edad input {
+  width: 60px;
+}
+
+.registrar form .fechas>div {
+  display: flex;
+  flex-direction: column;
+}
+
+.registrar .box_sex {
+  display: flex;
+  flex-direction: column;
+}
+
+.registrar .box_sex p {
+  margin: 0;
+}
+
+.registrar .box_sex>div {
+  display: flex;
+}
+
+.registrar form .box_sex .sexo {
+  border: none;
+  box-shadow: none;
+}
+
+.registrar .box_sex label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.registrar form .form_paciente #discapacidad {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+}
+
+.registrar form .form_paciente #discapacidad p {
+  width: 100%;
+  cursor: pointer;
+}
+
+.registrar form .check_disca input {
+  width: 15px;
+  box-shadow: none;
+}
+
+.registrar form #discapacidad>div {
+  max-width: 318px;
+}
+
+.registrar .box_datos .check_disca {
+  display: flex;
+  flex-direction: row;
+}
+
+.registrar form button {
+  margin: auto;
+  background-color: rgb(97, 208, 97);
+  color: white;
+  border: none;
+  padding: 12px 35px;
+  margin-top: 55px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'poppins';
+  transition: .2s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.registrar form button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 3px;
+  background: rgb(65, 168, 65);
+}
+
+.registrar form .ico_guardar {
+  font-size: 20px;
+}
+
+.registrar form .form_responsable {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.registrar form .box_datos {
+  display: flex;
+  gap: 20px;
+}
+
+.registrar form .box_datos>div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.registrar form .box_datos select {
+  padding: 5px;
+  outline: none;
+  border-radius: 5px;
+  box-shadow: 0 0 2px gray;
+  border: none;
+  width: 105%;
+}
+
+.registrar form .form_responsable label {
+  font-family: 'poppins';
+}
+
+.registrar form .tiene_respons {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 60px;
+  left: 30px;
+  cursor: pointer;
+}
+
+.registrar form .tiene_respons p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.registrar form .tiene_respons input {
+  width: 15px;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+@-webkit-keyframes scale-in-center {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in-center {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 900px) {
+  .registrar form>div {
+    display: flex;
+    flex-direction: column;
+  }
+}

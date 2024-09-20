@@ -28,7 +28,7 @@ const DatosPaciente = () => {
     };
 
     useEffect(() => {
-        obtenerDatosPaciente(); // Obtener datos del paciente al montar el componente
+        obtenerDatosPaciente();
     }, [historialClinico]);
 
     const calcularEdad = (fechaNacimiento) => {

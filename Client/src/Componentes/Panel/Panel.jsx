@@ -1,6 +1,6 @@
 import './panel.css';
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import NavLogin from '../Navegadores/NavLogin';
 import NavPie from '../Navegadores/NavPie';
 import Buscar from './Buscar';
@@ -10,20 +10,12 @@ import joven from '../Ico/joven.png';
 import adulto from '../Ico/adulto.png';
 import adultoMayor from '../Ico/adultoMayor.png';
 import gestante from '../Ico/gestante.png';
-// import { useEffect } from 'react';
 import { useAuth } from '../Complementos/AuthContext'; // Ajusta la ruta según sea necesario
 
 const Panel = () => { 
-    const navigate = useNavigate();
-    const { isLoggedIn, userData } = useAuth(); // Usar el contexto
-    const { name } = userData; // Extraer el nombre del usuario
-
-    // Efecto para redirigir si no está logueado
-    // useEffect(() => {
-    //     if (!isLoggedIn) {
-    //         navigate('/'); // Redirige a la página principal si no está logueado
-    //     }
-    // }, [isLoggedIn]);
+    
+    const { userData } = useAuth();
+    const { name } = userData; 
 
     return (
         <div className="panel">

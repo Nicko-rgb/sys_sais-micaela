@@ -68,7 +68,7 @@ const Restablecer = () => {
 
     return (
         <div className='restablecer'>
-            <form onSubmit={handleSubmit}>
+            <form  onSubmit={handleSubmit}>
                 <h2>Restablecer Contraseña</h2>
                 <div>
                     <label>Nueva Contraseña:</label>

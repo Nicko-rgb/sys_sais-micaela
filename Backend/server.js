@@ -432,6 +432,46 @@ app.get('/api/reset-password/:token', async (req, res) => {
 });
 
 
+//ruta para registrar las citas para el niño
+// Endpoint para registrar una cita
+app.post('/api/registrar/cita-nino', (req, res) => {
+    const { especialidad, fecha, hora, consultorio, hisClinico, dni, apellidos, nombres, fechaNacimiento, edad, telefono, motivoConsulta, direccion, metodo, semEmbarazo } = req.body;
+
+    const sql = `
+        INSERT INTO cita_ninhos (
+            especialidad, fecha, hora, consultorio, hisClinico, dni, 
+            apellidos, nombres, fechaNacimiento, edad, telefono, 
+            motivoConsulta, direccion, metodo, semEmbarazo
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+    const values = [
+        especialidad,
+        fecha,
+        hora,
+        consultorio,
+        hisClinico,
+        dni,
+        apellidos,
+        nombres,
+        fechaNacimiento,
+        edad,
+        telefono,
+        motivoConsulta,
+        direccion || null,
+        metodo || null,    
+        semEmbarazo || null
+    ];
+
+    pool.query(sql, values, (error, results) => {
+        if (error) {
+            console.error('Error al registrar la cita:', error);
+            return res.status(500).json({ error: 'Error al registrar la cita' });
+        }
+        
+        res.status(201).json({ message: 'Cita registrada exitosamente', id: results.insertId });
+    });
+});
+// Fin de la ruta para registrar las citas para el niño
 
 
 // Iniciar el servidor

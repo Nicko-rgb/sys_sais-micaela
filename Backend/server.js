@@ -4,7 +4,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mysql = require('mysql2/promise'); // Importar mysql2
 const bcrypt = require('bcryptjs');
-
+const nodemailer = require('nodemailer'); // Importar nodemailer para enviar correos electrónicos
+const crypto = require('crypto'); // Importar crypto para generar tokens únicos
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -312,6 +313,125 @@ app.post('/api/sais/login', async (req, res) => {
         return res.status(500).json({ message: 'Error al iniciar sesión' });
     }
 });
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Función para enviar el correo electrónico
+const sendRecoveryEmail = async (email, token) => {
+    const transporter = nodemailer.createTransport({
+        service: 'gmail', // Cambiar según el servicio que uses
+        auth: {
+            user: 'mancillanixon7@gmail.com', // Cambia esto a tu correo
+            pass: 'inoa juhe mkuu zntx' // Cambia esto a tu contraseña
+        }
+    });
+
+    // Configuración del correo electrónico
+    const mailOptions = {
+        from: 'mancillanixon7@gmail.com', // Correo del remitente
+        to: email, // Correo del destinatario
+        subject: 'Recuperación de Contraseña', // Asunto del correo
+        text: `Haz clic en el siguiente enlace para recuperar tu contraseña: http://localhost:3000/new-password/${token}` // Cuerpo del correo
+    };
+
+    await transporter.sendMail(mailOptions); // Enviar el correo
+};
+
+// Ruta para solicitar la recuperación de contraseña
+app.post('/api/recover-password', async (req, res) => {
+    const { email } = req.body; // Obtener el correo del cuerpo de la solicitud
+
+    // Verificar si se proporcionó el correo
+    if (!email) {
+        return res.status(400).json({ message: 'El correo es obligatorio.' });
+    }
+
+    const connection = await pool.getConnection(); // Obtener una conexión a la base de datos
+    try {
+        // Verificar si el correo existe en la base de datos
+        const [user] = await connection.execute('SELECT * FROM personal_salud WHERE correo = ?', [email]);
+
+        // Si no se encuentra el usuario, enviar un error
+        if (user.length === 0) {
+            return res.status(404).json({ message: 'Correo no encontrado.' });
+        }
+
+        // Generar un token único para la recuperación
+        const token = crypto.randomBytes(20).toString('hex');
+
+        // Guardar el token en la base de datos (puedes crear una nueva columna en la tabla existente)
+        await connection.execute('UPDATE personal_salud SET reset_token = ? WHERE correo = ?', [token, email]);
+
+        // Enviar el correo de recuperación
+        await sendRecoveryEmail(email, token);
+
+        res.json({ message: 'Correo de recuperación enviado.' }); // Confirmar que se envió el correo
+    } catch (error) {
+        console.error(error); // Imprimir el error en la consola
+        res.status(500).json({ message: 'Error al enviar el correo de recuperación.' }); // Enviar error
+    } finally {
+        connection.release(); // Liberar la conexión
+    }
+});
+
+// Ruta para cambiar la contraseña usando el token
+app.post('/api/reset-password/:token', async (req, res) => {
+    const { token } = req.params; // Obtener el token de la URL
+    const { nuevaContrasena } = req.body; // Obtener la nueva contraseña del cuerpo de la solicitud
+
+    // Verificar si se proporcionó la nueva contraseña
+    if (!nuevaContrasena) {
+        return res.status(400).json({ message: 'La nueva contraseña es obligatoria.' });
+    }
+
+    const connection = await pool.getConnection(); // Obtener una conexión a la base de datos
+    try {
+        // Verificar si el token es válido
+        const [user] = await connection.execute('SELECT * FROM personal_salud WHERE reset_token = ?', [token]);
+
+        // Si no se encuentra el usuario, enviar un error
+        if (user.length === 0) {
+            return res.status(404).json({ message: 'Token no válido.' });
+        }
+
+        // Hashear la nueva contraseña
+        // const hashedPassword = bcrypt.hashSync(nuevaContrasena, 8);
+
+        // Actualizar la contraseña en la base de datos y limpiar el token
+        await connection.execute('UPDATE personal_salud SET contrasena = ?, reset_token = NULL WHERE reset_token = ?', [nuevaContrasena, token]);
+
+        res.json({ message: 'Contraseña actualizada correctamente.' }); // Confirmar que se actualizó la contraseña
+    } catch (error) {
+        console.error(error); // Imprimir el error en la consola
+        res.status(500).json({ message: 'Error al actualizar la contraseña.' }); // Enviar error
+    } finally {
+        connection.release(); // Liberar la conexión
+    }
+});
+
+//////////////////////////////////////////////VERIFICAR SI EL TOKEN EISTE 
+// Ruta para verificar si el token es válido
+app.get('/api/reset-password/:token', async (req, res) => {
+    const { token } = req.params; // Obtener el token de la URL
+
+    const connection = await pool.getConnection(); // Obtener una conexión a la base de datos
+    try {
+        // Verificar si el token es válido
+        const [user] = await connection.execute('SELECT * FROM personal_salud WHERE reset_token = ?', [token]);
+
+        // Si no se encuentra el usuario, enviar un error
+        if (user.length === 0) {
+            return res.status(404).json({ message: 'Token no válido.' });
+        }
+
+        res.json({ message: 'Token válido.' }); // Confirmar que el token es válido
+    } catch (error) {
+        console.error(error); // Imprimir el error en la consola
+        res.status(500).json({ message: 'Error al verificar el token.' }); // Enviar error
+    } finally {
+        connection.release(); // Liberar la conexión
+    }
+});
+
+
 
 
 // Iniciar el servidor

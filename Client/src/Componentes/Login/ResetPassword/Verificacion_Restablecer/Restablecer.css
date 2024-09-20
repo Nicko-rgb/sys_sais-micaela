@@ -7,23 +7,23 @@
     background-color: #f4f4f4; /* Color de fondo */
 }
 
-form {
+.restablecer form {
     background: white;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
+.restablecer h2 {
     margin-bottom: 20px;
 }
 
-label {
+.restablecer label {
     display: block;
     margin-bottom: 5px;
 }
 
-input {
+.restablecer input {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -31,7 +31,7 @@ input {
     border-radius: 4px;
 }
 
-button {
+.restablecer button {
     background-color: #28a745; /* Color verde */
     color: white;
     padding: 10px;
@@ -40,10 +40,10 @@ button {
     cursor: pointer;
 }
 
-.error-message {
+.restablecer .error-message {
     color: red;
 }
 
-.success-message {
+.restablecer .success-message {
     color: green;
 }

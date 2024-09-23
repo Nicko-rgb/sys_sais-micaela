@@ -22,21 +22,21 @@
   font-family: 'poppins';
   font-size: 14px;
   top: -50px;
-  left: 5px;
+  left: -20px;
   border: none;
 }
-
+.opciones-cita .volver_link:hover {
+  background: rgb(238, 238, 238);
+}
 .opciones-cita h5 {
   text-align: center;
   font-size: large;
   font-family: 'poppins';
   margin: 0;
-  margin-top: 60px;
+  margin-top: 50px;
 }
 
-.opciones-cita .volver_link:hover {
-  background: rgb(238, 238, 238);
-}
+
 
 .opciones-cita main section {
   position: relative;
@@ -46,16 +46,14 @@
   padding: 20px;
   padding-bottom: 0;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
-.opciones-cita section div {
+.opciones-cita section .box-citas {
   position: relative;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  max-width: 700px;
-  width: 100%;
-  display: flex;
   justify-content: center;
 }
 

@@ -17,79 +17,74 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
         setHoraSeleccionada('');
     };
 
-    const renderRow = (horario, index, horarios) => {
-        const citaActual = citas.find(cita => cita.hora === horario.hora);
+    const renderRow = (horario, index, turno) => {
+        // Filtrar citas para el consultorio 2
+        const citaActual = citas.find(cita => cita.hora === horario.hora && cita.consultorio === consultorio2);
         const profesional = personal.find(profesional => profesional.especial_cita === especialidad);
         const esReceso = horario.receso;
         const esAtencionEspecial = horario.AtencionEspecial;
-
-        let rowClass = '';
-        let turno = 'Mañana'; // Por defecto, antes del receso es "Mañana"
-
-        // Verificamos si hay un receso y cambiamos el turno según la posición
-        const recesoIndex = horarios.findIndex(h => h.receso);
-        if (recesoIndex !== -1 && index > recesoIndex) {
-            turno = 'Tarde'; // Si estamos después del receso, el turno será "Tarde"
-        }
-
+    
         // Renderizar fila para "Receso"
         if (esReceso) {
             return (
                 <tr key={horario.hora} className="receso">
                     <td>{horario.receso}</td>
-                    <td colSpan="10">RECESO</td>
+                    <td colSpan={10} style={{ textAlign: 'center' }}>Receso</td>
                 </tr>
             );
         }
-
+    
         // Renderizar fila para "Atención Especial"
         if (esAtencionEspecial) {
-            return horario.AtencionEspecial.map((especial, index) => (
-                <tr key={`especial-${index}`} className="atencion-especial">
-                    <td>{especial.hora}</td>
-                    <td>{turno}</td> {/* Mostrar el turno aquí */}
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
-                    {especialidad === 'Medicina' && <td> </td>}
-                    {especialidad === 'Obstetricia_CPN' && <td> </td>}
-                    {especialidad === 'Planificación' && <td> </td>}
-                    <td> </td>
-                    <td>
-                        {profesional ? (
-                            <span>{profesional.nombres} {profesional.paterno}</span>
-                        ) : (
-                            <span>No disponible</span>
-                        )}
-                    </td>
-                    <td>
-                        {citaActual ? (
-                            <button className="btn btn-danger">CANCELAR CITA</button>
-                        ) : (
-                            <button className="btn btn-primary" onClick={() => handleAgregarCita(especial.hora)}><TiUserAdd />AGREGAR CITA</button>
-                        )}
-                    </td>
-                </tr>
-            ));
+            return esAtencionEspecial.map((especial, index) => {
+                const citaEspecial = citas.find(cita => cita.hora === especial.hora && cita.consultorio === consultorio2);
+                return (
+                    <tr key={`especial-${index}`} className="atencion-especial">
+                        <td>{especial.hora}</td>
+                        <td>{turno}</td>
+                        <td>{citaEspecial ? citaEspecial.dni : ''}</td>
+                        <td>{citaEspecial ? `${citaEspecial.apellidos} ${citaEspecial.nombres}` : ''}</td>
+                        <td>{citaEspecial ? citaEspecial.edad : ''}</td>
+                        <td>{citaEspecial ? citaEspecial.fechaNacimiento : ''}</td>
+                        <td>{citaEspecial ? citaEspecial.telefono : ''}</td>
+                        {especialidad === 'Medicina' && <td>{citaEspecial ? citaEspecial.direccion : ''}</td>}
+                        {especialidad === 'Obstetricia_CPN' && <td>{citaEspecial ? citaEspecial.semEmbarazo : ''}</td>}
+                        {especialidad === 'Planificación' && <td>{citaEspecial ? citaEspecial.metodo : ''}</td>}
+                        <td> </td>
+                        <td>
+                            {profesional ? (
+                                <span>{profesional.nombres} {profesional.paterno}</span>
+                            ) : (
+                                <span>No disponible</span>
+                            )}
+                        </td>
+                        <td>
+                            {citaEspecial ? (
+                                <button className="btn btn-danger">CANCELAR CITA</button>
+                            ) : (
+                                <button className="btn btn-primary" onClick={() => handleAgregarCita(especial.hora)}>
+                                    <TiUserAdd /> AGREGAR CITA
+                                </button>
+                            )}
+                        </td>
+                    </tr>
+                );
+            });
         }
-
+    
         // Renderizar fila para citas normales
         return (
             <tr key={horario.hora}>
                 <td>{horario.hora}</td>
-                <td>{turno}</td> {/* Mostrar el turno aquí */}
-                <td> </td>
-                <td> </td>
-                <td> </td>
-                <td> </td>
-                <td> </td>
-                <td> </td>
-                {especialidad === 'Medicina' && <td> </td>}
-                {especialidad === 'Obstetricia_CPN' && <td> </td>}
-                {especialidad === 'Planificación' && <td> </td>}
+                <td>{turno}</td>
+                <td>{citaActual ? citaActual.dni : ''}</td>
+                <td>{citaActual ? `${citaActual.apellidos} ${citaActual.nombres}` : ''}</td>
+                <td>{citaActual ? citaActual.edad : ''}</td>
+                <td>{citaActual ? citaActual.fechaNacimiento : ''}</td>
+                <td>{citaActual ? citaActual.telefono : ''}</td>
+                {especialidad === 'Medicina' && <td>{citaActual ? citaActual.direccion : ''}</td>}
+                {especialidad === 'Obstetricia_CPN' && <td>{citaActual ? citaActual.semEmbarazo : ''}</td>}
+                {especialidad === 'Planificación' && <td>{citaActual ? citaActual.metodo : ''}</td>}
                 <td> </td>
                 <td>
                     {profesional ? (
@@ -102,13 +97,15 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
                     {citaActual ? (
                         <button className="btn btn-danger">CANCELAR CITA</button>
                     ) : (
-                        <button className="btn btn-primary" onClick={() => handleAgregarCita(horario.hora)}><TiUserAdd />AGREGAR CITA</button>
+                        <button className="btn btn-primary" onClick={() => handleAgregarCita(horario.hora)}>
+                            <TiUserAdd /> AGREGAR CITA
+                        </button>
                     )}
                 </td>
             </tr>
         );
     };
-
+    
     return (
         <div className="citas2">
             <h4>Citas para el día {fecha} en consultorio {consultorio2} - {especialidad}</h4>
@@ -118,7 +115,6 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
                         <tr>
                             <th>Hora</th>
                             <th>Turno</th>
-                            <th>Hist. Clínico</th>
                             <th>DNI</th>
                             <th>Apellidos y Nombres</th>
                             <th>Edad</th>
@@ -133,7 +129,8 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {HorasCita[especialidad]?.map((horario, index, horarios) => renderRow(horario, index, horarios))}
+                        {HorasCita[especialidad]?.horarios.mañana.map((horario, index) => renderRow(horario, index, 'Mañana'))}
+                        {HorasCita[especialidad]?.horarios.tarde.map((horario, index) => renderRow(horario, index, 'Tarde'))}
                     </tbody>
                 </table>
             </div>

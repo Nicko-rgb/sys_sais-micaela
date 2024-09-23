@@ -6,7 +6,7 @@ import NavLogin from '../Navegadores/NavLogin';
 import NavPie from '../Navegadores/NavPie';
 import HorasCita from '../Complementos/HorasCita';
 import FormCita from './FormCitas';
-import Citas2 from './Citas2';
+import Citas2 from './Citas2'; 
 import { TiUserAdd } from "react-icons/ti";
 
 const Cita1 = ({ especialidad, agregarCita }) => {
@@ -18,6 +18,7 @@ const Cita1 = ({ especialidad, agregarCita }) => {
     const [verForm, setVerForm] = useState(false);
     const [personalList, setPersonalList] = useState([]);
 
+    // Fetch para obtener personal de salud
     const fetchPersonal = async () => {
         try {
             const response = await fetch('http://localhost:5000/api/obtener/personal-salud');
@@ -28,43 +29,32 @@ const Cita1 = ({ especialidad, agregarCita }) => {
         }
     };
 
+    useEffect(() => {
+        fetchPersonal();
+    }, []);
+
+    // Cambio de fecha
+    const onDateChange = (date) => {
+        setSelectedDate(date);
+        const formattedDate = date.toISOString().split('T')[0];
+        fetchCitas(formattedDate, especialidad, consultorio1); // Cambié `consultorio` por `consultorio1`
+    };
+
+    // Fetch para obtener citas según fecha, especialidad y consultorio
     const fetchCitas = async (fecha, especialidad, consultorio) => {
         try {
             const response = await fetch(`http://localhost:5000/api/citas-ninhos?fecha=${fecha}&especialidad=${especialidad}&consultorio=${consultorio}`);
-            if (!response.ok) {
-                console.error('Error en la respuesta del servidor:', response.statusText);
-                return;
-            }
-
             const data = await response.json();
-            setCitas(data);
-            console.log('Citas obtenidas:', data);
+            setCitas(data);  // Actualiza el estado de citas con los datos obtenidos
         } catch (error) {
             console.error('Error al obtener citas:', error);
         }
     };
 
-    useEffect(() => {
-        fetchPersonal();
-    }, []);
-
-    useEffect(() => {
-        const formattedDate = selectedDate.toISOString().split('T')[0];
-        fetchCitas(formattedDate, especialidad, consultorio1);
-
-        const intervalId = setInterval(() => {
-            fetchCitas(formattedDate, especialidad, consultorio1);
-        }, 5000);
-
-        return () => clearInterval(intervalId);
-    }, [selectedDate, especialidad, consultorio1]);
-
-    const onDateChange = (date) => {
-        setSelectedDate(date);
-    };
-
+    // Filtrar los profesionales que coinciden con la especialidad seleccionada
     const profesionalesFiltrados = personalList.filter(profesional => profesional.especial_cita === especialidad);
 
+    // Manejo de agregar cita
     const handleAgregarCita = (hora) => {
         setSelectedHora(hora);
         setVerForm(true);
@@ -74,69 +64,17 @@ const Cita1 = ({ especialidad, agregarCita }) => {
         setVerForm(false);
     };
 
+    // Renderizar las filas de horarios
     const renderRow = (horario, index, turno) => {
-        const citaActual = citas.find(cita => cita.hora === horario.hora && cita.consultorio === 1);
+        const citaActual = citas.find(cita => cita.hora === horario.hora);
 
-        // Manejo de la fila de receso
-        if (horario.receso) {
-            return (
-                <tr key={horario.hora} className='receso'>
-                    <td>{horario.receso}</td>
-                    <td colSpan={10} style={{ textAlign: 'center' }}>Receso</td>
-                </tr>
-            );
-        }
-
-        // Manejo de la fila de atención especial
-        if (horario.AtencionEspecial) {
-            return horario.AtencionEspecial.map((atencion, atencionIndex) => {
-                const citaAtencion = citas.find(cita => cita.hora === atencion.hora && cita.consultorio === 1);
-                return (
-                    <tr key={`${horario.hora}-${atencionIndex}`} className='atencion-especial'>
-                        <td>{atencion.hora}</td>
-                        <td>{turno}</td>
-                        <td>{citaAtencion ? citaAtencion.dni : ''}</td>
-                        <td>{citaAtencion ? `${citaAtencion.apellidos} ${citaAtencion.nombres}` : ''}</td>
-                        <td>{citaAtencion ? citaAtencion.edad : ''}</td>
-                        <td>{citaAtencion ? citaAtencion.fechaNacimiento : ''}</td>
-                        <td>{citaAtencion ? citaAtencion.telefono : ''}</td>
-                        {especialidad === 'Medicina' && <td>{citaAtencion ? citaAtencion.direccion : ''}</td>}
-                        {especialidad === 'Obstetricia_CPN' && <td>{citaAtencion ? citaAtencion.semEmbarazo : ''}</td>}
-                        {especialidad === 'Planificación' && <td>{citaAtencion ? citaAtencion.metodo : ''}</td>}
-                        <td>{citaAtencion ? citaAtencion.motivoConsulta : ''}</td>
-                        <td>
-                            {profesionalesFiltrados.length > 0 ? (
-                                profesionalesFiltrados.map((profesional) => (
-                                    <span key={profesional.id}>
-                                        {profesional.nombres} {profesional.paterno}
-                                    </span>
-                                ))
-                            ) : (
-                                <span>No disponible</span>
-                            )}
-                        </td>
-                        <td>
-                            {citaAtencion ? (
-                                <button className="btn btn-danger">CANCELAR CITA</button>
-                            ) : (
-                                <button className="btn btn-primary" onClick={() => handleAgregarCita(atencion.hora)}>
-                                    <TiUserAdd />
-                                    AGREGAR CITA
-                                </button>
-                            )}
-                        </td>
-                    </tr>
-                );
-            });
-        }
-
-        // Manejo de la fila normal
         return (
             <tr key={horario.hora}>
                 <td>{horario.hora}</td>
                 <td>{turno}</td>
+                <td>{citaActual ? citaActual.hisClinico : ''}</td>
                 <td>{citaActual ? citaActual.dni : ''}</td>
-                <td>{citaActual ? `${citaActual.apellidos} ${citaActual.nombres}` : ''}</td>
+                <td>{citaActual ? `${citaActual.apellidos}, ${citaActual.nombres}` : ''}</td>
                 <td>{citaActual ? citaActual.edad : ''}</td>
                 <td>{citaActual ? citaActual.fechaNacimiento : ''}</td>
                 <td>{citaActual ? citaActual.telefono : ''}</td>
@@ -178,13 +116,8 @@ const Cita1 = ({ especialidad, agregarCita }) => {
                     <p>Selecciona una fecha para ver o agregar citas</p>
                     <Calendar
                         onChange={onDateChange}
+                        value={selectedDate}
                         className="custom-calendar"
-                        tileClassName={({ date, view }) => {
-                            if (view === 'month' && date.getDay() === 0) {
-                                return 'react-calendar__tile--sunday';
-                            }
-                            return null;
-                        }}
                     />
                 </div>
                 <hr />
@@ -195,6 +128,7 @@ const Cita1 = ({ especialidad, agregarCita }) => {
                             <tr>
                                 <th>Hora</th>
                                 <th>Turno</th>
+                                <th>Hist. Clínica</th>
                                 <th>DNI</th>
                                 <th>Apellidos y Nombres</th>
                                 <th>Edad</th>
@@ -215,7 +149,7 @@ const Cita1 = ({ especialidad, agregarCita }) => {
                     </table>
                 </div>
 
-                {['Enfermería', 'Medicina', 'Odontología', 'Obstetricia_CPN', 'Biología'].includes(especialidad) ? (
+                {['Enfermería', 'Medicina', 'Odontología', 'Obstetricia_CPN'].includes(especialidad) ? (
                     <Citas2
                         fecha={selectedDate.toISOString().split('T')[0]}
                         especialidad={especialidad}

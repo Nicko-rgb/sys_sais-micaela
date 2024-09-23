@@ -252,6 +252,7 @@ app.post('/api/register/personal-salud', async (req, res) => {
         connection.release(); // Liberar la conexión al pool
     }
 });
+
 //ruta para obtener todos los personales de salud 
 app.get('/api/obtener/personal-salud', async (req, res) => {
     try {
@@ -472,6 +473,19 @@ app.post('/api/registrar/cita-nino', (req, res) => {
     });
 });
 // Fin de la ruta para registrar las citas para el niño
+
+//ruta para listar todas las citas
+// Ruta en el servidor
+app.get('/api/citas-ninhos', async (req, res) => {
+    const { fecha, especialidad, consultorio } = req.query;
+    try {
+        const [rows] = await pool.query('SELECT * FROM cita_ninhos WHERE fecha = ? AND especialidad = ? AND consultorio = ?', [fecha, especialidad, consultorio]);
+        res.json(rows);
+    } catch (error) {
+        console.error('Error al obtener citas:', error);
+        res.status(500).json({ message: 'Error al obtener citas.' });
+    }
+});
 
 
 // Iniciar el servidor

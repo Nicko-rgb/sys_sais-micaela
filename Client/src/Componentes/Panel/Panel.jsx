@@ -10,18 +10,18 @@ import joven from '../Ico/joven.png';
 import adulto from '../Ico/adulto.png';
 import adultoMayor from '../Ico/adultoMayor.png';
 import gestante from '../Ico/gestante.png';
-import { useAuth } from '../Complementos/AuthContext'; // Ajusta la ruta según sea necesario
+import EstadoSesion from '../Complementos/EstadoSesion';
 
 const Panel = () => { 
-    
-    const { userData } = useAuth();
-    const { name } = userData; 
 
+    const { userPersonal, isLoggedIn } = EstadoSesion()
     return (
         <div className="panel">
-            <NavLogin />
+            {isLoggedIn ? (
+                <>
+                <NavLogin />
             <div className="opciones">
-                <p>Paquete de atención integral por curso de {name} </p>
+                <p>Paquete de atención integral por curso de {userPersonal} </p>
                 <Link className="box" to='/panel-niño'>
                     <img src={niño} alt="" />
                     <p>Niño</p>
@@ -54,6 +54,11 @@ const Panel = () => {
             </div>
             <Buscar />
             <NavPie />
+                </>
+            ) : (
+                <p> INICIAR SESION </p>
+            )}
+            
         </div>
     );
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import './lista.css';
-import OpcionesD from '../HerramiPaciente/OpcionesD';
+import OpcionesD from '../Her_Pacien_Ninho/OpcionesD';
 import NavLogin from '../Navegadores/NavLogin';
 import NavPie from '../Navegadores/NavPie';
 import BuscarTipo from './BuscarTipo';

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import HorasCita from '../Complementos/HorasCita';
 import FormCitas from './FormCitas';
+import { TiUserAdd } from "react-icons/ti";
 
 const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
     const [verForm, setVerForm] = useState(false);
@@ -68,7 +69,7 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
                         {citaActual ? (
                             <button className="btn btn-danger">CANCELAR CITA</button>
                         ) : (
-                            <button className="btn btn-primary" onClick={() => handleAgregarCita(especial.hora)}>AGREGAR CITA</button>
+                            <button className="btn btn-primary" onClick={() => handleAgregarCita(especial.hora)}><TiUserAdd />AGREGAR CITA</button>
                         )}
                     </td>
                 </tr>
@@ -101,7 +102,7 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
                     {citaActual ? (
                         <button className="btn btn-danger">CANCELAR CITA</button>
                     ) : (
-                        <button className="btn btn-primary" onClick={() => handleAgregarCita(horario.hora)}>AGREGAR CITA</button>
+                        <button className="btn btn-primary" onClick={() => handleAgregarCita(horario.hora)}><TiUserAdd />AGREGAR CITA</button>
                     )}
                 </td>
             </tr>

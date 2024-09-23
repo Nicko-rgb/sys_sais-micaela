@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom';
 import './datospaciente.css';
 import NavLogin from '../Navegadores/NavLogin';
 import NavPie from '../Navegadores/NavPie';
-import OpcionesD from '../HerramiPaciente/OpcionesD';
-import OpcionesI from '../HerramiPaciente/OpcionesI';
-import EditPaciente from '../HerramiPaciente/EditPaciente';
+import OpcionesD from '../Her_Pacien_Ninho/OpcionesD';
+import OpcionesI from '../Her_Pacien_Ninho/OpcionesI';
+import EditPaciente from '../Her_Pacien_Ninho/EditPaciente';
 
 import { FaUserEdit } from 'react-icons/fa';
 

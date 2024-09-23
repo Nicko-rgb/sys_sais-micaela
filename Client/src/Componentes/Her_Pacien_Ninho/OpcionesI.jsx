@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './opciones.css';
 import { MdOutlineAppRegistration } from "react-icons/md";
 import { PiNotePencil } from "react-icons/pi";

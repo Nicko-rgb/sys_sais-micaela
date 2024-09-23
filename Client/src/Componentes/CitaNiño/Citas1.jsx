@@ -8,12 +8,15 @@ import HorasCita from '../Complementos/HorasCita';
 import FormCita from './FormCitas';
 import Citas2 from './Citas2';
 
+import { TiUserAdd } from "react-icons/ti";
+
 const Cita1 = ({ especialidad, agregarCita }) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedHora, setSelectedHora] = useState(null);
     const [citas, setCitas] = useState([]);
-    const [consultorio1] = useState(1);
-    const [consultorio2] = useState(2);
+    const [consultorio1] = useState(1)
+    const [consultorio2] = useState(2)
+    const [consultorio] = useState(1); // Cambia este valor según la lógica de tu aplicación
     const [verForm, setVerForm] = useState(false);
     const [personalList, setPersonalList] = useState([]);
 
@@ -32,25 +35,26 @@ const Cita1 = ({ especialidad, agregarCita }) => {
         fetchPersonal();
     }, []);
 
-    // Filtrar los profesionales que coinciden con la especialidad seleccionada
-    const profesionalesFiltrados = personalList.filter(profesional => profesional.especial_cita === especialidad);
-
     // Cambio de fecha
     const onDateChange = (date) => {
         setSelectedDate(date);
         const formattedDate = date.toISOString().split('T')[0];
-        fetchCitas(formattedDate);
+        fetchCitas(formattedDate, especialidad, consultorio);
     };
 
-    // Fetch para obtener citas (simulación con datos mock)
-    const fetchCitas = (fecha) => {
-        const citasPorFecha = [
-            { fecha: '2024-09-10', hora: '07:30 - 08:15', paciente: 'Paciente 1', observaciones: 'Consulta general' },
-            { fecha: '2024-09-10', hora: '08:15 - 09:00', paciente: 'Paciente 2', observaciones: 'Chequeo' },
-        ];
-        const citasFiltradas = citasPorFecha.filter(cita => cita.fecha === fecha);
-        setCitas(citasFiltradas);
+    // Fetch para obtener citas según fecha, especialidad y consultorio
+    const fetchCitas = async (fecha, especialidad, consultorio) => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/citas?fecha=${fecha}&especialidad=${especialidad}&consultorio=${consultorio}`);
+            const data = await response.json();
+            setCitas(data); // Actualiza el estado de citas con los datos obtenidos
+        } catch (error) {
+            console.error('Error al obtener citas:', error);
+        }
     };
+    // Filtrar los profesionales que coinciden con la especialidad seleccionada
+    const profesionalesFiltrados = personalList.filter(profesional => profesional.especial_cita === especialidad);
+
 
     // Manejo de agregar cita
     const handleAgregarCita = (hora) => {
@@ -61,28 +65,27 @@ const Cita1 = ({ especialidad, agregarCita }) => {
     const handleCloseForm = () => {
         setVerForm(false);
     };
-
     // Renderizar las filas de horarios y manejar Atención Especial y recesos
     const renderRow = (horario, index, horarios) => {
         const citaActual = citas.find(cita => cita.hora === horario.hora);
         const esAtencionEspecial = horario.AtencionEspecial;
         const esReceso = horario.receso;
-    
+
         let rowClass = '';
         let turno = 'Mañana'; // Por defecto, antes del receso es "Mañana"
-    
+
         // Verificamos si el receso ya ocurrió
         const recesoIndex = horarios.findIndex(h => h.receso); // Encontrar el índice del receso
         if (recesoIndex !== -1 && index > recesoIndex) {
             turno = 'Tarde'; // Si estamos después del receso, el turno será "Tarde"
         }
-    
+
         if (esAtencionEspecial) {
             rowClass = 'atencion-especial'; // Clase CSS para Atención Especial
         } else if (esReceso) {
             rowClass = 'receso'; // Clase CSS para recesos
         }
-    
+
         // Renderización de las filas de Atención Especial con todas las columnas
         if (esAtencionEspecial) {
             return horario.AtencionEspecial.map((especial, especialIndex) => (
@@ -112,23 +115,24 @@ const Cita1 = ({ especialidad, agregarCita }) => {
                     </td>
                     <td>
                         <button className="btn btn-primary" onClick={() => handleAgregarCita(especial.hora)}>
+                            <TiUserAdd />
                             AGREGAR CITA
                         </button>
                     </td>
                 </tr>
             ));
         }
-    
+
         // Renderización de la fila de receso con colSpan="9"
         if (esReceso) {
             return (
                 <tr key={horario.receso} className={rowClass}>
-                    <td>{`${horario.receso}`}</td> 
+                    <td>{`${horario.receso}`}</td>
                     <td colSpan="10">RECESO</td>
                 </tr>
             );
         }
-    
+
         // Renderización de filas normales
         return (
             <tr key={horario.hora} className={rowClass}>
@@ -159,14 +163,14 @@ const Cita1 = ({ especialidad, agregarCita }) => {
                     {citaActual ? (
                         <button className="btn btn-danger">CANCELAR CITA</button>
                     ) : (
-                        <button className="btn btn-primary" onClick={() => handleAgregarCita(horario.hora)}>AGREGAR CITA</button>
+                        <button className="btn btn-primary" onClick={() => handleAgregarCita(horario.hora)}><TiUserAdd />AGREGAR CITA</button>
                     )}
                 </td>
             </tr>
         );
     };
-    
-    
+
+
 
     return (
         <div className="calendar-cita">
@@ -176,15 +180,15 @@ const Cita1 = ({ especialidad, agregarCita }) => {
                 <div className='box-calendar'>
                     <p>Selecciona una fecha para ver o agregar citas</p>
                     <Calendar
-                    onChange={onDateChange}
-                    className="custom-calendar"
-                    tileClassName={({ date, view }) => {
-                        if (view === 'month' && date.getDay() === 0) {
-                            return 'react-calendar__tile--sunday'; // Aplica la clase para los domingos
-                        }
-                        return null; // No aplica clase para otros días
-                    }}
-                />
+                        onChange={onDateChange}
+                        className="custom-calendar"
+                        tileClassName={({ date, view }) => {
+                            if (view === 'month' && date.getDay() === 0) {
+                                return 'react-calendar__tile--sunday'; // Aplica la clase para los domingos
+                            }
+                            return null; // No aplica clase para otros días
+                        }}
+                    />
                 </div>
                 <hr />
                 <div className='list-cita'>

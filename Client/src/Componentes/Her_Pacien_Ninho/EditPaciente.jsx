@@ -17,7 +17,6 @@ const EditPaciente = ({ paciente, onClose }) => {
         fecha_nacimiento: paciente.fecha_nacimiento,
         edad: paciente.edad,
         sexo: paciente.sexo,
-
         dni_res: paciente.dni_res,
         tipo_res: paciente.tipo_res,
         nombres_res: paciente.nombres_res,

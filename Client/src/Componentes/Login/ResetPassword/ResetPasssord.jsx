@@ -32,7 +32,7 @@ const ResetPassword = () => {
                     // Si el servidor responde con éxito
                     setSuccessMessage('Se ha enviado un enlace de restablecimiento a tu correo electrónico.');
                     setTimeout(() => {
-                        navigate('/login'); // Redirigir a login después de 3 segundos
+                        navigate('/'); // Redirigir a login después de 3 segundos
                     }, 3000);
                 } else {
                     // Si hay un error
@@ -52,7 +52,7 @@ const ResetPassword = () => {
             <NavLogin />
 
             <form onSubmit={handleSubmit}>
-                <Link to="/login" className='volver_link'><RiPlayReverseLargeFill /> Volver</Link>
+                <Link to="/" className='volver_link'><RiPlayReverseLargeFill /> Volver</Link>
 
                 <h2>Restablecer Contraseña</h2>
                 <div>

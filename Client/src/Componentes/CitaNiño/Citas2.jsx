@@ -19,21 +19,21 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
 
     const renderRow = (horario, index, turno) => {
         // Filtrar citas para el consultorio 2
-        const citaActual = citas.find(cita => cita.hora === horario.hora && cita.consultorio === consultorio2);
+        const citaActual = citas.find(cita => cita.hora === horario.hora && cita.consultorio === 2);
         const profesional = personal.find(profesional => profesional.especial_cita === especialidad);
         const esReceso = horario.receso;
         const esAtencionEspecial = horario.AtencionEspecial;
-    
+
         // Renderizar fila para "Receso"
         if (esReceso) {
             return (
                 <tr key={horario.hora} className="receso">
                     <td>{horario.receso}</td>
-                    <td colSpan={10} style={{ textAlign: 'center' }}>Receso</td>
+                    <td colSpan={10} style={{ textAlign: 'center' }}>REFRIGERIO</td>
                 </tr>
             );
         }
-    
+
         // Renderizar fila para "Atención Especial"
         if (esAtencionEspecial) {
             return esAtencionEspecial.map((especial, index) => {
@@ -45,7 +45,16 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
                         <td>{citaEspecial ? citaEspecial.dni : ''}</td>
                         <td>{citaEspecial ? `${citaEspecial.apellidos} ${citaEspecial.nombres}` : ''}</td>
                         <td>{citaEspecial ? citaEspecial.edad : ''}</td>
-                        <td>{citaEspecial ? citaEspecial.fechaNacimiento : ''}</td>
+                        <td>
+                            {citaEspecial ?
+                                new Date(citaEspecial.fechaNacimiento).toLocaleDateString('es-ES', {
+                                    day: '2-digit',
+                                    month: '2-digit',
+                                    year: 'numeric'
+                                })
+                                : ''
+                            }
+                        </td>
                         <td>{citaEspecial ? citaEspecial.telefono : ''}</td>
                         {especialidad === 'Medicina' && <td>{citaEspecial ? citaEspecial.direccion : ''}</td>}
                         {especialidad === 'Obstetricia_CPN' && <td>{citaEspecial ? citaEspecial.semEmbarazo : ''}</td>}
@@ -60,7 +69,7 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
                         </td>
                         <td>
                             {citaEspecial ? (
-                                <button className="btn btn-danger">CANCELAR CITA</button>
+                                <button className="btn btn-danger">EDITAR CITA</button>
                             ) : (
                                 <button className="btn btn-primary" onClick={() => handleAgregarCita(especial.hora)}>
                                     <TiUserAdd /> AGREGAR CITA
@@ -71,7 +80,7 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
                 );
             });
         }
-    
+
         // Renderizar fila para citas normales
         return (
             <tr key={horario.hora}>
@@ -80,7 +89,16 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
                 <td>{citaActual ? citaActual.dni : ''}</td>
                 <td>{citaActual ? `${citaActual.apellidos} ${citaActual.nombres}` : ''}</td>
                 <td>{citaActual ? citaActual.edad : ''}</td>
-                <td>{citaActual ? citaActual.fechaNacimiento : ''}</td>
+                <td>
+                    {citaActual ?
+                        new Date(citaActual.fechaNacimiento).toLocaleDateString('es-ES', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric'
+                        })
+                        : ''
+                    }
+                </td>
                 <td>{citaActual ? citaActual.telefono : ''}</td>
                 {especialidad === 'Medicina' && <td>{citaActual ? citaActual.direccion : ''}</td>}
                 {especialidad === 'Obstetricia_CPN' && <td>{citaActual ? citaActual.semEmbarazo : ''}</td>}
@@ -95,7 +113,7 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
                 </td>
                 <td>
                     {citaActual ? (
-                        <button className="btn btn-danger">CANCELAR CITA</button>
+                        <button className="btn btn-danger">EDITAR CITA</button>
                     ) : (
                         <button className="btn btn-primary" onClick={() => handleAgregarCita(horario.hora)}>
                             <TiUserAdd /> AGREGAR CITA
@@ -105,7 +123,7 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
             </tr>
         );
     };
-    
+
     return (
         <div className="citas2">
             <h4>Citas para el día {fecha} en consultorio {consultorio2} - {especialidad}</h4>

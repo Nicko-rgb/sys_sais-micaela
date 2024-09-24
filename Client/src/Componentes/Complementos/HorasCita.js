@@ -54,7 +54,6 @@ const HorasCita = {
                 {
                     AtencionEspecial: [
                         { hora: '11:40 - 12:00', },
-                        { hora: '11:40 - 12:00', },
                         { hora: '12:00 - 12:20', },
                         { hora: '12:20 - 12:30' },
                     ] 
@@ -233,6 +232,19 @@ const HorasCita = {
             ] 
         }
     },
+    // Transmisibles: {
+    //     especialidad: 'Trasnmisibles',
+    //     icono: MdPsychology,
+    //     horarios: {
+    //         mañana: [
+    //             { hora: '08:00 - 08:30' },
+    //         ],
+    //         tarde: [
+    //             { hora: '09:00 - 10:30' },
+
+    //         ]
+    //     }
+    // }
     // Biología: {
     //     especialidad: 'Biología',
     //     icono: MdPsychology,

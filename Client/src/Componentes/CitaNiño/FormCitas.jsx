@@ -102,17 +102,20 @@ const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) 
                 },
                 body: JSON.stringify(citaData),
             });
-
+            
             if (!response.ok) {
                 throw new Error('Error al registrar la cita');
             }
+            handleCloseForm()
             //mostrar mensaje de exito
             alert('Cita registrada con exito');
 
             // Cerrar el formulario después de enviar los datos
-            handleCloseForm();
         } catch (error) {
             console.error('Error al registrar la cita:', error);
+        } finally{
+            // Cerrar el formulario después de enviar los datos
+            handleCloseForm()
         }
     };
 

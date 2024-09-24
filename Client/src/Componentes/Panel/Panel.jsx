@@ -12,6 +12,10 @@ import adultoMayor from '../Ico/adultoMayor.png';
 import gestante from '../Ico/gestante.png';
 import EstadoSesion from '../Complementos/EstadoSesion';
 
+const volver = () => {
+    window.history.back();
+}
+
 const Panel = () => { 
 
     const { userPersonal, isLoggedIn } = EstadoSesion()
@@ -56,7 +60,10 @@ const Panel = () => {
             <NavPie />
                 </>
             ) : (
-                <p> INICIAR SESION </p>
+                <div>
+                    <p> INICIAR SESION </p>
+                    <button onClick={volver}>INCIAR SESION</button>
+                </div>
             )}
             
         </div>

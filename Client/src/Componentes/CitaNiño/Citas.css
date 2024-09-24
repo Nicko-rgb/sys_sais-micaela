@@ -22,21 +22,21 @@
   font-family: 'poppins';
   font-size: 14px;
   top: -50px;
-  left: 5px;
+  left: -20px;
   border: none;
 }
-
+.opciones-cita .volver_link:hover {
+  background: rgb(238, 238, 238);
+}
 .opciones-cita h5 {
   text-align: center;
   font-size: large;
   font-family: 'poppins';
   margin: 0;
-  margin-top: 60px;
+  margin-top: 50px;
 }
 
-.opciones-cita .volver_link:hover {
-  background: rgb(238, 238, 238);
-}
+
 
 .opciones-cita main section {
   position: relative;
@@ -46,16 +46,14 @@
   padding: 20px;
   padding-bottom: 0;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
-.opciones-cita section div {
+.opciones-cita section .box-citas {
   position: relative;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  max-width: 700px;
-  width: 100%;
-  display: flex;
   justify-content: center;
 }
 
@@ -133,13 +131,31 @@ td {
   height: 5px;
   padding: 5px;
 }
-.opciones-cita tbody button{
-  background-color: #2b6867;
+.opciones-cita tbody .btn{
+  margin: auto;
+  border-radius: 3px;
   border: none;
   font-family: 'poppins';
   font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  transition: .3s ease;
+}
+.opciones-cita tbody .btn-primary{
+  background-color: #2b6867;
   color: white;
-  border-radius: 3px;
+}
+.opciones-cita tbody .btn-danger{
+  background-color: rgb(242, 108, 132);
+  font-weight: bold;
+  color: white;
+}
+.opciones-cita tbody .btn:hover{
+  box-shadow: 0 0 5px rgb(53, 230, 115);
+}
+.opciones-cita tbody .ico{
+  font-size: 16px;
 }
 
 .opciones-cita th {
@@ -147,7 +163,7 @@ td {
 }
  
 .opciones-cita tbody tr:hover {
-  background-color: rgb(105, 199, 161);
+  background-color: rgb(220, 207, 229);
 }
 
 /* Contenedor del calendario */
@@ -324,11 +340,6 @@ td {
   background-color:  rgb(182, 222, 244);
   color: black;
 }
-
-.atencion-especial:hover {
-  background: rgb(105, 199, 161);
-}
-
 .receso {
   background-color: rgb(225, 221, 181);
   color: black;

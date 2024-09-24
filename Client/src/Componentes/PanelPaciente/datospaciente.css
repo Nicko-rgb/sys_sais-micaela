@@ -94,7 +94,7 @@
     box-shadow: 0 0 2px black;
     background: rgb(231, 230, 230);
     padding: 5px;
-    border-radius: 2px;
+    border-radius: 2px; 
 }
 .datos-paciente aside p{
     margin: 0;
@@ -106,5 +106,5 @@
     font-size: 13px;
     font-weight: bold;
     text-align: center;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* sombreado gris */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }

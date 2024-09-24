@@ -6,7 +6,7 @@ import NavPie from '../Navegadores/NavPie';
 import { CiUser } from "react-icons/ci";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { Link } from 'react-router-dom';
-import { useAuth } from '../Complementos/AuthContext'; // Importa el contexto de autenticación
+import EstadoSesion from '../Complementos/EstadoSesion'; // Import EstadoSesion
 
 const Login = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -15,7 +15,7 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
     
-    const { handleLogin } = useAuth(); // Usar el contexto
+    const { handleLogin } = EstadoSesion(); // Use EstadoSesion
 
     const toggleSidebar = () => {
         setSidebarOpen(!sidebarOpen);
@@ -28,35 +28,29 @@ const Login = () => {
     };
     
     const handleSubmit = async (e) => {
-        e.preventDefault(); // Evita el comportamiento por defecto del formulario
+        e.preventDefault(); // Prevent default form behavior
     
         try {
-            // Petición POST al backend para iniciar sesión
             const response = await axios.post('http://localhost:5000/api/sais/login', {
                 username: username,
-                contrasena: password // Asegúrate de que esto coincide con lo que espera el backend
+                contrasena: password // Ensure this matches what the backend expects
             });
-    
-            // Extraer los datos recibidos
+
             const { userId, userPersonal, correo, dni, tipoUser, profesion, especialCita, usuario } = response.data;
-    
-            // Llama a handleLogin con los datos recibidos
-            handleLogin(userId, userPersonal, correo, dni, tipoUser, profesion, especialCita, usuario);
-    
-            // Redirigir al panel después del inicio de sesión exitoso
-            navigate('/panel');
-    
+
+            handleLogin(userId, userPersonal, correo, dni, tipoUser, profesion, especialCita, usuario); // Use handleLogin from EstadoSesion
+            
+            navigate('/panel'); // Redirect after successful login
+
         } catch (error) {
-            // Manejar los errores y mostrar el mensaje devuelto por el servidor
             if (error.response && error.response.data) {
-                setErrorMessage(error.response.data.message || 'Error desconocido');
+                setErrorMessage(error.response.data.message || 'Unknown error');
             } else if (error.request) {
-                setErrorMessage('No se recibió respuesta del servidor.');
+                setErrorMessage('No response received from server.');
             } else {
-                setErrorMessage('Error al realizar la solicitud: ' + error.message);
+                setErrorMessage('Request error: ' + error.message);
             }
             
-            // Limpiar los campos de entrada
             setUsername('');
             setPassword('');
         }

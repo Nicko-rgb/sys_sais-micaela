@@ -1,11 +1,11 @@
 // server.js
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const mysql = require("mysql2/promise"); // Importar mysql2
-const bcrypt = require("bcryptjs");
-const nodemailer = require("nodemailer"); // Importar nodemailer para enviar correos electrónicos
-const crypto = require("crypto"); // Importar crypto para generar tokens únicos
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const mysql = require('mysql2/promise'); // Importar mysql2
+const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer'); // Importar nodemailer para enviar correos electrónicos
+const crypto = require('crypto'); // Importar crypto para generar tokens únicos
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -154,6 +154,7 @@ app.post("/api/registrar/pacientes", async (req, res) => {
   }
 });
 
+
 // Endpoint para obtener datos del paciente según su historial clínico
 app.get("/api/pacientes/:historialClinico", async (req, res) => {
   const { historialClinico } = req.params; // Obtener el historial clínico de los parámetros de la ruta
@@ -215,6 +216,132 @@ app.get("/api/obtener-tipo/pacientes", async (req, res) => {
   } finally {
     connection.release(); // Liberar la conexión
   }
+});
+
+// Endpoint para actualizar los datos del paciente
+app.put("/api/actualizar/paciente/:id_paciente", async (req, res) => {
+    const { id_paciente } = req.params;
+    const pacienteData = req.body;
+
+    console.log("Datos recibidos:", pacienteData); // Log de los datos recibidos
+
+    const connection = await pool.getConnection();
+    try {
+        await connection.beginTransaction();
+
+        console.log("Actualizando datos del paciente...");
+        // Actualizar datos del paciente
+        const [updateResult] = await connection.execute(
+            `UPDATE pacientes SET 
+              dni = ?, CNV_linea = ?, hist_clinico = ?, nombres = ?, 
+              ape_paterno = ?, ape_materno = ?, fecha_nacimiento = ?, 
+              edad = ?, sexo = ?
+              WHERE id_paciente = ?`,
+            [
+                pacienteData.dni,
+                pacienteData.cnv_linea,
+                pacienteData.hist_clinico,
+                pacienteData.nombres,
+                pacienteData.ape_paterno,
+                pacienteData.ape_materno,
+                pacienteData.fecha_nacimiento,
+                pacienteData.edad,
+                pacienteData.sexo,
+                id_paciente,
+            ]
+        );
+        console.log("Resultado de la actualización del paciente:", updateResult);
+
+        // Si hay datos del responsable, actualizarlos
+        if (pacienteData.id_res) {
+            console.log("Actualizando datos del responsable...");
+            const [updateResResult] = await connection.execute(
+                `UPDATE responsable_de_paciente SET
+                  dni_res = ?, tipo_res = ?, nombres_res = ?, 
+                  ape_paterno_res = ?, ape_materno_res = ?, celular1_res = ?,
+                  celular2_res = ?, localidad_res = ?, sector_res = ?,
+                  direccion_res = ?, departamento_res = ?, provincia_res = ?,
+                  distrito_res = ?
+                  WHERE id_responsable = ?`,
+                [
+                    pacienteData.dni_res,
+                    pacienteData.tipo_res,
+                    pacienteData.nombres_res,
+                    pacienteData.ape_paterno_res,
+                    pacienteData.ape_materno_res,
+                    pacienteData.celular1_res,
+                    pacienteData.celular2_res,
+                    pacienteData.localidad_res,
+                    pacienteData.sector_res,
+                    pacienteData.direccion_res,
+                    pacienteData.departamento_res,
+                    pacienteData.provincia_res,
+                    pacienteData.distrito_res,
+                    pacienteData.id_res,
+                ]
+            );
+            console.log("Resultado de la actualización del responsable:", updateResResult);
+        }
+
+        await connection.commit();
+        console.log("Transacción completada con éxito");
+        res.json({ message: "Datos del paciente actualizados correctamente" });
+    } catch (error) {
+        await connection.rollback();
+        console.error("Error detallado al actualizar los datos del paciente:", error);
+        res.status(500).json({
+            message: "Error al actualizar los datos del paciente",
+            error: error.message,
+            stack: error.stack
+        });
+    } finally {
+        connection.release();
+    }
+});
+
+// Ruta para actualizar todos los pacientes 
+app.put('/api/pacientes/actualizar-todos', (req, res) => {
+    const query = `
+        UPDATE pacientes 
+        SET 
+            edad = YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')),
+            tipo_paciente = CASE 
+                WHEN YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) <= 11 THEN 'Niño'
+                WHEN YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) >= 12 AND YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) < 18 THEN 'Adolescente'
+                WHEN YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) >= 18 AND YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) <= 29 THEN 'Joven'
+                WHEN YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) >= 30 AND YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) <= 59 THEN 'Adulto'
+                ELSE 'Adulto Mayor'
+            END
+    `;
+
+    connection.query(query, (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Error al actualizar los datos de los pacientes' });
+        }
+        res.json({ message: 'Datos de todos los pacientes actualizados correctamente' });
+    });
+});
+
+// Programar el cron job para que se ejecute diariamente a medianoche
+cron.schedule('0 0 * * *', () => {
+    console.log('Actualizando datos de todos los pacientes...');
+    connection.query(`UPDATE pacientes SET 
+        edad = YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')),
+        tipo_paciente = CASE 
+            WHEN YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) <= 11 THEN 'Niño'
+            WHEN YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) >= 12 AND YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) < 18 THEN 'Adolescente'
+            WHEN YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) >= 18 AND YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) <= 29 THEN 'Joven'
+            WHEN YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) >= 30 AND YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) <= 59 THEN 'Adulto'
+            ELSE 'Adulto Mayor'
+        END`, 
+        (error) => {
+            if (error) {
+                console.error('Error al actualizar los datos de los pacientes:', error);
+            } else {
+                console.log('Datos de todos los pacientes actualizados correctamente.');
+            }
+        }
+    );
 });
 
 //ruta para registrar personal de salud
@@ -295,15 +422,15 @@ app.post("/api/register/personal-salud", async (req, res) => {
     connection.release(); // Liberar la conexión al pool
   }
 });
-//ruta para obtener todos los personales de salud
-app.get("/api/obtener/personal-salud", async (req, res) => {
-  try {
-    const [rows] = await pool.query("SELECT * FROM personal_salud");
-    res.json(rows);
-  } catch (error) {
-    console.error("Error al obtener el personal:", error);
-    res.status(500).json({ message: "Error al obtener el personal." });
-  }
+//ruta para obtener todos los personales de salud 
+app.get('/api/obtener/personal-salud', async (req, res) => {
+    try {
+        const [rows] = await pool.query('SELECT * FROM personal_salud');
+        res.json(rows);
+    } catch (error) {
+        console.error('Error al obtener el personal:', error);
+        res.status(500).json({ message: 'Error al obtener el personal.' });
+    }
 });
 
 /////////////////////////////////////////////////////////////
@@ -524,123 +651,38 @@ app.post("/api/registrar/cita-nino", (req, res) => {
 
   const sql = `
         INSERT INTO cita_ninhos (
-            especialidad, fecha, hora, consultorio, hisClinico, dni, 
-            apellidos, nombres, fechaNacimiento, edad, telefono, 
-            motivoConsulta, direccion, metodo, semEmbarazo
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            especialidad, fecha, hora, consultorio, hisClinico, dni, apellidos, nombres, fechaNacimiento, edad, telefono, motivoConsulta, direccion, metodo, semEmbarazo ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-  const values = [
-    especialidad,
-    fecha,
-    hora,
-    consultorio,
-    hisClinico,
-    dni,
-    apellidos,
-    nombres,
-    fechaNacimiento,
-    edad,
-    telefono,
-    motivoConsulta,
-    direccion || null,
-    metodo || null,
-    semEmbarazo || null,
-  ];
+    const values = [
+        especialidad,
+        fecha,
+        hora,
+        consultorio,
+        hisClinico,
+        dni,
+        apellidos,
+        nombres,
+        fechaNacimiento,
+        edad,
+        telefono,
+        motivoConsulta,
+        direccion || null,
+        metodo || null,    
+        semEmbarazo || null
+    ];
 
-  pool.query(sql, values, (error, results) => {
-    if (error) {
-      console.error("Error al registrar la cita:", error);
-      return res.status(500).json({ error: "Error al registrar la cita" });
-    }
-
-    res
-      .status(201)
-      .json({ message: "Cita registrada exitosamente", id: results.insertId });
-  });
+    pool.query(sql, values, (error, results) => {
+        if (error) {
+            console.error('Error al registrar la cita:', error);
+            return res.status(500).json({ error: 'Error al registrar la cita' });
+        }
+        
+        res.status(201).json({ message: 'Cita registrada exitosamente', id: results.insertId });
+    });
 });
 // Fin de la ruta para registrar las citas para el niño
 
-//ENDPONTS PARA EDITAR  LOS DATOS DEL PACIENTE
-// Endpoint para actualizar los datos del paciente
-app.put("/api/actualizar/paciente/:id_paciente", async (req, res) => {
-  const { id_paciente } = req.params;
-  const pacienteData = req.body;
 
-  console.log("Datos recibidos:", pacienteData); // Log de los datos recibidos
-
-  const connection = await pool.getConnection();
-  try {
-    await connection.beginTransaction();
-
-    console.log("Actualizando datos del paciente...");
-    // Actualizar datos del paciente
-    const [updateResult] = await connection.execute(
-      `UPDATE pacientes SET 
-            dni = ?, CNV_linea = ?, hist_clinico = ?, nombres = ?, 
-            ape_paterno = ?, ape_materno = ?, fecha_nacimiento = ?, 
-            edad = ?, sexo = ?
-            WHERE id_paciente = ?`,
-      [
-        pacienteData.dni,
-        pacienteData.cnv_linea,
-        pacienteData.hist_clinico,
-        pacienteData.nombres,
-        pacienteData.ape_paterno,
-        pacienteData.ape_materno,
-        pacienteData.fecha_nacimiento,
-        pacienteData.edad,
-        pacienteData.sexo,
-        id_paciente,
-      ]
-    );
-    console.log("Resultado de la actualización del paciente:", updateResult);
-
-    // Si hay datos del responsable, actualizarlos
-    if (pacienteData.id_res) {
-      console.log("Actualizando datos del responsable...");
-      const [updateResResult] = await connection.execute(
-        `UPDATE responsable_de_paciente SET
-                dni_res = ?, tipo_res = ?, nombres_res = ?, 
-                ape_paterno_res = ?, ape_materno_res = ?, celular1_res = ?,
-                celular2_res = ?, localidad_res = ?, sector_res = ?,
-                direccion_res = ?, departamento_res = ?, provincia_res = ?,
-                distrito_res = ?
-                WHERE id_responsable = ?`,
-        [
-          pacienteData.dni_res,
-          pacienteData.tipo_res,
-          pacienteData.nombres_res,
-          pacienteData.ape_paterno_res,
-          pacienteData.ape_materno_res,
-          pacienteData.celular1_res,
-          pacienteData.celular2_res,
-          pacienteData.localidad_res,
-          pacienteData.sector_res,
-          pacienteData.direccion_res,
-          pacienteData.departamento_res,
-          pacienteData.provincia_res,
-          pacienteData.distrito_res,
-          pacienteData.id_res,
-        ]
-      );
-      console.log("Resultado de la actualización del responsable:", updateResResult);
-    }
-
-    await connection.commit();
-    console.log("Transacción completada con éxito");
-    res.json({ message: "Datos del paciente actualizados correctamente" });
-  } catch (error) {
-    await connection.rollback();
-    console.error("Error detallado al actualizar los datos del paciente:", error);
-    res.status(500).json({
-      message: "Error al actualizar los datos del paciente",
-      error: error.message,
-      stack: error.stack
-    });
-  } finally {
-    connection.release();
-  }
-});
 // Iniciar el servidor
 app.listen(PORT, async () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

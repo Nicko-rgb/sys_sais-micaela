@@ -90,8 +90,8 @@ app.post('/api/registrar/pacientes', async (req, res) => {
                     responsable.ape_paternoRes,
                     responsable.ape_maternoRes,
                     responsable.nombresRes,
-                    responsable.celular1Res,
-                    responsable.celular2Res,
+                    responsable.celular1Res || null,
+                    responsable.celular2Res || null,
                     responsable.localidadRes,
                     responsable.sectorRes,
                     responsable.direccionRes,
@@ -116,11 +116,11 @@ app.post('/api/registrar/pacientes', async (req, res) => {
                 pacienteData.fechaNacimiento,
                 pacienteData.edad,
                 pacienteData.sexo,
-                pacienteData.discapacidad,
-                pacienteData.celular1,
-                pacienteData.celular2,
+                pacienteData.discapacidad || null,
+                pacienteData.celular1 || null,
+                pacienteData.celular2 || null,
                 pacienteData.localidad,
-                pacienteData.sector,
+                pacienteData.sector || null,
                 pacienteData.direccion,
                 pacienteData.departamento,
                 pacienteData.provincia,
@@ -560,11 +560,11 @@ app.get('/api/reset-password/:token', async (req, res) => {
 //ruta para registrar las citas para el niño
 // Endpoint para registrar una cita
 app.post('/api/registrar/cita-nino', (req, res) => {
-    const { especialidad, fecha, hora, consultorio, hisClinico, dni, apellidos, nombres, fechaNacimiento, edad, telefono, motivoConsulta, direccion, metodo, semEmbarazo } = req.body;
+    const { especialidad, fecha, hora, consultorio, hisClinico, dni, apellidos, nombres, fechaNacimiento, edad, telefono, motivoConsulta, direccion, metodo, semEmbarazo, idRespons } = req.body;
 
     const sql = `
         INSERT INTO cita_ninhos (
-            especialidad, fecha, hora, consultorio, hisClinico, dni, apellidos, nombres, fechaNacimiento, edad, telefono, motivoConsulta, direccion, metodo, semEmbarazo ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            especialidad, fecha, hora, consultorio, hisClinico, dni, apellidos, nombres, fechaNacimiento, edad, telefono, motivoConsulta, direccion, metodo, semEmbarazo, id_responsable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     const values = [
         especialidad,
@@ -581,7 +581,8 @@ app.post('/api/registrar/cita-nino', (req, res) => {
         motivoConsulta,
         direccion || null,
         metodo || null,
-        semEmbarazo || null
+        semEmbarazo || null,
+        idRespons || null
     ];
 
     pool.query(sql, values, (error, results) => {
@@ -593,9 +594,8 @@ app.post('/api/registrar/cita-nino', (req, res) => {
         res.status(201).json({ message: 'Cita registrada exitosamente', id: results.insertId });
     });
 });
-// Fin de la ruta para registrar las citas para el niño
 
-// Ruta en el servidor
+// Ruta para obtner las citas segun fecha, especialidad
 app.get('/api/citas-ninhos', async (req, res) => {
     const { fecha, especialidad } = req.query;
     try {
@@ -604,6 +604,19 @@ app.get('/api/citas-ninhos', async (req, res) => {
     } catch (error) {
         console.error('Error al obtener citas:', error);
         res.status(500).json({ message: 'Error al obtener citas.' });
+    }
+});
+
+// Route to get all appointments within the next three days
+app.get('/api/filtrar-ninho-citas', async (req, res) => {
+    const query = 'SELECT * FROM cita_ninhos WHERE fecha >= CURDATE() AND fecha <= DATE_ADD(CURDATE(), INTERVAL 3 DAY)';
+    
+    try {
+        const [results] = await pool.query(query);
+        res.json(results);
+    } catch (error) {
+        console.error('Error fetching appointments:', error);
+        res.status(500).json({ error: error.message });
     }
 });
 

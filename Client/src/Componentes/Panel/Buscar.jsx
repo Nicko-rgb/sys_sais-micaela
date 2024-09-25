@@ -29,6 +29,29 @@ const Buscar = () => {
         }
     };
 
+    //codigo para actualizar la edad y tipo de paciente 
+    const updateAllPatients = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/api/pacientes/actualizar-todos', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error('Error al actualizar los datos de los pacientes');
+            }
+    
+            const data = await response.json();
+            alert(data.message); // Muestra un mensaje de éxito
+    
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error al actualizar los datos de los pacientes');
+        }
+    };
+
     useEffect(() => {
         obtenerPacientes(); // Obtener pacientes al montar el componente
     }, []);
@@ -127,6 +150,7 @@ const Buscar = () => {
                         <p>No se encontraron resultados.</p>
                     )}
                 </section>
+                <button onClick={updateAllPatients}>Actualizar Todos los Pacientes</button>
             </div>
             {showModal && <RegistrarPas onClose={toggleModal} />}
         </div>

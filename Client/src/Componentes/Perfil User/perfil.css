@@ -1,0 +1,7 @@
+.perfil-user{
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+    border: transparent solid;
+}

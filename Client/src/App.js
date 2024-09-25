@@ -11,7 +11,7 @@ import ResetPassword from "./Componentes/Login/ResetPassword/ResetPasssord"
 import { AuthProvider } from './Componentes/Complementos/AuthContext';
 import ContactAdmi from './Componentes/ContactAdministrador/contactAdmi';
 import Restablecer from "./Componentes/Login/ResetPassword/Verificacion_Restablecer/Restablecer"
-
+import Perfil from './Componentes/Perfil User/Perfil';
 
 function App() {
 
@@ -30,6 +30,7 @@ function App() {
                         <Route path="/reset-password" element={<ResetPassword />} />
                         <Route path="/contact-administrador" element={<ContactAdmi />} />
                         <Route path="/new-password/:token" element={<Restablecer />} />
+                        <Route path="/perfil/:name/:id" element={<Perfil />} />
                     </Routes>
                 </AuthProvider>
             </BrowserRouter>

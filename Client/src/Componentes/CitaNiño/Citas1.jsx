@@ -193,6 +193,7 @@ const Cita1 = ({ especialidad, agregarCita }) => {
         <div className="calendar-cita">
             <NavLogin />
             <main>
+                {/* // */}
                 {especialidad && <h3>CITA PARA EL NIÑO ({especialidad})</h3>}
                 <div className='box-calendar'>
                     <p>Selecciona una fecha para ver o agregar citas</p>

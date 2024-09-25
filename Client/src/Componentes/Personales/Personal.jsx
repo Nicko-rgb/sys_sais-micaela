@@ -104,6 +104,7 @@ const Personal = () => {
                                     <th>Tipo</th>
                                     <th>Profesión</th>
                                     <th>Servicio</th>
+                                    <th>Especialidad en Citas</th>
                                     <th>Condición</th>
                                     <th>Celular</th>
                                     <th>Acción</th>
@@ -119,6 +120,7 @@ const Personal = () => {
                                         <td>{personal.tipo_user}</td>
                                         <td>{personal.profesion}</td>
                                         <td>{personal.servicio}</td>
+                                        <td>{personal.especial_cita || '----'}</td>
                                         <td>{personal.condicion}</td>
                                         <td>{personal.celular}</td>
                                         <td>

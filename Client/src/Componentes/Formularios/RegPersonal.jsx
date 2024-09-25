@@ -146,9 +146,9 @@ const RegPersonal = ({ handleForm }) => {
                         <label>Tipo Usuario:
                             <select value={tipoUser} onChange={(e) => setTipoUser(e.target.value)}>
                                 <option value="">Seleccione una opcion</option>
-                                <option value="jefe">Jefe</option>
-                                <option value="admin">Admin</option>
-                                <option value="responsable">Responsable</option>
+                                <option value="Jefe">Jefe</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Responsable">Responsable</option>
                             </select>
                         </label>
                         <label>Profesión:
@@ -171,7 +171,7 @@ const RegPersonal = ({ handleForm }) => {
                             <label>
                                 Seleccione Especialidad:
                                 <select value={especialidad} onChange={(e) => setEspecialidad(e.target.value)}>
-                                    <option value="">Seleccione una opción</option> {/* Opción por defecto */}
+                                    <option value="">Seleccione una opción</option>
                                     <option value="Enfermería">Enfermería</option>
                                     <option value="Medicina">Medicina</option>
                                     <option value="Psicología">Psicología</option>

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { IoCloudUploadOutline } from "react-icons/io5"; 
 import { IoMdClose } from "react-icons/io";
 import lugares from '../Complementos/lugares.js';
+import { useNavigate } from 'react-router-dom';
 
 const RegistrarPas = ({ onClose }) => {
     const [dni, setDni] = useState('');
@@ -144,7 +145,9 @@ const RegistrarPas = ({ onClose }) => {
     const handleSelectResponsable = (event) => {
         setTipoResponsable(event.target.value)
     }
-    
+
+    const navigate = useNavigate();
+
     const handleSubmit = async (event) => {
         event.preventDefault(); // Evitar el comportamiento por defecto del formulario
 
@@ -197,8 +200,8 @@ const RegistrarPas = ({ onClose }) => {
             if (response.ok) {
                 // Manejar la respuesta exitosa
                 alert('Paciente guardado correctamente');
-                window.location.reload()
-                onClose(); // Cerrar el modal
+                navigate(`/panel/${historiaClinico}`)
+                onClose();
             } else {
                 throw new Error('Error al guardar el paciente');
             }

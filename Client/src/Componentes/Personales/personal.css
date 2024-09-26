@@ -37,11 +37,11 @@
     font-family: 'poppins';
     color: white;
     padding: 7px 14px;
-    background-color: #00796b;
+    background-color: #069a89;
     transition: .3s ease;
 }
 .personal-salud .div-btn button:hover{
-    background-color: #005c4b;
+    background-color: #0c8e76;
     box-shadow: 0 0 5px rgb(116, 240, 116);
 }
 

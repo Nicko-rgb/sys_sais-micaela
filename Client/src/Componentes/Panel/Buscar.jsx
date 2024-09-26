@@ -3,18 +3,28 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { MdPersonSearch } from 'react-icons/md';
 import RegistrarPas from '../Formularios/RegPasciente';
+import EditPaciente from "../Her_Pacien_Ninho/EditPaciente"
 import './buscar.css';
 import { IoPersonAddSharp } from 'react-icons/io5';
 import { FaUserEdit } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const Buscar = () => {
     const [showModal, setShowModal] = useState(false);
     const [pacientes, setPacientes] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [loading, setLoading] = useState(false);
+    const [openEdit, setEdit] = useState(false);
+    const [selectedPaciente, setSelectedPaciente] = useState(null); //ESTADO PARA ALMACENAR AL PACIDNTE
+    const navegate= useNavigate()
 
     const toggleModal = () => {
         setShowModal(!showModal);
+    };
+    const abrirEdit = (paciente) => {
+        setSelectedPaciente(paciente); // Guardar el paciente seleccionado en el estado
+        navegate(`/panel/${paciente.hist_clinico}`)
+        setEdit(true)
     };
 
     const obtenerPacientes = async (searchTerm = '') => {
@@ -29,6 +39,7 @@ const Buscar = () => {
         }
     };
 
+
     //codigo para actualizar la edad y tipo de paciente 
     const updateAllPatients = async () => {
         try {
@@ -38,14 +49,14 @@ const Buscar = () => {
                     'Content-Type': 'application/json',
                 },
             });
-    
+
             if (!response.ok) {
                 throw new Error('Error al actualizar los datos de los pacientes');
             }
-    
+
             const data = await response.json();
             alert(data.message); // Muestra un mensaje de éxito
-    
+
         } catch (error) {
             console.error('Error:', error);
             alert('Error al actualizar los datos de los pacientes');
@@ -63,19 +74,19 @@ const Buscar = () => {
 
     const calcularEdad = (fechaNacimiento) => {
         const fechaNac = new Date(fechaNacimiento);
-        const fechaActual = new Date(); 
-    
+        const fechaActual = new Date();
+
         // Calcular la diferencia en milisegundos
         const diferenciaMilisegundos = fechaActual.getTime() - fechaNac.getTime();
-    
+
         // Convertir a días
         const diasDiferencia = Math.floor(diferenciaMilisegundos / (1000 * 60 * 60 * 24));
-    
+
         // Calcular años, meses y días
         const anios = Math.floor(diasDiferencia / 365);
         const meses = Math.floor((diasDiferencia % 365) / 30);
         const dias = Math.floor((diasDiferencia % 365) % 30);
-    
+
         // Devolver la edad en el formato adecuado
         if (anios > 0) {
             return `${anios} año${anios > 1 ? 's' : ''} ${meses} mes${meses > 1 ? 'es' : ''}`;
@@ -140,7 +151,8 @@ const Buscar = () => {
                                         <td>{calcularEdad(paciente.fecha_nacimiento)}</td>
                                         <td>{paciente.tipo_paciente} </td>
                                         <td>
-                                            <button><FaUserEdit /> Editar</button>
+                                            {/* <button onClick={abrirEdit(paciente)}><FaUserEdit /> Editar</button> */}
+                                            <button onClick={() => abrirEdit(paciente)}><FaUserEdit /> Ver datos  </button>
                                         </td>
                                     </tr>
                                 ))}
@@ -153,6 +165,7 @@ const Buscar = () => {
                 <button onClick={updateAllPatients}>Actualizar Todos los Pacientes</button>
             </div>
             {showModal && <RegistrarPas onClose={toggleModal} />}
+            {openEdit &&selectedPaciente && <EditPaciente paciente={selectedPaciente} onClose={() => setEdit(false)} />}
         </div>
     );
 };

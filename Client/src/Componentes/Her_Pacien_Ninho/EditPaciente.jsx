@@ -30,38 +30,46 @@ const EditPaciente = ({ paciente, onClose }) => {
     departamento_res: paciente.departamento_res,
     provincia_res: paciente.provincia_res,
     distrito_res: paciente.distrito_res,
+
+    // Datos del paciente
+    id_res: "",
+    dni: "",
+    // cnv_linea: "",
+    hist_clinico: "",
+    nombres: "",
+    ape_paterno: "",
+    ape_materno: "",
+    fecha_nacimiento: "",
+    edad: "",
+    sexo: "",
+
+    // Datos de nacimiento
+    edad_gestacional: "",
+    peso: "",
+    talla: "",
+    perimetro_cefalico: "",
+    etnia: "",
+    financiamiento: "",
+    codigo_sis: "",
+    programa: "",
+
+    
   });
 
   const [activeSection, setActiveSection] = useState("datos"); // Sección activa por defecto
   const [animateClass, setAnimateClass] = useState(""); // Clase de animación
 
   useEffect(() => {
-    setFormData({
-      id_res: paciente.id_responsable,
-      dni: paciente.dni,
-      cnv_linea: paciente.CNV_linea,
-      hist_clinico: paciente.hist_clinico,
-      nombres: paciente.nombres,
-      ape_paterno: paciente.ape_paterno,
-      ape_materno: paciente.ape_materno,
-      fecha_nacimiento: paciente.fecha_nacimiento,
-
-      sexo: paciente.sexo,
-
-      dni_res: paciente.dni_res,
-      tipo_res: paciente.tipo_res,
-      nombres_res: paciente.nombres_res,
-      ape_paterno_res: paciente.ape_paterno_res,
-      ape_materno_res: paciente.ape_materno_res,
-      celular1_res: paciente.celular1_res,
-      celular2_res: paciente.celular2_res,
-      localidad_res: paciente.localidad_res,
-      sector_res: paciente.sector_res,
-      direccion_res: paciente.direccion_res,
-      departamento_res: paciente.departamento_res,
-      provincia_res: paciente.provincia_res,
-      distrito_res: paciente.distrito_res,
-    });
+    if (paciente) {
+      setFormData(prevData => ({
+        ...prevData,
+        ...paciente,
+        fecha_nacimiento: paciente.fecha_nacimiento
+          ? new Date(paciente.fecha_nacimiento).toISOString().split("T")[0]
+          : "",
+        edad: paciente.edad || calculateAge(paciente.fecha_nacimiento),
+      }));
+    }
   }, [paciente]);
 
   const calculateAge = (birthDate) => {
@@ -80,22 +88,22 @@ const EditPaciente = ({ paciente, onClose }) => {
     return age;
   };
 
-  useEffect(() => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      fecha_nacimiento: paciente.fecha_nacimiento
-        ? new Date(paciente.fecha_nacimiento).toISOString().split("T")[0]
-        : "", // Asegura que el formato de la fecha sea YYYY-MM-DD
-      edad: paciente.edad || "",
-    }));
-  }, [paciente]);
+  // useEffect(() => {
+  //   setFormData((prevFormData) => ({
+  //     ...prevFormData,
+  //     fecha_nacimiento: paciente.fecha_nacimiento
+  //       ? new Date(paciente.fecha_nacimiento).toISOString().split("T")[0]
+  //       : "", // Asegura que el formato de la fecha sea YYYY-MM-DD
+  //     edad: paciente.edad || "",
+  //   }));
+  // }, [paciente]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => {
       const newData = { ...prevData, [name]: value };
 
-      if (name === 'fecha_nacimiento') {
+      if (name === "fecha_nacimiento") {
         newData.edad = calculateAge(value);
       }
 
@@ -103,12 +111,17 @@ const EditPaciente = ({ paciente, onClose }) => {
     });
   };
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const filteredFormData = Object.fromEntries(
+      Object.entries(formData).map(([key, value]) => [
+        key,
+        value === undefined ? null : value,
+      ])
+    );
     try {
-      console.log("Enviando datos:", formData);
+      console.log("Enviando datos:", filteredFormData);
 
       const response = await axios.put(
         `http://localhost:5000/api/actualizar/paciente/${paciente.id_paciente}`,
@@ -117,7 +130,7 @@ const EditPaciente = ({ paciente, onClose }) => {
 
       console.log("Respuesta del servidor:", response.data);
       alert("Datos actualizados correctamente");
-      window.location.reload()
+      window.location.reload();
       onClose();
       // Llamar al callback onUpdate para informar al componente padre
     } catch (error) {
@@ -395,6 +408,7 @@ const EditPaciente = ({ paciente, onClose }) => {
                 <input
                   type="text"
                   name="hist_clinico"
+                  readOnly
                   value={formData.hist_clinico}
                   onChange={handleChange}
                 />

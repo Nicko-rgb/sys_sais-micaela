@@ -11,9 +11,16 @@ import { FaUserEdit } from 'react-icons/fa';
 
 const DatosPaciente = () => {
     const { historialClinico } = useParams(); // Obtener el historial clínico de la ruta
+
+    //ESTADO PARA LA VISIBILIDAD DEL PANEL DE EDITPACIENTE 
     const [paciente, setPaciente] = useState(null);
     const [loading, setLoading] = useState(true);
     const [edit, setEdit] = useState(false)
+
+    // Función para manejar el clic en el botón
+    const edicionPaciente = () => {
+        setEdit(true); // Cambia el estado a true para mostrar ComponenteB
+    };
 
     const obtenerDatosPaciente = async () => {
         try {
@@ -56,9 +63,7 @@ const DatosPaciente = () => {
         }
     }
 
-    const openEdit = () => {
-        setEdit(!edit)
-    }
+   
 
     return (
         <div className="datos-paciente">
@@ -97,7 +102,7 @@ const DatosPaciente = () => {
                                     {paciente.id_responsable && (
                                         <td>{paciente.nombres_res} {paciente.ape_paterno_res} {paciente.ape_materno_res}</td>
                                     )}
-                                    <td><button onClick={openEdit}><FaUserEdit />Editar</button></td>
+                                    <td><button onClick={edicionPaciente}><FaUserEdit />Editar</button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -122,7 +127,8 @@ const DatosPaciente = () => {
 
             <NavPie />
             {edit && (
-                <EditPaciente paciente={paciente} onClose={openEdit} />
+                <EditPaciente paciente={paciente} onClose={edicionPaciente}
+                 />
             )}
         </div>
     );

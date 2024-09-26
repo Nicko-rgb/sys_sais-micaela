@@ -26,15 +26,23 @@
 }
 
 .personal-salud .div-btn button {
-    padding: 8px 15px;
     display: flex;
-    gap: 5px;
-    border: none;
-    box-shadow: 0 0 3px black;
-    border-radius: 5px;
-    font-family: 'poppins';
     align-items: center;
+    justify-content: center;
+    gap: 5px;
     cursor: pointer;
+    border: none;
+    box-shadow: 0 0 3px aqua;
+    border-radius: 8px;
+    font-family: 'poppins';
+    color: white;
+    padding: 7px 14px;
+    background-color: #00796b;
+    transition: .3s ease;
+}
+.personal-salud .div-btn button:hover{
+    background-color: #005c4b;
+    box-shadow: 0 0 5px rgb(116, 240, 116);
 }
 
 .personal-salud section {
@@ -77,7 +85,7 @@
     text-transform: uppercase;
 }
 
-.personal-salud  .buscar-personal::placeholder {
+.personal-salud .buscar-personal::placeholder {
     color: rgb(131, 129, 129);
     font-style: italic;
     text-transform: none;

@@ -16,6 +16,7 @@ const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) 
     const [direccion, setDireccion] = useState('');
     const [semEmbarazo, setSemEmbarazo] = useState('');
     const [metodo, setMetodo] = useState('');
+    const [idRespons, setIdRespons] = useState('')
 
     // Función para buscar paciente por Hist. Clínico
     const handleHisClinicoChange = async (e) => {
@@ -31,6 +32,7 @@ const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) 
                 const data = await response.json();
 
                 // Completar los campos con la información del paciente
+                setIdRespons(data.id_responsable)
                 setDni(data.dni);
                 setApellidos(`${data.ape_paterno} ${data.ape_materno}`);
                 setNombres(data.nombres);
@@ -40,9 +42,9 @@ const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) 
                 setFechaNacimiento(formattedDate);
                 
                 setEdad(data.edad);
-                setTelefono(data.celular1 || data.celular2); // Usar celular1 si está disponible
+                setTelefono(data.celular1 || data.celular2 || data.celular1_res); // Usar celular1 si está disponible
                 if (especialidad === 'Medicina') {
-                    setDireccion(data.direccion);
+                    setDireccion(data.direccion || data.direccion_res);
                 }
                 if (especialidad === 'Planificación') {
                     // Aquí puedes establecer un método predeterminado si es necesario
@@ -92,6 +94,7 @@ const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) 
             direccion: especialidad === 'Medicina' ? direccion : undefined,
             metodo: especialidad === 'Planificación' ? metodo : undefined,
             semEmbarazo: especialidad === 'Obstetricia_CPN' ? semEmbarazo : undefined,
+            idRespons
         };
 
         try {
@@ -110,7 +113,8 @@ const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) 
             //mostrar mensaje de exito
             alert('Cita registrada con exito');
 
-            // Cerrar el formulario después de enviar los datos
+            handleCloseForm()
+            window.location.reload()
         } catch (error) {
             console.error('Error al registrar la cita:', error);
         } finally{
@@ -123,7 +127,7 @@ const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) 
         <div className="form-cita">
             <main>
                 <form onSubmit={handleSubmit}>
-                    <h2>Agendar cita para {especialidad}</h2>
+                    <h2>Agendar cita para {especialidad} - Niño</h2>
                     <div className="form-fechaHora">
                         <div className="sub-formfechaHora">
                             <p> FECHA: {fecha} </p>

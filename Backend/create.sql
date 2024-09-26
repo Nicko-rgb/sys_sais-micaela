@@ -10,7 +10,7 @@ USE db_sais;
 DROP TABLE IF EXISTS responsable_de_paciente;
 DROP TABLE IF EXISTS pacientes; 
 DROP TABLE IF EXISTS personal_salud;
-
+DROP TABLE IF EXISTS cita_ninhos;
 -- Crear el usuario con contraseña
 CREATE USER 'db-sais90'@'%' IDENTIFIED BY 'db-sais90';
 
@@ -82,6 +82,8 @@ CREATE TABLE cita_ninhos (
     direccion VARCHAR(100),
     metodo VARCHAR(50),
     semEmbarazo INT,
+    id_responsable INT,
+    FOREIGN KEY (id_responsable) REFERENCES responsable_de_paciente(id_responsable) ON DELETE SET NULL,
     fechaRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

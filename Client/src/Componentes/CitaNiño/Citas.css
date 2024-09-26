@@ -87,13 +87,20 @@
   margin: 0;
 }
 
-.container-tabla {
+.opciones-cita .container-tabla {
   display: flex;
   align-items: center;
   flex-direction: column;
   margin-top: 50px;
 }
-
+.opciones-cita .container-tabla hr{
+  width: 90%;
+}
+.opciones-cita .container-tabla p{
+  font-family: 'poppins';
+  font-weight: bold;
+  font-size: 15px;
+}
 .opciones-cita table {
   border-collapse: collapse;
 }
@@ -116,7 +123,19 @@
   align-items: center;
   cursor: pointer;
 }
-
+.opciones-cita .pagination{
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+.opciones-cita .pagination button{
+  width: 100px;
+  padding: 5px;
+  border: none;
+  background-color: #00796b;
+  font-family: 'poppins';
+  cursor: pointer;
+}
 .opciones-cita th,
 td {
   padding: 6px;
@@ -165,6 +184,8 @@ td {
 .opciones-cita tbody tr:hover {
   background-color: rgb(220, 207, 229);
 }
+
+
 
 /* Contenedor del calendario */
 .calendar-cita {

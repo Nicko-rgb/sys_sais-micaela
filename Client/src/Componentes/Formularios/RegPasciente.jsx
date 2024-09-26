@@ -351,7 +351,6 @@ const RegistrarPas = ({ onClose }) => {
                                                     type="text"
                                                     value={celular1}
                                                     onChange={(e) => setCelular1Paciente(e.target.value)}
-                                                    required
                                                 />
                                             </div>
                                             <div>

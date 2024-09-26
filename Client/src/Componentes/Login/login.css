@@ -196,6 +196,8 @@
 
 .nav_login .icon{
     font-size: 23px;
+    padding: 5px;
+    border-radius: 50%;
 }
 
 .nav_login div{
@@ -218,23 +220,20 @@
     color: rgb(238, 64, 64);
     padding: 5px;
     transition: .3s ease;
-    border-radius: 50%;
 }
 .nav_login .ico-people{
     font-size: 25px;
     color: rgb(93, 64, 238);
     padding: 5px;
     transition: .3s ease;
-    border-radius: 50%;
 }
 .nav_login .ico-yo-user{
     font-size: 18px;
     padding: 8px;
     color: #00796b;
     transition: .3s ease;
-    border-radius: 50%;
 }
-.nav_login .opcion-nav .ico-people:hover, .ico-closse-sesion:hover, .ico-yo-user:hover{
+.nav_login .opcion-nav .ico-people:hover, .ico-closse-sesion:hover, .ico-yo-user:hover, .icon_login_nav:hover{
     background: rgb(78, 78, 78);
     box-shadow: 0 0 3px #00796b;
 }
@@ -292,7 +291,7 @@
     background-color: #f8f9fa; /* Color de fondo */
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5); /* Sombra para el sidebar */
     transition: right 0.3s ease; /* Transición suave */
-    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+    z-index: 100; /* Asegúrate de que esté por encima de otros elementos */
 }
 
 /* Clase activa para mostrar el sidebar */

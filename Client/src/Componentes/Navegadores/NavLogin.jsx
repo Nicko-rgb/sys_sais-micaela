@@ -35,9 +35,9 @@ const NavLogin = ({ toggleSidebar, sidebarOpen }) => {
             <div className="opcion-nav">
                 {isLoggedIn && (
                     <>
-                        <IoPeopleSharp className='ico-people' onClick={openPersonal} title='USERS PERSONAL' />
-                        <FaUser className='ico-yo-user' onClick={RutaPerfil} title='PERFIL USUARIO' />
-                        <BiLogOutCircle className='ico-closse-sesion' onClick={closeSesion} title='CERRAR SESION' />
+                        <IoPeopleSharp className='icon ico-people' onClick={openPersonal} title='USERS PERSONAL' />
+                        <FaUser className='icon ico-yo-user' onClick={RutaPerfil} title='PERFIL USUARIO' />
+                        <BiLogOutCircle className='icon ico-closse-sesion' onClick={closeSesion} title='CERRAR SESION' />
                     </>
                 )}
                 <FaBarsStaggered className='icon icon_login_nav' onClick={toggleSidebar} />

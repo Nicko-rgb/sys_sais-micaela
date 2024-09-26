@@ -116,16 +116,16 @@
     font-weight: bold;
     border-radius: 5px;
     border: none;
-    background-color: rgb(97, 208, 97);
+    background-color: #069a89;
     color: white;
-    box-shadow: 0 0 3px black;
     display: flex;
     gap: 5px;
     align-items: center;
     transition: .3s ease;
 }
 .reg-personal form .btn-personal:hover{
-    background-color: rgb(64, 184, 64);
+    background-color: #176b61;
+    box-shadow: 0 0 4px aqua;
 }
 .reg-personal form .ico{
     font-size: 22px;

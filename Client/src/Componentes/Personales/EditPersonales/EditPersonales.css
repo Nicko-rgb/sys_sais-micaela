@@ -23,6 +23,8 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   animation: fadeIn 0.3s ease;
   box-sizing: border-box;
+  box-shadow: 0 0 7px  #00796b;
+
 }
 .modal-overlay .modal-content form h3{
   text-align: center;
@@ -46,37 +48,42 @@
   padding-right: 32px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
   position: relative;
-
 }
 .modal-overlay form div{
   display: flex;
-  gap: 20px;
+  gap: 30px;
 }
 .modal-overlay form label, div label{
   width: 100%;
   font-family: 'poppins';
   display: flex;
   flex-direction: column;
-  color: #0f534b;
   font-size: 14px;
 
 }
 .modal-overlay .modal-content .form-personal select{
   width: 105%;
+  border: solid 1px #00796b;
+  box-shadow: none;
+
 }
 .modal-overlay .form-personal input{
   padding: 5px;
   border: none;
   border-radius: 2px;
-  box-shadow: 0 0 2px black;
+  border: solid 1px #00796b;
   font-size: 14px;
   outline: none;
   font-family: 'poppins';
 }
+.modal-overlay .form-personal input:focus{
+  border: solid 1px rgb(101, 174, 174);
+  box-shadow: none;
+}
 .modal-overlay .selec-cita{
-  width: 97%;
+  width: 97.8%;
 }
 .modal-overlay .check-btn{
   position: absolute;
@@ -95,10 +102,15 @@
   width: 15px;
   height: 15px;
 }
-
+.modal-overlay .modal-actions {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  margin-top: 50px;
+}
 
 .btn-save {
-  background-color: #4CAF50;
+  background-color:  #069a89;
   color: white;
   padding: 10px 15px;
   border: none;
@@ -107,7 +119,8 @@
 }
 
 .btn-save:hover {
-  background-color: #45a049;
+  background-color: #1c7f73;
+  box-shadow: 0 0 3px aqua;
 }
 
 .btn-cancel {
@@ -124,71 +137,14 @@
 }
 
 
-
-.shift-table {
-  width: 100%;
-}
-
-.shift-table table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: auto;
-  /* Asegura que la tabla sea flexible */
-}
-
-.shift-table th,
-.shift-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: center;
-  white-space: nowrap;
-  /* Evita que el contenido se rompa en varias líneas */
-}
-
-.shift-table th {
-  background-color: #f2f2f2;
-}
-
-.week-navigation {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: space-around;
-  gap: 10px;
-  margin-top: 50px;
-}
-
-.btn-save,
-.btn-cancel {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn-save {
-  background-color: #28a745;
-  color: white;
-}
-
-.btn-cancel {
-  background-color: #dc3545;
-  color: white;
-}
-
 /* Estilos para pantallas pequeñas (responsivo) */
-@media (max-width: 600px) {
-  .modal-content {
-    max-width: 100%;
-    padding: 10px;
-  }
-
-  .shift-table th,
-  .shift-table td {
-    padding: 6px;
+@media (max-width: 1250px) {
+  .modal-overlay .modal-content{
+    display: flex;
+    flex-direction: column;
+    padding: 50px 20px;
+    padding-bottom: 250px;
+    width: 100%;
+    align-items: center;
   }
 }

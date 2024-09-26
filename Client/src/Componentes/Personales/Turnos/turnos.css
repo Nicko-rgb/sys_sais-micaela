@@ -1,0 +1,57 @@
+
+.turnos .btn-nav{
+  display: flex;
+  justify-content: center;
+}
+.turnos .btn-nav button{
+  background-color: #1c7f73;
+  border: none;
+  padding: 6px;
+  border-radius: 3px;
+  color: white;
+  font-family: 'poppins';
+  font-size: 12px
+}
+.turnos .name{
+  text-transform: uppercase;
+  font-family: 'poppins';
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0;
+}
+.turnos .btn-turno-action{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.turnos .btn-turno-action .btn-guardar{
+  background-color:  #069a89;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.turnos .btn-turno button:hover {
+  background-color: #1c7f73;
+}
+.turnos table .turno-colum{
+  width: 180px;
+  font-size: 12px;
+}
+.turnos table thead th{
+  font-family: 'poppins';
+  font-size: 12px;
+  text-align: center;
+  font-weight: lighter;
+}
+
+.turnos .checkbox-inactivo {
+  opacity: 0.4; 
+}
+
+.turnos table tbody input {
+  background-color: #c53030; 
+  border: 1px solid #1c7f73; 
+}

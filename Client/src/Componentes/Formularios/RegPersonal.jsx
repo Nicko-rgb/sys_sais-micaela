@@ -8,62 +8,59 @@ const RegPersonal = ({ handleForm }) => {
     const [paterno, setPaterno] = useState('');
     const [materno, setMaterno] = useState('');
     const [nombres, setNombres] = useState('');
-    const [tipoUser, setTipoUser] = useState('jefe');
+    const [tipoUser, setTipoUser] = useState('');
     const [profesion, setProfesion] = useState('');
     const [servicio, setServicio] = useState('');
-    const [especialidad, setEspecialidad] = useState('')
-    const [condicion, setCondicion] = useState('Nombrado')
+    const [especialidad, setEspecialidad] = useState('');
+    const [consultorio, setConsultorio] = useState('1');
+    const [condicion, setCondicion] = useState('');
     const [celular, setCelular] = useState('');
     const [correo, setCorreo] = useState('');
     const [nameUser, setNameUser] = useState('');
-    const [contrasena, setContraseña] = useState('');
+    const [contrasena, setContrasena] = useState('');
     const [repitContra, setRepitContra] = useState('');
     const [msg, setMsg] = useState('');
     const [loading, setLoading] = useState(false);
-
-    //codigo para limiar valores de estados
-    const limpiar = () => {
-        setDni('');
-        setPaterno('');
-        setMaterno('')
-        setNombres('');
-        setTipoUser('');
-        setProfesion('');
-        setServicio('');
-        setCondicion('')
-        setCelular('');
-        setCorreo('');
-        setNameUser('');
-        setContraseña('');
-        setRepitContra('');
-        setMsg('');
-    }
+    const [tieneEspecialidad, setTieneEspecialidad] = useState(false);
+    const [mostrarConsultorio, setMostrarConsultorio] = useState(false);
 
     const handleKeyPress = (e) => {
-        // Permitir solo números
         if (!/[0-9]/.test(e.key)) {
             e.preventDefault(); // Evitar que se escriban caracteres no numéricos
         }
+    };
+
+    // Mostrar el campo de consultorio si la especialidad es válida
+    const handleEspecialidadChange = (e) => {
+        const selectedEspecialidad = e.target.value;
+        setEspecialidad(selectedEspecialidad);
+
+        // Mostrar el campo de consultorio si es Enfermería, Medicina u Odontología
+        setMostrarConsultorio(
+            selectedEspecialidad === 'Enfermería' ||
+            selectedEspecialidad === 'Medicina' ||
+            selectedEspecialidad === 'Odontología'
+        );
     };
 
     const handleFormData = async (e) => {
         e.preventDefault();
         setLoading(true);
         setMsg('');
-
+    
         // Validaciones
         if (!dni || !paterno || !materno || !nombres || !tipoUser || !profesion || !servicio || !condicion || !celular || !correo || !nameUser || !contrasena || !repitContra) {
             setMsg('Todos los campos son obligatorios.');
             setLoading(false);
             return;
         }
-
+    
         if (contrasena !== repitContra) {
             setMsg('Las contraseñas no coinciden.');
             setLoading(false);
             return;
         }
-
+    
         // Crear un objeto con los datos del formulario
         const dataPersonal = {
             dni,
@@ -74,15 +71,15 @@ const RegPersonal = ({ handleForm }) => {
             profesion,
             servicio,
             especialidad,
+            consultorio: tieneEspecialidad ? consultorio : '',
             condicion,
             celular,
             correo,
             nameUser,
             contrasena
         };
-
+    
         try {
-            // Enviar los datos al servidor usando fetch
             const response = await fetch('http://localhost:5000/api/register/personal-salud', {
                 method: 'POST',
                 headers: {
@@ -90,34 +87,29 @@ const RegPersonal = ({ handleForm }) => {
                 },
                 body: JSON.stringify(dataPersonal),
             });
-
+    
             if (!response.ok) {
-                const errorData = await response.json(); // Captura el mensaje de error del servidor
+                const errorData = await response.json();
                 throw new Error(errorData.message || 'Error al registrar el personal.');
             }
-
-            // Manejar la respuesta del servidor
+    
             const result = await response.json();
-
-            limpiar()
-            alert('Registro Exitoso')
-            setMsg(result.message); // Asumiendo que el servidor devuelve un mensaje
-
+            setMsg(result.message);
+            alert('Registro Exitoso');
+            handleForm()
         } catch (error) {
-            console.error('Error:', error);
             setMsg('Error al registrar el personal. Intenta nuevamente.');
+            console.error('Error:', error);
+            alert('Error al registrar');
         } finally {
-            setLoading(false); // Asegúrate de detener la carga siempre
-            limpiar()
+            setLoading(false);
         }
     };
-
-    const [tieneEspecialidad, setTieneEspecialidad] = useState(false);
 
     const handleCheckboxChange = () => {
         setTieneEspecialidad(!tieneEspecialidad);
         if (!tieneEspecialidad) {
-            setEspecialidad(''); // Reiniciar especialidad si se desmarca
+            setEspecialidad(''); // Limpiar especialidad si se desmarca
         }
     };
 
@@ -127,9 +119,11 @@ const RegPersonal = ({ handleForm }) => {
                 <form onSubmit={handleFormData} className='form-personal'>
                     <AiOutlineClose className='close-personal-form' onClick={handleForm} title='CERRAR' />
                     <h3>REGISTRAR NUEVO PERSONAL DE SALUD</h3>
+
                     <label>DNI:
                         <input type="tel" value={dni} onChange={(e) => setDni(e.target.value)} maxLength={8} onKeyPress={handleKeyPress} />
                     </label>
+
                     <div>
                         <label>Paterno:
                             <input type="text" value={paterno} onChange={(e) => setPaterno(e.target.value)} />
@@ -138,6 +132,7 @@ const RegPersonal = ({ handleForm }) => {
                             <input type="text" value={materno} onChange={(e) => setMaterno(e.target.value)} />
                         </label>
                     </div>
+
                     <label>Nombre:
                         <input type="text" value={nombres} onChange={(e) => setNombres(e.target.value)} />
                     </label>
@@ -145,7 +140,7 @@ const RegPersonal = ({ handleForm }) => {
                     <div>
                         <label>Tipo Usuario:
                             <select value={tipoUser} onChange={(e) => setTipoUser(e.target.value)}>
-                                <option value="">Seleccione una opcion</option>
+                                <option value="">Seleccione una opción</option>
                                 <option value="Jefe">Jefe</option>
                                 <option value="Admin">Admin</option>
                                 <option value="Responsable">Responsable</option>
@@ -158,6 +153,7 @@ const RegPersonal = ({ handleForm }) => {
                             <input type="text" value={servicio} onChange={(e) => setServicio(e.target.value)} />
                         </label>
                     </div>
+
                     <div className='especialidad'>
                         <label className='label-especialidad'>
                             <input
@@ -167,25 +163,36 @@ const RegPersonal = ({ handleForm }) => {
                             />
                             Tiene Especialidad en Citas?
                         </label>
+
                         {tieneEspecialidad && (
-                            <label>
-                                Seleccione Especialidad:
-                                <select value={especialidad} onChange={(e) => setEspecialidad(e.target.value)}>
-                                    <option value="">Seleccione una opción</option>
-                                    <option value="Enfermería">Enfermería</option>
-                                    <option value="Medicina">Medicina</option>
-                                    <option value="Psicología">Psicología</option>
-                                    <option value="Nutrición">Nutrición</option>
-                                    <option value="Odontología">Odontología</option>
-                                    <option value="Planificación">Planificación</option>
-                                    <option value="Obstetricia_CPN">Obstetricia_CPN</option>
-                                </select>
-                            </label>
+                            <>
+                                <label>
+                                    Seleccione Especialidad:
+                                    <select value={especialidad} onChange={handleEspecialidadChange}>
+                                        <option value="">Seleccione una opción</option>
+                                        <option value="Enfermería">Enfermería</option>
+                                        <option value="Medicina">Medicina</option>
+                                        <option value="Psicología">Psicología</option>
+                                        <option value="Nutrición">Nutrición</option>
+                                        <option value="Odontología">Odontología</option>
+                                        <option value="Planificación">Planificación</option>
+                                        <option value="Obstetricia_CPN">Obstetricia_CPN</option>
+                                    </select>
+                                </label>
+
+                                {mostrarConsultorio && (
+                                    <label>
+                                        N° Consultorio:
+                                        <select value={consultorio} onChange={(e) => setConsultorio(e.target.value)}>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                        </select>
+                                    </label>
+                                )}
+                            </>
                         )}
                     </div>
 
-
-                    {/* Otros campos */}
                     <div>
                         <label>Condición:
                             <select value={condicion} onChange={(e) => setCondicion(e.target.value)}>
@@ -210,28 +217,20 @@ const RegPersonal = ({ handleForm }) => {
                         <input type="text" value={nameUser} onChange={(e) => setNameUser(e.target.value)} />
                     </label>
 
-                    {/* Contraseña */}
                     <div>
                         <label>Contraseña:
-                            <input type="password" value={contrasena} onChange={(e) => setContraseña(e.target.value)} />
+                            <input type="password" value={contrasena} onChange={(e) => setContrasena(e.target.value)} />
                         </label>
                         <label>Repetir contraseña:
-                            <input type="password" placeholder="repetir contraseña" value={repitContra} onChange={(e) => setRepitContra(e.target.value)} />
+                            <input type="password" value={repitContra} onChange={(e) => setRepitContra(e.target.value)} />
                         </label>
-
                     </div>
 
-                    {/* Mensaje */}
                     {msg && (<p className='msg-personal'> {msg} </p>)}
 
-                    {/* Botón */}
                     <button type='submit' className='btn-personal'>
                         {loading ? 'Cargando...' : 'REGISTRAR'}
-                        {loading ? (
-                            <IoCloudUploadOutline className="ico flotar" />
-                        ) : (
-                            <IoCloudUploadOutline className="ico" />
-                        )}
+                        <IoCloudUploadOutline className={`ico ${loading ? 'flotar' : ''}`} />
                     </button>
                 </form>
             </div>
@@ -239,4 +238,4 @@ const RegPersonal = ({ handleForm }) => {
     );
 };
 
-export default RegPersonal; 
+export default RegPersonal;

@@ -4,7 +4,7 @@ import tiposDeTurno from "../../Complementos/Turnos";
 
 const diasDeLaSemana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 
-const TurnoPersonal = ({ personData, cerrarTblTurno }) => {
+const TurnoPersonal = ({ personData, onClose }) => {
     const [turnosPorSemana, setTurnosPorSemana] = useState({});
     const [semanaActual, setSemanaActual] = useState(new Date());
     const hoy = new Date();
@@ -51,8 +51,11 @@ const TurnoPersonal = ({ personData, cerrarTblTurno }) => {
 
     return (
         <form className="turnos">
-            <h3>Asignar Turnos por Semana</h3>
-            <p>FECHA MES: {semanaActual.toLocaleString('es-ES', { month: 'long', year: 'numeric' })}</p>
+            <h3>Asignar Turnos por Semanas</h3>
+            <div className="datos">
+                <p>{personData.paterno} {personData.materno} {personData.nombres} </p>
+                <p>{semanaActual.toLocaleString('es-ES', { month: 'long', year: 'numeric' })}</p>
+            </div>
             <div className="btn-nav">
                 <button type="button" onClick={manejarSemanaAnterior}>Semana Anterior</button>
                 <button type="button" onClick={manejarSiguienteSemana}>Siguiente Semana</button>
@@ -91,10 +94,9 @@ const TurnoPersonal = ({ personData, cerrarTblTurno }) => {
                     ))}
                 </tbody>
             </table>
-            <p className="name">{personData.paterno} {personData.materno} {personData.nombres} </p>
             <div className="btn-turno-action">
                 <button type="submit" className="btn-guardar">Guardar</button>
-                <button type="button" className="btn-cancel" onClick={cerrarTblTurno}>Cancelar</button>
+                <button type="button" className="btn-cancel" onClick={onClose}>Cancelar</button>
             </div>
         </form>
     );

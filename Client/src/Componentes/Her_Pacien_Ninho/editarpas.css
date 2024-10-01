@@ -1,13 +1,55 @@
+/* Contenedor principal, sin animación al abrir */
 .editar-paciente {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: white;
+    background: #f2f4f8;
     display: flex;
     z-index: 50;
 }
+
+/* Animación para la transición entre secciones */
+@keyframes expand {
+    0% {
+        transform: scale(0); /* Comienza desde tamaño 0 */
+        transform-origin: top left; /* Desde la esquina superior izquierda */
+        opacity: 0; /* Empieza invisible */
+    }
+    100% {
+        transform: scale(1); /* Expande hasta su tamaño normal */
+        opacity: 1; /* Se vuelve visible */
+    }
+}
+
+/* Clase que activa la animación */
+.animate {
+    animation: expand 0.6s ease forwards;
+}
+
+/* Estilos para las secciones: ocultas por defecto */
+.container-editar-paciente,
+.container-editar-nacimiento,
+.container-editar-responsable {
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    background: white;
+    overflow-y: auto;
+    border-radius: 8px;
+    margin: 20px;
+    display: none; /* Las secciones están ocultas por defecto */
+}
+
+/* Cuando una sección está activa (visible) */
+.section-active {
+    display: block; /* Muestra la sección activa */
+}
+
+/* Restante del CSS sigue igual */
+
+/* Contenedores principales */
 .editar-paciente main {
     margin-left: 230px;
     display: flex;
@@ -15,7 +57,8 @@
     height: auto;
     position: relative;
 }
-.editar-paciente main section{
+
+.editar-paciente main section {
     height: auto;
     position: relative;
     box-sizing: border-box;
@@ -25,21 +68,22 @@
     display: flex;
     flex-direction: column;
     padding: 10px;
-    gap: 3px;
-    margin-left: -230px;
 }
 
+/* Botones de opciones */
 .editar-paciente main .opcion-editar button {
-    padding: 7px 10px;
-    font-family: 'poppins';
+    padding: 10px 15px;
+    font-family: 'Poppins', sans-serif;
     font-weight: bold;
-    font-size: 12px;
-    width: 170px;
+    font-size: 14px;
+    width: 180px;
     cursor: pointer;
     border: none;
-    box-shadow: 0 0 2px aqua;
-    background-color: #f5ce71;
-    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    background-color: #6ea3f5;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
 .editar-paciente main .opcion-editar .active {
@@ -47,73 +91,65 @@
     color: white;
 }
 
+/* Hover en botones */
 .opcion-editar button:hover {
-    background-color: #ddd;
+    background-color: #5e94f0;
 }
 
-.container-editar-paciente,
-.container-editar-nacimiento,
-.container-editar-responsable {
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.506);
-    flex: 1;
-    transform-origin: top left;
-    animation-duration: .6s;
-    animation-timing-function: ease;
-    animation-fill-mode: forwards;
-    box-sizing: border-box;
-    background: white;
-    overflow-y: auto;
-}
-
-/* Animación para expandir desde la esquina superior izquierda */
-@keyframes expand {
-    0% {
-        transform: scale(0);
-        /* Comenzar con un tamaño de 0 */
-        opacity: 0;
-        /* Comenzar oculto */
-    }
-
-    100% {
-        transform: scale(1);
-        /* Expandir hasta llenar el contenedor */
-        opacity: 1;
-        /* Hacer visible */
-    }
-}
-
-/* Clase para activar la animación */
-.animate {
-    animation-name: expand;
-    /* Usar la animación definida */
-}
-.editar-paciente h3{
+/* Títulos */
+.editar-paciente h3 {
     text-align: center;
-    margin: 0;
+    margin: 10px 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    color: #333;
 }
 
+/* Formularios */
 .editar-paciente form {
-    max-width: 500px;
+    max-width: 600px;
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 10px;
     position: relative;
-    
-    padding-bottom: 200px;
+    padding-bottom: 100px;
+    margin: 0 auto;
 }
 
 .editar-paciente section label {
-    font-family: 'poppins';
+    font-family: 'Poppins', sans-serif;
     font-size: 14px;
+    color: #555;
 }
 
 .editar-paciente section input {
-    border: none;
-    border: gray solid 1px;
-    padding: 6px 4px;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
     font-size: 15px;
-    border-radius: 0;
+    border-radius: 4px;
     outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.editar-paciente section input:focus {
+    border-color: #6ea3f5;
+}
+
+/* Botón de enviar */
+.editar-paciente button[type="submit"] {
+    background-color: #3058a6;
+    color: white;
+    padding: 10px 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.editar-paciente button[type="submit"]:hover {
+    background-color: #254a82;
 }

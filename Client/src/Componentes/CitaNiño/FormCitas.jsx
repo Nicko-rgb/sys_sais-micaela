@@ -22,7 +22,7 @@ const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) 
     const handleHisClinicoChange = async (e) => {
         const value = e.target.value;
         setHisClinico(value);
-
+ 
         if (value) {
             try {
                 const response = await fetch(`http://localhost:5000/api/pacientes/${value}`);
@@ -133,7 +133,7 @@ const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) 
                             <p> FECHA: {fecha} </p>
                             <p> HORA: {hora} </p>
                         </div>
-                        <p className='cstr'> CONSULTORIO: Nº {consultorio}   </p>
+                        <p className='cstr'> CONSULTORIO: Nº {consultorio} </p>
                     </div>
                     <div>
                         <label>
@@ -147,11 +147,11 @@ const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) 
                     </div>
                     <label>
                         Apellidos:
-                        <input value={apellidos} onChange={(e) => setApellidos(e.target.value)} required />
+                        <input value={apellidos} onChange={(e) => setApellidos(e.target.value)} readOnly required />
                     </label>
                     <label>
                         Nombres:
-                        <input value={nombres} onChange={(e) => setNombres(e.target.value)} required />
+                        <input value={nombres} onChange={(e) => setNombres(e.target.value)} readOnly required />
                     </label>
                     <div>
                         <label>
@@ -160,7 +160,7 @@ const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) 
                         </label>
                         <label>
                             Edad:
-                            <input type='text' value={edad} onChange={(e) => setEdad(e.target.value)} required />
+                            <input type='text' value={edad} onChange={(e) => setEdad(e.target.value)} readOnly required />
                         </label>
                     </div>
                     <label>

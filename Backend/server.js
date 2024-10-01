@@ -7,6 +7,7 @@ const bcrypt = require('bcryptjs');
 const cron = require('node-cron');
 const nodemailer = require('nodemailer'); // Importar nodemailer para enviar correos electrónicos
 const crypto = require('crypto'); // Importar crypto para generar tokens únicos
+const { log } = require('console');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -316,7 +317,7 @@ cron.schedule('0 0 * * *', async () => {
                 WHEN YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) >= 18 AND YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) <= 29 THEN 'Joven'
                 WHEN YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) >= 30 AND YEAR(CURDATE()) - YEAR(fecha_nacimiento) - (DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(fecha_nacimiento, '%m%d')) <= 59 THEN 'Adulto'
                 ELSE 'Adulto Mayor'
-            END`); 
+            END`);
         console.log('Datos de todos los pacientes actualizados correctamente.');
     } catch (error) {
         console.error('Error al actualizar los datos de los pacientes:', error);
@@ -326,13 +327,6 @@ cron.schedule('0 0 * * *', async () => {
 //ruta para registrar personal de salud
 app.post('/api/register/personal-salud', async (req, res) => {
     const dataPersonal = req.body;
-
-    // Validar que todos los campos estén presentes
-    if (!dataPersonal.dni || !dataPersonal.paterno || !dataPersonal.materno || !dataPersonal.nombres ||
-        !dataPersonal.tipoUser || !dataPersonal.profesion || !dataPersonal.servicio ||
-        !dataPersonal.celular || !dataPersonal.correo || !dataPersonal.nameUser || !dataPersonal.contrasena) {
-        return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
-    }
 
     const connection = await pool.getConnection(); // Usar el pool de conexiones
     try {
@@ -346,9 +340,15 @@ app.post('/api/register/personal-salud', async (req, res) => {
         if (results.length > 0) {
             return res.status(400).json({ message: 'El correo electrónico ya está registrado.' });
         }
-
+        if (dataPersonal.especialidad === 'Nutrición' || dataPersonal.especialidad === 'Planificación' || dataPersonal.especialidad === 'Psicología' || dataPersonal.especialidad === 'Obstetricia_CPN') {
+            dataPersonal.consultorio = '1';
+        }
         // Consulta SQL para insertar los datos en la tabla personal_salud
-        const insertQuery = 'INSERT INTO personal_salud (dni, paterno, materno, nombres, tipo_user, profesion, servicio, especial_cita, condicion, celular, correo, usuario, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        const insertQuery = `
+        INSERT INTO personal_salud 
+        (dni, paterno, materno, nombres, tipo_user, profesion, servicio, especial_cita, num_consultorio, condicion, celular, correo, usuario, contrasena)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
 
         const [insertResult] = await connection.query(insertQuery, [
             dataPersonal.dni,
@@ -359,11 +359,12 @@ app.post('/api/register/personal-salud', async (req, res) => {
             dataPersonal.profesion,
             dataPersonal.servicio,
             dataPersonal.especialidad,
+            dataPersonal.consultorio || null, // Usar el valor de dataPersonal.consultorio o null si es falsy
             dataPersonal.condicion,
             dataPersonal.celular,
             dataPersonal.correo,
             dataPersonal.nameUser,
-            dataPersonal.contrasena // Almacena la contraseña hasheada
+            dataPersonal.contrasena
         ]);
 
         await connection.commit(); // Confirmar la transacción
@@ -389,7 +390,60 @@ app.get('/api/obtener/personal-salud', async (req, res) => {
     }
 });
 
-/////////////////////////////////////////////////////////////
+// Ruta para actualizar los datos personales
+app.put('/api/update-personal', async (req, res) => {
+    const { id_personal, dni, paterno, materno, nombres, tipo_user, profesion, servicio, especial_cita, num_consultorio, condicion, celular, correo, usuario, contrasena, estado } = req.body;
+
+    try {
+        const [result] = await pool.query(`
+            UPDATE personal_salud 
+            SET dni = ?, paterno = ?, materno = ?, nombres = ?, tipo_user = ?, profesion = ?, servicio = ?, especial_cita = ?, num_consultorio = ?, condicion = ?, celular = ?, correo = ?, usuario = ?, contrasena = ?, estado = ?
+            WHERE id_personal = ?
+        `, [dni, paterno, materno, nombres, tipo_user, profesion, servicio, especial_cita, num_consultorio, condicion, celular, correo, usuario, contrasena, estado, id_personal]);
+
+        if (result.affectedRows > 0) {
+            res.json({ message: 'Datos actualizados correctamente' });
+        } else {
+            res.status(400).json({ message: 'No se pudo actualizar el registro' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error en el servidor' });
+    }
+});
+
+// Ruta para inactivar o activar a un personal de salud
+app.put('/api/personal/actualizar-estado/:id', async (req, res) => {
+    const { estado } = req.body; // Obtenemos el nuevo estado del cuerpo de la solicitud
+    const id = req.params.id;
+
+    // Validar el estado y el id
+    if (!['activo', 'inactivo'].includes(estado)) {
+        return res.status(400).send('Estado inválido');
+    }
+    
+    if (!id) {
+        return res.status(400).send('ID requerido');
+    }
+
+    let connection;
+    try {
+        // Obtener una conexión del pool
+        connection = await pool.getConnection();
+        const [result] = await connection.execute('UPDATE personal_salud SET estado = ? WHERE id_personal = ?', [estado, id]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).send('Personal no encontrado');
+        }
+
+        res.send('Estado actualizado con éxito');
+    } catch (err) {
+        console.error('Error al actualizar el estado:', err);
+        res.status(500).send('Error al actualizar el estado');
+    } finally {
+        if (connection) connection.release(); // Liberar la conexión en lugar de cerrarla
+    }
+});
 
 // Ruta para Loggin  
 app.post('/api/sais/login', async (req, res) => {
@@ -412,14 +466,11 @@ app.post('/api/sais/login', async (req, res) => {
 
         const personal = rows[0];
 
-        // Comparar directamente la contraseña ingresada con la almacenada en la base de datos
-        console.log('Contraseña ingresada:', contrasena);
-        console.log('Contraseña almacenada:', personal.contrasena); // Asegúrate de que este campo sea correcto
-
         // Comparar directamente las contraseñas
         if (contrasena !== personal.contrasena) {
             return res.status(401).json({ message: 'Usuario o contraseña incorrectos (contraseña)' });
         }
+        console.log('Inicio de seion exitoso');
 
         // Si las credenciales son correctas, enviar respuesta con datos del usuario
         return res.json({
@@ -610,7 +661,7 @@ app.get('/api/citas-ninhos', async (req, res) => {
 // Route to get all appointments within the next three days
 app.get('/api/filtrar-ninho-citas', async (req, res) => {
     const query = 'SELECT * FROM cita_ninhos WHERE fecha >= CURDATE() AND fecha <= DATE_ADD(CURDATE(), INTERVAL 3 DAY)';
-    
+
     try {
         const [results] = await pool.query(query);
         res.json(results);

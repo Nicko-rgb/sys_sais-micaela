@@ -1,4 +1,4 @@
-.form-cita{
+.form-cita {
     position: fixed;
     top: 0;
     left: 0;
@@ -7,14 +7,14 @@
     width: 100%;
     height: 100%;
     z-index: 55;
-    background:  #f7f9fc;
+    background: #f7f9fc;
     overflow-y: auto;
     box-sizing: border-box;
     padding-bottom: 120px;
-    font-family: 'Poppins', sans-serif; 
+    font-family: 'Poppins', sans-serif;
 }
 
-.form-cita .form-fechaHora{
+.form-cita .form-fechaHora {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -22,26 +22,28 @@
     padding: 0;
 }
 
-.form-cita .form-fechaHora .sub-formfechaHora{
+.form-cita .form-fechaHora .sub-formfechaHora {
     width: 100%;
     display: flex;
     justify-content: center;
 }
-.form-cita .cstr{
+
+.form-cita .cstr {
     margin: auto;
 }
-.form-cita .form-fechaHora p{
+
+.form-cita .form-fechaHora p {
     text-align: center;
     padding: 2px;
     border: none;
-    box-shadow: 0 0 2px rgb(95, 214, 103);
+    box-shadow: 0 0 2px  #00796b;
     border-radius: 5px;
     background: gray;
     color: white;
-    
+
 }
 
-.form-cita main{
+.form-cita main {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -49,9 +51,9 @@
     box-sizing: border-box;
     margin-top: 100px;
 }
-.form-cita main form{
+
+.form-cita main form {
     max-width: 500px;
-    box-shadow: 0 0 6px rgb(52, 206, 52);
     border-radius: 6px;
     padding: 25px;
     padding-right: 35px;
@@ -60,39 +62,49 @@
     gap: 15px;
     flex-direction: column;
     font-family: 'poppins';
+    box-sizing: border-box;
+  box-shadow: 0 0 7px  #00796b;
 }
-.form-cita main form h2{
+
+.form-cita main form h2 {
     text-align: center;
     margin: 0;
-    font-size: 24px; /* Tamaño de fuente más grande */
-    color: #333; /* Color de texto más oscuro */
+    font-size: 24px;
+    /* Tamaño de fuente más grande */
+    font-family: 'poppins';
+    color: #18544d;
 }
-.form-cita form div{
+
+.form-cita form div {
     display: flex;
     flex-direction: row;
     gap: 20px;
 }
-.form-cita form div label{
+
+.form-cita form div label {
     width: 100%;
-    
+
 }
-.form-cita form input{
+
+.form-cita form input {
     padding: 5px;
-    font-size: 15px;
+    font-size: 14px;
     outline: none;
     font-family: 'poppins';
-    border: 1px solid #ccc; /* Borde más profesional */
-    box-shadow: 0 0 2px black;
-    border-radius: 4px ;
-    transition: border-color 0.3s; /* Transición suave */
+    border: solid 1px #00796b;
+    /* box-shadow: 0 0 2px black; */
+    border-radius: 2px;
+    transition: border-color 0.3s;
+    /* Transición suave */
 }
 
 .form-cita form input:focus {
-    border-color: #4CAF50; /* Color de borde al enfocar */
+    border: solid 1px rgb(101, 174, 174);
+    box-shadow: none
 }
 
 
-.form-cita form .btns{
+.form-cita form .btns {
     display: flex;
     justify-content: space-around;
     margin-top: 20px;
@@ -100,7 +112,7 @@
     width: 102%;
 }
 
-.form-cita .btns button{
+.form-cita .btns button {
     padding: 12px 24px;
     width: 190px;
     display: flex;
@@ -116,27 +128,30 @@
     transition: .3s ease;
 }
 
-.form-cita .btns .btn-register{
-    background: rgb(17, 149, 17);
-    box-shadow: 0 0 3px #eb3553;
+.form-cita .btns .btn-register {
+    background: #069a89;
+    box-shadow: 0 0 1px #eb3553;
 }
 
-.form-cita .btns .btn-register:hover{
-    box-shadow: 0 0 8px #eb3553;
+.form-cita .btns .btn-register:hover {
+    box-shadow: 0 0 4px #eb3553;
 }
-.form-cita .btns .btn-close{
+
+.form-cita .btns .btn-close {
     background: #eb3553;
-    box-shadow: 0 0 3px rgb(52, 206, 52);
+    box-shadow: #069a89;
 }
-.form-cita .btns .btn-close:hover{
+
+.form-cita .btns .btn-close:hover {
     background: #eb3553;
-    box-shadow: 0 0 8px rgb(52, 206, 52);
+    box-shadow: 0 0 5px #069a89;
 }
-.form-cita .btns .ico{
+
+.form-cita .btns .ico {
     cursor: pointer;
 }
 
-.form-cita .loading{
+.form-cita .loading {
     position: fixed;
     z-index: 50;
     width: 100%;
@@ -149,7 +164,8 @@
     left: 0;
     background-color: rgba(0, 0, 0, 0.459);
 }
-.form-cita .loading div{
+
+.form-cita .loading div {
     background-color: white;
     box-shadow: 0 0 3px #00796b;
     padding: 20px;
@@ -158,17 +174,31 @@
     flex-direction: column;
     align-items: center;
 }
-.form-cita .loading div .icon{
+
+.form-cita .loading div .icon {
     font-size: 25px;
     animation: rotar 1s linear infinite;
 }
+
 @keyframes rotar {
-    0%{ transform: rotate(0deg); }
-    33% { transform:  rotate(120deg);}
-    66% { transform: rotate(240deg); }
-    99% { transform: rotate(360deg);}
+    0% {
+        transform: rotate(0deg);
+    }
+
+    33% {
+        transform: rotate(120deg);
+    }
+
+    66% {
+        transform: rotate(240deg);
+    }
+
+    99% {
+        transform: rotate(360deg);
+    }
 }
-.form-cita .loading div p{
+
+.form-cita .loading div p {
     margin: 0;
     font-family: 'poppins';
     color: #00796b;

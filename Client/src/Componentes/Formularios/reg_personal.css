@@ -35,8 +35,8 @@
     padding: 20px;
     padding-right: 27px;
     background-color: white;
-    box-shadow: 0 0 6px rgb(52, 206, 52);
-    border-radius: 6px;
+    box-shadow: 0 0 7px  #00796b;
+    border-radius: 10px;
     margin-top: 100px;
     display: flex;
     flex-direction: column;

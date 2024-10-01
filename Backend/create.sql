@@ -2,20 +2,22 @@
 -- Active: 1725904580185@@127.0.0.1@3306@db_sais
 -- Crear la base de datos
 CREATE DATABASE IF NOT EXISTS db_sais;
-
 -- Usar la base de datos creada
 USE db_sais;
 
 -- Eliminar tablas si existen para evitar errores
 DROP TABLE IF EXISTS responsable_de_paciente;
-DROP TABLE IF EXISTS pacientes; 
+
+DROP TABLE IF EXISTS pacientes;
+
 DROP TABLE IF EXISTS personal_salud;
+
 DROP TABLE IF EXISTS cita_ninhos;
 -- Crear el usuario con contraseña
-CREATE USER 'db-sais90'@'%' IDENTIFIED BY 'db-sais90';
+CREATE USER 'db-sais90' @'%' IDENTIFIED BY 'db-sais90';
 
 -- Otorgar todos los privilegios al usuario en la base de datos
-GRANT ALL PRIVILEGES ON db_sais.* TO 'db-sais90'@'%';
+GRANT ALL PRIVILEGES ON db_sais.* TO 'db-sais90' @'%';
 
 -- Aplicar los cambios de privilegios
 FLUSH PRIVILEGES;
@@ -61,7 +63,7 @@ CREATE TABLE pacientes (
     distrito VARCHAR(50),
     tipo_paciente VARCHAR(50) NOT NULL,
     id_responsable INT,
-    FOREIGN KEY (id_responsable) REFERENCES responsable_de_paciente(id_responsable) ON DELETE SET NULL
+    FOREIGN KEY (id_responsable) REFERENCES responsable_de_paciente (id_responsable) ON DELETE SET NULL
 );
 
 --CREAR UNA TABLA PARA LA CITAS PARA EL PACIENTE DE TIPO NIÑO
@@ -83,7 +85,7 @@ CREATE TABLE cita_ninhos (
     metodo VARCHAR(50),
     semEmbarazo INT,
     id_responsable INT,
-    FOREIGN KEY (id_responsable) REFERENCES responsable_de_paciente(id_responsable) ON DELETE SET NULL,
+    FOREIGN KEY (id_responsable) REFERENCES responsable_de_paciente (id_responsable) ON DELETE SET NULL,
     fechaRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -98,10 +100,13 @@ CREATE TABLE personal_salud (
     profesion VARCHAR(40) NOT NULL,
     servicio VARCHAR(40) NOT NULL,
     especial_cita VARCHAR(40) NOT NULL,
+    num_consultorio VARCHAR(1) NULL,
     condicion VARCHAR(30) NOT NULL,
     celular VARCHAR(20) NOT NULL,
     correo VARCHAR(100) NOT NULL,
     usuario VARCHAR(50) NOT NULL,
     contrasena VARCHAR(50) NOT NULL,
-    reset_token VARCHAR(255)
-)
+    estado VARCHAR(10) NOT NULL DEFAULT 'activo',
+    reset_token VARCHAR(255) DEFAULT NULL,
+    fechaRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) 

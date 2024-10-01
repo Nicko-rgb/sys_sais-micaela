@@ -19,7 +19,7 @@ const DatosPaciente = () => {
 
     // Función para manejar el clic en el botón
     const edicionPaciente = () => {
-        setEdit(true); // Cambia el estado a true para mostrar ComponenteB
+        setEdit(!edit); // Cambia el estado a true para mostrar ComponenteB 
     };
 
     const obtenerDatosPaciente = async () => {
@@ -127,7 +127,7 @@ const DatosPaciente = () => {
 
             <NavPie />
             {edit && (
-                <EditPaciente paciente={paciente} onClose={edicionPaciente}
+                <EditPaciente paciente={paciente} onCloseEdit={edicionPaciente}
                  />
             )}
         </div>

@@ -305,3 +305,119 @@
     margin: 10px; /* Espaciado alrededor del icono */
 }
 
+
+
+
+
+
+/* Estilos para el contenedor principal del Sidebar */
+.sidebarMenu {
+    position: fixed;
+    top: 35px; /* Ajusta según la altura de tu NavLogin */
+    right: -280px;
+    width: 280px;
+    height: calc(100vh - 73px);
+    background-color: rgb(48,48,48);
+    color: #ecf0f1;
+    transition: right 0.3s ease-in-out;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    overflow-y: auto;
+    border-left: 2px solid #34495e;
+  }
+  
+  .sidebarMenu.open {
+    right: 0;
+  }
+  
+  /* Estilos para el contenido del Sidebar */
+  .sidebar-content {
+    padding: 35px;
+  }
+  
+  .sidebarMenu h3 {
+    font-size: 1.2rem;
+    color: rgb(97,208,97);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #34495e;
+  }
+  
+  .sidebarMenu nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebarMenu nav ul li {
+    margin-bottom: 10px;
+  }
+  
+  .sidebarMenu nav ul li a {
+    display: flex;
+    align-items: center;
+    color: #ecf0f1;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .sidebarMenu nav ul li a:hover {
+    background-color: #34495e;
+  }
+  
+  .sidebarMenu nav ul li a svg {
+    margin-right: 10px;
+    font-size: 1.2rem;
+  }
+  
+  /* Estilos para el botón de cierre */
+  .close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    color: #ecf0f1;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .close-icon:hover {
+    color: #e74c3c;
+  }
+  
+  /* Estilos para el scroll del Sidebar */
+  .sidebarMenu::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .sidebarMenu::-webkit-scrollbar-track {
+    background: #34495e;
+  }
+  
+  .sidebarMenu::-webkit-scrollbar-thumb {
+    background-color: #95a5a6;
+    border-radius: 3px;
+  }
+  
+  /* Ajuste del contenido principal cuando el Sidebar está abierto */
+  .main-content {
+    transition: margin-left 0.3s ease-in-out;
+  }
+  
+  .sidebarMenu.open + .content-wrapper .main-content {
+    margin-left: 280px;
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 768px) {
+    .sidebarMenu {
+      width: 100%;
+      left: -100%;
+    }
+  
+    .sidebarMenu.open + .content-wrapper .main-content {
+      margin-left: 0;
+    }
+  }

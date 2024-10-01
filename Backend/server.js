@@ -428,7 +428,7 @@ app.post('/api/sais/login', async (req, res) => {
             userPersonal: personal.nombres,
             correo: personal.correo,
             dni: personal.dni,
-            tipoUser: personal.tipoUser,
+            tipoUser: personal.tipo_user,
             profesion: personal.profesion,
             especialCita: personal.especial_cita,
             usuario: personal.usuario

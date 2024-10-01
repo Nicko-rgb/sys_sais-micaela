@@ -3,6 +3,16 @@
   display: flex;
   justify-content: center;
 }
+.turnos .datos{
+  display: flex;
+  justify-content: space-between;
+}
+.turnos .datos p{
+  font-family: 'poppins';
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
 .turnos .btn-nav button{
   background-color: #1c7f73;
   border: none;
@@ -11,13 +21,6 @@
   color: white;
   font-family: 'poppins';
   font-size: 12px
-}
-.turnos .name{
-  text-transform: uppercase;
-  font-family: 'poppins';
-  font-weight: bold;
-  font-size: 14px;
-  margin: 0;
 }
 .turnos .btn-turno-action{
   display: flex;
@@ -52,6 +55,5 @@
 }
 
 .turnos table tbody input {
-  background-color: #c53030; 
-  border: 1px solid #1c7f73; 
+  cursor: pointer;
 }

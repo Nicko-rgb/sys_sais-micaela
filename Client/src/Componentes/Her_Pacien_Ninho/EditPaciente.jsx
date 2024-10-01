@@ -5,7 +5,7 @@ import NavLogin from "../Navegadores/NavLogin";
 import NavPie from "../Navegadores/NavPie";
 import axios, { formToJSON } from "axios";
 
-const EditPaciente = ({ paciente, onClose }) => {
+const EditPaciente = ({ paciente, onCloseEdit}) => {
   const [formData, setFormData] = useState({
     id_res: paciente.id_responsable,
     dni: paciente.dni,
@@ -71,6 +71,10 @@ const EditPaciente = ({ paciente, onClose }) => {
       }));
     }
   }, [paciente]);
+
+  const onClose = () => {
+    setActiveSection("datos"); // O null si quieres ocultarlo
+  };
 
   const calculateAge = (birthDate) => {
     const today = new Date();
@@ -150,18 +154,22 @@ const EditPaciente = ({ paciente, onClose }) => {
   };
 
   const handleButtonClick = (section) => {
-    setActiveSection(section);
-    setAnimateClass("animate"); // Activar la animación
-    setTimeout(() => {
-      setAnimateClass(""); // Remover la clase después de la animación
-    }, 500); // Duración de la animación
+    if (section !== activeSection) {
+      setAnimateClass('animate'); // Agrega la clase de animación
+      setActiveSection(section); // Cambia la sección activa
+  
+      // Elimina la clase de animación después de que termine (0.6s)
+      setTimeout(() => {
+        setAnimateClass('');
+      }, 600); // Tiempo que dura la animación en el CSS
+    }
   };
 
   const renderSection = () => {
     switch (activeSection) {
       case "nacimiento":
         return (
-          <section className={`container-editar-nacimiento ${animateClass}`}>
+          <section className={`container-editar-nacimiento ${animateClass} section-active`}>
             <h3>DATOS DE NACIMIENTO</h3>
             <form onSubmit={handleSubmit}>
               <label>
@@ -238,7 +246,7 @@ const EditPaciente = ({ paciente, onClose }) => {
               </label>
 
               <button type="submit">Guardar Cambios</button>
-              <button type="button" onClick={onClose}>
+              <button type="button" onClick={onCloseEdit}>
                 Cancelar
               </button>
             </form>
@@ -249,7 +257,7 @@ const EditPaciente = ({ paciente, onClose }) => {
           <>
             {paciente.id_responsable && (
               <section
-                className={`container-editar-responsable ${animateClass}`}
+                className={`container-editar-responsable ${animateClass} section-active`}
               >
                 <h3>DATOS DEL RESPONSABLE DEL PACIENTE</h3>
                 <form onSubmit={handleSubmit}>
@@ -338,8 +346,15 @@ const EditPaciente = ({ paciente, onClose }) => {
                     >
                       <option value="">Sin Sector</option>
                       <option value="Sector 1">Sector 1</option>
-                      <option value="Sector 2">Sector 2</option>
-                    </select>
+                      <option value="Sector 2">Sector 2</option>                      
+                      <option value="Sector 3">Sector 3</option>                      
+                      <option value="Sector 4">Sector 4</option>                      
+                      <option value="Sector 5">Sector 5</option>                      
+                      <option value="Sector 6">Sector 6</option>                      
+                      <option value="Sector 7">Sector 7</option>                      
+                      <option value="Sector 8">Sector 8</option>                      
+                      <option value="Sector 9">Sector 9</option>                      
+                      </select>
                   </label>
                   <label>
                     Dirección:
@@ -379,7 +394,7 @@ const EditPaciente = ({ paciente, onClose }) => {
                   </label>
 
                   <button type="submit">Guardar Cambios</button>
-                  <button type="button" onClick={onClose}>
+                  <button type="button" onClick={onCloseEdit}>
                     Cancelar
                   </button>
                 </form>
@@ -390,7 +405,7 @@ const EditPaciente = ({ paciente, onClose }) => {
       case "datos":
       default:
         return (
-          <section className={`container-editar-paciente ${animateClass}`}>
+          <section className={`container-editar-paciente ${animateClass} section-active`}>
             <h3>DATOS DEL PACIENTE</h3>
             <form onSubmit={handleSubmit}>
               <label>
@@ -486,7 +501,7 @@ const EditPaciente = ({ paciente, onClose }) => {
                 </select>
               </label>
               <button type="submit">Guardar Cambios</button>
-              <button type="button" onClick={onClose}>
+              <button type="button" onClick={onCloseEdit}>
                 Cancelar
               </button>
             </form>

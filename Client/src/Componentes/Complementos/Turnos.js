@@ -1,13 +1,40 @@
 const tiposDeTurno = [
-    'Mañana (M)',
-    'Tarde (T)',
-    'Guardia Diurna (GD)',
-    'Guardia Devolucion (GDD)',
-    'Mañana y Tarde (MT)',
-    'Mañana Visita Domiciliaria (MVD)',
-    'Tarde Visita Domicialiaria (TVD)',
-    'Mañana Visita Salud Familiar (MVSF)',
-    'Tarde Visita Salud Familiar (TVSF)'
+    {
+        valor: 'Mañana',
+        clave: 'M'
+    },
+    {
+        valor: 'Tarde',
+        clave: 'T'
+    },
+    {
+        valor: 'Guardia Diurna',
+        clave: 'GD'
+    },
+    {
+        valor: 'Guardia Devolucion',
+        clave: 'GDD'
+    },
+    {
+        valor: 'Mañana y Tarde',
+        clave: 'MT'
+    },
+    {
+        valor: 'Mañana Visita Domiciliaria',
+        clave: 'MVD'
+    },
+    {
+        valor: 'Tarde Visita Domiciliaria',
+        clave: 'TVD'
+    },
+    {
+        valor: 'Mañana Visita Salud Familiar',
+        clave: 'MVSF'
+    },
+    {
+        valor: 'Tarde Visita Salud Familiar',
+        clave: 'TVSF'
+    }
 ];
 
-export default tiposDeTurno
+export default tiposDeTurno;

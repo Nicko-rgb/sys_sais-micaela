@@ -8,7 +8,9 @@ import HorasCita from '../Complementos/HorasCita';
 import FormCita from './FormCitas';
 import Citas2 from './Citas2';
 import { TiUserAdd } from "react-icons/ti";
-import { FaUserEdit } from 'react-icons/fa';
+import { FaUserEdit, FaMale, FaFemale } from 'react-icons/fa';
+import { IoMdFemale, IoMdMale } from "react-icons/io";
+
 
 
 const Cita1 = ({ especialidad, agregarCita }) => {
@@ -77,7 +79,7 @@ const Cita1 = ({ especialidad, agregarCita }) => {
     };
 
     const renderRow = (horario, index, turno) => {
-        const citaActual = citas.find(cita => cita.hora === horario.hora && cita.consultorio === 1);
+        const citaAtencion = citas.find(cita => cita.hora === horario.hora && cita.consultorio === 1);
 
         // Manejo de la fila de receso
         if (horario.receso) {
@@ -98,7 +100,17 @@ const Cita1 = ({ especialidad, agregarCita }) => {
                         <td>{atencion.hora}</td>
                         <td>{turno}</td>
                         <td>{citaAtencion ? citaAtencion.dni : ''}</td>
-                        <td>{citaAtencion ? `${citaAtencion.apellidos} ${citaAtencion.nombres}` : ''}</td>
+                        <td> {/* Agregar ícono de género antes del nombre si hay una cita actual */}
+                            {citaAtencion ? (
+                                <>
+                                    {citaAtencion.sexo === 'Femenino' ? (
+                                        <FaFemale style={{ color: 'pink', marginRight: '8px', fontSize: '0.9rem' }} />
+                                    ) : (
+                                        <FaMale style={{ color: 'blue', marginRight: '8px', fontSize: '0.9rem' }} />
+                                    )}
+                                    {citaAtencion.apellidos} {citaAtencion.nombres}
+                                </>
+                            ) : ''}</td>
                         <td>{citaAtencion ? citaAtencion.edad : ''}</td>
                         <td>
                             {citaAtencion ?
@@ -130,10 +142,14 @@ const Cita1 = ({ especialidad, agregarCita }) => {
                             {citaAtencion ? (
                                 <button className="btn btn-danger"><FaUserEdit className='ico' />Editar Cita</button>
                             ) : (
-                                <button className="btn btn-primary" onClick={() => handleAgregarCita(atencion.hora)}>
-                                    <TiUserAdd className='ico' />
-                                    AGREGAR CITA
-                                </button>
+                                <>
+                                    <button className="btn btn-primary" onClick={() => handleAgregarCita(atencion.hora)}>
+                                        <TiUserAdd className='ico' />
+                                        AGREGAR CITA
+                                    </button>
+                                    <button>BLOQUEAR</button>
+                                </>
+
                             )}
                         </td>
                     </tr>
@@ -146,12 +162,21 @@ const Cita1 = ({ especialidad, agregarCita }) => {
             <tr key={horario.hora}>
                 <td>{horario.hora}</td>
                 <td>{turno}</td>
-                <td>{citaActual ? citaActual.dni : ''}</td>
-                <td>{citaActual ? `${citaActual.apellidos} ${citaActual.nombres}` : ''}</td>
-                <td>{citaActual ? citaActual.edad : ''}</td>
+                <td>{citaAtencion ? citaAtencion.dni : ''}</td>
+                <td> {/* Agregar ícono de género antes del nombre si hay una cita actual */}
+                    {citaAtencion ? (
+                        <>
+                            {citaAtencion.sexo === 'Femenino' ? (
+                                <IoMdFemale style={{ color: 'hotpink', marginRight: '5px', fontSize: '15px' }} />
+                            ) : (
+                                <IoMdMale style={{ color: 'blue', marginRight: '5px', fontSize: '15px' }} />)}
+                            {citaAtencion.apellidos} {citaAtencion.nombres}
+                        </>
+                    ) : ''}</td>
+                <td>{citaAtencion ? citaAtencion.edad : ''}</td>
                 <td>
-                    {citaActual ?
-                        new Date(citaActual.fechaNacimiento).toLocaleDateString('es-ES', {
+                    {citaAtencion ?
+                        new Date(citaAtencion.fechaNacimiento).toLocaleDateString('es-ES', {
                             day: '2-digit',
                             month: '2-digit',
                             year: 'numeric'
@@ -159,11 +184,11 @@ const Cita1 = ({ especialidad, agregarCita }) => {
                         : ''
                     }
                 </td>
-                <td>{citaActual ? citaActual.telefono : ''}</td>
-                {especialidad === 'Medicina' && <td>{citaActual ? citaActual.direccion : ''}</td>}
-                {especialidad === 'Obstetricia_CPN' && <td>{citaActual ? citaActual.semEmbarazo : ''}</td>}
-                {especialidad === 'Planificación' && <td>{citaActual ? citaActual.metodo : ''}</td>}
-                <td>{citaActual ? citaActual.motivoConsulta : ''}</td>
+                <td>{citaAtencion ? citaAtencion.telefono : ''}</td>
+                {especialidad === 'Medicina' && <td>{citaAtencion ? citaAtencion.direccion : ''}</td>}
+                {especialidad === 'Obstetricia_CPN' && <td>{citaAtencion ? citaAtencion.semEmbarazo : ''}</td>}
+                {especialidad === 'Planificación' && <td>{citaAtencion ? citaAtencion.metodo : ''}</td>}
+                <td>{citaAtencion ? citaAtencion.motivoConsulta : ''}</td>
                 <td>
                     {profesionalesFiltrados.length > 0 ? (
                         profesionalesFiltrados.map((profesional) => (
@@ -176,13 +201,17 @@ const Cita1 = ({ especialidad, agregarCita }) => {
                     )}
                 </td>
                 <td>
-                    {citaActual ? (
+                    {citaAtencion ? (
                         <button className="btn btn-danger"><FaUserEdit className='ico' />EDITAR CITA</button>
                     ) : (
-                        <button className="btn btn-primary" onClick={() => handleAgregarCita(horario.hora)}>
-                            <TiUserAdd className='ico' />
-                            AGREGAR CITA
-                        </button>
+                        <>
+                            <button className="btn btn-primary" onClick={() => handleAgregarCita(horario.hora)}>
+                                <TiUserAdd className='ico' />
+                                AGREGAR CITA
+                            </button>
+                            <button>BLOQUEAR</button>
+                        </>
+
                     )}
                 </td>
             </tr>

@@ -10,8 +10,9 @@ const Lista = () => {
     const { tipo } = useParams(); // Obtener el tipo de paciente de la ruta
     const [pacientes, setPacientes] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [showAll, setShowAll] = useState(false); // Estado para controlar si mostrar todos los registros
     const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
+    const [currentPage, setCurrentPage] = useState(1); // Estado para la página actual
+    const itemsPerPage = 10; // Número de pacientes por página
 
     const obtenerPacientesPorTipo = async () => {
         try {
@@ -47,19 +48,36 @@ const Lista = () => {
         }
     };
 
-    // Filtrar pacientes según el estado de showAll y el término de búsqueda
-    const pacientesFiltrados = pacientes
-        .filter(paciente => {
-            const fullName = `${paciente.nombres} ${paciente.ape_paterno} ${paciente.ape_materno}`.toLowerCase();
-            const searchLower = searchTerm.toLowerCase();
-            return (
-                paciente.dni.includes(searchLower) ||
-                paciente.hist_clinico.includes(searchLower) ||
-                fullName.includes(searchLower) ||
-                (paciente.nombres_res && `${paciente.nombres_res} ${paciente.ape_paterno_res} ${paciente.ape_materno_res}`.toLowerCase().includes(searchLower))
-            );
-        })
-        .slice(0, showAll ? pacientes.length : 10); // Mostrar solo 10 registros o todos
+    // Filtrar pacientes según el término de búsqueda
+    const pacientesFiltrados = pacientes.filter(paciente => {
+        const fullName = `${paciente.nombres} ${paciente.ape_paterno} ${paciente.ape_materno}`.toLowerCase();
+        const searchLower = searchTerm.toLowerCase();
+        return (
+            paciente.dni.includes(searchLower) ||
+            paciente.hist_clinico.includes(searchLower) ||
+            fullName.includes(searchLower) ||
+            (paciente.nombres_res && `${paciente.nombres_res} ${paciente.ape_paterno_res} ${paciente.ape_materno_res}`.toLowerCase().includes(searchLower))
+        );
+    });
+
+    // Obtener los pacientes de la página actual
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const pacientesPaginados = pacientesFiltrados.slice(startIndex, endIndex);
+
+    const totalPages = Math.ceil(pacientesFiltrados.length / itemsPerPage); // Calcular total de páginas
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
 
     return (
         <div className="listas-paciente">
@@ -70,7 +88,7 @@ const Lista = () => {
                 <BuscarTipo onSearch={setSearchTerm} />
                 {loading ? (
                     <p>Cargando pacientes...</p>
-                ) : pacientesFiltrados.length > 0 ? (
+                ) : pacientesPaginados.length > 0 ? (
                     <>
                         <table>
                             <thead>
@@ -85,7 +103,7 @@ const Lista = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {pacientesFiltrados.map((paciente, index) => (
+                                {pacientesPaginados.map((paciente, index) => (
                                     <tr key={index}>
                                         <td>{paciente.dni}</td>
                                         <td>
@@ -110,9 +128,15 @@ const Lista = () => {
                                 ))}
                             </tbody>
                         </table>
-                        {!showAll && (
-                            <button onClick={() => setShowAll(true)}>Mostrar Todos</button>
-                        )}
+
+                        <div className="pagination-buttons">
+                            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+                                Ver Menos
+                            </button>
+                            <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+                                Ver Más
+                            </button>
+                        </div>
                     </>
                 ) : (
                     <p>No se encontraron pacientes de este tipo.</p>

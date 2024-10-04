@@ -7,7 +7,8 @@ import OpcionesD from '../Her_Pacien_Ninho/OpcionesD';
 import OpcionesI from '../Her_Pacien_Ninho/OpcionesI';
 import EditPaciente from '../Her_Pacien_Ninho/EditPaciente';
 
-import { FaUserEdit } from 'react-icons/fa';
+import { FaUserEdit} from 'react-icons/fa'; 
+import { IoMdFemale, IoMdMale  } from "react-icons/io";
 
 const DatosPaciente = () => {
     const { historialClinico } = useParams(); // Obtener el historial clínico de la ruta
@@ -63,7 +64,7 @@ const DatosPaciente = () => {
         }
     }
 
-   
+
 
     return (
         <div className="datos-paciente">
@@ -75,7 +76,7 @@ const DatosPaciente = () => {
                 ) : paciente && (
                     <div className='box-result'>
                         <h3 className='txt1'>Datos del Paciente <span>({paciente.tipo_paciente})</span> </h3>
-                        <h5 className='name-paciente'><p>({paciente.hist_clinico})</p> {paciente.nombres} {paciente.ape_paterno} {paciente.ape_materno}</h5>
+                        <h5 className='name-paciente'><p>({paciente.hist_clinico})</p> {paciente.ape_paterno} {paciente.ape_materno}, {paciente.nombres}</h5>
                         <table>
                             <thead>
                                 <tr>
@@ -95,7 +96,13 @@ const DatosPaciente = () => {
                                 <tr>
                                     <td>{paciente.dni}</td>
                                     <td>{paciente.hist_clinico}</td>
-                                    <td>{paciente.nombres} {paciente.ape_paterno} {paciente.ape_materno}</td>
+                                    <td>{/* Mostrar ícono basado en el sexo antes del nombre */}
+                                        {paciente.sexo === 'Femenino' ? (
+                                            <IoMdFemale style={{ color: 'hotpink', marginRight: '5px', fontSize: '15px' }} />
+                                        ) : (
+                                            <IoMdMale  style={{ color: 'blue', marginRight: '5px', fontSize: '15px' }} />
+                                        )}
+                                        {paciente.ape_paterno} {paciente.ape_materno}, {paciente.nombres}</td>
                                     <td>{new Date(paciente.fecha_nacimiento).toLocaleDateString()}</td>
                                     <td>{calcularEdad(paciente.fecha_nacimiento)}</td>
                                     <td>{paciente.sexo}</td>
@@ -128,7 +135,7 @@ const DatosPaciente = () => {
             <NavPie />
             {edit && (
                 <EditPaciente paciente={paciente} onCloseEdit={edicionPaciente}
-                 />
+                />
             )}
         </div>
     );

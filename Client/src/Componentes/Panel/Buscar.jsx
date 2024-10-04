@@ -6,8 +6,9 @@ import RegistrarPas from '../Formularios/RegPasciente';
 import EditPaciente from "../Her_Pacien_Ninho/EditPaciente"
 import './buscar.css';
 import { IoPersonAddSharp } from 'react-icons/io5';
-import { FaUserEdit } from 'react-icons/fa';
+import { FaUserEdit, FaMale, FaFemale } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { IoMdFemale, IoMdMale  } from "react-icons/io";
 
 const Buscar = () => {
     const [showModal, setShowModal] = useState(false);
@@ -145,7 +146,16 @@ const Buscar = () => {
                                                 {paciente.hist_clinico}
                                             </Link>
                                         </td>
-                                        <td>{paciente.ape_paterno} {paciente.ape_materno}, {paciente.nombres}</td>
+                                        <td>
+                                        
+                                        {/* Mostrar ícono basado en el sexo */}
+                                        {paciente.sexo === 'Femenino' ? (
+                                            <IoMdFemale style={{ color: 'hotpink', marginRight: '5px', fontSize: '15px' }} />
+                                        ) : (
+                                            <IoMdMale  style={{ color: 'blue', marginRight: '5px', fontSize: '15px' }} />
+                                        )}
+                                        {paciente.ape_paterno} {paciente.ape_materno}, {paciente.nombres}
+                                    </td>
                                         <td>{paciente.sexo} </td>
                                         <td>{new Date(paciente.fecha_nacimiento).toLocaleDateString()}</td>
                                         <td>{calcularEdad(paciente.fecha_nacimiento)}</td>

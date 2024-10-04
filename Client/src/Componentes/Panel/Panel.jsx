@@ -11,9 +11,9 @@ import adulto from '../Ico/adulto.png';
 import adultoMayor from '../Ico/adultoMayor.png';
 import gestante from '../Ico/gestante.png';
 import EstadoSesion from '../Complementos/EstadoSesion';
-
+ 
 const volver = () => {
-    window.history.back();
+    window.location.href = '/'
 }
 
 const Panel = () => { 

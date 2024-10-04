@@ -186,13 +186,13 @@ td {
 }
 
 
-
 /* Contenedor del calendario */
 .calendar-cita {
   position: fixed;
+  /* border: solid 2px red; */
   width: 100vw;
   height: 91vh;
-  top: 36px;
+  top: -35px;
   left: 0;
   bottom: 0;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -209,8 +209,6 @@ td {
   padding-bottom: 50px;
   height: auto;
 }
-
-
 
 /* Estilo general del calendario */
 .calendar-cita .react-calendar {
@@ -304,10 +302,6 @@ td {
 .calendar-cita .react-calendar__tile--sunday:hover {
   background-color: rgba(255, 204, 0, 0.8); /* Fondo amarillo más oscuro al pasar el ratón */
 }
-
-
-
-
 
 
 .calendar-cita main hr {

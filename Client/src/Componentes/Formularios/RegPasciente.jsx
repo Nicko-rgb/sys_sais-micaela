@@ -222,7 +222,7 @@ const RegistrarPas = ({ onClose }) => {
                                 <h3>Datos del Nuevo Paciente</h3>
                                 <div className='datos_cortos'>
                                     <div>
-                                        <label>DNI del Paciente</label>
+                                        <label>DNI del Paciente</label> 
                                         <input
                                             type="text"
                                             value={dni}

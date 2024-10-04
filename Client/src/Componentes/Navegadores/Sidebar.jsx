@@ -45,7 +45,8 @@ const Sidebar = ({ tipoUser }) => {
 
   return (
     <div className="sidebar-content">
-      <h3>MENU LATERAL</h3>
+      
+      <h3>{tipoUser}</h3>
       <nav>
         <ul>
           {renderMenuItems()}

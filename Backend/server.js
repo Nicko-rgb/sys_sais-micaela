@@ -10,7 +10,7 @@ const crypto = require('crypto'); // Importar crypto para generar tokens únicos
 const { log } = require('console');
 const app = express();
 const PORT = process.env.PORT || 5000;
-
+ 
 // Configura tu conexión a la base de datos
 const pool = mysql.createPool({
     host: 'localhost',
@@ -445,6 +445,91 @@ app.put('/api/personal/actualizar-estado/:id', async (req, res) => {
     }
 });
 
+// Endpoint para guardar turnos de personal
+app.post('/api/personal/guardar-turnos', async (req, res) => {
+    const turnos = req.body; // Los turnos enviados desde el cliente
+
+    const query = `
+        INSERT INTO turnos_personal (id_personal, id_turno_tipo, fecha)
+        VALUES ? 
+        ON DUPLICATE KEY UPDATE id_turno_tipo = VALUES(id_turno_tipo)
+    `;
+
+    const values = turnos.map(turno => [
+        turno.id_personal,
+        turno.id_turno_tipo,
+        turno.fecha
+    ]);
+
+    try {
+        await pool.query(query, [values]);
+        res.send('Turnos guardados exitosamente');
+    } catch (error) {
+        console.error('Error al insertar los turnos:', error);
+        res.status(500).send('Error al guardar los turnos');
+    }
+});
+
+// Ruta para obtener los tipos de turno de personal de salud
+app.get('/api/tipos-turno', async (req, res) => {
+    try {
+        const [rows] = await pool.query('SELECT * FROM tipos_turno_personal');
+        res.json(rows);
+    } catch (error) {
+        console.error('Error al obtener los tipos de turno:', error);
+        res.status(500).json({ message: 'Error al obtener los tipos de turno.' });
+    }
+});
+
+//ruta para obtener turnos de personal por fecha y año
+app.get('/api/turnos/:anio/:mes', async (req, res) => {
+    const { anio, mes } = req.params;
+
+    // Obtener el primer y último día del mes
+    const primerDiaMes = new Date(anio, mes - 1, 1);
+    const ultimoDiaMes = new Date(anio, mes, 0); // El día 0 devuelve el último día del mes anterior
+
+    try {
+        // Consulta para obtener todos los turnos del mes para todo el personal
+        const query = `
+            SELECT p.id_personal, p.nombres, p.paterno, p.materno, t.id_turno_tipo, t.fecha, tt.clave_turno
+            FROM personal_salud p
+            LEFT JOIN turnos_personal t ON p.id_personal = t.id_personal
+            LEFT JOIN tipos_turno_personal tt ON t.id_turno_tipo = tt.id_turno_tipo
+            WHERE t.fecha BETWEEN ? AND ?
+            ORDER BY p.id_personal, t.fecha
+        `;
+        
+        const [rows] = await pool.query(query, [primerDiaMes, ultimoDiaMes]);
+
+        res.json(rows);
+    } catch (error) {
+        console.error('Error al obtener los turnos:', error);
+        res.status(500).json({ message: 'Error al obtener los turnos.' });
+    }
+});
+
+
+// Endpoint para obtener los turnos de un personal específico
+app.get('/api/personal/:id_personal/turnos', async (req, res) => {
+    const { id_personal } = req.params;
+    try {
+        const query = `
+            SELECT tp.id_turno_tipo, tp.fecha, tt.turno, tt.clave_turno 
+            FROM turnos_personal tp
+            JOIN tipos_turno_personal tt ON tp.id_turno_tipo = tt.id_turno_tipo
+            WHERE tp.id_personal = ?
+        `;
+        const [rows] = await pool.query(query, [id_personal]);
+        res.json(rows);
+    } catch (error) {
+        console.error('Error al obtener los turnos:', error);
+        res.status(500).json({ message: 'Error al obtener los turnos.' });
+    }
+});
+
+
+
 // Ruta para Loggin  
 app.post('/api/sais/login', async (req, res) => {
     try {
@@ -675,4 +760,4 @@ app.get('/api/filtrar-ninho-citas', async (req, res) => {
 app.listen(PORT, async () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
     await testDatabaseConnection(); // Verificar conexión al iniciar el servidor
-});
+})

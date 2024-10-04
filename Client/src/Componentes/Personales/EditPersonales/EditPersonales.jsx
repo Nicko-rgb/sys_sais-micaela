@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./EditPersonales.css";
-import TurnoPersonal from '../Turnos/TurnosPersonal';
+import TurnoPersonal from '../Turnos/AsignaTurno';
 import Sector from '../Sectores/Sector';
 
 const EditPersonales = ({ personData, onSave, onClose }) => {

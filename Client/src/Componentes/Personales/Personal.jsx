@@ -4,12 +4,15 @@ import { Link } from 'react-router-dom';
 import NavLogin from '../Navegadores/NavLogin';
 import NavPie from '../Navegadores/NavPie';
 import RegPersonal from '../Formularios/RegPersonal';
-import EditPersonales from './EditPersonales/EditPersonales'; // Modal de edición
+import EditPersonales from './EditPersonales/EditPersonales';
+import VerTurnos from './Turnos/VerTurnos';
 import { IoPersonAddSharp } from 'react-icons/io5';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
 import { MdPersonSearch } from 'react-icons/md';
 import { FaUserEdit } from 'react-icons/fa';
 import { MdMenuOpen } from "react-icons/md";
+import { AiFillSchedule } from "react-icons/ai";
+
 
 const Personal = () => {
     const [verForm, setVerForm] = useState(false);
@@ -22,12 +25,15 @@ const Personal = () => {
     const [currentPage, setCurrentPage] = useState(1); // Estado para la página actual
     const itemsPerPage = 10; // Número de registros por página
     const [openFiltro, setOpenFiltro] = useState(false); // Estado para controlar el filtro desplegable
-    const [filterStatus, setFilterStatus] = useState('todos'); // Estado para filtrar por activo/inactivo/todos
+    const [filterStatus, setFilterStatus] = useState('activo'); // Estado para filtrar por activo/inactivo/todos
+    const [verTurnos, setVerTurnos] = useState(false)
 
     const handleForm = () => {
         setVerForm(!verForm);
     };
-
+    const handleVerTurnos = () => {
+        setVerTurnos(!verTurnos)
+    }
     // Obtener la lista de personal desde el backend
     const fetchPersonal = async () => {
         try {
@@ -133,10 +139,10 @@ const Personal = () => {
                     </button>
                 </div>
                 <section>
-                    <Link to='/panel-niño' className='volver_link'>
-                        <RiPlayReverseLargeFill /> VOLVER
-                    </Link>
                     <div className="box-buscar">
+                        <Link to='/panel-niño' className='volver_link'>
+                            <RiPlayReverseLargeFill /> VOLVER
+                        </Link>
                         <MdPersonSearch className='ico_buscar' />
                         <input
                             className='buscar-personal'
@@ -144,6 +150,7 @@ const Personal = () => {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
+                        <button onClick={handleVerTurnos}>VER TURNOS <AiFillSchedule className="ico-verturnos" /></button>
                         <p className='btn-filtro' onClick={handleOpenFilter}>< MdMenuOpen className='ico' />Filtrar Datos</p>
                         {openFiltro && (
                             <div className="filtro">
@@ -172,7 +179,7 @@ const Personal = () => {
                                 </thead>
                                 <tbody>
                                     {displayedPersonal.map((personal, index) => (
-                                        <tr key={personal.id}>
+                                        <tr key={personal.id} className={personal.estado === 'inactivo' ? 'inactivo-row' : ''} >
                                             <td style={{ textAlign: 'center' }}>{index + indexOfFirstItem + 1}</td>
                                             <td>{personal.dni}</td>
                                             <td>{personal.paterno} {personal.materno}, {personal.nombres} </td>
@@ -183,12 +190,14 @@ const Personal = () => {
                                             <td>{personal.condicion}</td>
                                             <td>{personal.celular}</td>
                                             <td className='btns'>
-                                                <button onClick={() => handleToggleClick(personal)}>
-                                                    {personal.estado === 'activo' ? 'Inactivar' : 'Activar'}
-                                                </button>
-                                                <button onClick={() => handleEditClick(personal)}>
-                                                    <FaUserEdit />Editar
-                                                </button>
+                                                <div>
+                                                    <button onClick={() => handleToggleClick(personal)}>
+                                                        {personal.estado === 'activo' ? 'Inactivar' : 'Activar'}
+                                                    </button>
+                                                    <button onClick={() => handleEditClick(personal)}>
+                                                        <FaUserEdit />Editar
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}
@@ -205,8 +214,8 @@ const Personal = () => {
                                     )}
                                     {indexOfLastItem < reversedPersonal.length && (
                                         <>
-                                        <button onClick={() => setCurrentPage(currentPage - 1)}>Ver Menos</button>
-                                        <button onClick={() => setCurrentPage(currentPage + 1)}>Ver Más</button>
+                                            <button onClick={() => setCurrentPage(currentPage - 1)}>Ver Menos</button>
+                                            <button onClick={() => setCurrentPage(currentPage + 1)}>Ver Más</button>
                                         </>
                                     )}
                                 </div>
@@ -227,10 +236,13 @@ const Personal = () => {
 
                 {isModalOpen && (
                     <EditPersonales
-                        personData={personalToEdit} // Pasar los datos del personal seleccionado
-                        onSave={() => { console.log("Personal actualizado."); handleCloseModal(); }}  // Pasar la función para guardar los cambios
-                        onClose={handleCloseModal}  // Pasar la función para cerrar el modal
+                        personData={personalToEdit}
+                        onSave={() => { console.log("Personal actualizado."); handleCloseModal(); }}
+                        onClose={handleCloseModal}
                     />
+                )}
+                {verTurnos && (
+                    <VerTurnos closeTurnos={handleVerTurnos} />
                 )}
 
                 {isConfirmModalOpen && (

@@ -49,6 +49,9 @@
 .personal-salud section {
     margin: auto;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .personal-salud .volver_link {
@@ -66,11 +69,13 @@
 
 .personal-salud .box-buscar {
     position: relative;
-    width: 100%;
     display: flex;
     align-items: center;
     gap: 20px;
     justify-content: space-between;
+    max-width: 1000px;
+    width: 100%;
+    margin: auto;
 }
 
 .personal-salud .box-buscar .buscar-personal {
@@ -80,10 +85,27 @@
     font-size: 14px;
     border: none;
     box-shadow: 0 0 3px black;
-    max-width: 600px;
-    width: 100%;
+    width: 65%;
     font-family: 'poppins';
     text-transform: uppercase;
+}
+.personal-salud .box-buscar button{
+    width: 120px;
+    background-color: rgb(97, 208, 97);
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    font-family: 'poppins';
+    border: none; 
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.box-buscar .ico-verturnos{
+    font-size: 18px;
+
 }
 
 .personal-salud .box-buscar .btn-filtro {
@@ -94,10 +116,19 @@
     font-weight: bold;
     font-size: 12px;
     font-family: 'poppins';
+    border: none;
+    cursor: pointer;
+}
+.personal-salud .box-buscar button:hover{
+    background-color: rgb(74, 173, 74);
+}
+.personal-salud .box-buscar .btn-filtro:hover{
+    background-color: rgb(74, 173, 74);
+
 }
 
 .personal-salud .btn-filtro .ico {
-    transform: rotate(180deg);
+    transform: rotate(-180deg);
     font-size: 18px;
 }
 
@@ -105,9 +136,9 @@
     display: none;
     position: absolute;
     right: 0;
-    top: 32px;
+    top: 30px;
     background: rgb(48, 48, 48);
-    width: 121px;
+    width: 120px;
     padding: 5px;
     color: white;
     transition: .3s ease;
@@ -196,13 +227,16 @@ td {
     height: 5px;
     padding: 5px;
 }
-
-.personal-salud .btns {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 5px;
-    height: 100%;
+.personal-salud table .inactivo-row{
+    color: red;
 }
+
+.personal-salud table .btns div{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.personal-salud table
 
 .personal-salud th {
     background-color: #cecece;

@@ -6,6 +6,7 @@ import { IoPeopleSharp } from "react-icons/io5";
 import EstadoSesion from '../Complementos/EstadoSesion';
 import Sidebar from './Sidebar';
 import '../Login/login.css';
+// import EstadoSesion from '../Complementos/EstadoSesion';
 
 
 const Layout = ({ children }) => {
@@ -41,6 +42,7 @@ const Layout = ({ children }) => {
          
       }
   }
+  // const { userPersonal, isLoggedIn } = EstadoSesion()
 
   return (
     <div className="app-layout">
@@ -52,6 +54,7 @@ const Layout = ({ children }) => {
         <div className="opcion-nav">
           {isLoggedIn && (
             <>
+              <p></p>
               <IoPeopleSharp className='icon ico-people' onClick={openPersonal} title='USERS PERSONAL' />
               <FaUser className='icon ico-yo-user' onClick={RutaPerfil} title='PERFIL USUARIO' />
               <BiLogOutCircle className='icon ico-closse-sesion' onClick={closeSesion} title='CERRAR SESION' />

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import HorasCita from '../Complementos/HorasCita';
 import FormCitas from './FormCitas';
 import { TiUserAdd } from "react-icons/ti";
+import { FaUserEdit, FaMale, FaFemale } from 'react-icons/fa';
 
 const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
     const [verForm, setVerForm] = useState(false);
@@ -43,8 +44,18 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
                         <td>{especial.hora}</td>
                         <td>{turno}</td>
                         <td>{citaEspecial ? citaEspecial.dni : ''}</td>
-                        <td>{citaEspecial ? `${citaEspecial.apellidos} ${citaEspecial.nombres}` : ''}</td>
-                        <td>{citaEspecial ? citaEspecial.edad : ''}</td>
+                        <td> {/* Agregar ícono de género antes del nombre si hay una cita actual */}
+                            {citaEspecial ? (
+                                <>
+                                    {citaEspecial.sexo === 'Femenino' ? (
+                                        <FaFemale style={{ color: 'pink', marginRight: '5px', fontSize: '0.9rem' }} />
+                                    ) : (
+                                        <FaMale style={{ color: 'blue', marginRight: '5px', fontSize: '0.9rem' }} />
+                                    )}
+                                    {citaEspecial.apellidos}, {citaEspecial.nombres}
+                                </>
+                            ) : ''}</td>
+                        <td>{citaEspecial ? citaEspecial.telefono : ''}</td>
                         <td>
                             {citaEspecial ?
                                 new Date(citaEspecial.fechaNacimiento).toLocaleDateString('es-ES', {
@@ -87,7 +98,17 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
                 <td>{horario.hora}</td>
                 <td>{turno}</td>
                 <td>{citaActual ? citaActual.dni : ''}</td>
-                <td>{citaActual ? `${citaActual.apellidos} ${citaActual.nombres}` : ''}</td>
+                <td> {/* Agregar ícono de género antes del nombre si hay una cita actual */}
+                            {citaActual ? (
+                                <>
+                                    {citaActual.sexo === 'Femenino' ? (
+                                        <FaFemale style={{ color: 'pink', marginRight: '5px', fontSize: '0.9rem' }} />
+                                    ) : (
+                                        <FaMale style={{ color: 'blue', marginRight: '5px', fontSize: '0.9rem' }} />
+                                    )}
+                                    {citaActual.apellidos}, {citaActual.nombres}
+                                </>
+                            ) : ''}</td>
                 <td>{citaActual ? citaActual.edad : ''}</td>
                 <td>
                     {citaActual ?

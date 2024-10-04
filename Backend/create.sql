@@ -1,27 +1,17 @@
--- SQLBook: Code
--- Active: 1725904580185@@127.0.0.1@3306@db_sais
--- Crear la base de datos
+-- Active: 1727790809895@@127.0.0.1@3306@phpmyadmin
+-- Crear la base de datos si no existe
 CREATE DATABASE IF NOT EXISTS db_sais;
+
 -- Usar la base de datos creada
 USE db_sais;
-
--- Eliminar tablas si existen para evitar errores
-DROP TABLE IF EXISTS responsable_de_paciente;
-
-DROP TABLE IF EXISTS pacientes;
-
-DROP TABLE IF EXISTS personal_salud;
-
-DROP TABLE IF EXISTS cita_ninhos;
--- Crear el usuario con contraseña
-CREATE USER 'db-sais90' @'%' IDENTIFIED BY 'db-sais90';
-
+-- Crear el usuario
+CREATE USER 'user-sais'@'%' IDENTIFIED BY 'user-sais';
 -- Otorgar todos los privilegios al usuario en la base de datos
-GRANT ALL PRIVILEGES ON db_sais.* TO 'db-sais90' @'%';
-
+GRANT ALL PRIVILEGES ON db_sais.* TO 'user-sais'@'%';
 -- Aplicar los cambios de privilegios
 FLUSH PRIVILEGES;
-
+REPAIR TABLE mysql.db;
+CHECK TABLE mysql.db;
 -- Crear la tabla responsable_de_paciente
 CREATE TABLE responsable_de_paciente (
     id_responsable INT AUTO_INCREMENT PRIMARY KEY,
@@ -109,4 +99,24 @@ CREATE TABLE personal_salud (
     estado VARCHAR(10) NOT NULL DEFAULT 'activo',
     reset_token VARCHAR(255) DEFAULT NULL,
     fechaRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-) 
+);
+
+-- CREAMOS UNA TABLA PARA REGISTRAR TURNOS DE PERSONALES
+CREATE TABLE turnos_personal (
+    id_turno INT AUTO_INCREMENT PRIMARY KEY,
+    id_personal INT,
+    FOREIGN KEY (id_personal) REFERENCES personal_salud (id_personal) ON DELETE CASCADE, -- Elimina turnos relacionados si se elimina el personal
+    id_turno_tipo INT NOT NULL, -- Relación a una tabla de tipos de turnos
+    FOREIGN KEY (id_turno_tipo) REFERENCES tipos_turno_personal(id_turno_tipo), -- Clave foránea para tipos de turno
+    fecha DATE NOT NULL,
+    UNIQUE (id_personal, fecha) -- Evitar turnos duplicados en la misma fecha para el mismo personal
+);
+
+
+
+-- CREAMO LA TABLA DE TIPOS DE TURNO
+CREATE TABLE tipos_turno_personal (
+    id_turno_tipo INT AUTO_INCREMENT PRIMARY KEY,
+    turno VARCHAR(100) NOT NULL,
+    clave_turno VARCHAR(50) NOT NULL
+);

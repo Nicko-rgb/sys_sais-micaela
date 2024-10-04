@@ -235,7 +235,7 @@ app.put("/api/actualizar/paciente/:id_paciente", async (req, res) => {
         console.log("Resultado de la actualización del paciente:", updateResult);
 
         // Si hay datos del responsable, actualizarlos
-        if (pacienteData.id_res) {
+        if (pacienteData.id_responsable) {
             console.log("Actualizando datos del responsable...");
             const [updateResResult] = await connection.execute(
                 `UPDATE responsable_de_paciente SET
@@ -259,7 +259,7 @@ app.put("/api/actualizar/paciente/:id_paciente", async (req, res) => {
                     pacienteData.departamento_res,
                     pacienteData.provincia_res,
                     pacienteData.distrito_res,
-                    pacienteData.id_res,
+                    pacienteData.id_responsable,
                 ]
             );
             console.log("Resultado de la actualización del responsable:", updateResResult);

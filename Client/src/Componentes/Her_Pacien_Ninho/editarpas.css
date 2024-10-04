@@ -32,13 +32,13 @@
 .container-editar-paciente,
 .container-editar-nacimiento,
 .container-editar-responsable {
-    padding: 30px;
+    padding-top: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     flex: 1;
     background: white;
     overflow-y: auto;
     border-radius: 8px;
-    margin: 20px;
+    margin-right: 30px;
     display: none; /* Las secciones están ocultas por defecto */
 }
 
@@ -51,23 +51,28 @@
 
 /* Contenedores principales */
 .editar-paciente main {
-    margin-left: 230px;
+    margin-left: 140px;
+    /* margin-top: 100px; */
     display: flex;
+    flex-direction: column;
+    /* border:  3px solid red; */
     flex: 1;
     height: auto;
     position: relative;
 }
 
-.editar-paciente main section {
-    height: auto;
-    position: relative;
-    box-sizing: border-box;
-}
 
 .editar-paciente main .opcion-editar {
     display: flex;
-    flex-direction: column;
     padding: 10px;
+    height: auto;
+    position: relative;
+    box-sizing: border-box;
+    flex-direction: row;
+    gap :10px;
+    display: flex;
+    
+
 }
 
 /* Botones de opciones */
@@ -109,14 +114,61 @@
 .editar-paciente form {
     max-width: 600px;
     width: 100%;
+    /* border : 2px solid    #3058a6; */
     display: flex;
     flex-direction: column;
     gap: 10px;
+    padding: 30px;
     position: relative;
     padding-bottom: 100px;
     margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
+.editar-paciente .datos_cortos , .box-botones  {
+    display: flex;
+    gap: 30px;
+
+}
+.editar-paciente .datos-apellidos{
+    display: flex;
+    width: 95%
+    ;
+    gap: 88px;
+
+}
+.editar-paciente .box-botones{
+    
+    display:flex ;
+    justify-content: center;
+    margin-top: 20px;
+    /* border: 2px solid green; */
+
+}
+
+.editar-paciente .datos_cortos input{
+    width: 75%;
+}
+.editar-paciente .datos_cortos_responsable {
+    width: 580px;
+    display: flex;
+    /* margin-left: 40px; */
+    gap: 20px;
+}
+.editar-paciente  input{
+    width: 85%;
+    display: flex;
+    /* margin-left: 40px; */
+    gap: 30px;
+}
+.editar-paciente .datos_cortos_responsable .select-EditPaciente{
+    width: 99%;
+
+}
+.editar-paciente .datos_cortos select{
+    width: 86%;
+
+}
 .editar-paciente section label {
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
@@ -128,6 +180,7 @@
     padding: 8px 12px;
     font-size: 15px;
     border-radius: 4px;
+    width: 92%;
     outline: none;
     transition: border-color 0.3s ease;
 }
@@ -142,9 +195,9 @@
     color: white;
     padding: 10px 20px;
     font-family: 'Poppins', sans-serif;
-    font-weight: bold;
-    font-size: 16px;
+    font-size: 12px;
     border-radius: 5px;
+    width: 25%;
     cursor: pointer;
     border: none;
     transition: background-color 0.3s ease;

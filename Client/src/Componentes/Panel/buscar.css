@@ -13,11 +13,11 @@
 }
 
 .buscar h3 {
-  margin: 0;
-  margin-top: 20px;
   font-family: 'poppins';
-  font-size: 16px;
-  margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    margin-top: 40PX;
 }
 
 .buscar .box_buscar {
@@ -98,6 +98,7 @@
   background: none;
   border: none;
   margin: 0;
+  padding: 0;
   text-decoration: underline rgb(100, 28, 122);
   color: rgb(100, 28, 122);
 }
@@ -128,7 +129,7 @@
 }
 
 .buscar th{
-  padding: 8px;
+  padding: 6px;
   text-align: left;
   border: 1px solid gray;
   background: rgb(245,206,113);
@@ -140,13 +141,14 @@
 .buscar tbody tr{
   height: 5px;
   margin: 0;
+  padding: 0;
 }
 .buscar tbody td {
   font-family: 'poppins';
   font-size: 12px;
   text-transform: uppercase;
   margin: 0;
-  padding: 0 5px
+  padding: 3px 5px;
 }
 
 .buscar tr:hover {

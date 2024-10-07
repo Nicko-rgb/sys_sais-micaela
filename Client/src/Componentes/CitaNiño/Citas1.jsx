@@ -228,7 +228,7 @@ const Cita1 = ({ especialidad, agregarCita }) => {
                     <p>Selecciona una fecha para ver o agregar citas</p>
                     <Calendar
                         onChange={onDateChange}
-                        className="custom-calendar"
+                        className="custom-calendar" 
                         tileClassName={({ date, view }) => {
                             if (view === 'month' && date.getDay() === 0) {
                                 return 'react-calendar__tile--sunday';
@@ -237,7 +237,7 @@ const Cita1 = ({ especialidad, agregarCita }) => {
                         }}
                     />
                 </div>
-                <hr />
+                {/* <hr /> */}
                 <div className='list-cita'>
                     <h4>Citas para el día {selectedDate.toISOString().split('T')[0]} en consultorio {consultorio1} - {especialidad}</h4>
                     <table>

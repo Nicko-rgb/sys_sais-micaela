@@ -5,6 +5,9 @@ import NavLogin from "../Navegadores/NavLogin";
 import NavPie from "../Navegadores/NavPie";
 import axios, { formToJSON } from "axios";
 import lugares from '../Complementos/lugares.js';
+import { CgCalendarDates } from "react-icons/cg";
+import { FaUserEdit } from "react-icons/fa";
+import { RiParentFill } from "react-icons/ri";
 
 
 const EditPaciente = ({ paciente, onCloseEdit }) => {
@@ -309,6 +312,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                 </label>
               </div>
 
+              <div className="dato-solo">
               <label>
                 Etnia:
                 <input
@@ -317,8 +321,11 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                   value={birthData.etnia}
                   onChange={handleChange}
                 />
-              </label>
-              <div className="datos_cortos">
+              </label>                
+              </div>
+
+             
+              <div className="datosNaci2">
                 <label>
                   Financiamiento:
                   <input
@@ -338,7 +345,8 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                   />
                 </label>
               </div>
-              <label>
+              <div>
+              <label className="dato-solo">
                 Programa:
                 <input
                   type="text"
@@ -347,6 +355,9 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                   onChange={handleChange}
                 />
               </label>
+
+              </div>
+              
               <div className="box-botones">
 
 
@@ -369,7 +380,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
               >
                 <h3>DATOS DEL RESPONSABLE DEL PACIENTE</h3>
                 <form onSubmit={handleSubmit}>
-                  <div className="datos_cortos_responsable">
+                  <div className="cortos_dniTipo">
                     <label>
                       DNI:
                       <input
@@ -394,10 +405,8 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                       </select>
                     </label>
                   </div>
-                  {/* APELLIDOS */}
-                  <div className="datos_cortos_responsable">
-
-                    <label>
+                  <div className="dato-solo">
+                  <label>
                       Nombres:
                       <input
                         type="text"
@@ -406,6 +415,12 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                         onChange={handleChange}
                       />
                     </label>
+
+                  </div>
+
+                  
+                  {/* APELLIDOS */}
+                  <div className="cortos_apellidos">                    
                     <label>
                       Paterno:
                       <input
@@ -425,7 +440,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                       />
                     </label>
                   </div>
-                  <div className="datos_cortos_responsable">
+                  <div className="cortos_celulares">
 
                     <label>
                       Celular 1:
@@ -441,12 +456,13 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                       <input
                         type="text"
                         name="celular2_res"
+                        placeholder="opcional"
                         value={formData.celular2_res}
                         onChange={handleChange}
                       />
                     </label>
                   </div>
-                  <div className="datos_cortos_responsable">
+                  <div className="cortos_localidadsec">
 
                     <label>
                       Localidad:
@@ -478,6 +494,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                     </label>
                   </div>
 
+                  <div className="dato-solo">
                   <label>
                     Dirección:
                     <input
@@ -488,7 +505,11 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                       onChange={handleChange}
                     />
                   </label>
-                  <div className="datos_cortos_responsable">
+
+                  </div>
+
+                  
+                  <div className="datos-departamento">
 
                     <label>
                       Departamento:
@@ -590,6 +611,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                 </div>
               </div>
 
+              <div className="dato-solo">
               <label>
                 Nombres:
                 <input
@@ -600,6 +622,8 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                   required
                 />
               </label>
+
+              </div>              
 
               <div className="datos-apellidos">
                 <label>
@@ -623,7 +647,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                   />
                 </label>
               </div>
-              <div className="datos_cortos">
+              <div className="datos_naci">
                 <label>
                   Fecha de Nacimiento:
                   <input
@@ -682,12 +706,13 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
             className={activeSection === "datos" ? "active" : ""}
             onClick={() => handleButtonClick("datos")}
           >
+            <FaUserEdit className="ico"/>
             DATOS PACIENTE
           </button>
           <button
             className={activeSection === "nacimiento" ? "active" : ""}
             onClick={() => handleButtonClick("nacimiento")}
-          >
+          ><CgCalendarDates className="ico"/>
             NACIMIENTO
           </button>
           {paciente.id_responsable && (
@@ -695,6 +720,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
               className={activeSection === "responsable" ? "active" : ""}
               onClick={() => handleButtonClick("responsable")}
             >
+              <RiParentFill className="ico"/>
               RESPONSABLE
             </button>
           )}

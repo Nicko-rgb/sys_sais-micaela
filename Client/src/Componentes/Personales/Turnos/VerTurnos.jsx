@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import './turnos.css';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { MdMenuOpen } from "react-icons/md";
-import { MdPersonSearch } from 'react-icons/md';
-import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
-import Informacion from '../infoTurno/Informacion'
+import { MdMenuOpen, MdPersonSearch, MdNavigateNext, MdNavigateBefore } from "react-icons/md";
+import Informacion from '../infoTurno/Informacion';
+import Leyenda from "../infoTurno/Leyendas";
 
 const AsignaTurno = ({ closeTurnos }) => {
     const [personales, setPersonales] = useState([]);
-    const [turnos, setTurnos] = useState({});
     const [mesActual, setMesActual] = useState(new Date());
     const [cargando, setCargando] = useState(true);
     const [paginaActual, setPaginaActual] = useState(1);
     const [filtroCondicion, setFiltroCondicion] = useState('Todos');
     const [busqueda, setBusqueda] = useState('');
-    const [personalSeleccionado, setPersonalSeleccionado] = useState(null);  // ESTADO PARA GUARDAR EL PERSONAL SELECCIONADO
-    const [modalAbierto, setModalAbierto] = useState(false);  // ESTADO PARA CONTROLAR EL MODAL
-    const filasPorPagina = 10;
+    const [personalSeleccionado, setPersonalSeleccionado] = useState(null);
+    const [modalAbierto, setModalAbierto] = useState(false);
     const [tiposDeTurno, setTiposDeTurno] = useState([]);
+    const [columnasBloqueadas, setColumnasBloqueadas] = useState([]); // Cambiar a un arreglo de fechas bloqueadas
+    const [columnaSeleccionada, setColumnaSeleccionada] = useState(null);
+    const [turnos, setTurnos] = useState([]); //Para guardar los turnos 
+    const filasPorPagina = 10;
 
     useEffect(() => {
         const fetchPersonales = async () => {
@@ -34,34 +34,7 @@ const AsignaTurno = ({ closeTurnos }) => {
                 setCargando(false);
             }
         };
-
-        const fetchTurnos = async () => {
-            const mes = mesActual.getMonth() + 1;
-            const anio = mesActual.getFullYear();
-            try {
-                setCargando(true);
-                const response = await fetch(`http://localhost:5000/api/turnos/${anio}/${mes}`);
-                const data = await response.json();
-
-                const turnosMap = {};
-                data.forEach(turno => {
-                    const fechaSinHora = new Date(turno.fecha).toISOString().split('T')[0];
-                    if (!turnosMap[turno.id_personal]) {
-                        turnosMap[turno.id_personal] = {};
-                    }
-                    turnosMap[turno.id_personal][fechaSinHora] = turno.clave_turno;
-                });
-
-                setTurnos(turnosMap);
-            } catch (error) {
-                console.error('Error al obtener los turnos:', error);
-            } finally {
-                setCargando(false);
-            }
-        };
-
         fetchPersonales();
-        fetchTurnos();
     }, [mesActual]);
 
     useEffect(() => {
@@ -74,32 +47,66 @@ const AsignaTurno = ({ closeTurnos }) => {
                 console.error('Error al obtener los tipos de turnos:', error);
             }
         };
-
         fetchTiposDeTurno();
     }, []);
 
-    const obtenerFechasDelMes = (mes, anio) => {
+    useEffect(() => {
+        const fetchTurnosPersonal = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/api/obtener-turnos/personal');
+                const data = await response.json();
+                setTurnos(data);
+            } catch (error) {
+                console.error('Error al obtener los tipos de turnos:', error);
+            }
+        };
+        fetchTurnosPersonal();
+    }, []);
+
+    useEffect(() => {
+        const fetchFechasBloqueadas = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/api/obtener-fechas-bloqueadas');
+                const data = await response.json();
+                // Convertir las fechas a formato de string para comparar correctamente
+                const fechasBloqueadas = data.map(f => new Date(f.fecha).toDateString());
+                setColumnasBloqueadas(fechasBloqueadas);
+            } catch (error) {
+                console.error('Error al obtener las fechas bloqueadas:', error);
+            }
+        };
+        fetchFechasBloqueadas();
+    }, []);
+
+    const obtenerFechasDelMes = (fecha) => {
+        const anio = fecha.getFullYear();
+        const mes = fecha.getMonth();
+        const primerDia = new Date(anio, mes, 1);
+        const ultimoDia = new Date(anio, mes + 1, 0);
         const fechas = [];
-        const diasEnMes = new Date(anio, mes, 0).getDate();
-        for (let i = 1; i <= diasEnMes; i++) {
-            const fecha = new Date(anio, mes - 1, i);
-            fechas.push(fecha);
+
+        for (let dia = new Date(primerDia); dia <= ultimoDia; dia.setDate(dia.getDate() + 1)) {
+            fechas.push(new Date(dia));
         }
         return fechas;
     };
 
-    const fechasDelMes = obtenerFechasDelMes(mesActual.getMonth() + 1, mesActual.getFullYear());
+    const fechasDelMes = obtenerFechasDelMes(mesActual);
 
     const manejarMesSiguiente = () => {
-        const siguienteMes = new Date(mesActual);
-        siguienteMes.setMonth(mesActual.getMonth() + 1);
-        setMesActual(siguienteMes);
+        setMesActual(prevMes => {
+            const nuevoMes = new Date(prevMes);
+            nuevoMes.setMonth(nuevoMes.getMonth() + 1);
+            return nuevoMes;
+        });
     };
 
     const manejarMesAnterior = () => {
-        const mesAnterior = new Date(mesActual);
-        mesAnterior.setMonth(mesActual.getMonth() - 1);
-        setMesActual(mesAnterior);
+        setMesActual(prevMes => {
+            const nuevoMes = new Date(prevMes);
+            nuevoMes.setMonth(nuevoMes.getMonth() - 1);
+            return nuevoMes;
+        });
     };
 
     const personalesFiltrados = personales.filter(personal => {
@@ -117,27 +124,104 @@ const AsignaTurno = ({ closeTurnos }) => {
 
     const manejarVerMas = () => {
         if (indiceFinal < activosFiltrados.length) {
-            setPaginaActual(paginaActual + 1);
+            setPaginaActual(prev => prev + 1);
         }
     };
 
     const manejarVerMenos = () => {
         if (paginaActual > 1) {
-            setPaginaActual(paginaActual - 1);
+            setPaginaActual(prev => prev - 1);
         }
     };
 
-    // Función para manejar el clic en el nombre del personal
     const manejarClickPersonal = (personal) => {
         setPersonalSeleccionado(personal);
         setModalAbierto(true);
     };
 
-    // Función para cerrar el modal
     const cerrarModal = () => {
         setModalAbierto(false);
         setPersonalSeleccionado(null);
     };
+
+    const manejarBloqueoColumna = async (fecha) => {
+        try {
+            // Convertir la fecha al formato YYYY-MM-DD para MySQL
+            const fechaFormateada = new Date(fecha).toISOString().split('T')[0];
+
+            if (columnasBloqueadas.includes(fecha)) {
+                // Si la fecha está bloqueada, envía una solicitud para desbloquearla
+                await fetch(`http://localhost:5000/api/desbloquear-fecha`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ fecha: fechaFormateada }),  // Usar la fecha formateada
+                });
+                // Desbloquear localmente
+                setColumnasBloqueadas(prev => prev.filter(columna => columna !== fecha));
+            } else {
+                // Si la fecha no está bloqueada, envía una solicitud para bloquearla
+                await fetch(`http://localhost:5000/api/bloquear-fecha`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ fecha: fechaFormateada }),  // Usar la fecha formateada
+                });
+                // Bloquear localmente
+                setColumnasBloqueadas(prev => [...prev, fecha]);
+            }
+        } catch (error) {
+            console.error('Error al bloquear/desbloquear la fecha:', error);
+        }
+        setColumnaSeleccionada(null); // Cerrar el botón de bloquear después de hacer clic
+    };
+
+    const manejarSeleccionColumna = (fecha) => {
+        if (columnaSeleccionada === fecha) {
+            setColumnaSeleccionada(null); // Si haces clic de nuevo en la misma columna, se cierra
+        } else {
+            setColumnaSeleccionada(fecha); // Selecciona la columna actual
+        }
+    };
+    // Enviar los turnos al servidor para guardar
+    const manejarGuardarTurno = async (id_personal, id_turno_tipo, fecha) => {
+        try {
+            const response = await fetch('http://localhost:5000/api/asignar-turno/personal', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id_personal, id_turno_tipo, fecha })
+            });
+            const data = await response.json();
+
+        } catch (error) {
+            console.error('Error al guardar el turno:', error);
+        }
+    };
+    // Restablecer turnos
+    const manejarRestablecerTurnos = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/api/obtener-turnos/personal', {
+                method: 'GET'
+            });
+            const data = await response.json();
+            const turnosIniciales = {};
+            data.forEach(({ id_personal, fecha, id_turno_tipo }) => {
+                turnosIniciales[`${id_personal}_${new Date(fecha).toDateString()}`] = id_turno_tipo;
+            });
+            setTurnos(turnosIniciales);
+        } catch (error) {
+            console.error('Error al restablecer los turnos:', error);
+        }
+    };
+    manejarRestablecerTurnos()
+
+    const obtenerClaveTurno = (id_turno_tipo) => {
+        const turno = tiposDeTurno.find(t => t.id_turno_tipo === id_turno_tipo);
+        return turno ? turno.clave_turno : '';
+    };
+
 
     return (
         <div className="turnos-personal">
@@ -168,20 +252,6 @@ const AsignaTurno = ({ closeTurnos }) => {
                             </div>
                         </div>
                         <span className="contador">{filtroCondicion}: {activosFiltrados.length}</span>
-                        <div className="filtros">
-                            <p><MdMenuOpen className='ico' />SERVICIO</p>
-                            <div className="filtro">
-                                <span>Todos</span>
-                                <span>Medicina</span>
-                                <span>Enfermería</span>
-                                <span>Psicología</span>
-                                <span>Obstetricia</span>
-                                <span>Odontología</span>
-                                <span>Nutrición</span>
-                                <span>Laboratorio</span>
-                                <span>Técnicos/Auxiliares</span>
-                            </div>
-                        </div>
                         <div className="fecha-cambiar">
                             <h4>{mesActual.toLocaleString('es-ES', { month: 'long', year: 'numeric' })}</h4>
                             <button type="button" onClick={manejarMesAnterior}><MdNavigateBefore className="ico-cambiar" />Mes Anterior</button>
@@ -200,17 +270,27 @@ const AsignaTurno = ({ closeTurnos }) => {
                                         const diaSemana = fecha.toLocaleString('es-ES', { weekday: 'short' });
                                         const numeroDia = fecha.getDate();
                                         const esDomingo = fecha.getDay() === 0;
+                                        const esHoy = fecha.toDateString() === new Date().toDateString();
 
-                                        // Obtener la fecha actual sin la parte de la hora
-                                        const hoy = new Date();
-                                        const esHoy = fecha.toDateString() === hoy.toDateString();  // Comparación de fechas
+                                        const columnaBloqueada = columnasBloqueadas.includes(fecha.toDateString());
 
                                         return (
                                             <th
                                                 key={index}
-                                                className={`${esDomingo ? 'domingo' : ''} ${esHoy ? 'hoy' : ''}`}  // Agregar clase 'hoy' si es la fecha actual
+                                                className={`${esDomingo ? 'domingo' : ''} ${esHoy ? 'hoy' : ''} ${columnaBloqueada ? 'bloqueada' : ''}`}
+                                                onClick={() => manejarSeleccionColumna(fecha.toDateString())} // Usar la fecha como clave
                                             >
                                                 {diaSemana.charAt(0).toUpperCase()}-{numeroDia}
+                                                {columnaSeleccionada === fecha.toDateString() && (
+                                                    <div className="accion-cabeza">
+                                                        <div className="balloon">
+                                                            <p>ACCIONES</p>
+                                                            <button onClick={() => manejarBloqueoColumna(fecha.toDateString())}>
+                                                                {columnaBloqueada ? 'Desbloquear' : 'Bloquear'}
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </th>
                                         );
                                     })}
@@ -218,22 +298,51 @@ const AsignaTurno = ({ closeTurnos }) => {
                             </thead>
                             <tbody>
                                 {personalesPaginados.map((personal, index) => (
-                                    <tr key={personal.id_personal}>
-                                        <td style={{ textAlign: 'center' }}>{indiceInicial + index + 1}</td>
+                                    <tr key={index}>
+                                        <td>{(paginaActual - 1) * filasPorPagina + index + 1}</td>
                                         <td className="names" onClick={() => manejarClickPersonal(personal)}>
                                             {`${personal.paterno} ${personal.materno} ${personal.nombres}`}
                                             {modalAbierto && (
-                                                <Informacion personal={personalSeleccionado} cerrarModal={cerrarModal} />
+                                                <Informacion
+                                                    personal={personalSeleccionado}
+                                                    cerrarModal={cerrarModal}
+                                                    tiposDeTurno={tiposDeTurno}
+                                                />
                                             )}
                                         </td>
-                                        {fechasDelMes.map(fecha => {
+                                        {fechasDelMes.map((fecha, fechaIndex) => {
+                                            const esDomingo = fecha.getDay() === 0; // Verifica si es domingo
+                                            const columnaBloqueada = columnasBloqueadas.includes(fecha.toDateString()); // Verifica si está bloqueada
+
                                             return (
-                                                <td style={{ textAlign: 'center' }} key={fecha} className={fecha.getDay() === 0 ? 'domingo' : ''}>
-                                                    {fecha.getDay() !== 0 && (
-                                                        <select>
+                                                <td
+                                                    key={fechaIndex}
+                                                    className={`${columnaBloqueada ? 'bloqueada' : ''} ${esDomingo ? 'domingo' : ''}`.trim()}
+                                                >
+                                                    {/* Solo muestra el select si no es domingo y no está bloqueada */}
+                                                    {!esDomingo && !columnaBloqueada && (
+                                                        <select
+                                                        className={
+                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'M' ? 'mm' :
+                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'T' ? 'tt' :
+                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'GD' ? 'gd' :
+                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'GDD' ? 'gdd' :
+                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'MT' ? 'mt' :
+                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'MVD' ? 'mvd' :
+                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'TVD' ? 'tvd' :
+                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'MVSF' ? 'mvsf' :
+                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'TVSL' ? 'tvsl' :
+                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'L' ? 'll' :
+                                                            ''
+                                                        }
+                                                            value={turnos[`${personal.id_personal}_${fecha.toDateString()}`] || ""}
+                                                            onChange={(e) => manejarGuardarTurno(personal.id_personal, fecha, e.target.value)}
+                                                        >
                                                             <option value=""></option>
-                                                            {tiposDeTurno.map(turnos => (
-                                                                <option value={turnos.clave_turno}>{turnos.clave_turno} </option>
+                                                            {tiposDeTurno.map(turno => (
+                                                                <option key={turno.id_turno_tipo} value={turno.id_turno_tipo}>
+                                                                    {turno.clave_turno}
+                                                                </option>
                                                             ))}
                                                         </select>
                                                     )}
@@ -245,15 +354,12 @@ const AsignaTurno = ({ closeTurnos }) => {
                             </tbody>
                         </table>
                     )}
-                    <div className="btns">
-                        <button>GUARDAR CAMBIOS</button>
-                        <button>RESTABLECER DATOS</button>
+                    <div className="paginacion">
+                        <button onClick={manejarVerMenos} disabled={paginaActual === 1}>Ver menos</button>
+                        <button onClick={manejarVerMas} disabled={indiceFinal >= activosFiltrados.length}>Ver más</button>
                     </div>
+                    <Leyenda turno={turnos} tiposDeTurno={tiposDeTurno} />
                 </section>
-                <div className="btn-paginacion">
-                    <button onClick={manejarVerMenos} disabled={paginaActual === 1}>Ver menos</button>
-                    <button onClick={manejarVerMas} disabled={indiceFinal >= activosFiltrados.length}>Ver más</button>
-                </div>
             </main>
         </div>
     );

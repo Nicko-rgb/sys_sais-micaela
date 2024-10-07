@@ -25,7 +25,7 @@ const Panel = () => {
                 <>
                 <NavLogin />
             <div className="opciones">
-                <p>Paquete de atención integral por curso de {userPersonal} </p>
+                <p>Paquete de atención integral por curso de vida </p>
                 <Link className="box" to='/panel-niño'>
                     <img src={niño} alt="" />
                     <p>Niño</p>

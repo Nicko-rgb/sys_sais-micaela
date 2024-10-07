@@ -100,14 +100,21 @@ const EditPersonales = ({ personData, onSave, onClose }) => {
                                 <input type="text" name="correo" value={formData.correo} onChange={handleChange} />
                             </label>
                         </div>
-                        <div>
-                            <label>Usuario:
-                                <input type="text" name="usuario" value={formData.usuario} onChange={handleChange} />
-                            </label>
-                            <label>Contraseña:
-                                <input type="password" name="contrasena" value={formData.contrasena} onChange={handleChange} />
-                            </label>
+
+                        <div className="accesopersonal">
+                            <fieldset>
+                                <legend>Credenciales de Acceso</legend>
+                                <div className="form-grid">
+                                    <label>Usuario:
+                                        <input type="text" name="usuario" value={formData.dni} onChange={handleChange} />
+                                    </label>
+                                    <label>Contraseña:
+                                        <input type="password" name="contrasena" value={formData.contrasena} onChange={handleChange} />
+                                    </label>
+                                </div>
+                            </fieldset>
                         </div>
+
                         <div className="selec-cita">
                             <label>Especialidad en citas:
                                 <select name="especial_cita" value={formData.especial_cita} onChange={handleChange}>

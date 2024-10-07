@@ -579,16 +579,16 @@ app.post('/api/asignar-turno/personal', async (req, res) => {
 // Ruta para Loggin  
 app.post('/api/sais/login', async (req, res) => {
     try {
-        console.log('Datos recibidos:', req.body); // Agrega este log
-        const { username, contrasena } = req.body;
+        // console.log('Datos recibidos:', req.body); // Agrega este log
+        const { dni, contrasena } = req.body;
 
         // Verificar si se proporcionó el nombre de usuario y la contraseña
-        if (!username || !contrasena) {
-            return res.status(400).json({ message: 'Usuario y contraseña son obligatorios' });
+        if (!dni || !contrasena) {
+            return res.status(400).json({ message: 'DNI y contraseña son obligatorios' });
         }
 
         // Buscar el usuario por nombre de usuario en la base de datos MySQL
-        const [rows] = await pool.execute('SELECT * FROM personal_salud WHERE usuario = ?', [username]);
+        const [rows] = await pool.execute('SELECT * FROM personal_salud WHERE dni= ?', [dni]);
 
         // Verificar si el usuario existe
         if (rows.length === 0) {

@@ -52,6 +52,34 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
 
 
   });
+  // ESTADO DEL NACIMIENTO
+  const [birthData, setBirthData] = useState({
+    edad_gestacional: "",
+    peso: "",
+    talla: "",
+    perimetro_cefalico: "",
+    etnia: "",
+    financiamiento: "",
+    codigo_sis: "",
+    programa: "",
+  });
+
+  // MANEJAR DATOS DEL NACIMIENTO
+  const handleBirthDataChange = (e) => {
+    const { name, value } = e.target;
+    setBirthData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+// ENVIAR DATOS DEL NACIMIENTO
+  const handleBirthDataSubmit = async (e) => {
+    e.preventDefault();
+    // Implement the logic to submit birth data
+    console.log("Birth data to submit:", birthData);
+    // You'll need to create a new API endpoint to handle birth data separately
+    // and implement the axios call here
+  }
 
   // SLECTES DE DEPARTAMENTOS
   const handleDepartmentChange = (event) => {
@@ -205,6 +233,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
           console.log("Nuevo estado del formulario:", newData);
           return newData;
         });
+        window.location.reload();
 
         // Si tienes una función para actualizar el estado en el componente padre, llámala aquí
         // onUpdatePaciente(formData);
@@ -243,15 +272,14 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
         return (
           <section className={`container-editar-nacimiento ${animateClass} section-active`}>
             <h3>DATOS DE NACIMIENTO</h3>
-            <form onSubmit={handleSubmit}>
-              <div className="datosNaci1">
-
+            <form onSubmit={handleBirthDataSubmit}>
+              <div className="datos_cortos">
                 <label>
                   Edad Gestacional:
                   <input
                     type="text"
                     name="edad_gestacional"
-                    value={formData.edad_gestacional}
+                    value={birthData.edad_gestacional}
                     onChange={handleChange}
                   />
                 </label>
@@ -260,7 +288,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                   <input
                     type="text"
                     name="peso"
-                    value={formData.peso}
+                    value={birthData.peso}
                     onChange={handleChange}
                   />
                 </label>
@@ -269,7 +297,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                   <input
                     type="text"
                     name="talla"
-                    value={formData.talla}
+                    value={birthData.talla}
                     onChange={handleChange}
                   />
                 </label>
@@ -278,7 +306,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                   <input
                     type="text"
                     name="perimetro_cefalico"
-                    value={formData.perimetro_cefalico}
+                    value={birthData.perimetro_cefalico}
                     onChange={handleChange}
                   />
                 </label>
@@ -290,7 +318,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                 <input
                   type="text"
                   name="etnia"
-                  value={formData.etnia}
+                  value={birthData.etnia}
                   onChange={handleChange}
                 />
               </label>                
@@ -303,7 +331,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                   <input
                     type="text"
                     name="financiamiento"
-                    value={formData.financiamiento}
+                    value={birthData.financiamiento}
                     onChange={handleChange}
                   />
                 </label>
@@ -312,8 +340,8 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                   <input
                     type="text"
                     name="codigo_sis"
-                    value={formData.codigo_sis}
-                    onChange={handleChange}
+                  value={birthData.codigo_sis}
+                  // onChange={handleChange}
                   />
                 </label>
               </div>
@@ -323,7 +351,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                 <input
                   type="text"
                   name="programa"
-                  value={formData.programa}
+                  value={birthData.programa}
                   onChange={handleChange}
                 />
               </label>
@@ -472,7 +500,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                     <input
                       type="text"
                       name="direccion_res"
-                      
+
                       value={formData.direccion_res}
                       onChange={handleChange}
                     />

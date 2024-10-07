@@ -49,7 +49,7 @@ const RegPersonal = ({ handleForm }) => {
         setMsg('');
     
         // Validaciones
-        if (!dni || !paterno || !materno || !nombres || !tipoUser || !profesion || !servicio || !condicion || !celular || !correo || !nameUser || !contrasena || !repitContra) {
+        if (!dni || !paterno || !materno || !nombres || !tipoUser || !profesion || !servicio || !condicion || !celular || !correo || !contrasena || !repitContra) {
             setMsg('Todos los campos son obligatorios.');
             setLoading(false);
             return;
@@ -213,9 +213,9 @@ const RegPersonal = ({ handleForm }) => {
                     <label>Correo:
                         <input type="email" value={correo} onChange={(e) => setCorreo(e.target.value)} />
                     </label>
-                    <label>Nombre de Usuario:
+                    {/* <label>Nombre de Usuario:
                         <input type="text" value={nameUser} onChange={(e) => setNameUser(e.target.value)} />
-                    </label>
+                    </label> */}
 
                     <div>
                         <label>Contraseña:

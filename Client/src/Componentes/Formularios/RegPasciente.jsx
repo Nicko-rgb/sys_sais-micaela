@@ -1,6 +1,6 @@
 import './reg_paciente.css';
 import React, { useState } from 'react';
-import { IoCloudUploadOutline } from "react-icons/io5"; 
+import { IoCloudUploadOutline } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
 import lugares from '../Complementos/lugares.js';
 import { useNavigate } from 'react-router-dom';
@@ -53,7 +53,7 @@ const RegistrarPas = ({ onClose }) => {
         setSelectedDepartment(event.target.value);
         setSelectedProvince(''); // Reiniciar la provincia seleccionada
         setDepartamento(event.target.value)
-        setDepartamentoResponsable(event.target.value) 
+        setDepartamentoResponsable(event.target.value)
     };
 
     const handleProvinceChange = (event) => {
@@ -123,7 +123,7 @@ const RegistrarPas = ({ onClose }) => {
         setSexo(event.target.value);
     };
 
-    
+
     // codigo para habitlitar formulario de responsable o tutor de paciente
     const checkFormRespons = () => {
         setCamposResponsable(!camposResponsable)
@@ -141,12 +141,30 @@ const RegistrarPas = ({ onClose }) => {
         setDepartamento(event.target.value)
         setDepartamentoResponsable(event.target.value)
     }
-    
+
     const handleSelectResponsable = (event) => {
         setTipoResponsable(event.target.value)
     }
 
     const navigate = useNavigate();
+
+    // Function to handle DNI input
+    const handleDniChange = (e) => {
+        const input = e.target.value;
+        // Only allow numbers and limit to 8 digits
+        const numericInput = input.replace(/\D/g, '').slice(0, 8);
+        setDni(numericInput);
+    };
+    // Function to handle DNI input
+    const handleDniChanger = (e) => {
+        const input = e.target.value;
+        // Only allow numbers and limit to 8 digits
+        const numericInput = input.replace(/\D/g, '').slice(0, 8);
+        setDniResponsable(numericInput);
+    };
+
+
+
 
     const handleSubmit = async (event) => {
         event.preventDefault(); // Evitar el comportamiento por defecto del formulario
@@ -222,12 +240,15 @@ const RegistrarPas = ({ onClose }) => {
                                 <h3>Datos del Nuevo Paciente</h3>
                                 <div className='datos_cortos'>
                                     <div>
-                                        <label>DNI del Paciente</label> 
+                                        <label>DNI del Paciente</label>
                                         <input
                                             type="text"
+                                            onChange={(handleDniChange)}
                                             value={dni}
-                                            onChange={(e) => setDni(e.target.value)}
                                             required
+                                            maxLength={"8"}
+                                            pattern='\d{8}'
+                                            title='INGRESE DNI VALIDO DE 8 DIGITOS '
                                         />
                                     </div>
                                     <div>
@@ -389,7 +410,7 @@ const RegistrarPas = ({ onClose }) => {
                                                     <option value="Sector 7">Sector 7</option>
                                                     <option value="Sector 8">Sector 8</option>
                                                     <option value="Sector 9">Sector 9</option>
-                                                </select> 
+                                                </select>
                                             </div>
                                         </div>
                                         <div className='box_datos'>
@@ -444,10 +465,12 @@ const RegistrarPas = ({ onClose }) => {
                                         <div className='dni'>
                                             <label>DNI del Responsable</label>
                                             <input
-                                                type="text"
-                                                value={dniResponsable}
-                                                onChange={(e) => setDniResponsable(e.target.value)}
-                                                required
+                                                    onChange={(handleDniChanger)}
+                                                    value={dniResponsable}
+                                                    required
+                                                    maxLength={"8"}
+                                                    pattern='\d{8}'
+                                                    title='INGRESE DNI VALIDO DE 8 DIGITOS '
                                             />
                                         </div>
                                         <div className='tipo_respons combo'>

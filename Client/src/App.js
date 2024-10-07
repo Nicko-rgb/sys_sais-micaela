@@ -12,6 +12,7 @@ import { AuthProvider } from './Componentes/Complementos/AuthContext';
 import ContactAdmi from './Componentes/ContactAdministrador/contactAdmi';
 import Restablecer from "./Componentes/Login/ResetPassword/Verificacion_Restablecer/Restablecer"
 import Perfil from './Componentes/Perfil User/Perfil';
+// import Modalnavtop from './Componentes/Navegadores/Modalnavtop';
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
                         <Route path="/contact-administrador" element={<ContactAdmi />} />
                         <Route path="/new-password/:token" element={<Restablecer />} />
                         <Route path="/perfil/:name/:id" element={<Perfil />} />
+                        {/* <Route path="/modal-salida" element={<Modalnavtop />} /> */}
                     </Routes>
                 </AuthProvider>
             </BrowserRouter>

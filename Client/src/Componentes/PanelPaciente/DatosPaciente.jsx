@@ -107,7 +107,7 @@ const DatosPaciente = () => {
                                     <td>{calcularEdad(paciente.fecha_nacimiento)}</td>
                                     <td>{paciente.sexo}</td>
                                     {paciente.id_responsable && (
-                                        <td>{paciente.nombres_res} {paciente.ape_paterno_res} {paciente.ape_materno_res}</td>
+                                        <td>{paciente.ape_paterno_res} {paciente.ape_materno_res}, {paciente.nombres_res}</td>
                                     )}
                                     <td><button onClick={edicionPaciente}><FaUserEdit />Editar</button></td>
                                 </tr>

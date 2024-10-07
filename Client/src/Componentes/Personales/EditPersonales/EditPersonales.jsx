@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./EditPersonales.css";
-import TurnoPersonal from '../Turnos/AsignaTurno';
 import Sector from '../Sectores/Sector';
 
 const EditPersonales = ({ personData, onSave, onClose }) => {
@@ -46,7 +45,7 @@ const EditPersonales = ({ personData, onSave, onClose }) => {
             <div className="modal-content">
                 <nav>
                     <button className={activeModal === 'edit' ? 'active' : ''} onClick={() => handleOpenModal('edit')}>Editar</button>
-                    <button className={activeModal === 'turno' ? 'active' : ''} onClick={() => handleOpenModal('turno')}>Asignar Turno</button>
+                    {/* <button className={activeModal === 'turno' ? 'active' : ''} onClick={() => handleOpenModal('turno')}>Asignar Turno</button> */}
                     <button className={activeModal === 'sector' ? 'active' : ''} onClick={() => handleOpenModal('sector')}>Asignar Sector</button>
                 </nav>
                 {activeModal === 'edit' && (
@@ -144,7 +143,6 @@ const EditPersonales = ({ personData, onSave, onClose }) => {
                         </div>
                     </form>
                 )}
-                {activeModal === 'turno' && <TurnoPersonal personData={personData} onClose={onClose} />}
                 {activeModal === 'sector' && <Sector onClose={onClose} />}
             </div>
         </div>

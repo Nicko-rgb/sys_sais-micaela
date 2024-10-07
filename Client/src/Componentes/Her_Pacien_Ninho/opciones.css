@@ -62,7 +62,7 @@
   cursor: pointer;
 }
 
-section .opciones1,
+.opciones-right .opciones1,
 .opciones2,
 .opciones3,
 .opciones4 {
@@ -79,7 +79,7 @@ section .opciones1,
 }
 
 section p {
-  margin: 0;
+  margin: 0;    
   border: gray solid 1px;
   font-family: 'poppins';
   background-color: #f0f0f0;
@@ -94,7 +94,7 @@ section p {
   /* Convierte el texto a mayúsculas */
 }
 
-section a {
+.opciones-right section a {
   margin: 0;
   border: gray solid 1px;
   font-family: 'poppins';
@@ -115,7 +115,7 @@ section a {
 
 }
 
-section a img {
+.opciones-right section a img {
   width: 25px;
   margin: 0;
 }
@@ -125,13 +125,13 @@ section a img {
   color: black;
 }
 
-section .opciones1.show,
+.opciones-right section .opciones1.show,
 section .opciones2.show,
 section .opciones3.show {
   display: flex;
 }
 
-section .opciones1.hide,
+.opciones-right section .opciones1.hide,
 section .opciones2.hide,
 section .opciones3.hide {
   display: none;
@@ -193,7 +193,7 @@ section .opciones3.hide {
 }
 
 /* Common styles for p and a elements */
-section p,
+.opciones-left section p,
 section a {
   margin: 0;
   border: 1px solid gray;

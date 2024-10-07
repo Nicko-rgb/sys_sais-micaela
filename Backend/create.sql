@@ -1,5 +1,7 @@
--- Active: 1727790809895@@127.0.0.1@3306@phpmyadmin
--- Crear la base de datos si no existe
+-- SQLBook: Code
+-- Active: 1727790809895@@127.0.0.1@3306@db_sais
+-- SQLBook: Code
+
 CREATE DATABASE IF NOT EXISTS db_sais;
 
 -- Usar la base de datos creada
@@ -112,11 +114,17 @@ CREATE TABLE turnos_personal (
     UNIQUE (id_personal, fecha) -- Evitar turnos duplicados en la misma fecha para el mismo personal
 );
 
-
-
 -- CREAMO LA TABLA DE TIPOS DE TURNO
 CREATE TABLE tipos_turno_personal (
     id_turno_tipo INT AUTO_INCREMENT PRIMARY KEY,
     turno VARCHAR(100) NOT NULL,
     clave_turno VARCHAR(50) NOT NULL
 );
+-- CREAMOS UNA TABLA PARA RECIBIR DATOS DE DIAS BLOQUEADOS PARA EL PERSONAL
+CREATE TABLE dias_bloqueados (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fecha DATE NOT NULL,
+    bloqueado BOOLEAN NOT NULL DEFAULT TRUE,
+    UNIQUE (fecha) -- Para evitar duplicados de la misma fecha
+);
+

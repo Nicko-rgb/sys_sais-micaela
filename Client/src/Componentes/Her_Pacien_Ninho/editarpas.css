@@ -33,7 +33,7 @@
 .container-editar-nacimiento,
 .container-editar-responsable {
     padding-top: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
     flex: 1;
     background: white;
     overflow-y: auto;
@@ -70,9 +70,7 @@
     box-sizing: border-box;
     flex-direction: row;
     gap :10px;
-    display: flex;
-    
-
+    display: flex;    
 }
 
 /* Botones de opciones */
@@ -84,10 +82,14 @@
     width: 180px;
     cursor: pointer;
     border: none;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     background-color: #6ea3f5;
     color: white;
     border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
     transition: background-color 0.3s ease;
 }
 
@@ -99,6 +101,10 @@
 /* Hover en botones */
 .opcion-editar button:hover {
     background-color: #5e94f0;
+}
+
+.editar-paciente .opcion-editar .ico{
+    font-size: 18px;
 }
 
 /* Títulos */
@@ -122,21 +128,55 @@
     position: relative;
     padding-bottom: 100px;
     margin: 0 auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
-.editar-paciente .datos_cortos , .box-botones  {
+.editar-paciente .datos_cortos , .box-botones {
     display: flex;
     gap: 30px;
 
 }
+
+/* FORM NACIMIENTO */
+
+.editar-paciente .datosNaci1{
+    display: flex;
+    gap: 30px;
+    width: 598px;
+}
+
+.editar-paciente .dato-solo input{
+    width: 585px;
+}
+
+.editar-paciente .datosNaci2{
+    display: flex;
+    gap: 30px;
+    width: 608px;
+}
+
+
 .editar-paciente .datos-apellidos{
     display: flex;
-    width: 95%
-    ;
-    gap: 88px;
+    width: 608px;
+    gap: 25px;
 
 }
+
+.editar-paciente .datos_naci{
+    display: flex;
+    gap: 30px;
+    width: 610px
+}
+
+
+.editar-paciente .datos_naci select{
+    width: 200px;
+
+}
+
+
+
 .editar-paciente .box-botones{
     
     display:flex ;
@@ -146,29 +186,50 @@
 
 }
 
-.editar-paciente .datos_cortos input{
-    width: 75%;
-}
-.editar-paciente .datos_cortos_responsable {
-    width: 580px;
+
+/* FORM REPONSABLE */
+.editar-paciente .cortos_dniTipo{
     display: flex;
-    /* margin-left: 40px; */
-    gap: 20px;
+    gap: 30px;
+    width: 610px;
 }
-.editar-paciente  input{
-    width: 85%;
+
+.editar-paciente .cortos_dniTipo select{
+    width: 298px;
+}
+
+.editar-paciente .cortos_apellidos{
     display: flex;
-    /* margin-left: 40px; */
+    gap: 30px;
+    width: 608px;
+}
+
+.editar-paciente .cortos_celulares{
+    display: flex;
+    gap: 30px;
+    width: 608px;
+}
+
+.editar-paciente .cortos_localidadsec{
+    display: flex;
+    gap: 30px;
+    width: 609px;
+}
+
+.editar-paciente .cortos_localidadsec select{
+    width: 300px;
+}
+
+.editar-paciente .datos-departamento{
+    display: flex;
     gap: 30px;
 }
-.editar-paciente .datos_cortos_responsable .select-EditPaciente{
-    width: 99%;
 
+.editar-paciente .datos-departamento select{
+    width: 183px;
 }
-.editar-paciente .datos_cortos select{
-    width: 86%;
 
-}
+
 .editar-paciente section label {
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
@@ -176,7 +237,7 @@
 }
 
 .editar-paciente section input {
-    border: 1px solid #ddd;
+    border: 2px solid #cecece;
     padding: 8px 12px;
     font-size: 15px;
     border-radius: 4px;
@@ -187,6 +248,8 @@
 
 .editar-paciente section input:focus {
     border-color: #6ea3f5;
+    border: 1px #6ea3f5 solid;
+
 }
 
 /* Botón de enviar */
@@ -205,4 +268,16 @@
 
 .editar-paciente button[type="submit"]:hover {
     background-color: #254a82;
+}
+
+.editar-paciente button[type="button"]{
+    background-color: red;
+    color: white;
+    cursor: pointer;
+    padding: 10px 20px;
+    width: 25%;
+    border-radius: 5px;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
 }

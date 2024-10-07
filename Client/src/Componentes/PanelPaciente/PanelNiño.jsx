@@ -1,8 +1,8 @@
-import './panelniño.css'
-import React from 'react'
-import { Link } from 'react-router-dom'
-import NavLogin from '../Navegadores/NavLogin'
-import NavPie from '../Navegadores/NavPie'
+import './panelniño.css';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import NavLogin from '../Navegadores/NavLogin';
+import NavPie from '../Navegadores/NavPie';
 import { FaCheckCircle, FaRoad, FaAmbulance } from "react-icons/fa";
 import { HiUsers } from "react-icons/hi2";
 import { FaFileCircleCheck } from "react-icons/fa6";
@@ -13,6 +13,21 @@ import { GrFormView } from "react-icons/gr";
 import { RiPlayReverseLargeFill } from "react-icons/ri";
 
 const Panel = () => {
+    const [showModal, setShowModal] = useState(false);
+
+    const openModal = () => {
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
+
+    const handleLinkClick = () => {
+        // Cierra el modal antes de redirigir
+        closeModal();
+    };
+
     return (
         <div className="panel">
             <NavLogin />
@@ -30,16 +45,37 @@ const Panel = () => {
                             <h5><MdDateRange className='icon_box' style={{ background: 'rgb(99, 191, 209)' }} /> Citas</h5>
                             <p>OTORGAR CITAS</p>
                         </Link>
-                        <a href='http://app3.sis.gob.pe/SisConsultaEnLinea/Consulta/frmConsultaEnLinea.aspx' target="_blank" rel="noopener noreferrer" className="box">
-                            <h5> <FaCheckCircle className="icon_box" style={{ background: 'rgb(32, 180, 111)' }} /> Acreditación</h5>
-                            <p>VERIFICA AFILIACIÓN SIS</p>
-                        </a>
+                        <button className="box" onClick={openModal}>
+                            <h5><FaCheckCircle className="icon_box" style={{ background: 'rgb(32, 180, 111)' }} /> Acreditación</h5>
+                            <p>VERIFICA AFILIACIÓN</p>
+                        </button>
                         <Link className="box" to='/personal-salud'>
                             <h5><HiUsers className="icon_box" style={{ background: 'gray' }} /> Personal</h5>
                             <p>USUARIO DE ACCESO</p>
                         </Link>
                     </div>
                 </div>
+
+                {/* Modal */}
+                {showModal && (
+                    <div className="modal">
+                        <div className="modal_content">
+                            <h4>Elige una opción</h4>
+                            <div className="modal_buttons">
+                                {/* <div></div> */}
+                                <a href='http://app3.sis.gob.pe/SisConsultaEnLinea/Consulta/frmConsultaEnLinea.aspx' target="_blank" rel="noopener noreferrer" className="modal_link" onClick={handleLinkClick}>
+                                    Ir a SIS
+                                </a>
+                                <a href='https://app8.susalud.gob.pe:8380/login' target="_blank" rel="noopener noreferrer" className="modal_link" onClick={handleLinkClick}>
+                                    Ir a SITEDS
+                                </a>
+                                
+                            </div>
+                            <button onClick={closeModal} className="modal_close">Cancelar</button>
+                        </div>
+                    </div>
+                )}
+
                 <div className='box_opciones'>
                     <h4><TbNurse />Enfermería</h4>
                     <hr />
@@ -79,9 +115,10 @@ const Panel = () => {
                     </div>
                 </div>
             </div>
-
             <NavPie />
         </div>
-    )
-}
+    );
+};
+
 export default Panel;
+ 

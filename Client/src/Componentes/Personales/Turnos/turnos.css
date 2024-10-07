@@ -127,6 +127,7 @@
 
 .turnos-personal .acciones .filtros{
   position: relative;
+  z-index: 10;
 }
 .turnos-personal .acciones div p {
   width: 120px;
@@ -206,16 +207,68 @@
   padding: 4px;
   text-align: center;
   font-weight: bold;
+  position: relative;
+  position: relative;
+  cursor: pointer;
+  transition: all .2s;
+}
+.turnos-personal main table thead th:hover{
+  background-color: #51b7ab; 
+}
+.turnos-personal main table thead th .accion-cabeza{
+  position: absolute;
+  top: 30px;
+  left: -10px;
+  z-index: 5;
+  animation: fadeIn 0.3s ease;
+  padding: 10px;
 }
 
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: scale(0.95);
+  }
+
+  to {
+      opacity: 1;
+      transform: scale(1);
+  }
+}
+.balloon {
+  position: relative; 
+  background-color: #51b7ab;
+  color: floralwhite;
+  padding: 10px;
+  border-radius: 5px;
+  width: 150px; 
+  box-shadow: 0 0 8px #ffffff;
+}
+
+.balloon::before {
+  content: ""; /* Necesario para crear el pseudo-elemento */
+  position: absolute; /* Posicionamiento absoluto */
+  top: -15px; /* Ajusta la posición vertical */
+  left: 10px; /* Ajusta la posición horizontal */
+  width: 0; 
+  height: 0; 
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid #51b7ab;
+}
+.turnos-personal table .accion-cabeza p{
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: initial;
+}
 .turnos-personal table .names{
   cursor: pointer;
   position: relative;
   white-space: nowrap;
-  padding: 4px;
+  padding: 2px;
   width: auto;
 }
-
 .turnos-personal table .names:hover{
   text-decoration: underline;
 }
@@ -259,7 +312,35 @@
 
 .turnos-personal table .domingo{
   background: rgba(128, 128, 128, 0.534);
+  pointer-events: none;
 }
-.turnos-personal table tr + .domingo {
-  background: rgba(128, 128, 128, 0.534);
+
+.turnos-personal table .bloqueada {
+  background-color: rgba(255, 36, 36, 0.518);
+  pointer-events: none;
+} 
+.turnos-personal table thead tr .bloqueada{
+  pointer-events: initial;
+}
+
+.turnos-personal table .mm{
+  color: red;
+}
+.turnos-personal table .tt{
+  color: rgb(255, 68, 168);
+}
+.turnos-personal table .gd{
+  color: rgb(247, 18, 255);
+}
+.turnos-personal table .mvd{
+  color: rgb(255, 172, 39);
+}
+.turnos-personal table .gdd{
+  color: rgb(34, 255, 63);
+}
+.turnos-personal table .mvsf{
+  color: gray;
+}
+.turnos-personal table .ll{
+  color: rgb(1, 159, 159);
 }

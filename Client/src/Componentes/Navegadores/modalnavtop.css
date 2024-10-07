@@ -1,0 +1,51 @@
+.modal-cerrarsesion {
+    position: fixed; /* Fija el modal en la pantalla */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    display: flex; /* Usa flexbox para centrar el contenido */
+    justify-content: center; /* Centrado horizontal */
+    align-items: center; /* Centrado vertical */
+    z-index: 1000; /* Asegura que el modal esté encima de otros elementos */
+}
+
+.modal-hijo {
+    background-color: #fff; /* Fondo blanco para el modal */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 20px; /* Espaciado interno */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra */
+    width: 300px; /* Ancho fijo para el modal */
+    text-align: center; /* Texto centrado */
+}
+
+.titulo {
+    margin-bottom: 20px; /* Espaciado inferior */
+}
+
+.modal-botones {
+    display: flex; /* Usamos flexbox para los botones */
+    justify-content: space-between; /* Espaciado entre los botones */
+}
+
+.btn-confirmar, .btn-cancelar {
+    padding: 10px 15px; /* Espaciado interno */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+}
+
+.btn-confirmar {
+    background-color: #28a745; /* Verde para el botón "Sí" */
+    color: #fff; /* Texto blanco */
+}
+
+.btn-cancelar {
+    background-color: #dc3545; /* Rojo para el botón "No" */
+    color: #fff; /* Texto blanco */
+}
+
+.btn-confirmar:hover, .btn-cancelar:hover {
+    opacity: 0.8; /* Efecto de opacidad al pasar el ratón */
+}

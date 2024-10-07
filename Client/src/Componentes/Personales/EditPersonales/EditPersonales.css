@@ -41,6 +41,39 @@
   text-decoration: underline;
   background-color: rgb(97, 208, 97);
 }
+/* CREDENCIALES DE ACCESO */
+.accesopersonal fieldset {
+  border: 1px solid #000;
+  padding: 27px;
+  border-radius: 8px;
+}
+
+.accesopersonal legend {
+  font-weight: bold 1px;
+  padding: 0 10px;
+  color: #000;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Dos columnas de igual tamaño */
+  gap: 20px; /* Espacio entre columnas */
+}
+
+.form-grid label {
+  display: flex;
+  flex-direction: column; /* Alinea el label encima del input */
+  font-size: 16px;
+}
+
+.form-grid input {
+  margin-top: 5px;
+  padding: 8px;
+  width: 100%;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 
 nav button.active {
   background-color: rgb(97, 208, 97);

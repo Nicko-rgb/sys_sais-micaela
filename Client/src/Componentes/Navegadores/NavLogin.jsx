@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaUsersCog, FaTimes, FaUser } from "react-icons/fa";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { BiLogOutCircle } from "react-icons/bi";
@@ -6,12 +6,13 @@ import { IoPeopleSharp } from "react-icons/io5";
 import EstadoSesion from '../Complementos/EstadoSesion';
 import Sidebar from './Sidebar';
 import '../Login/login.css';
-// import EstadoSesion from '../Complementos/EstadoSesion';
-
-
+import Modalnavtop from './modalnavtop';
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [modalOpen, setModalOpen] = useState(false); // Estado para controlar el modal
   const { handleLogout, isLoggedIn, rutaPerfil, tipoUser } = EstadoSesion();
+  const { userPersonal } = EstadoSesion();
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
@@ -19,10 +20,20 @@ const Layout = ({ children }) => {
     window.location.reload();
   };
 
+  // Función para abrir el modal de cierre de sesión
+  const openLogoutModal = () => {
+    setModalOpen(true);
+  };
+
+  // Función para manejar la confirmación del cierre de sesión
   const closeSesion = () => {
     handleLogout();
-    setSidebarOpen(false); // Cierra la barra lateral al cerrar sesión
+    setModalOpen(false); // Cerrar el modal
     window.location.href = '/';
+  };
+
+  const closeModal = () => {
+    setModalOpen(false); // Cerrar el modal sin realizar acciones
   };
 
   const openPersonal = () => {
@@ -33,16 +44,17 @@ const Layout = ({ children }) => {
     window.location.href = rutaPerfil;
   };
 
-  const ocultarMenuAgregarUsrer=()=>{
-      if (tipoUser=="Admin"){
-        <Sidebar tipoUser={tipoUser}></Sidebar>
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
 
-      }
-      else{
-         
-      }
-  }
-  // const { userPersonal, isLoggedIn } = EstadoSesion()
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const formatTime = (time) => {
+    return time.toLocaleTimeString();
+  };
 
   return (
     <div className="app-layout">
@@ -54,10 +66,14 @@ const Layout = ({ children }) => {
         <div className="opcion-nav">
           {isLoggedIn && (
             <>
-              <p></p>
+              {userPersonal}
+              <div className="reloj" style={{ color: 'white', marginLeft: '10px', fontSize: "12px" }}>
+                {formatTime(currentTime)} {/* Muestra el reloj en tiempo real */}
+              </div>
               <IoPeopleSharp className='icon ico-people' onClick={openPersonal} title='USERS PERSONAL' />
               <FaUser className='icon ico-yo-user' onClick={RutaPerfil} title='PERFIL USUARIO' />
-              <BiLogOutCircle className='icon ico-closse-sesion' onClick={closeSesion} title='CERRAR SESION' />
+              {/* Cambiar a openLogoutModal */}
+              <BiLogOutCircle className='icon ico-closse-sesion' onClick={openLogoutModal} title='CERRAR SESION' />
               <FaBarsStaggered className='icon icon_login_nav' onClick={toggleSidebar} />
             </>
           )}
@@ -74,6 +90,13 @@ const Layout = ({ children }) => {
           {children}
         </main>
       </div>
+      {/* Modal de cierre de sesión */}
+      {modalOpen && (
+        <Modalnavtop 
+          onClose={closeModal} 
+          onConfirm={closeSesion} 
+        />
+      )}
     </div>
   );
 };

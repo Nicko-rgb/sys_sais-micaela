@@ -5,6 +5,8 @@ import NavLogin from "../Navegadores/NavLogin";
 import NavPie from "../Navegadores/NavPie";
 import axios, { formToJSON } from "axios";
 import lugares from '../Complementos/lugares.js';
+import Select from 'react-select';
+
 
 
 const EditPaciente = ({ paciente, onCloseEdit }) => {
@@ -52,14 +54,63 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
   // ESTADO DEL NACIMIENTO
   const [birthData, setBirthData] = useState({
     edad_gestacional: "",
+    id_paciente: paciente.id_paciente,
     peso: "",
     talla: "",
     perimetro_cefalico: "",
-    etnia: "",
-    financiamiento: "",
+    id_etnia: "",
+    id_financiamiento: "",
     codigo_sis: "",
-    programa: "",
+    id_programa: "",
   });
+  const [etnias, setEtnias] = useState([]);
+  const [financiamientos, setFinanciamientos] = useState([]);
+  const [programas, setProgramas] = useState([]);
+
+  // HOOK PARA MANEJAR NACIMIENTOS 
+
+  // Función para cargar los datos de la API
+  const fetchData = async () => {
+    try {
+      // Peticiones a la API para obtener los datos
+      const programasResponse = await axios.get('/api/programas');
+      const financiamientosResponse = await axios.get('/api/financiamientos');
+      const etniasResponse = await axios.get('/api/etnias');
+
+      // Actualizar los estados con los datos obtenidos
+      setProgramas(programasResponse.data);
+      setFinanciamientos(financiamientosResponse.data);
+      setEtnias(etniasResponse.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const resFinanciamiento = await fetch('http://localhost:5000/api/financiamientos');
+        const financiamientosData = await resFinanciamiento.json();
+        console.log('Financiamientos:', financiamientosData);
+        setFinanciamientos(financiamientosData);
+
+        const resEtnia = await fetch('http://localhost:5000/api/etnias');
+        const etniasData = await resEtnia.json();
+        console.log('Etnias:', etniasData);
+        setEtnias(etniasData);
+
+        const resPrograma = await fetch('http://localhost:5000/api/programas');
+        const programasData = await resPrograma.json();
+        console.log('Programas:', programasData);
+        setProgramas(programasData);
+      } catch (error) {
+        console.error('Error al cargar los datos:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
 
   // MANEJAR DATOS DEL NACIMIENTO
   const handleBirthDataChange = (e) => {
@@ -69,10 +120,18 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
       [name]: value
     }));
   };
-// ENVIAR DATOS DEL NACIMIENTO
+  // ENVIAR DATOS DEL NACIMIENTO
   const handleBirthDataSubmit = async (e) => {
     e.preventDefault();
     // Implement the logic to submit birth data
+    try {
+      const response = await axios.post("/api/nacimientos", birthData)
+      alert("Datos de nacimiento guardados correctamente");
+    } catch (error) {
+      console.error("Error al guardar los datos de nacimiento:", error);
+      alert("Error al guardar los datos de nacimiento");
+
+    }
     console.log("Birth data to submit:", birthData);
     // You'll need to create a new API endpoint to handle birth data separately
     // and implement the axios call here
@@ -203,6 +262,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
       console.log(`Campo actualizado - ${name}:`, value);
       return newData;
     });
+    setBirthData({ ...birthData, [e.target.name]: e.target.value });
   };
 
 
@@ -277,7 +337,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                     type="text"
                     name="edad_gestacional"
                     value={birthData.edad_gestacional}
-                    onChange={handleChange}
+                    onChange={handleBirthDataChange}
                   />
                 </label>
                 <label>
@@ -286,7 +346,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                     type="text"
                     name="peso"
                     value={birthData.peso}
-                    onChange={handleChange}
+                    onChange={handleBirthDataChange}
                   />
                 </label>
                 <label>
@@ -295,7 +355,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                     type="text"
                     name="talla"
                     value={birthData.talla}
-                    onChange={handleChange}
+                    onChange={handleBirthDataChange}
                   />
                 </label>
                 <label>
@@ -304,28 +364,31 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                     type="text"
                     name="perimetro_cefalico"
                     value={birthData.perimetro_cefalico}
-                    onChange={handleChange}
+                    onChange={handleBirthDataChange}
                   />
                 </label>
               </div>
-
               <label>
                 Etnia:
-                <input
-                  type="text"
-                  name="etnia"
-                  value={birthData.etnia}
-                  onChange={handleChange}
+                <Select
+                  name="id_etnia"
+                  value={etnias.find(etnia => etnia.id_etnia === birthData.id_etnia)}
+                  onChange={selectedOption => handleBirthDataChange({ target: { name: "id_etnia", value: selectedOption.value } })}
+                  options={etnias.map(etnia => ({ value: etnia.id_etnia, label: etnia.nombre_etnia }))}
+                  placeholder="Seleccione una etnia"
+                  isSearchable={true}  // Habilita la búsqueda
                 />
               </label>
               <div className="datos_cortos">
                 <label>
                   Financiamiento:
-                  <input
-                    type="text"
-                    name="financiamiento"
-                    value={birthData.financiamiento}
-                    onChange={handleChange}
+                  <Select
+                    name="id_financiamiento"
+                    value={financiamientos.find(financiamiento => financiamiento.id_financiamiento === birthData.id_financiamiento)}
+                    onChange={selectedOption => handleBirthDataChange({ target: { name: "id_financiamiento", value: selectedOption.value } })}
+                    options={financiamientos.map(financiamiento => ({ value: financiamiento.id_financiamiento, label: financiamiento.nombre_financiamiento }))}
+                    placeholder="Seleccione un financiamiento"
+                    isSearchable={true}  // Habilita la búsqueda
                   />
                 </label>
                 <label>
@@ -333,27 +396,25 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                   <input
                     type="text"
                     name="codigo_sis"
-                  value={birthData.codigo_sis}
-                  // onChange={handleChange}
+                    value={birthData.codigo_sis}
+                    onChange={handleChange}
                   />
                 </label>
               </div>
               <label>
                 Programa:
-                <input
-                  type="text"
-                  name="programa"
-                  value={birthData.programa}
-                  onChange={handleChange}
+                <Select
+                  name="id_programa"
+                  value={programas.find(programa => programa.id_programa === birthData.id_programa)}
+                  onChange={selectedOption => handleBirthDataChange({ target: { name: "id_programa", value: selectedOption.value } })}
+                  options={programas.map(programa => ({ value: programa.id_programa, label: programa.nombre_programa }))}
+                  placeholder="Seleccione un programa"
+                  isSearchable={true}  // Habilita la búsqueda
                 />
               </label>
               <div className="box-botones">
-
-
-
                 <button type="submit">Guardar Cambios</button>
                 <button type="button" onClick={onCloseEdit}>
-
                   Cancelar
                 </button>
               </div>

@@ -10,7 +10,7 @@ const crypto = require('crypto'); // Importar crypto para generar tokens únicos
 const { log } = require('console');
 const app = express();
 const PORT = process.env.PORT || 5000;
- 
+const router = express.Router();
 // Configura tu conexión a la base de datos
 const pool = mysql.createPool({
     host: 'localhost',
@@ -421,7 +421,7 @@ app.put('/api/personal/actualizar-estado/:id', async (req, res) => {
     if (!['activo', 'inactivo'].includes(estado)) {
         return res.status(400).send('Estado inválido');
     }
-    
+
     if (!id) {
         return res.status(400).send('ID requerido');
     }
@@ -499,7 +499,7 @@ app.get('/api/turnos/:anio/:mes', async (req, res) => {
             WHERE t.fecha BETWEEN ? AND ?
             ORDER BY p.id_personal, t.fecha
         `;
-        
+
         const [rows] = await pool.query(query, [primerDiaMes, ultimoDiaMes]);
 
         res.json(rows);
@@ -753,6 +753,41 @@ app.get('/api/filtrar-ninho-citas', async (req, res) => {
     } catch (error) {
         console.error('Error fetching appointments:', error);
         res.status(500).json({ error: error.message });
+    }
+});
+
+
+// ENDPOINTS PARA CONSULTAR DE LA BASE DE DATOS LOS DATOS DE BD,//NACIMIENTO
+// Endpoint para obtener los programas
+app.get('/api/programas', async (req, res) => {
+    try {
+        const [rows] = await pool.query('SELECT id_programa, nombre_programa FROM programa');
+        res.json(rows);
+    } catch (error) {
+        console.error('Error al obtener programas:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+});
+
+// Endpoint para obtener los financiamientos
+app.get('/api/financiamientos', async (req, res) => {
+    try {
+        const [rows] = await pool.query('SELECT id_financiamiento, nombre_financiamiento FROM financiamiento');
+        res.json(rows);
+    } catch (error) {
+        console.error('Error al obtener financiamientos:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+});
+
+// Endpoint para obtener las etnias
+app.get('/api/etnias', async (req, res) => {
+    try {
+        const [rows] = await pool.query('SELECT id_etnia, nombre_etnia FROM etnia');
+        res.json(rows);
+    } catch (error) {
+        console.error('Error al obtener etnias:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
 

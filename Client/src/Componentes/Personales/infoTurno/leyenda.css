@@ -1,0 +1,11 @@
+.leyenda{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+.leyenda p{
+    padding: 0;
+    background: none;
+    font-family:'poppins';
+    border: none;
+}

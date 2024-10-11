@@ -446,29 +446,29 @@ app.put('/api/personal/actualizar-estado/:id', async (req, res) => {
 });
 
 // Endpoint para guardar turnos de personal
-app.post('/api/personal/guardar-turnos', async (req, res) => {
-    const turnos = req.body; // Los turnos enviados desde el cliente
+// app.post('/api/personal/guardar-turnos', async (req, res) => {
+//     const turnos = req.body; // Los turnos enviados desde el cliente
 
-    const query = `
-        INSERT INTO turnos_personal (id_personal, id_turno_tipo, fecha)
-        VALUES ? 
-        ON DUPLICATE KEY UPDATE id_turno_tipo = VALUES(id_turno_tipo)
-    `;
+//     const query = `
+//         INSERT INTO turnos_personal (id_personal, id_turno_tipo, fecha)
+//         VALUES ? 
+//         ON DUPLICATE KEY UPDATE id_turno_tipo = VALUES(id_turno_tipo)
+//     `;
 
-    const values = turnos.map(turno => [
-        turno.id_personal,
-        turno.id_turno_tipo,
-        turno.fecha
-    ]);
+//     const values = turnos.map(turno => [
+//         turno.id_personal,
+//         turno.id_turno_tipo,
+//         turno.fecha
+//     ]);
 
-    try {
-        await pool.query(query, [values]);
-        res.send('Turnos guardados exitosamente');
-    } catch (error) {
-        console.error('Error al insertar los turnos:', error);
-        res.status(500).send('Error al guardar los turnos');
-    }
-});
+//     try {
+//         await pool.query(query, [values]);
+//         res.send('Turnos guardados exitosamente');
+//     } catch (error) {
+//         console.error('Error al insertar los turnos:', error);
+//         res.status(500).send('Error al guardar los turnos');
+//     }
+// });
 
 // Ruta para obtener los tipos de turno de personal de salud
 app.get('/api/tipos-turno', async (req, res) => {
@@ -480,16 +480,10 @@ app.get('/api/tipos-turno', async (req, res) => {
         res.status(500).json({ message: 'Error al obtener los tipos de turno.' });
     }
 });
-
-//ruta para obtener turnos de personal por fecha y año
-app.get('/api/turnos/:anio/:mes', async (req, res) => {
-    const { anio, mes } = req.params;
-
-    // Obtener el primer y último día del mes
-    const primerDiaMes = new Date(anio, mes - 1, 1);
-    const ultimoDiaMes = new Date(anio, mes, 0); // El día 0 devuelve el último día del mes anterior
-
+ //ruta para obtner fecha bloquedad para personal de salud
+app.get('/api/obtener-fechas-bloqueadas', async (req, res) => {
     try {
+<<<<<<< HEAD
         // Consulta para obtener todos los turnos del mes para todo el personal
         const query = `
             SELECT p.id_personal, p.nombres, p.paterno, p.materno, t.id_turno_tipo, t.fecha, tt.clave_turno
@@ -503,28 +497,96 @@ app.get('/api/turnos/:anio/:mes', async (req, res) => {
         const [rows] = await pool.query(query, [primerDiaMes, ultimoDiaMes]);
 
         res.json(rows);
+=======
+        const [results] = await pool.query('SELECT fecha FROM dias_bloqueados WHERE bloqueado = TRUE');
+        res.json(results);
+>>>>>>> 7dbd5622a98d32ac08555044a89e7c9c5c215fcb
     } catch (error) {
-        console.error('Error al obtener los turnos:', error);
-        res.status(500).json({ message: 'Error al obtener los turnos.' });
+        console.error('Error al obtener las fechas bloqueadas:', error);
+        res.status(500).json({ error: 'Error al obtener las fechas bloqueadas' });
     }
 });
 
+//ruta para bloquear fechas de personal
+app.post('/api/bloquear-fecha', async (req, res) => {
+    const { fecha } = req.body;
 
-// Endpoint para obtener los turnos de un personal específico
-app.get('/api/personal/:id_personal/turnos', async (req, res) => {
-    const { id_personal } = req.params;
+    try {
+        const query = 'INSERT INTO dias_bloqueados (fecha, bloqueado) VALUES (?, TRUE) ON DUPLICATE KEY UPDATE bloqueado = TRUE';
+        const [results] = await pool.query(query, [fecha]);
+        res.status(200).json({ message: 'Fecha bloqueada con éxito' });
+    } catch (error) {
+        console.error('Error al bloquear la fecha:', error);
+        res.status(500).json({ error: 'Error al bloquear la fecha' });
+    }
+});
+//Ruta para desbloquear la fecha bloqueada
+app.post('/api/desbloquear-fecha', async (req, res) => {
+    const { fecha } = req.body;
+
+    try {
+        const query = 'UPDATE dias_bloqueados SET bloqueado = FALSE WHERE fecha = ?';
+        const [results] = await pool.query(query, [fecha]);
+        res.status(200).json({ message: 'Fecha desbloqueada con éxito' });
+    } catch (error) {
+        console.error('Error al desbloquear la fecha:', error);
+        res.status(500).json({ error: 'Error al desbloquear la fecha' });
+    }
+});
+
+//ruta para obtener los turnos de de los personales
+app.get('/api/obtener-turnos/personal', async (req, res) => {
     try {
         const query = `
-            SELECT tp.id_turno_tipo, tp.fecha, tt.turno, tt.clave_turno 
-            FROM turnos_personal tp
-            JOIN tipos_turno_personal tt ON tp.id_turno_tipo = tt.id_turno_tipo
-            WHERE tp.id_personal = ?
+            SELECT 
+                tp.id_turno,
+                tp.fecha,
+                tp.id_turno_tipo,
+                ttp.turno AS turno,
+                ttp.clave_turno AS clave_turno,
+                ps.id_personal,
+                ps.dni,
+                ps.paterno,
+                ps.materno,
+                ps.nombres,
+                ps.tipo_user,
+                ps.profesion,
+                ps.servicio,
+                ps.especial_cita,
+                ps.num_consultorio,
+                ps.condicion
+            FROM 
+                turnos_personal tp
+            INNER JOIN 
+                personal_salud ps ON tp.id_personal = ps.id_personal
+            INNER JOIN 
+                tipos_turno_personal ttp ON tp.id_turno_tipo = ttp.id_turno_tipo
         `;
-        const [rows] = await pool.query(query, [id_personal]);
-        res.json(rows);
+        const [data] = await pool.query(query);
+        res.json(data);
+    } catch (e) {
+        console.error('Error al obtener los turnos del personal:', e);
+        res.status(500).json({ error: 'Error al obtener los turnos del personal' });
+    }
+});
+
+//ruta para guardar turnos de personal
+app.post('/api/asignar-turno/personal', async (req, res) => {
+    const { id_personal, fecha, id_turno_tipo } = req.body;
+    
+    try {
+        // Inserta o actualiza el turno en la base de datos
+        await pool.query(
+            `INSERT INTO turnos_personal (id_personal, fecha, id_turno_tipo)
+            VALUES (?, ?, ?)
+            ON DUPLICATE KEY UPDATE id_turno_tipo = VALUES(id_turno_tipo)`, 
+            [id_personal, id_turno_tipo, fecha]
+        );
+
+        res.status(200).json({ message: 'Turno asignado correctamente' });
     } catch (error) {
-        console.error('Error al obtener los turnos:', error);
-        res.status(500).json({ message: 'Error al obtener los turnos.' });
+        console.error('Error al asignar turno:', error);
+        res.status(500).json({ error: 'Error al asignar turno' });
     }
 });
 

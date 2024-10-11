@@ -10,7 +10,7 @@ const crypto = require('crypto'); // Importar crypto para generar tokens únicos
 const { log } = require('console');
 const app = express();
 const PORT = process.env.PORT || 5000;
- 
+const router = express.Router();
 // Configura tu conexión a la base de datos
 const pool = mysql.createPool({
     host: 'localhost',
@@ -421,7 +421,7 @@ app.put('/api/personal/actualizar-estado/:id', async (req, res) => {
     if (!['activo', 'inactivo'].includes(estado)) {
         return res.status(400).send('Estado inválido');
     }
-    
+
     if (!id) {
         return res.status(400).send('ID requerido');
     }
@@ -483,8 +483,24 @@ app.get('/api/tipos-turno', async (req, res) => {
  //ruta para obtner fecha bloquedad para personal de salud
 app.get('/api/obtener-fechas-bloqueadas', async (req, res) => {
     try {
+<<<<<<< HEAD
+        // Consulta para obtener todos los turnos del mes para todo el personal
+        const query = `
+            SELECT p.id_personal, p.nombres, p.paterno, p.materno, t.id_turno_tipo, t.fecha, tt.clave_turno
+            FROM personal_salud p
+            LEFT JOIN turnos_personal t ON p.id_personal = t.id_personal
+            LEFT JOIN tipos_turno_personal tt ON t.id_turno_tipo = tt.id_turno_tipo
+            WHERE t.fecha BETWEEN ? AND ?
+            ORDER BY p.id_personal, t.fecha
+        `;
+
+        const [rows] = await pool.query(query, [primerDiaMes, ultimoDiaMes]);
+
+        res.json(rows);
+=======
         const [results] = await pool.query('SELECT fecha FROM dias_bloqueados WHERE bloqueado = TRUE');
         res.json(results);
+>>>>>>> 7dbd5622a98d32ac08555044a89e7c9c5c215fcb
     } catch (error) {
         console.error('Error al obtener las fechas bloqueadas:', error);
         res.status(500).json({ error: 'Error al obtener las fechas bloqueadas' });
@@ -799,6 +815,41 @@ app.get('/api/filtrar-ninho-citas', async (req, res) => {
     } catch (error) {
         console.error('Error fetching appointments:', error);
         res.status(500).json({ error: error.message });
+    }
+});
+
+
+// ENDPOINTS PARA CONSULTAR DE LA BASE DE DATOS LOS DATOS DE BD,//NACIMIENTO
+// Endpoint para obtener los programas
+app.get('/api/programas', async (req, res) => {
+    try {
+        const [rows] = await pool.query('SELECT id_programa, nombre_programa FROM programa');
+        res.json(rows);
+    } catch (error) {
+        console.error('Error al obtener programas:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+});
+
+// Endpoint para obtener los financiamientos
+app.get('/api/financiamientos', async (req, res) => {
+    try {
+        const [rows] = await pool.query('SELECT id_financiamiento, nombre_financiamiento FROM financiamiento');
+        res.json(rows);
+    } catch (error) {
+        console.error('Error al obtener financiamientos:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+});
+
+// Endpoint para obtener las etnias
+app.get('/api/etnias', async (req, res) => {
+    try {
+        const [rows] = await pool.query('SELECT id_etnia, nombre_etnia FROM etnia');
+        res.json(rows);
+    } catch (error) {
+        console.error('Error al obtener etnias:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
 

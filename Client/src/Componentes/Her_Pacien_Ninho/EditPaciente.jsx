@@ -5,14 +5,11 @@ import NavLogin from "../Navegadores/NavLogin";
 import NavPie from "../Navegadores/NavPie";
 import axios, { formToJSON } from "axios";
 import lugares from '../Complementos/lugares.js';
-<<<<<<< HEAD
 import Select from 'react-select';
 
-=======
 import { CgCalendarDates } from "react-icons/cg";
 import { FaUserEdit } from "react-icons/fa";
 import { RiParentFill } from "react-icons/ri";
->>>>>>> 7dbd5622a98d32ac08555044a89e7c9c5c215fcb
 
 
 const EditPaciente = ({ paciente, onCloseEdit }) => {
@@ -374,11 +371,8 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                   />
                 </label>
               </div>
-<<<<<<< HEAD
-=======
 
               <div className="dato-solo">
->>>>>>> 7dbd5622a98d32ac08555044a89e7c9c5c215fcb
               <label>
                 Etnia:
                 <Select

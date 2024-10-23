@@ -483,7 +483,6 @@ app.get('/api/tipos-turno', async (req, res) => {
  //ruta para obtner fecha bloquedad para personal de salud
 app.get('/api/obtener-fechas-bloqueadas', async (req, res) => {
     try {
-<<<<<<< HEAD
         // Consulta para obtener todos los turnos del mes para todo el personal
         const query = `
             SELECT p.id_personal, p.nombres, p.paterno, p.materno, t.id_turno_tipo, t.fecha, tt.clave_turno
@@ -497,10 +496,6 @@ app.get('/api/obtener-fechas-bloqueadas', async (req, res) => {
         const [rows] = await pool.query(query, [primerDiaMes, ultimoDiaMes]);
 
         res.json(rows);
-=======
-        const [results] = await pool.query('SELECT fecha FROM dias_bloqueados WHERE bloqueado = TRUE');
-        res.json(results);
->>>>>>> 7dbd5622a98d32ac08555044a89e7c9c5c215fcb
     } catch (error) {
         console.error('Error al obtener las fechas bloqueadas:', error);
         res.status(500).json({ error: 'Error al obtener las fechas bloqueadas' });
@@ -595,16 +590,15 @@ app.post('/api/asignar-turno/personal', async (req, res) => {
 // Ruta para Loggin  
 app.post('/api/sais/login', async (req, res) => {
     try {
-        // console.log('Datos recibidos:', req.body); // Agrega este log
         const { dni, contrasena } = req.body;
 
-        // Verificar si se proporcionó el nombre de usuario y la contraseña
+        // Verificar si se proporcionó el DNI y la contraseña
         if (!dni || !contrasena) {
             return res.status(400).json({ message: 'DNI y contraseña son obligatorios' });
         }
 
-        // Buscar el usuario por nombre de usuario en la base de datos MySQL
-        const [rows] = await pool.execute('SELECT * FROM personal_salud WHERE dni= ?', [dni]);
+        // Buscar el usuario por DNI en la base de datos MySQL
+        const [rows] = await pool.execute('SELECT * FROM personal_salud WHERE dni = ?', [dni]);
 
         // Verificar si el usuario existe
         if (rows.length === 0) {
@@ -613,13 +607,19 @@ app.post('/api/sais/login', async (req, res) => {
 
         const personal = rows[0];
 
-        // Comparar directamente las contraseñas
+        // Verificar si el personal está activo
+        if (personal.estado !== 'activo') {
+            return res.status(403).json({ message: 'El usuario está inactivo, por favor contacte al administrador' });
+        }
+
+        // Comparar las contraseñas
         if (contrasena !== personal.contrasena) {
             return res.status(401).json({ message: 'Usuario o contraseña incorrectos (contraseña)' });
         }
-        console.log('Inicio de seion exitoso');
 
-        // Si las credenciales son correctas, enviar respuesta con datos del usuario
+        console.log('Inicio de sesión exitoso');
+
+        // Si las credenciales y el estado son correctos, enviar respuesta con datos del usuario
         return res.json({
             message: 'Inicio de sesión exitoso',
             userId: personal.id_personal,
@@ -852,6 +852,42 @@ app.get('/api/etnias', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
+// ENDPOINT DE LOS NACIMIENTOS
+app.post('/api/nacimiento', async (req, res) => {
+    try {
+        const { edadGestacional, idPaciente, peso, talla, perimetroCefalico, idEtnia, idFinanciamiento, idPrograma, codigo_sis } = req.body;
+
+        // Verificamos si todos los datos requeridos están presentes
+        if (!edadGestacional || !idPaciente || !peso || !talla || !perimetroCefalico || !idEtnia || !idFinanciamiento || !idPrograma || !codigo_sis) {
+            return res.status(400).json({ error: 'Todos los campos son requeridos' });
+        }
+
+        // Usar pool.query para insertar los datos en la tabla "nacimiento"
+        const query = `
+            INSERT INTO nacimiento_paciente_ninos(EDAD_GESTACIONAL, ID_PACIENTE, PESO, TALLA, PERIMETRO_CEFALICO, ID_ETNIA, ID_FINANCIAMENTO, ID_PROGRAMA, codigo_sis)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+
+        const [result] = await pool.query(query, [
+            edadGestacional,
+            idPaciente,  // Ahora estamos usando el idPaciente del cuerpo de la solicitud
+            peso,
+            talla,
+            perimetroCefalico,
+            idEtnia,
+            idFinanciamiento,
+            idPrograma,
+            codigo_sis
+        ]);
+
+        // Retornar una respuesta de éxito con los detalles de la inserción
+        res.status(201).json({ message: 'Datos de nacimiento guardados exitosamente', id: result.insertId });
+    } catch (error) {
+        console.error('Error al guardar datos de nacimiento:', error.message, error.stack);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+});
+
 
 // Iniciar el servidor
 app.listen(PORT, async () => {

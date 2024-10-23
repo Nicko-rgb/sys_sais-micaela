@@ -1,39 +1,46 @@
 // Personal.js
 import React from 'react';
+import EstadoSesion from "../../../Complementos/EstadoSesion";
+import './responsable.css';
 
-const responsable = ({ nombre, dni, email, telefono, especialidad, horario, fechaIngreso, estado }) => {
+const Responsable = () => {
+  const nombre = '';
+  const dni = '45678912';
+  const email = 'ana.rodriguez@hospital.com';
+  const telefono = '+51 987 654 321';
+  const especialidad = 'Cardiología';
+  const horario = 'Lunes a Viernes, 8:00 AM - 4:00 PM';
+  const fechaIngreso = '15/03/2015';
+  const estado = 'Activo';
+  const departamento = 'Cardiología';
+  const imagenPerfil = 'https://i.pinimg.com/1200x/b3/b8/57/b3b85713a822ad3e2c5e1eb74af91554.jpg'; // Aquí puedes poner una URL válida de una imagen
+
+  const { userPersonal, tipoUser} = EstadoSesion();
+
   return (
-    <div style={styles.profileContainer}>
-      <h2>Perfil del Personal</h2>
-      <div style={styles.infoContainer}>
-        <p><strong>Nombre completo:</strong> {nombre}</p>
-        <p><strong>DNI:</strong> {dni}</p>
-        <p><strong>Email:</strong> {email}</p>
-        <p><strong>Teléfono:</strong> {telefono}</p>
-        <p><strong>Especialidad:</strong> {especialidad}</p>
-        <p><strong>Horario de trabajo:</strong> {horario}</p>
-        <p><strong>Fecha de ingreso:</strong> {fechaIngreso}</p>
-        <p><strong>Estado:</strong> {estado}</p>
+    <div className="profile-container">
+      <h2>Perfil del Personal - {tipoUser}</h2>
+      <div className="info-container">
+        <div className="profile-header">
+          <img src={imagenPerfil} alt="Foto de perfil" className="profile-picture" />
+          <div>
+            <h3>Dra. {userPersonal}</h3>
+            <p className={`status ${estado === 'Activo' ? 'active' : 'inactive'}`}>{estado}</p>
+          </div>
+        </div>
+        <div className="profile-details">
+          <p><strong>DNI:</strong> {dni}</p>
+          <p><strong>Email:</strong> {email}</p>
+          <p><strong>Teléfono:</strong> {telefono}</p>
+          <p><strong>Especialidad:</strong> {especialidad}</p>
+          <p><strong>Departamento:</strong> {departamento}</p>
+          <p><strong>Horario de trabajo:</strong> {horario}</p>
+          <p><strong>Fecha de ingreso:</strong> {fechaIngreso}</p>
+        </div>
+        <button className="edit-button">Editar Información</button>
       </div>
     </div>
   );
 };
 
-// Estilos en línea para mantener el diseño simple
-const styles = {
-  profileContainer: {
-    width: '400px',
-    margin: '0 auto',
-    padding: '20px',
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    backgroundColor: '#f9f9f9',
-    boxShadow: '0px 4px 6px rgba(0,0,0,0.1)'
-  },
-  infoContainer: {
-    lineHeight: '1.6',
-    fontSize: '16px',
-  }
-};
-
-export default responsable;
+export default Responsable;

@@ -12,7 +12,14 @@ import { AuthProvider } from './Componentes/Complementos/AuthContext';
 import ContactAdmi from './Componentes/ContactAdministrador/contactAdmi';
 import Restablecer from "./Componentes/Login/ResetPassword/Verificacion_Restablecer/Restablecer"
 import Perfil from './Componentes/Perfil User/Perfil';
+import Visitadomiciliaria from './Componentes/Her_Pacien_Ninho/Control/visitadomiciliaria';
+import HistorialVisitas from './Componentes/Her_Pacien_Ninho/Control/historialvisitas';
+import Control from './Componentes/Her_Pacien_Ninho/Control/control';
+// import HistorialControles from './Componentes/Her_Pacien_Ninho/Control/historialcontroles';
 // import Modalnavtop from './Componentes/Navegadores/Modalnavtop';
+import Seguimientonutricional from './Componentes/Her_Pacien_Ninho/Control/seguimientonutricional';
+import ListarControles from './Componentes/Her_Pacien_Ninho/Control/listarcontroles';
+import ActualizarControles from './Componentes/Her_Pacien_Ninho/Control/actualizarControles';
 
 function App() {
 
@@ -32,9 +39,16 @@ function App() {
                         <Route path="/contact-administrador" element={<ContactAdmi />} />
                         <Route path="/new-password/:token" element={<Restablecer />} />
                         <Route path="/perfil/:name/:id" element={<Perfil />} />
+                        <Route path="/visita" element={<Visitadomiciliaria />} />
+                        <Route path="/historialvisita" element={<HistorialVisitas />} />
+                        <Route path="/control" element={<Control/>} />
+                        <Route path="/seguimiento" element={<Seguimientonutricional/>} />
+                        <Route path="/listarcontroles" element={<ListarControles/>} />
+                        <Route path="/actualizarcontroles" element={<ActualizarControles/>} />
+                        {/* <Route path="/historialControles" element={<HistorialControles />} /> */}
                         {/* <Route path="/modal-salida" element={<Modalnavtop />} /> */}
                     </Routes>
-                </AuthProvider>
+                </AuthProvider> 
             </BrowserRouter>
         </div>
     );

@@ -68,13 +68,12 @@ const Panel = () => {
                                 </a>
                                 <a href='https://app8.susalud.gob.pe:8380/login' target="_blank" rel="noopener noreferrer" className="modal_link" onClick={handleLinkClick}>
                                     Ir a SITEDS
-                                </a>
-                                
+                                </a>                                
                             </div>
                             <button onClick={closeModal} className="modal_close">Cancelar</button>
                         </div>
                     </div>
-                )}
+                )} 
 
                 <div className='box_opciones'>
                     <h4><TbNurse />Enfermería</h4>

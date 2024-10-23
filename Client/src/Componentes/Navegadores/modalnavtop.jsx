@@ -17,4 +17,4 @@ const Modalnavtop = ({ onClose, onConfirm }) => {
     );
 }
 
-export default Modalnavtop;
+export default Modalnavtop; 

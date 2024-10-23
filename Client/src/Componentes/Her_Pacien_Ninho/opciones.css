@@ -251,7 +251,7 @@ section a img {
 
 
 /* Hover effects */
-section details p:hover{
+section details .p p:hover{
   background-color: #d3f3ee; /* Verde agua más claro para el hover */
 }
 
@@ -285,7 +285,7 @@ section details p:hover{
   font-size: 18px;
 }
 
-.opciones-right p{
+.opciones-right p {
   border: none;
   box-shadow: 0 0 5px #1b212075;
   margin-top: 7px;

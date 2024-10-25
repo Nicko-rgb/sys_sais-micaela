@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import HorasCita from '../Complementos/HorasCita';
 import FormCitas from './FormCitas';
 import { TiUserAdd } from "react-icons/ti";
-import { FaUserEdit, FaMale, FaFemale } from 'react-icons/fa';
+import { FaMale, FaFemale } from 'react-icons/fa';
+import EstadoSesion from '../Complementos/EstadoSesion';
 
 const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
     const [verForm, setVerForm] = useState(false);
     const [horaSeleccionada, setHoraSeleccionada] = useState('');
+    const { tipoUser } = EstadoSesion()
 
     const handleAgregarCita = (hora) => {
         setHoraSeleccionada(hora);
@@ -78,13 +80,19 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
                                 <span>No disponible</span>
                             )}
                         </td>
-                        <td>
+                        <td className='btns'>
                             {citaEspecial ? (
-                                <button className="btn btn-danger">EDITAR CITA</button>
+                                <button className="btn btn-danger">EDI. CITA</button>
                             ) : (
-                                <button className="btn btn-primary" onClick={() => handleAgregarCita(especial.hora)}>
-                                    <TiUserAdd /> AGREGAR CITA
-                                </button>
+                                <>
+                                    <button className="btn btn-primary" onClick={() => handleAgregarCita(horario.atencion)}>
+                                        <TiUserAdd className='ico' />
+                                        AG. CITA
+                                    </button>
+                                    {tipoUser === 'Jefe' || tipoUser === 'Admin' && (
+                                        <button>BLOQUEAR</button>
+                                    )}
+                                </>
                             )}
                         </td>
                     </tr>
@@ -99,16 +107,16 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
                 <td>{turno}</td>
                 <td>{citaActual ? citaActual.dni : ''}</td>
                 <td> {/* Agregar ícono de género antes del nombre si hay una cita actual */}
-                            {citaActual ? (
-                                <>
-                                    {citaActual.sexo === 'Femenino' ? (
-                                        <FaFemale style={{ color: 'pink', marginRight: '5px', fontSize: '0.9rem' }} />
-                                    ) : (
-                                        <FaMale style={{ color: 'blue', marginRight: '5px', fontSize: '0.9rem' }} />
-                                    )}
-                                    {citaActual.apellidos}, {citaActual.nombres}
-                                </>
-                            ) : ''}</td>
+                    {citaActual ? (
+                        <>
+                            {citaActual.sexo === 'Femenino' ? (
+                                <FaFemale style={{ color: 'pink', marginRight: '5px', fontSize: '0.9rem' }} />
+                            ) : (
+                                <FaMale style={{ color: 'blue', marginRight: '5px', fontSize: '0.9rem' }} />
+                            )}
+                            {citaActual.apellidos}, {citaActual.nombres}
+                        </>
+                    ) : ''}</td>
                 <td>{citaActual ? citaActual.edad : ''}</td>
                 <td>
                     {citaActual ?
@@ -132,13 +140,19 @@ const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
                         <span>No disponible</span>
                     )}
                 </td>
-                <td>
+                <td className='btns'>
                     {citaActual ? (
-                        <button className="btn btn-danger">EDITAR CITA</button>
+                        <button className="btn btn-danger">EDI. CITA</button>
                     ) : (
-                        <button className="btn btn-primary" onClick={() => handleAgregarCita(horario.hora)}>
-                            <TiUserAdd /> AGREGAR CITA
-                        </button>
+                        <>
+                            <button className="btn btn-primary" onClick={() => handleAgregarCita(horario.atencion)}>
+                                <TiUserAdd className='ico' />
+                                AG. CITA
+                            </button>
+                            {tipoUser === 'Jefe' || tipoUser === 'Admin' && (
+                                <button>BLOQUEAR</button>
+                            )}
+                        </>
                     )}
                 </td>
             </tr>

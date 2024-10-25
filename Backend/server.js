@@ -220,7 +220,7 @@ app.put("/api/actualizar/paciente/:id_paciente", async (req, res) => {
               edad = ?, sexo = ?
               WHERE id_paciente = ?`,
             [
-                pacienteData.dni,
+                pacienteData.dni || null,
                 pacienteData.cnv_linea,
                 pacienteData.hist_clinico,
                 pacienteData.nombres,
@@ -740,7 +740,6 @@ app.get('/api/reset-password/:token', async (req, res) => {
 });
 
 //ruta para registrar las citas para el niño
-// Endpoint para registrar una cita
 app.post('/api/registrar/cita-nino', (req, res) => {
     const { especialidad, fecha, hora, consultorio, hisClinico, dni, apellidos, nombres, fechaNacimiento, edad, telefono, motivoConsulta, direccion, metodo, semEmbarazo, idRespons } = req.body;
 

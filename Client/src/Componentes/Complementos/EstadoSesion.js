@@ -31,7 +31,7 @@ const EstadoSesion = () => {
 
     // Función para manejar el inicio de sesión y guardar los datos en localStorage
     const handleLogin = (id, name, correo, dni, tipoUser, profesion, especialCita, usuario) => {
-        setIsLoggedIn(true);
+        setIsLoggedIn(true); 
         setUserPersonal(name);
         setIdUser(id);
         setCorreo(correo);

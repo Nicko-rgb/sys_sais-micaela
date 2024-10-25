@@ -13,6 +13,7 @@ import ContactAdmi from './Componentes/ContactAdministrador/contactAdmi';
 import Restablecer from "./Componentes/Login/ResetPassword/Verificacion_Restablecer/Restablecer"
 import Perfil from './Componentes/Perfil User/Perfil';
 // import Modalnavtop from './Componentes/Navegadores/Modalnavtop';
+import Cita1 from './Componentes/CitaNiño/Citas1';
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
                         <Route path="/contact-administrador" element={<ContactAdmi />} />
                         <Route path="/new-password/:token" element={<Restablecer />} />
                         <Route path="/perfil/:name/:id" element={<Perfil />} />
+                        <Route path="/citan/:id" element={<Cita1 />} />
                         {/* <Route path="/modal-salida" element={<Modalnavtop />} /> */}
                     </Routes>
                 </AuthProvider>

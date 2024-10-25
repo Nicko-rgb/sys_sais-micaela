@@ -17,6 +17,8 @@
     margin: 0;
     text-align: center;
     margin-top: 10px;
+    font-size: large;
+    font-family: 'poppins';
 }
 
 .personal-salud .sub-personal .div-btn {
@@ -118,6 +120,7 @@
     font-family: 'poppins';
     border: none;
     cursor: pointer;
+    position: end;
 }
 .personal-salud .box-buscar button:hover{
     background-color: rgb(74, 173, 74);
@@ -234,7 +237,19 @@ td {
 .personal-salud table .btns div{
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
     gap: 5px;
+}.personal-salud table .btns div button{
+    width: 90px;
+    display: flex;
+    justify-content: center;
+}
+.personal-salud table .btns div .activo{
+    color: red;
+}
+.personal-salud table .btns div .inactivo{
+    color: blue;
 }
 .personal-salud table
 

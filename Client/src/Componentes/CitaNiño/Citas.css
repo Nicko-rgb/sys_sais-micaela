@@ -150,6 +150,12 @@ td {
   height: 5px;
   padding: 5px;
 }
+
+.opciones-cita tbody .btns{
+  display: flex;
+  height: auto;
+  gap: 10px;
+}
 .opciones-cita tbody .btn{
   margin: auto;
   border-radius: 3px;
@@ -182,23 +188,25 @@ td {
 }
  
 .opciones-cita tbody tr:hover {
-  background-color: rgb(220, 207, 229);
+  background-color: rgb(206, 216, 255);
+
 }
 
 
 /* Contenedor del calendario */
 .calendar-cita {
   position: fixed;
-  /* border: solid 2px red; */
-  width: 100vw;
-  height: 91vh;
-  top: -35px;
+  width: 100%;
+  height: calc(100% - 70px);
   left: 0;
-  bottom: 0;
+  margin: auto;
+  top: 35px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  z-index: 100;
+    z-index: 100;
+    background-color: white;
   overflow-y: auto;
+  box-sizing: border-box;
+  padding: 20px;
 }
 
 .calendar-cita main {
@@ -206,37 +214,46 @@ td {
   display: flex;
   flex-direction: column;
   border-radius: 0;
-  padding-bottom: 50px;
-  height: auto;
+  box-sizing: border-box;
 }
+.calendar-cita .contenedor{
+  display: flex;
+  box-sizing: border-box;
+
+}
+
+
 
 /* Estilo general del calendario */
 .calendar-cita .react-calendar {
-  box-shadow: 0 4px 12px rgba(0, 102, 102, 0.2);
-  border: 1px solid rgba(0, 102, 102, 0.4);
-  background-color: #e8f5f4;
-  border-radius: 16px;
-  width: 360px;
-  font-family: 'Verdana', sans-serif;
+  margin-left: 0px;
+  top: 200px;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+  border: 3px solid rgba(0, 150, 136, 0.2);
+  background-color: #ffffff;
+  border-radius: 12px;
+  max-width: 350px;
+  width: 100%;
+  font-family: 'Roboto', sans-serif;
   padding: 20px;
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 /* Hover para todo el calendario */
 .calendar-cita .react-calendar:hover {
-  box-shadow: 0 6px 18px rgba(0, 102, 102, 0.3);
-  border-color: rgba(0, 102, 102, 0.6);
+  box-shadow: 0 6px 18px rgba(0, 150, 136, 0.25);
+  border-color: rgba(0, 150, 136, 0.5);
 }
 
 /* Cabecera del calendario */
 .calendar-cita .react-calendar__navigation {
-  background-color: #00897b;
+  background-color: #009688;
   color: #fff;
-  border-radius: 16px 16px 0 0;
-  padding: 14px;
+  border-radius: 12px 12px 0 0;
+  padding: 10px 20px;
   text-align: center;
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1.1em;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -245,88 +262,94 @@ td {
 /* Ajuste para el título en la cabecera */
 .calendar-cita .react-calendar__navigation button {
   font-size: 1.1em;
+  color: #ffffff;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.calendar-cita .react-calendar__navigation button:hover {
+  color: #000000;
 }
 
 /* Estilos para los días */
 .calendar-cita .react-calendar__tile {
-  background-color: rgba(0, 102, 102, 0.1);
-  color: #006064;
+  background-color: #e0f2f1;
+  color: #004d40;
   border-radius: 50%;
   padding: 12px;
   text-align: center;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: background-color 0.2s, transform 0.2s;
 }
 
 /* Hover para los días */
 .calendar-cita .react-calendar__tile:hover {
-  background-color: rgba(0, 102, 102, 0.3);
+  background-color: #80cbc4;
   transform: scale(1.05);
 }
 
 /* Días seleccionados */
 .calendar-cita .react-calendar__tile--active {
-  background-color: #006064;
+  background-color: #00796b;
   color: #fff;
   border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(0, 102, 102, 0.4);
+  box-shadow: 0 2px 8px rgba(0, 121, 107, 0.4);
 }
 
 /* Diferenciación de días de otros meses */
 .calendar-cita .react-calendar__tile--neighboringMonth {
-  background-color: rgba(220, 220, 220, 0.3); /* Fondo gris claro */
-  color: #b0b0b0; /* Color gris tenue */
-  opacity: 0.7; /* Opacidad para diferenciarlos del mes actual */
+  background-color: rgba(224, 224, 224, 0.3);
+  color: #757575;
+  opacity: 0.6;
 }
 
 /* Hover para días fuera del mes actual */
 .calendar-cita .react-calendar__tile--neighboringMonth:hover {
-  background-color: rgba(183, 19, 19, 0.4);
+  background-color: rgba(179, 179, 179, 0.4);
   transform: scale(1.05);
 }
 
 /* Día actual */
 .calendar-cita .react-calendar__tile--now {
-  background-color: rgba(0, 102, 102, 0.2);
-  color: #006064;
+  background-color: rgba(0, 150, 136, 0.15);
+  color: #004d40;
   font-weight: bold;
 }
 
 /* Estilo para los domingos */
 .calendar-cita .react-calendar__tile--sunday {
-  background-color: rgba(255, 230, 153, 0.7); /* Fondo amarillo claro */
-  color: #7a7a00; /* Color más oscuro para el texto */
+  background-color: rgba(255, 235, 238, 0.7); /* Fondo rosa claro */
+  color: #c62828; /* Color más oscuro para el texto */
 }
 
 /* Hover para los domingos */
 .calendar-cita .react-calendar__tile--sunday:hover {
-  background-color: rgba(255, 204, 0, 0.8); /* Fondo amarillo más oscuro al pasar el ratón */
+  background-color: rgba(255, 205, 210, 0.8); /* Fondo rosa más oscuro */
 }
 
 
 .calendar-cita main hr {
   width: 90%;
 }
-
-.calendar-cita main .box-calendar,
-.list-cita {
-  position: relative;
-  height: auto;
-  padding: 15px;
-  height: 100%;
-}
-
 .calendar-cita .box-calendar {
+  margin-top: 60px;
+  margin-left: 80px;
+  /* border: red solid 2px; */
   display: flex;
+  padding: 10px;
+  position: fixed;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .calendar-cita .box-calendar p {
   font-size: 16px;
   font-family: 'poppins';
-  margin: 0;
+  margin: 1;
   text-transform: uppercase;
+  align-items: center;
 }
 
 .calendar-cita main h3 {
@@ -339,6 +362,7 @@ td {
 }
 
 .calendar-cita .list-cita {
+  margin-left: 450px;
   flex: 1;
   display: flex;
   flex-direction: column;

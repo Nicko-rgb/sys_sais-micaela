@@ -9,13 +9,13 @@ import Select from 'react-select';
 
 import { CgCalendarDates } from "react-icons/cg";
 import { FaUserEdit } from "react-icons/fa";
-import { RiParentFill } from "react-icons/ri";
+import { RiParentFill } from "react-icons/ri"; 
 
 
 const EditPaciente = ({ paciente, onCloseEdit }) => {
   const [departamento, setDepartamento] = useState([])//DEPARTAMENTO
   const [provincia, setProvincia] = useState([])
-  const [distrito, setDistrito] = useState([])
+  const [distrito, setDistrito] = useState([]) 
 
 
   const [provinciaResponsable, setProvinciaResponsable] = useState('');
@@ -332,6 +332,9 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
         return (
           <section className={`container-editar-nacimiento ${animateClass} section-active`}>
             <h3>DATOS DE NACIMIENTO</h3>
+            <div className="nomPaciente">
+            <p>{paciente.nombres}, {paciente.ape_paterno} {paciente.ape_materno} </p>
+            </div>
             <form onSubmit={handleBirthDataSubmit}>
               <div className="datos_cortos">
                 <label>

@@ -95,7 +95,8 @@
 }
 
 .turnos-personal main>h3 {
-  font-size: 19px;
+  font-size: large;
+  font-family: 'poppins';
 }
 
 .turnos-personal .acciones {
@@ -179,6 +180,7 @@
   align-items: center;
   justify-content: end;
   gap: 10px;
+  
 }
 
 .turnos-personal .acciones button {
@@ -262,7 +264,7 @@
   padding: 0;
   cursor: initial;
 }
-.turnos-personal table .names{
+.turnos-personal table tbody .names{
   cursor: pointer;
   position: relative;
   white-space: nowrap;

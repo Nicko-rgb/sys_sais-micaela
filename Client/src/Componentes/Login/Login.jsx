@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import NavLogin from '../Navegadores/NavLogin';
-import NavPie from '../Navegadores/NavPie';
 import { CiUser } from "react-icons/ci";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { Link } from 'react-router-dom';
@@ -19,12 +17,13 @@ const Login = () => {
 
     const navigate = useNavigate(); // Hook for programmatic navigation
 
-    const { handleLogin } = EstadoSesion(); // Custom hook for managing login state
+    const { handleLogin, handleLogout } = EstadoSesion(); // Custom hook for managing login state
 
     // Function to toggle sidebar
-    const toggleSidebar = () => {
-        setSidebarOpen(!sidebarOpen);
-    };
+
+    useEffect(() => {
+        handleLogout();
+    }, []);
 
     // Function to close sidebar when clicking outside
     const closeSidebar = () => {
@@ -80,68 +79,53 @@ const Login = () => {
 
     return (
         <div className='login' onClick={closeSidebar}>
-            {/* <NavLogin toggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} /> */}
-            <div className='content-wrappe'>
-                <div className='datosentidad'>
-                    <div className='titleentidad'>
-                        <h3>Centro de Salud Micaela Bastidas</h3>
-                        <h5>Sistema de Atencion Integral de Salud </h5>
-                    </div>
-                    <div className='imagenDoctores'>
-                        <img src={imagen} alt="" />
-
-
-                    </div>
-
-
-                    <img className='minsa' src="https://2.bp.blogspot.com/-TRsa_parsRI/UpfISs4O7QI/AAAAAAAAGVU/jO9_iB1FNE4/s1600/logo.Ministerio%2Bde%2BSalud%2B%2528NUEVO%2529.jpg"  />
-
-
-
-
+            <div className='datosentidad'>
+                <div className='titleentidad'>
+                    <h3>CENTRO DE SALUD MICAELA BASTIDAS</h3>
+                    <h5>Sistema de Atencion Integral de Salud - SAIS</h5>
                 </div>
-                <div className='caja-formulario'>
-                    <form onClick={(e) => e.stopPropagation()} onSubmit={handleSubmit}>
-                        <h2>INICIAR SESIÓN</h2>
-                        <div>
-                            <label>DNI</label>
-                            <input
-                                type="text"
-                                placeholder="Ingrese su DNI"
-                                value={dni}
-                                onChange={(handleDniChange)}
-                                required
-                                maxLength={"8"}
-                                pattern='\d{8}'
-                                title='INGRESE DNI VALIDO DE 8 DIGITOS '
-                            />
-                            <CiUser className='ico_form_login' />
-                        </div>
-                        <div>
-                            <label>Clave:</label>
-                            <input
-                                type="password"
-                                placeholder="Su clave"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-                            <RiLockPasswordLine className='ico_form_login' />
-                        </div>
-                        <div className="link_reset">
-                            <Link to="/reset-password" style={{ fontSize: '13px' }}>¿Olvidaste tu contraseña?</Link>
-                        </div>
-                        {errorMessage && <p className="error-message">{errorMessage}</p>}
-                        <button type="submit">Ingresar</button>
-                    </form>
+                <img className='doctorimg' src={imagen} alt="" />
+                <div className='imagenIco'>
+                    <img className='minsa' src="https://www.repositorioeducacion.com/wp-content/uploads/2020/04/minsa-logo.jpg" />
+                    <img className='region' src="https://scontent.flim39-1.fna.fbcdn.net/v/t39.30808-6/253557868_270011505131280_1448906634558288335_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeEpFkSKGA1xqaAE-Cq-xtIQ2lyvDm9rrRDaXK8Ob2utEHH51SRoaPjkwB-OyK_wDgWIyjQj5eWKu85C97swZZjz&_nc_ohc=9NDKFK7BkKoQ7kNvgFj6OLj&_nc_ht=scontent.flim39-1.fna&_nc_gid=APvgmbo11lnERQXRPbkDP_P&oh=00_AYD48e7oB9kCX6OUyx4ynKoI7SSOHoW2YZR_t2cMHXI8Jw&oe=670C9019" />
                 </div>
-
-
-
-
-
             </div>
-            {/* <NavPie /> */}
+            <div className='caja-formulario'>
+                <div class="blur-overlay"></div>
+                <form onClick={(e) => e.stopPropagation()} onSubmit={handleSubmit}>
+                    <h2>INICIAR SESIÓN</h2>
+                    <div>
+                        <label>DNI</label>
+                        <input
+                            type="text"
+                            placeholder="Ingrese su DNI"
+                            value={dni}
+                            onChange={(handleDniChange)}
+                            required
+                            maxLength={"8"}
+                            pattern='\d{8}'
+                            title='INGRESE DNI VALIDO DE 8 DIGITOS '
+                        />
+                        <CiUser className='ico_form_login' />
+                    </div>
+                    <div>
+                        <label>Clave:</label>
+                        <input
+                            type="password"
+                            placeholder="Su clave"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                        <RiLockPasswordLine className='ico_form_login' />
+                    </div>
+                    <div className="link_reset">
+                        <Link to="/reset-password" style={{ fontSize: '13px' }}>¿Olvidaste tu contraseña?</Link>
+                    </div>
+                    {errorMessage && <p className="error-message">{errorMessage}</p>}
+                    <button type="submit">Ingresar</button>
+                </form>
+            </div>
         </div>
     );
 };

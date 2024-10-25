@@ -1,19 +1,65 @@
-.info-personal{
-    position: absolute;
-    top: 0;
-    left: 200px;
-    display: flex;
-}
 
-.info-personal .content {
-    background: #e8feff;
+.content-info {
+    position: relative;
+    background-color:  #2cc1af;
     border-radius: 7px;
-    padding: 20px;
+    padding: 15px;
     animation: fadeIn 0.3s ease;
-    box-shadow: 0 0 10px black;
-    margin: auto;
+    box-shadow: 0 0 5px rgb(245,206,113);
+    margin-right: 20px;
+    z-index: 2;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
+.content-info .flecha{
+    z-index: -1;
+    position: absolute;
+    top: 5px;
+    left: -18px;
+    width: 0;
+    height: 0;
+    transform: rotate(-90deg);
+    border-left: 15px solid transparent; /* Ajusta el tamaño */
+    border-right: 15px solid transparent; /* Ajusta el tamaño */
+    border-bottom: 20px solid #2cc1af; /* Color del triángulo */
 
+}
+.content-info .datos{
+    display: flex;
+    gap: 20px;
+}
+.content-info h3{
+    font-size: 19px;
+    text-transform: uppercase;
+    text-align: center;
+}
+.content-info b{
+    font-size: 14px;
+    font-family: 'poppins';
+}
+.content-info p{
+    border: none;
+    font-family: 'poppins';
+    font-size: 14px;
+    background-color: transparent;
+    margin: 0;
+    text-transform: uppercase;
+}
+.content-info .box-btn{
+    display: flex;
+    justify-content: center;
+}
+.content-info .btn-save{
+    transition: .3s ease all;
+    background: rgb(245,206,113);
+}
+.content-info .btn-save:hover{
+    box-shadow: none;
+    background: rgb(190, 160, 89);
+    ;
+}
 @keyframes fadeIn {
     from {
         opacity: 0;

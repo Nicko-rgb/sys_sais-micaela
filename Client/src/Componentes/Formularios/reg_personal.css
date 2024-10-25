@@ -157,3 +157,18 @@
     text-align: center;
     margin: 0;
 }
+
+/* CREDENCIALES DE ACCESO */
+.credencialesAcceso fieldset {
+    display: flex;
+    border: 1px solid rgba(0, 0, 0, 0.5); /* Color negro más suave */
+    padding: 15px;
+    border-radius: 10px; /* Aumento del radio de las esquinas */
+    gap: 18px;
+  }
+
+.credencialesAcceso legend {
+    /* font-weight: bold; */
+    padding: 0 5px;
+    color: #000;
+  }

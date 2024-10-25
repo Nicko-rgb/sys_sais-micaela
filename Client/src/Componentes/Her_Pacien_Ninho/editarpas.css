@@ -139,6 +139,16 @@
 
 /* FORM NACIMIENTO */
 
+.editar-paciente .container-editar-nacimiento .nomPaciente{
+    border: red solid 2px;
+    padding: 0%;
+    width: 350px;
+    font-size: 16px;
+    border: none;
+    margin-left: 420px;
+    background: rgb(232, 231, 231);
+}
+
 .editar-paciente .datosNaci1{
     display: flex;
     gap: 30px;

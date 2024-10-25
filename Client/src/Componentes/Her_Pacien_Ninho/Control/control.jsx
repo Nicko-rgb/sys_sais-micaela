@@ -33,7 +33,7 @@ const Control = () => {
   };
 
   return (
-  <div className="ControlPRincipal">
+  <div className="ControlPrincipal">
     <form className="control-form" onSubmit={handleSubmit}>
       <h2>Control CRED - Rec Nacido</h2>
       <div className="form-group">

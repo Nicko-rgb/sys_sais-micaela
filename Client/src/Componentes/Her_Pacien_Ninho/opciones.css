@@ -13,7 +13,7 @@
     /* Ancho de la barra de desplazamiento vertical */
   }
 }
- 
+  
 .opciones-right {
   position: fixed;
   border-left: gray solid;
@@ -112,7 +112,6 @@ section p {
   height: 25px;
   text-transform: uppercase;
   /* Convierte el texto a mayúsculas */
-
 }
 
 .opciones-right section a img {
@@ -222,7 +221,7 @@ section a img {
   margin: 0;
 }
 
-/* ///////////////////////////////////////// */
+/* ///////////////////////////////////////// */ 
 
 /* Styles for details and summary */
 .opciones-right .opcion-item summary {

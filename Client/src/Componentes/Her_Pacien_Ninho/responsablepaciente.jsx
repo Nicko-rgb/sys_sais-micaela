@@ -6,7 +6,7 @@ import "./editarpas.css";
 const ResponsablePaciente = ({ paciente, onCloseEdit }) => {
     const [formData, setFormData] = useState({
         id_paciente: paciente.id_paciente,
-        id_res: paciente.id_responsable,
+        id_responsable: paciente.id_responsable, // Asegúrate de que sea id_responsable
         dni_res: paciente.dni_res,
         tipo_res: paciente.tipo_res,
         nombres_res: paciente.nombres_res,
@@ -67,27 +67,35 @@ const ResponsablePaciente = ({ paciente, onCloseEdit }) => {
         console.log("Datos a enviar:", formData);
 
         try {
+            // Actualizar el responsable usando su ID
             const response = await axios.put(
-                `http://localhost:5000/api/actualizar/paciente/${paciente.id_paciente}`,
-                formData
+                `http://localhost:5000/api/actualizar/responsable/${formData.id_responsable}`,
+                formData // Envío de datos para el responsable
             );
 
             console.log("Respuesta completa del servidor:", response);
 
             if (response.status === 200) {
                 alert(response.data.message || "Datos actualizados correctamente");
-                setFormData((prevData) => ({ ...prevData, ...formData }));
-
-                // Actualizar el estado local con los datos enviados
-                setFormData((prevData) => {
-                    const newData = { ...prevData, ...formData };
-                    console.log("Nuevo estado del formulario:", newData);
-                    return newData;
+                // Limpiar el estado después de la actualización
+                setFormData({
+                    id_paciente: paciente.id_paciente,
+                    id_responsable: paciente.id_responsable,
+                    dni_res: "",
+                    tipo_res: "",
+                    nombres_res: "",
+                    ape_paterno_res: "",
+                    ape_materno_res: "",
+                    celular1_res: "",
+                    celular2_res: "",
+                    localidad_res: "",
+                    sector_res: "",
+                    direccion_res: "",
+                    departamento_res: "",
+                    provincia_res: "",
+                    distrito_res: "",
                 });
-                window.location.reload();
-
-                // Si tienes una función para actualizar el estado en el componente padre, llámala aquí
-                // onUpdatePaciente(formData);
+                window.location.reload(); // Recargar la página o actualizar el estado del componente padre
             } else {
                 throw new Error("La respuesta del servidor no fue exitosa");
             }

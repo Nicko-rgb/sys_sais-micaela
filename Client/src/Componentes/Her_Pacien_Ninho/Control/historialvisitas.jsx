@@ -12,11 +12,9 @@ const HistorialVisitas = () => {
 
 
 
-
-
-
     return (
-        <div className="HistorialVisitas">
+        <div className='HistorialVisitas-container '>
+            <div className="HistorialVisitas">
             <button className="HistorialVisitas__new-visit" onClick={handleNewVisitClick}>+ Nueva Visita</button>
             <h2 className="HistorialVisitas__title">Listado de Visitas Domiciliarias</h2>
             <div className="HistorialVisitas__search">
@@ -55,6 +53,9 @@ const HistorialVisitas = () => {
             </div>
 
         </div>
+
+        </div>
+        
     );
 };
 

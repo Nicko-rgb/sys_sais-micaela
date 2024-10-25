@@ -5,8 +5,8 @@ import NavLogin from "../Navegadores/NavLogin";
 import NavPie from "../Navegadores/NavPie";
 import axios, { formToJSON } from "axios";
 import lugares from "../Complementos/lugares.js";
-import NacimientoPaciente from './nacimientopaciente';
-import ResponsablePaciente from './responsablepaciente';
+import NacimientoPaciente from "./nacimientopaciente";
+import ResponsablePaciente from "./responsablepaciente";
 import { CgCalendarDates } from "react-icons/cg";
 import { FaUserEdit } from "react-icons/fa";
 import { RiParentFill } from "react-icons/ri";
@@ -49,8 +49,21 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
     provincia_res: paciente.provincia_res,
     distrito_res: paciente.distrito_res,
   });
+  // ACCION PARA CALCULAR LA EDAD EN TIEMPO REAL 
+  const calcularEdad=(fechanacimiento=>{
+    const hoy= new  Date();
+    const nacimiento= new Date(fechanacimiento)
+    let edad = hoy.getFullYear()-nacimiento.getFullYear()
+    const mes = hoy.getMonth()-nacimiento.getMonth()
+
+   // Ajuste en caso de que el cumpleaños aún no haya ocurrido este año
+   if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+    edad--;
+  }
+  return edad
 
 
+  })
 
   // SLECTES DE DEPARTAMENTOS
   const handleDepartmentChange = (event) => {
@@ -145,8 +158,18 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
 
     return age;
   };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+    // Actualiza el valor de fecha de nacimiento y calcula la edad
+    if (name === 'fecha_nacimiento') {
+      const edadCalculada = calcularEdad(value);
+      setFormData({
+        ...formData,
+        fecha_nacimiento: value,
+        edad: edadCalculada >= 0 ? edadCalculada : '',
+      });
+    }
     setFormData((prevData) => {
       const newData = { ...prevData, [name]: value };
       console.log(`Campo actualizado - ${name}:`, value);
@@ -217,13 +240,10 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
             onClose={onCloseEdit}
           />
         );
-        case "responsable":
-          return paciente.id_responsable ? (
-            <ResponsablePaciente
-              paciente={paciente}
-              onCloseEdit={onCloseEdit}
-            />
-          ) : null;
+      case "responsable":
+        return paciente.id_responsable ? (
+          <ResponsablePaciente paciente={paciente} onCloseEdit={onCloseEdit} />
+        ) : null;
       case "datos":
       default:
         return (
@@ -313,7 +333,14 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                     type="text"
                     name="nombres"
                     value={formData.nombres}
-                    onChange={(e) => handleChange({ target: { name: 'nombres', value: e.target.value.toUpperCase() } })}
+                    onChange={(e) =>
+                      handleChange({
+                        target: {
+                          name: "nombres",
+                          value: e.target.value.toUpperCase(),
+                        },
+                      })
+                    }
                     onKeyDown={(e) => {
                       // Permitir teclas especiales como Backspace, Tab, etc.
                       if (
@@ -337,7 +364,14 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                     type="text"
                     name="ape_paterno"
                     value={formData.ape_paterno}
-                    onChange={(e) => handleChange({ target: { name: 'ape_paterno', value: e.target.value.toUpperCase() } })}
+                    onChange={(e) =>
+                      handleChange({
+                        target: {
+                          name: "ape_paterno",
+                          value: e.target.value.toUpperCase(),
+                        },
+                      })
+                    }
                     onKeyDown={(e) => {
                       // Permitir teclas especiales como Backspace, Tab, etc.
                       if (
@@ -358,7 +392,14 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                     type="text"
                     name="ape_materno"
                     value={formData.ape_materno}
-                    onChange={(e) => handleChange({ target: { name: 'ape_materno', value: e.target.value.toUpperCase() } })}
+                    onChange={(e) =>
+                      handleChange({
+                        target: {
+                          name: "ape_materno",
+                          value: e.target.value.toUpperCase(),
+                        },
+                      })
+                    }
                     onKeyDown={(e) => {
                       // Permitir teclas especiales como Backspace, Tab, etc.
                       if (

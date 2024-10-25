@@ -50,6 +50,7 @@ const Buscar = () => {
                     'Content-Type': 'application/json',
                 },
             });
+            
 
             if (!response.ok) {
                 throw new Error('Error al actualizar los datos de los pacientes');
@@ -57,6 +58,7 @@ const Buscar = () => {
 
             const data = await response.json();
             alert(data.message); // Muestra un mensaje de éxito
+            window.location.reload()
 
         } catch (error) {
             console.error('Error:', error);

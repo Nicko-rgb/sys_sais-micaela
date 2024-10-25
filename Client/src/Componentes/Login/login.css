@@ -1,83 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
 /* Login Form Styles */
 .login {
-    display: flex;
+    display: grid;
+    flex-direction: row;
     height: 100vh;
     width: 100%;
-    background-color: white;
+    background-color: hsl(0, 0%, 100%);
     box-sizing: border-box;
+    /* border:2px solid  #e4890a; */
+    /* padding-top: 40px; */
+    /* padding-bottom: 40px; */
+    /* box-sizing: border-box; */
 }
-
-
-.login .datosentidad {
+.content-wrappe {
+    display: flex;
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    padding: 20px;
-    background-color: #256860;
-    position: relative;
-}
-.login .datosentidad h3, h5{
-    text-align: center;
-    margin: 0;
-}
-.login .datosentidad h3{
-    font-size: 30px;
-    font-weight: 1000;
-    text-shadow: 0 0 3px white,
-                0 0 3px white,
-                0 0 3px white;
-    font-family: 'poppins';
-}
-.login .datosentidad h5{
-    font-family: 'poppins';
-    font-size: 16px;
-    text-shadow: 0 0 1px white,
-                0 0 1px white,
-                0 0 1px white;
-    font-weight: 900;
-    text-transform: uppercase;
-}
-.login .datosentidad .doctorimg{
-    max-width: 600px;
+    /* padding: 35px 0; Espacio para los navs */
+    /* border: 2px solid rgb(200, 13, 13); */
+    height:100%;
     width: 100%;
-    filter: drop-shadow(5px 5px 10px rgb(55, 180, 159));
+    /* height: 170%; */
+
 }
 
-
-.login .datosentidad .imagenIco{
-    display: flex;
-    gap: 20px;
-    
-}
-
-.login .datosentidad .minsa{
-    max-width: 400px;
-    width: 100%;
-}
-.login .datosentidad .region{
-    max-width: 100px;
-    width: 100%;
-}
-
-.blur-overlay {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(255, 255, 255, 0.5);
-    /* Color de fondo semi-transparente */
-    backdrop-filter: blur(2px);
-    /* Ajusta el valor para el nivel de desenfoque */
-}
-
-.login .caja-formulario {
-    position: relative;
+.caja-formulario {
     flex: 1;
     display: flex;
     justify-content: center;
@@ -88,9 +34,58 @@
     background-size: cover;
     background-position: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* border: 2; px solid gray; */
+    
+
+
+}
+
+.datosentidad{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    /* border: 2px solid gray; */
+    background-color: #256860;
+    position: relative;
+    
+    .titleentidad{
+        position: absolute;
+        width: 70%;
+        margin-top: -70%;
+        color: white;
+        text-align: center;
+        /* border:solid 2px green; */
+        font-family: "Poppins", sans-serif;
+
+        h3{
+            font-size: 1.9em;
+        }
+
+        h5{
+            text-align: center;
+
+        }
+
+    }
+
+    .imagenDoctores img{
+        width: 400px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* X Y Blur Color */
+        
+
+    }
+    .minsa{
+        position: absolute;
+        margin-top: 60%;
+        width: 200px;
+    }
+
+
 }
 .login form {
-    box-shadow: 0 0 10px #01af9b;
+    box-shadow: 0 0 5px #00796b75;
     border-radius: 8px;
     margin: auto;
     padding: 30px;
@@ -100,11 +95,8 @@
     font-family: 'Segoe UI', sans-serif;
     max-width: 300px;
     width: 100%;
-    background-color: white;
+    background-color: #e9eceb;
     font-family: 'poppins';
-    backdrop-filter: blur(0);
-    /* Ajusta el valor para el nivel de desenfoque */
-
 }
 
 .login form h2 {
@@ -123,7 +115,6 @@
 
 .login div label {
     text-align: left;
-    padding-left: 3px;
     font-size: 14px;
     color: #333;
 }
@@ -170,8 +161,8 @@
 
 .login .ico_form_login {
     position: absolute;
-    right: 2px;
-    top: 32px;
+    right: 7px;
+    top: 30px;
 }
 
 .login form .link_reset {
@@ -180,22 +171,7 @@
     text-align: center;
     color: #00796b;
 }
-@media (max-width: 1000px) {
-    .login {
-        display: flex;
-        flex-direction: column;
-    }
-    .login .datosentidad{
-        flex: 0;
-        height: auto;
-    }
-    .login .caja-formulario{
-        flex: 1;
-    }
-    .login .doctorimg, .minsa{
-        display: none;
-    }
-}
+
 
 /* Reset Password Styles */
 .reset-password {
@@ -205,10 +181,9 @@
     background-color: #fff;
     position: relative;
 }
-
-.Flecha {
+.Flecha{
     z-index: 1;
-
+   
 }
 
 .reset-password form {
@@ -253,8 +228,7 @@
 .reset-password button:hover {
     background-color: #005b4f;
 }
-
-.reset-password .volver_link {
+.reset-password .volver_link{
     position: absolute;
     top: -35px;
     left: -30px;
@@ -267,8 +241,7 @@
     font-family: 'poppins';
     font-size: 14px;
 }
-
-.reset-password .volver_link:hover {
+.reset-password .volver_link:hover{
     background: rgb(238, 238, 238);
 }
 
@@ -277,7 +250,7 @@
 
 
 
-.nav_login {
+.nav_login{
     position: fixed;
     width: calc(100% - 40px);
     top: 0;
@@ -294,64 +267,51 @@
     z-index: 3;
 }
 
-.nav_login .icon {
+.nav_login .icon{
     font-size: 23px;
     padding: 5px;
     border-radius: 50%;
 }
 
-.nav_login div {
+.nav_login div{
     display: flex;
     align-items: center;
     cursor: pointer;
 }
-
-.nav_login .recargar {
+.nav_login .recargar{
     display: flex;
     gap: 5px;
     align-items: center;
 }
-
-.nav_login .opcion-nav {
+.nav_login .opcion-nav{
     display: flex;
     gap: 4px;
     align-items: right;
 }
-
-.nav_login .opcion-nav .reloj{
-    cursor: initial;
-}
-
-.nav_login .opcion-nav .ico-closse-sesion {
+.nav_login .opcion-nav .ico-closse-sesion{
     font-size: 25px;
     color: rgb(238, 64, 64);
     padding: 5px;
     transition: .3s ease;
 }
-
-.nav_login .ico-people {
+.nav_login .ico-people{
     font-size: 25px;
     color: rgb(93, 64, 238);
     padding: 5px;
     transition: .3s ease;
 }
-
-.nav_login .ico-yo-user {
+.nav_login .ico-yo-user{
     font-size: 18px;
     padding: 8px;
     color: #00796b;
     transition: .3s ease;
 }
-
-.nav_login .opcion-nav .ico-people:hover,
-.ico-closse-sesion:hover,
-.ico-yo-user:hover,
-.icon_login_nav:hover {
+.nav_login .opcion-nav .ico-people:hover, .ico-closse-sesion:hover, .ico-yo-user:hover, .icon_login_nav:hover{
     background: rgb(78, 78, 78);
     box-shadow: 0 0 3px #00796b;
 }
 
-.nav_login div p {
+.nav_login div p{
     font-weight: bold;
     font-size: 14px;
     font-family: 'poppins';
@@ -359,7 +319,7 @@
 
 
 
-.nav_pie {
+.nav_pie{
     position: fixed;
     width: calc(100% - 40px);
     height: 35px;
@@ -371,21 +331,18 @@
     padding: 0 20px;
     border-top: solid 3px #00796b;
 }
-
-.nav_pie p {
+.nav_pie p{
     color: white;
     font-size: 12px;
 }
-
-.nav_pie .btns {
+.nav_pie .btns{
     display: flex;
     flex-direction: row;
 }
-
-.nav_pie .button div button {
+.nav_pie .button div button  {
     background: rgb(65, 64, 64);
     color: white;
-    border: none;
+    border:  none;
     border: black solid 1px;
     margin: 0 4px;
     display: flex;
@@ -399,38 +356,26 @@
 }
 
 .sidebar {
-    position: fixed;
-    /* Fija el sidebar en la pantalla */
+    position: fixed; /* Fija el sidebar en la pantalla */
     top: 0;
-    right: -300px;
-    /* Comienza fuera de la pantalla */
-    width: 300px;
-    /* Ancho del sidebar */
-    height: 100%;
-    /* Altura completa */
-    background-color: #f8f9fa;
-    /* Color de fondo */
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-    /* Sombra para el sidebar */
-    transition: right 0.3s ease;
-    /* Transición suave */
-    z-index: 100;
-    /* Asegúrate de que esté por encima de otros elementos */
+    right: -300px; /* Comienza fuera de la pantalla */
+    width: 300px; /* Ancho del sidebar */
+    height: 100%; /* Altura completa */
+    background-color: #f8f9fa; /* Color de fondo */
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5); /* Sombra para el sidebar */
+    transition: right 0.3s ease; /* Transición suave */
+    z-index: 100; /* Asegúrate de que esté por encima de otros elementos */
 }
 
 /* Clase activa para mostrar el sidebar */
 .sidebar.open {
-    right: 0;
-    /* Mueve el sidebar a la vista */
+    right: 0; /* Mueve el sidebar a la vista */
 }
 
 .close-icon {
-    cursor: pointer;
-    /* Cambia el cursor al pasar sobre el icono de cierre */
-    font-size: 24px;
-    /* Tamaño del icono */
-    margin: 10px;
-    /* Espaciado alrededor del icono */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el icono de cierre */
+    font-size: 24px; /* Tamaño del icono */
+    margin: 10px; /* Espaciado alrededor del icono */
 }
 
 
@@ -441,48 +386,47 @@
 /* Estilos para el contenedor principal del Sidebar */
 .sidebarMenu {
     position: fixed;
-    top: 35px;
-    /* Ajusta según la altura de tu NavLogin */
+    top: 35px; /* Ajusta según la altura de tu NavLogin */
     right: -280px;
     width: 280px;
     height: calc(100vh - 73px);
-    background-color: rgb(48, 48, 48);
+    background-color: rgb(48,48,48);
     color: #ecf0f1;
     transition: right 0.3s ease-in-out;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     overflow-y: auto;
     border-left: 2px solid #34495e;
-}
-
-.sidebarMenu.open {
+  }
+  
+  .sidebarMenu.open {
     right: 0;
-}
-
-/* Estilos para el contenido del Sidebar */
-.sidebar-content {
+  }
+  
+  /* Estilos para el contenido del Sidebar */
+  .sidebar-content {
     padding: 35px;
-}
-
-.sidebarMenu h3 {
+  }
+  
+  .sidebarMenu h3 {
     font-size: 1.2rem;
-    color: rgb(97, 208, 97);
+    color: rgb(97,208,97);
     margin-bottom: 20px;
     padding-bottom: 10px;
     border-bottom: 1px solid #34495e;
-}
-
-.sidebarMenu nav ul {
+  }
+  
+  .sidebarMenu nav ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
-}
-
-.sidebarMenu nav ul li {
+  }
+  
+  .sidebarMenu nav ul li {
     margin-bottom: 10px;
-}
-
-.sidebarMenu nav ul li a {
+  }
+  
+  .sidebarMenu nav ul li a {
     display: flex;
     align-items: center;
     color: #ecf0f1;
@@ -490,19 +434,19 @@
     padding: 10px;
     border-radius: 5px;
     transition: background-color 0.2s ease;
-}
-
-.sidebarMenu nav ul li a:hover {
+  }
+  
+  .sidebarMenu nav ul li a:hover {
     background-color: #34495e;
-}
-
-.sidebarMenu nav ul li a svg {
+  }
+  
+  .sidebarMenu nav ul li a svg {
     margin-right: 10px;
     font-size: 1.2rem;
-}
-
-/* Estilos para el botón de cierre */
-.close-icon {
+  }
+  
+  /* Estilos para el botón de cierre */
+  .close-icon {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -510,43 +454,43 @@
     color: #ecf0f1;
     cursor: pointer;
     transition: color 0.2s ease;
-}
-
-.close-icon:hover {
+  }
+  
+  .close-icon:hover {
     color: #e74c3c;
-}
-
-/* Estilos para el scroll del Sidebar */
-.sidebarMenu::-webkit-scrollbar {
+  }
+  
+  /* Estilos para el scroll del Sidebar */
+  .sidebarMenu::-webkit-scrollbar {
     width: 6px;
-}
-
-.sidebarMenu::-webkit-scrollbar-track {
+  }
+  
+  .sidebarMenu::-webkit-scrollbar-track {
     background: #34495e;
-}
-
-.sidebarMenu::-webkit-scrollbar-thumb {
+  }
+  
+  .sidebarMenu::-webkit-scrollbar-thumb {
     background-color: #95a5a6;
     border-radius: 3px;
-}
-
-/* Ajuste del contenido principal cuando el Sidebar está abierto */
-.main-content {
+  }
+  
+  /* Ajuste del contenido principal cuando el Sidebar está abierto */
+  .main-content {
     transition: margin-left 0.3s ease-in-out;
-}
-
-.sidebarMenu.open+.content-wrapper .main-content {
+  }
+  
+  .sidebarMenu.open + .content-wrapper .main-content {
     margin-left: 280px;
-}
-
-/* Estilos responsivos */
-@media (max-width: 768px) {
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 768px) {
     .sidebarMenu {
-        width: 100%;
-        left: -100%;
+      width: 100%;
+      left: -100%;
     }
-
-    .sidebarMenu.open+.content-wrapper .main-content {
-        margin-left: 0;
+  
+    .sidebarMenu.open + .content-wrapper .main-content {
+      margin-left: 0;
     }
-}
+  }

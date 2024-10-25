@@ -483,7 +483,6 @@ app.get('/api/tipos-turno', async (req, res) => {
  //ruta para obtner fecha bloquedad para personal de salud
 app.get('/api/obtener-fechas-bloqueadas', async (req, res) => {
     try {
-<<<<<<< HEAD
         // Consulta para obtener todos los turnos del mes para todo el personal
         const query = `
             SELECT p.id_personal, p.nombres, p.paterno, p.materno, t.id_turno_tipo, t.fecha, tt.clave_turno
@@ -497,10 +496,6 @@ app.get('/api/obtener-fechas-bloqueadas', async (req, res) => {
         const [rows] = await pool.query(query, [primerDiaMes, ultimoDiaMes]);
 
         res.json(rows);
-=======
-        const [results] = await pool.query('SELECT fecha FROM dias_bloqueados WHERE bloqueado = TRUE');
-        res.json(results);
->>>>>>> 7dbd5622a98d32ac08555044a89e7c9c5c215fcb
     } catch (error) {
         console.error('Error al obtener las fechas bloqueadas:', error);
         res.status(500).json({ error: 'Error al obtener las fechas bloqueadas' });

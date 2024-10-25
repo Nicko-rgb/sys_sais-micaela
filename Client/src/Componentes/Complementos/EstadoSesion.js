@@ -9,7 +9,7 @@ const EstadoSesion = () => {
     const [tipoUser, setTipoUser] = useState('');
     const [profesion, setProfesion] = useState('');
     const [especialCita, setEspecialCita] = useState('');
-    const [usuario, setUsuario] = useState('');
+    const [usuario, setUsuario] = useState(''); 
 
     // Al cargar el componente, recuperamos los datos del localStorage
     useEffect(() => {
@@ -79,4 +79,4 @@ const EstadoSesion = () => {
     return { userId, userPersonal, correo, isLoggedIn, handleLogin, handleLogout, rutaPerfil, dni, tipoUser, profesion, especialCita, usuario };
 };
 
-export default EstadoSesion;
+export default EstadoSesion; 

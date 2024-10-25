@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import NavLogin from '../Navegadores/NavLogin';
+import NavPie from '../Navegadores/NavPie';
 import { CiUser } from "react-icons/ci";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { Link } from 'react-router-dom';
@@ -17,13 +19,12 @@ const Login = () => {
 
     const navigate = useNavigate(); // Hook for programmatic navigation
 
-    const { handleLogin, handleLogout } = EstadoSesion(); // Custom hook for managing login state
+    const { handleLogin } = EstadoSesion(); // Custom hook for managing login state
 
     // Function to toggle sidebar
-
-    useEffect(() => {
-        handleLogout();
-    }, []);
+    const toggleSidebar = () => {
+        setSidebarOpen(!sidebarOpen);
+    };
 
     // Function to close sidebar when clicking outside
     const closeSidebar = () => {
@@ -40,94 +41,113 @@ const Login = () => {
     };
 
 
-    // Function to handle form submission
-    const handleSubmit = async (e) => {
-        e.preventDefault(); // Prevent default form submission behavior
+// Función para manejar la presentación del formulario
+const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
 
-        try {
-            // Send POST request to login API
-            const response = await axios.post('http://localhost:5000/api/sais/login', {
-                dni, // Send DNI instead of username
-                contrasena: password
-            });
+    try {
+        // Enviar solicitud POST al API de inicio de sesión
+        const response = await axios.post('http://localhost:5000/api/sais/login', {
+            dni, // Enviar DNI en lugar de nombre de usuario
+            contrasena: password
+        });
 
-            // Destructure user data from response
-            const { userId, userPersonal, correo, dni: userDni, tipoUser, profesion, especialCita, usuario } = response.data;
+        // Desestructurar los datos del usuario de la respuesta
+        const { userId, userPersonal, correo, dni: userDni, tipoUser, profesion, especialCita, usuario } = response.data;
 
-            // Call handleLogin function from EstadoSesion to update login state
-            handleLogin(userId, userPersonal, correo, userDni, tipoUser, profesion, especialCita, usuario);
+        // Llamar a la función handleLogin desde EstadoSesion para actualizar el estado de inicio de sesión
+        handleLogin(userId, userPersonal, correo, userDni, tipoUser, profesion, especialCita, usuario);
 
-            // Navigate to panel page on successful login
-            navigate('/panel');
-        } catch (error) {
-            // Error handling
-            if (error.response && error.response.data) {
-                // Set specific error messages based on server response
+        // Redirigir a la página del panel después del inicio de sesión exitoso
+        navigate('/panel');
+    } catch (error) {
+        // Manejo de errores
+        if (error.response) {
+            if (error.response.status === 403) {
+                // Mostrar mensaje específico si el usuario está inactivo
+                setErrorMessage('El usuario está inactivo, por favor contacte al administrador.');
+            } else if (error.response.status === 401) {
+                // Mostrar mensaje de error de credenciales
                 setErrorMessage(error.response.data.message);
-            } else if (error.request) {
-                // Error when no response is received
-                setErrorMessage('No se recibió respuesta del servidor');
             } else {
-                // Other request errors
-                setErrorMessage('Error en la solicitud: ' + error.message);
+                // Otros errores
+                setErrorMessage('Error en la solicitud: ' + error.response.data.message);
             }
-
-            // Clear password field on error
-            setPassword('');
+        } else if (error.request) {
+            // Error cuando no se recibe respuesta
+            setErrorMessage('No se recibió respuesta del servidor');
+        } else {
+            // Otros errores en la solicitud
+            setErrorMessage('Error en la solicitud: ' + error.message);
         }
-    };
+
+        // Limpiar el campo de contraseña en caso de error
+        setPassword('');
+    }
+};
 
     return (
         <div className='login' onClick={closeSidebar}>
-            <div className='datosentidad'>
-                <div className='titleentidad'>
-                    <h3>CENTRO DE SALUD MICAELA BASTIDAS</h3>
-                    <h5>Sistema de Atencion Integral de Salud - SAIS</h5>
+            {/* <NavLogin toggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} /> */}
+            <div className='content-wrappe'>
+                <div className='datosentidad'>
+                    <div className='titleentidad'>
+                        <h3>Centro de Salud Micaela Bastidas</h3>
+                        <h5>Sistema de Atencion Integral de Salud </h5>
+                    </div>
+                    <div className='imagenDoctores'>
+                        <img src={imagen} alt="" />
+
+                    </div>
+
+                    <img className='minsa' src="https://2.bp.blogspot.com/-TRsa_parsRI/UpfISs4O7QI/AAAAAAAAGVU/jO9_iB1FNE4/s1600/logo.Ministerio%2Bde%2BSalud%2B%2528NUEVO%2529.jpg"  />
+
+
                 </div>
-                <img className='doctorimg' src={imagen} alt="" />
-                <div className='imagenIco'>
-                    <img className='minsa' src="https://www.repositorioeducacion.com/wp-content/uploads/2020/04/minsa-logo.jpg" />
-                    <img className='region' src="https://scontent.flim39-1.fna.fbcdn.net/v/t39.30808-6/253557868_270011505131280_1448906634558288335_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeEpFkSKGA1xqaAE-Cq-xtIQ2lyvDm9rrRDaXK8Ob2utEHH51SRoaPjkwB-OyK_wDgWIyjQj5eWKu85C97swZZjz&_nc_ohc=9NDKFK7BkKoQ7kNvgFj6OLj&_nc_ht=scontent.flim39-1.fna&_nc_gid=APvgmbo11lnERQXRPbkDP_P&oh=00_AYD48e7oB9kCX6OUyx4ynKoI7SSOHoW2YZR_t2cMHXI8Jw&oe=670C9019" />
+                <div className='caja-formulario'>
+                    <form onClick={(e) => e.stopPropagation()} onSubmit={handleSubmit}>
+                        <h2>INICIAR SESIÓN</h2>
+                        <div>
+                            <label>DNI</label>
+                            <input
+                                type="text"
+                                placeholder="Ingrese su DNI"
+                                value={dni}
+                                onChange={(handleDniChange)}
+                                required
+                                maxLength={"8"}
+                                pattern='\d{8}'
+                                title='INGRESE DNI VALIDO DE 8 DIGITOS '
+                            />
+                            <CiUser className='ico_form_login' />
+                        </div>
+                        <div>
+                            <label>Clave:</label>
+                            <input
+                                type="password"
+                                placeholder="Su clave"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                            <RiLockPasswordLine className='ico_form_login' />
+                        </div>
+                        <div className="link_reset">
+                            <Link to="/reset-password" style={{ fontSize: '13px' }}>¿Olvidaste tu contraseña?</Link>
+                        </div>
+                        {errorMessage && <p className="error-message">{errorMessage}</p>}
+                        <button type="submit">Ingresar</button>
+                    </form>
                 </div>
+
+
+
+
+
             </div>
-            <div className='caja-formulario'>
-                <div class="blur-overlay"></div>
-                <form onClick={(e) => e.stopPropagation()} onSubmit={handleSubmit}>
-                    <h2>INICIAR SESIÓN</h2>
-                    <div>
-                        <label>DNI</label>
-                        <input
-                            type="text"
-                            placeholder="Ingrese su DNI"
-                            value={dni}
-                            onChange={(handleDniChange)}
-                            required
-                            maxLength={"8"}
-                            pattern='\d{8}'
-                            title='INGRESE DNI VALIDO DE 8 DIGITOS '
-                        />
-                        <CiUser className='ico_form_login' />
-                    </div>
-                    <div>
-                        <label>Clave:</label>
-                        <input
-                            type="password"
-                            placeholder="Su clave"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                        <RiLockPasswordLine className='ico_form_login' />
-                    </div>
-                    <div className="link_reset">
-                        <Link to="/reset-password" style={{ fontSize: '13px' }}>¿Olvidaste tu contraseña?</Link>
-                    </div>
-                    {errorMessage && <p className="error-message">{errorMessage}</p>}
-                    <button type="submit">Ingresar</button>
-                </form>
-            </div>
+            {/* <NavPie /> */}
         </div>
     );
 };
 
-export default Login; 
+export default Login;

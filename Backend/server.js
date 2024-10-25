@@ -200,12 +200,12 @@ app.get('/api/obtener-tipo/pacientes', async (req, res) => {
     }
 });
 
-// Endpoint para actualizar los datos del paciente
+// Endpoint para actualizar los datos del paciente**************************************
 app.put("/api/actualizar/paciente/:id_paciente", async (req, res) => {
     const { id_paciente } = req.params;
     const pacienteData = req.body;
 
-    console.log("Datos recibidos:", pacienteData); // Log de los datos recibidos
+    console.log("Datos recibidos para paciente:", pacienteData); // Log de los datos recibidos
 
     const connection = await pool.getConnection();
     try {
@@ -234,37 +234,6 @@ app.put("/api/actualizar/paciente/:id_paciente", async (req, res) => {
         );
         console.log("Resultado de la actualización del paciente:", updateResult);
 
-        // Si hay datos del responsable, actualizarlos
-        if (pacienteData.id_responsable) {
-            console.log("Actualizando datos del responsable...");
-            const [updateResResult] = await connection.execute(
-                `UPDATE responsable_de_paciente SET
-                  dni_res = ?, tipo_res = ?, nombres_res = ?, 
-                  ape_paterno_res = ?, ape_materno_res = ?, celular1_res = ?,
-                  celular2_res = ?, localidad_res = ?, sector_res = ?,
-                  direccion_res = ?, departamento_res = ?, provincia_res = ?,
-                  distrito_res = ?
-                  WHERE id_responsable = ?`,
-                [
-                    pacienteData.dni_res,
-                    pacienteData.tipo_res,
-                    pacienteData.nombres_res,
-                    pacienteData.ape_paterno_res,
-                    pacienteData.ape_materno_res,
-                    pacienteData.celular1_res,
-                    pacienteData.celular2_res,
-                    pacienteData.localidad_res,
-                    pacienteData.sector_res,
-                    pacienteData.direccion_res,
-                    pacienteData.departamento_res,
-                    pacienteData.provincia_res,
-                    pacienteData.distrito_res,
-                    pacienteData.id_responsable,
-                ]
-            );
-            console.log("Resultado de la actualización del responsable:", updateResResult);
-        }
-
         await connection.commit();
         console.log("Transacción completada con éxito");
         res.json({ message: "Datos del paciente actualizados correctamente" });
@@ -280,6 +249,64 @@ app.put("/api/actualizar/paciente/:id_paciente", async (req, res) => {
         connection.release();
     }
 });
+
+// Endpoint para actualizar los datos del responsable**************************************************
+app.put("/api/actualizar/responsable/:id_responsable", async (req, res) => {
+    const { id_responsable } = req.params;
+    const responsableData = req.body;
+
+    console.log("Datos recibidos para responsable:", responsableData); // Log de los datos recibidos
+
+    const connection = await pool.getConnection();
+    try {
+        await connection.beginTransaction();
+
+        console.log("Actualizando datos del responsable...");
+        // Actualizar datos del responsable
+        const [updateResResult] = await connection.execute(
+            `UPDATE responsable_de_paciente SET
+              dni_res = ?, tipo_res = ?, nombres_res = ?, 
+              ape_paterno_res = ?, ape_materno_res = ?, celular1_res = ?,
+              celular2_res = ?, localidad_res = ?, sector_res = ?,
+              direccion_res = ?, departamento_res = ?, provincia_res = ?,
+              distrito_res = ?
+              WHERE id_responsable = ?`,
+            [
+                responsableData.dni_res,
+                responsableData.tipo_res,
+                responsableData.nombres_res,
+                responsableData.ape_paterno_res,
+                responsableData.ape_materno_res,
+                responsableData.celular1_res,
+                responsableData.celular2_res,
+                responsableData.localidad_res,
+                responsableData.sector_res,
+                responsableData.direccion_res,
+                responsableData.departamento_res,
+                responsableData.provincia_res,
+                responsableData.distrito_res,
+                id_responsable,
+            ]
+        );
+        console.log("Resultado de la actualización del responsable:", updateResResult);
+
+        await connection.commit();
+        console.log("Transacción completada con éxito");
+        res.json({ message: "Datos del responsable actualizados correctamente" });
+    } catch (error) {
+        await connection.rollback();
+        console.error("Error detallado al actualizar los datos del responsable:", error);
+        res.status(500).json({
+            message: "Error al actualizar los datos del responsable",
+            error: error.message,
+            stack: error.stack
+        });
+    } finally {
+        connection.release();
+    }
+});
+
+//********************************************************************************************* */
 
 // Ruta para actualizar todos los pacientes 
 app.put('/api/pacientes/actualizar-todos', async (req, res) => {
@@ -445,31 +472,6 @@ app.put('/api/personal/actualizar-estado/:id', async (req, res) => {
     }
 });
 
-// Endpoint para guardar turnos de personal
-// app.post('/api/personal/guardar-turnos', async (req, res) => {
-//     const turnos = req.body; // Los turnos enviados desde el cliente
-
-//     const query = `
-//         INSERT INTO turnos_personal (id_personal, id_turno_tipo, fecha)
-//         VALUES ? 
-//         ON DUPLICATE KEY UPDATE id_turno_tipo = VALUES(id_turno_tipo)
-//     `;
-
-//     const values = turnos.map(turno => [
-//         turno.id_personal,
-//         turno.id_turno_tipo,
-//         turno.fecha
-//     ]);
-
-//     try {
-//         await pool.query(query, [values]);
-//         res.send('Turnos guardados exitosamente');
-//     } catch (error) {
-//         console.error('Error al insertar los turnos:', error);
-//         res.status(500).send('Error al guardar los turnos');
-//     }
-// });
-
 // Ruta para obtener los tipos de turno de personal de salud
 app.get('/api/tipos-turno', async (req, res) => {
     try {
@@ -483,7 +485,6 @@ app.get('/api/tipos-turno', async (req, res) => {
  //ruta para obtner fecha bloquedad para personal de salud
 app.get('/api/obtener-fechas-bloqueadas', async (req, res) => {
     try {
-<<<<<<< HEAD
         // Consulta para obtener todos los turnos del mes para todo el personal
         const query = `
             SELECT p.id_personal, p.nombres, p.paterno, p.materno, t.id_turno_tipo, t.fecha, tt.clave_turno
@@ -497,10 +498,6 @@ app.get('/api/obtener-fechas-bloqueadas', async (req, res) => {
         const [rows] = await pool.query(query, [primerDiaMes, ultimoDiaMes]);
 
         res.json(rows);
-=======
-        const [results] = await pool.query('SELECT fecha FROM dias_bloqueados WHERE bloqueado = TRUE');
-        res.json(results);
->>>>>>> 7dbd5622a98d32ac08555044a89e7c9c5c215fcb
     } catch (error) {
         console.error('Error al obtener las fechas bloqueadas:', error);
         res.status(500).json({ error: 'Error al obtener las fechas bloqueadas' });
@@ -591,20 +588,18 @@ app.post('/api/asignar-turno/personal', async (req, res) => {
 });
 
 
-
-// Ruta para Loggin  
+// Ruta para Loggin***************************************************
 app.post('/api/sais/login', async (req, res) => {
     try {
-        // console.log('Datos recibidos:', req.body); // Agrega este log
         const { dni, contrasena } = req.body;
 
-        // Verificar si se proporcionó el nombre de usuario y la contraseña
+        // Verificar si se proporcionó el DNI y la contraseña
         if (!dni || !contrasena) {
             return res.status(400).json({ message: 'DNI y contraseña son obligatorios' });
         }
 
-        // Buscar el usuario por nombre de usuario en la base de datos MySQL
-        const [rows] = await pool.execute('SELECT * FROM personal_salud WHERE dni= ?', [dni]);
+        // Buscar el usuario por DNI en la base de datos MySQL
+        const [rows] = await pool.execute('SELECT * FROM personal_salud WHERE dni = ?', [dni]);
 
         // Verificar si el usuario existe
         if (rows.length === 0) {
@@ -613,13 +608,19 @@ app.post('/api/sais/login', async (req, res) => {
 
         const personal = rows[0];
 
-        // Comparar directamente las contraseñas
+        // Verificar si el personal está activo
+        if (personal.estado !== 'activo') {
+            return res.status(403).json({ message: 'El usuario está inactivo, por favor contacte al administrador' });
+        }
+
+        // Comparar las contraseñas
         if (contrasena !== personal.contrasena) {
             return res.status(401).json({ message: 'Usuario o contraseña incorrectos (contraseña)' });
         }
-        console.log('Inicio de seion exitoso');
 
-        // Si las credenciales son correctas, enviar respuesta con datos del usuario
+        console.log('Inicio de sesión exitoso');
+
+        // Si las credenciales y el estado son correctos, enviar respuesta con datos del usuario
         return res.json({
             message: 'Inicio de sesión exitoso',
             userId: personal.id_personal,
@@ -637,6 +638,123 @@ app.post('/api/sais/login', async (req, res) => {
         return res.status(500).json({ message: 'Error al iniciar sesión' });
     }
 });
+
+// Endpoint para crear un nuevo registro de nacimiento (POST)
+app.post("/api/nacimiento", async (req, res) => {
+    const {
+      id_paciente,
+      edad_gestacional,
+      peso,
+      talla,
+      perimetro_cefalico,
+      id_etnia,
+      id_financiamiento,
+      codigo_sis,
+      id_programa,
+    } = req.body;
+  
+    const query =
+      "INSERT INTO nacimiento_paciente_ninos (ID_PACIENTE, EDAD_GESTACIONAL, PESO, TALLA, PERIMETRO_CEFALICO, ID_ETNIA, ID_FINANCIAMENTO, codigo_sis, ID_PROGRAMA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  
+    try {
+      const [result] = await pool.query(query, [
+        id_paciente,
+        edad_gestacional,
+        peso,
+        talla,
+        perimetro_cefalico,
+        id_etnia,
+        id_financiamiento,
+        codigo_sis,
+        id_programa,
+      ]);
+      
+      res.status(201).json({ message: "Datos de nacimiento creados exitosamente" });
+    } catch (err) {
+      console.error("Error al insertar datos:", err);
+      res.status(500).json({ message: "Error al guardar los datos" });
+    }
+  });
+  
+// Endpoint para actualizar un registro de nacimiento (PUT)
+// CORREGIDO
+app.put("/api/nacimiento/:id_paciente", async (req, res) => {
+    const { id_paciente } = req.params;
+    const {
+      edad_gestacional,
+      peso,
+      talla,
+      perimetro_cefalico,
+      id_etnia,
+      id_financiamiento,
+      codigo_sis,
+      id_programa,
+    } = req.body;
+  
+    const query = `
+      UPDATE nacimiento_paciente_ninos 
+      SET 
+        EDAD_GESTACIONAL = ?,
+        PESO = ?,
+        TALLA = ?,
+        PERIMETRO_CEFALICO = ?,
+        ID_ETNIA = ?,
+        ID_FINANCIAMENTO = ?,
+        codigo_sis = ?,
+        ID_PROGRAMA = ?
+      WHERE ID_PACIENTE = ?
+    `;
+  
+    try {
+      const [result] = await pool.query(query, [
+        edad_gestacional,
+        peso,
+        talla,
+        perimetro_cefalico,
+        id_etnia,
+        id_financiamiento,
+        codigo_sis,
+        id_programa,
+        id_paciente
+      ]);
+  
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ message: "Registro no encontrado" });
+      }
+  
+      res.status(200).json({ message: "Datos de nacimiento actualizados exitosamente" });
+    } catch (err) {
+      console.error("Error al actualizar los datos:", err);
+      res.status(500).json({ message: "Error al actualizar los datos" });
+    }
+  });
+//   PARA LISTAR LOS DATOS
+
+app.get("/api/nacimiento/:id_paciente", async (req, res) => {
+  const { id_paciente } = req.params;
+
+  const query = `
+    SELECT ID_PACIENTE, EDAD_GESTACIONAL, PESO, TALLA, PERIMETRO_CEFALICO, ID_ETNIA, ID_FINANCIAMENTO, codigo_sis, ID_PROGRAMA
+    FROM nacimiento_paciente_ninos
+    WHERE ID_PACIENTE = ?
+  `;
+
+  try {
+    const [result] = await pool.query(query, [id_paciente]);
+
+    if (result.length > 0) {
+      res.status(200).json(result[0]);  // Devolvemos los datos si se encuentran
+    } else {
+      res.status(404).json({ message: "Datos de nacimiento no encontrados para este paciente" });
+    }
+  } catch (err) {
+    console.error("Error al obtener los datos:", err);
+    res.status(500).json({ message: "Error al obtener los datos de nacimiento" });
+  }
+});
+
+  
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Función para enviar el correo electrónico
 const sendRecoveryEmail = async (email, token) => {

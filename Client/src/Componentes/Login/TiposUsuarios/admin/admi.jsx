@@ -1,93 +1,43 @@
-import React, { useState } from 'react';
+import React from 'react';
+import EstadoSesion from "../../../Complementos/EstadoSesion";
+import './admin.css';
 
-const Admi = () => {
-  // Estado inicial del perfil del administrador
-  const [profile, setProfile] = useState({
-    name: 'Admin Name',
-    email: 'admin@example.com',
-    password: '',
-  });
+const Administrador = () => {
+  const nombre = 'Juan Pérez';
+  const dni = '12345678';
+  const email = 'juan.perez@hospital.com';
+  const telefono = '+51 987 654 321';
+  const rol = 'Administrador General'; 
+  const fechaIngreso = '01/01/2010';
+  const estado = 'Activo';
+  const departamento = 'Administración';
+  const imagenPerfil = 'https://i.pinimg.com/1200x/b3/b8/57/b3b85713a822ad3e2c5e1eb74af91554.jpg'; // Aquí puedes poner una URL válida de una imagen
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [error, setError] = useState('');
-
-  // Función para manejar cambios en los campos del formulario
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setProfile((prevProfile) => ({
-      ...prevProfile,
-      [name]: value,
-    }));
-  };
-
-  // Función para guardar los cambios
-  const handleSave = (e) => {
-    e.preventDefault();
-    
-    // Validaciones simples
-    if (!profile.name || !profile.email) {
-      setError('El nombre y el correo son obligatorios.');
-      return;
-    }
-    
-    if (profile.password.length < 6) {
-      setError('La contraseña debe tener al menos 6 caracteres.');
-      return;
-    }
-
-    // Si las validaciones son correctas
-    setError(''); // Limpiar mensaje de error
-    console.log('Perfil actualizado:', profile);
-    setIsEditing(false); // Desactiva el modo de edición después de guardar
-
-    // Aquí podrías implementar la lógica para enviar los datos actualizados al backend
-  };
+  const { userPersonal, tipoUser} = EstadoSesion();
 
   return (
-    <div className="admi-profile">
-      <h2>Perfil del Administrador</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>} {/* Mensaje de error */}
-      <form onSubmit={handleSave}>
-        <div>
-          <label htmlFor="name">Nombre:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={profile.name}
-            onChange={handleChange}
-            disabled={!isEditing} // Deshabilitar el campo si no está en modo de edición
-          />
+    <div className="profile-containerA">
+      <h2>Perfil del {tipoUser}</h2>
+      <div className="info-containerA">
+        <div className="profile-headerA">
+          <img src={imagenPerfil} alt="Foto de perfil" className="profile-picture" />
+          <div>
+            <h3>Dr. {userPersonal}</h3>
+            <p className={`status ${estado === 'Activo' ? 'active' : 'inactive'}`}>{estado}</p>
+          </div>
         </div>
-        <div>
-          <label htmlFor="email">Correo Electrónico:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={profile.email}
-            onChange={handleChange}
-            disabled={!isEditing} // Deshabilitar el campo si no está en modo de edición
-          />
+        <div className="profile-details">
+          <p><strong>DNI:</strong> {dni}</p>
+          <p><strong>Email:</strong> {email}</p>
+          <p><strong>Teléfono:</strong> {telefono}</p>
+          <p><strong>Rol:</strong> {rol}</p>
+          <p><strong>Departamento:</strong> {departamento}</p>
+          <p><strong>Fecha de ingreso:</strong> {fechaIngreso}</p>
         </div>
-        <div>
-          <label htmlFor="password">Contraseña:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={profile.password}
-            onChange={handleChange}
-            disabled={!isEditing} // Deshabilitar el campo si no está en modo de edición
-          />
-        </div>
-        <button type="button" onClick={() => setIsEditing((prev) => !prev)}>
-          {isEditing ? 'Cancelar' : 'Editar'}
-        </button>
-        {isEditing && <button type="submit">Guardar Cambios</button>}
-      </form>
+        {/* <button className="edit-button">Editar Información</button> */}
+      </div>
     </div>
   );
 };
 
-export default Admi;
+export default Administrador;

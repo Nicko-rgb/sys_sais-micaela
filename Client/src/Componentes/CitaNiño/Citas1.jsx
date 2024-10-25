@@ -12,7 +12,6 @@ import { FaUserEdit} from 'react-icons/fa';
 import { IoMdFemale, IoMdMale } from "react-icons/io";
 import EstadoSesion from '../Complementos/EstadoSesion';
 
-
 const Cita1 = ({ especialidad, agregarCita }) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedHora, setSelectedHora] = useState(null);

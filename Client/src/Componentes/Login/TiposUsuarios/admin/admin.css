@@ -1,0 +1,117 @@
+/* administrador.css */
+.profile-containerA {
+  position: fixed;
+  width: 520px;
+  margin: 40px auto;
+  padding: 25px;
+  border: 1px solid rgb(208, 208, 208);
+  border-radius: 15px;
+  background-color: #f0f2f5; /* Fondo más suave */
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%); /* Centrar el contenedor */
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15); /* Sombra más marcada */
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.profile-containerA h2 {
+  color: #2d3436;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 600; /* Más grueso */
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+}
+
+.profile-containerA .info-containerA .profile-headerA {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-containerA .info-containerA .profile-picture {
+  width: 120px; /* Más grande */
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+  border: 4px solid #007BFF; /* Color azul más llamativo */
+}
+
+.profile-containerA .info-containerA .profile-headerA h3 {
+  text-align: left; /* Alineado a la izquierda */
+  margin: 0;
+  font-size: 22px;
+  color: #487b00; /* Color más suave */
+}
+
+.profile-containerA .info-containerA .profile-details {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  line-height: 1.8;
+}
+
+.profile-containerA .info-containerA .profile-details p {
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+.profile-containerA .info-containerA .profile-details strong {
+  color: #007BFF; /* Resaltado en azul */
+  font-weight: 500;
+}
+
+.profile-containerA .info-containerA .status {
+  font-size: 14px;
+  text-align: center;
+  padding: 6px 12px;
+  text-transform: uppercase;
+  border-radius: 15px;
+  color: white;
+}
+
+.profile-containerA .info-containerA .status.active {
+  background-color: #28a745; /* Verde activo */
+}
+
+.profile-containerA .info-containerA .status.inactive {
+  background-color: #dc3545; /* Rojo inactivo */
+}
+
+.profile-containerA .info-containerA .edit-button {
+  background-color: #007BFF; /* Azul para botón */
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px; /* Texto más grande */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.profile-containerA .info-containerA .edit-button:hover {
+  background-color: #0056b3; /* Azul más oscuro */
+  transform: scale(1.05); /* Efecto de ampliación en hover */
+}
+
+/* Ajuste responsivo para pantallas más pequeñas */
+@media (max-width: 600px) {
+  .profile-containerA {
+    width: 90%; /* Ancho dinámico para pantallas pequeñas */
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 20px;
+  }
+
+  .profile-containerA .info-containerA .profile-picture {
+    width: 80px; /* Imagen más pequeña en pantallas pequeñas */
+    height: 80px;
+  }
+
+  .profile-containerA h2 {
+    font-size: 24px; /* Título más pequeño */
+  }
+}

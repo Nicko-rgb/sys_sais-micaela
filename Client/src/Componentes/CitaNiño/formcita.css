@@ -4,7 +4,7 @@
     left: 0;
     bottom: 0;
     right: 0;
-    width: 100%;
+    width: 100%; 
     height: 100%;
     z-index: 55;
     background: #f7f9fc;
@@ -47,9 +47,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 30px 10px;
+    padding: 5px 10px;
     box-sizing: border-box;
-    margin-top: 100px;
+    margin-top: 30px;
 }
 
 .form-cita main form {
@@ -63,7 +63,7 @@
     flex-direction: column;
     font-family: 'poppins';
     box-sizing: border-box;
-  box-shadow: 0 0 7px  #00796b;
+    box-shadow: 0 0 7px  #00796b;
 }
 
 .form-cita main form h2 {

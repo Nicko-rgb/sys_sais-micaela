@@ -16,7 +16,7 @@ const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) 
     const [direccion, setDireccion] = useState('');
     const [semEmbarazo, setSemEmbarazo] = useState('');
     const [metodo, setMetodo] = useState('');
-    const [idRespons, setIdRespons] = useState('')
+    const [idRespons, setIdRespons] = useState('') 
 
     // Función para buscar paciente por Hist. Clínico
     const handleHisClinicoChange = async (e) => {
@@ -156,7 +156,7 @@ const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) 
                     <div>
                         <label>
                             Fech. Nacimiento:
-                            <input type='date' value={fechaNacimiento} onChange={(e) => setFechaNacimiento(e.target.value)} required />
+                            <input type='date' value={fechaNacimiento} onChange={(e) => setFechaNacimiento(e.target.value)} readOnly required />
                         </label>
                         <label>
                             Edad:

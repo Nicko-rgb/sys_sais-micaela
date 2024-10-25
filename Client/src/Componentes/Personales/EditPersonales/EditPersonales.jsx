@@ -52,7 +52,7 @@ const EditPersonales = ({ personData, onSave, onClose }) => {
                     <form className="form-personal" onSubmit={handleSubmit}>
                         <h3>Editar Datos Personales</h3>
                         <label>DNI:
-                            <input type="text" name="dni" value={formData.dni} onChange={handleChange} />
+                            <input type="text" name="dni" value={formData.dni} onChange={handleChange} maxLength={"8"} pattern='\d{8}' />
                         </label>
                         <div>
                             <label>Apellido Paterno:
@@ -101,19 +101,7 @@ const EditPersonales = ({ personData, onSave, onClose }) => {
                             </label>
                         </div>
 
-                        <div className="accesopersonal">
-                            <fieldset>
-                                <legend>Credenciales de Acceso</legend>
-                                <div className="form-grid">
-                                    <label>Usuario:
-                                        <input type="text" name="usuario" value={formData.dni} onChange={handleChange} />
-                                    </label>
-                                    <label>Contraseña:
-                                        <input type="password" name="contrasena" value={formData.contrasena} onChange={handleChange} />
-                                    </label>
-                                </div>
-                            </fieldset>
-                        </div>
+
 
                         <div className="selec-cita">
                             <label>Especialidad en citas:
@@ -143,6 +131,20 @@ const EditPersonales = ({ personData, onSave, onClose }) => {
                                 </label>
                             )}
 
+                        </div>
+
+                        <div className="accesopersonal">
+                            <fieldset>
+                                <legend>credenciales de acceso</legend>
+                                <div className="form-grid">
+                                    <label>Usuario(DNI):
+                                        <input type="text" name="usuario" value={formData.dni} onChange={handleChange} />
+                                    </label>
+                                    <label>Contraseña:
+                                        <input type="text" name="contrasena" value={formData.contrasena} onChange={handleChange} />
+                                    </label>
+                                </div>
+                            </fieldset>
                         </div>
                         <div className="modal-actions">
                             <button type="submit" className="btn-save">Guardar</button>

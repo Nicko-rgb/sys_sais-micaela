@@ -6,7 +6,7 @@ import RegistrarPas from '../Formularios/RegPasciente';
 import EditPaciente from "../Her_Pacien_Ninho/EditPaciente"
 import './buscar.css';
 import { IoPersonAddSharp } from 'react-icons/io5';
-import { FaUserEdit, FaMale, FaFemale } from 'react-icons/fa';
+import { FaUserEdit } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { IoMdFemale, IoMdMale  } from "react-icons/io";
 
@@ -128,14 +128,14 @@ const Buscar = () => {
                             <thead>
                                 <tr>
                                     <th>N°</th>
-                                    <th>DNI</th>
+                                    <th style={{ textAlign: "center" }}>DNI</th>
                                     <th>Historia Clínica</th>
-                                    <th>Nombres</th>
-                                    <th>Sexo</th>
+                                    <th style={{ textAlign: "center" }}>Nombres</th>
+                                    <th style={{ textAlign: "center" }}>Sexo</th>
                                     <th>Fecha de Nacimiento</th>
-                                    <th>Edad</th>
-                                    <th>Tipo</th>
-                                    <th>Acción</th>
+                                    <th style={{ textAlign: "center" }}>Edad</th>
+                                    <th style={{ textAlign: "center" }}>Tipo</th>
+                                    <th style={{ textAlign: "center" }}>Acción</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -24,6 +24,7 @@ const RegPersonal = ({ handleForm }) => {
     const [tieneEspecialidad, setTieneEspecialidad] = useState(false);
     const [mostrarConsultorio, setMostrarConsultorio] = useState(false);
 
+
     const handleKeyPress = (e) => {
         if (!/[0-9]/.test(e.key)) {
             e.preventDefault(); // Evitar que se escriban caracteres no numéricos
@@ -47,20 +48,20 @@ const RegPersonal = ({ handleForm }) => {
         e.preventDefault();
         setLoading(true);
         setMsg('');
-    
+
         // Validaciones
         if (!dni || !paterno || !materno || !nombres || !tipoUser || !profesion || !servicio || !condicion || !celular || !correo || !contrasena || !repitContra) {
             setMsg('Todos los campos son obligatorios.');
             setLoading(false);
             return;
         }
-    
+
         if (contrasena !== repitContra) {
             setMsg('Las contraseñas no coinciden.');
             setLoading(false);
             return;
         }
-    
+
         // Crear un objeto con los datos del formulario
         const dataPersonal = {
             dni,
@@ -78,7 +79,7 @@ const RegPersonal = ({ handleForm }) => {
             nameUser,
             contrasena
         };
-    
+
         try {
             const response = await fetch('http://localhost:5000/api/register/personal-salud', {
                 method: 'POST',
@@ -87,12 +88,12 @@ const RegPersonal = ({ handleForm }) => {
                 },
                 body: JSON.stringify(dataPersonal),
             });
-    
+
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Error al registrar el personal.');
             }
-    
+
             const result = await response.json();
             setMsg(result.message);
             alert('Registro Exitoso');
@@ -206,24 +207,28 @@ const RegPersonal = ({ handleForm }) => {
                             </select>
                         </label>
                         <label>Celular:
-                            <input type="text" value={celular} onChange={(e) => setCelular(e.target.value)} onKeyPress={handleKeyPress} />
+                            <input type="text" value={celular} onChange={(e) => setCelular(e.target.value)} maxLength={9} onKeyPress={handleKeyPress} />
                         </label>
                     </div>
 
                     <label>Correo:
                         <input type="email" value={correo} onChange={(e) => setCorreo(e.target.value)} />
                     </label>
-                    {/* <label>Nombre de Usuario:
-                        <input type="text" value={nameUser} onChange={(e) => setNameUser(e.target.value)} />
-                    </label> */}
 
-                    <div>
-                        <label>Contraseña:
-                            <input type="password" value={contrasena} onChange={(e) => setContrasena(e.target.value)} />
-                        </label>
-                        <label>Repetir contraseña:
-                            <input type="password" value={repitContra} onChange={(e) => setRepitContra(e.target.value)} />
-                        </label>
+                    <div className="credencialesAcceso">
+                        <fieldset>
+                            <legend>credenciales de acceso</legend>
+                            <label>Usuario(DNI):
+                                    <input type="text" value={dni} onChange={(e) => setNameUser(e.target.value)} style={{ cursor: 'no-drop'}} readOnly />
+                                </label>
+                                <label>Contraseña:
+                                    <input type="password" value={contrasena} onChange={(e) => setContrasena(e.target.value)} />
+                                </label>
+                                <label>Repetir contraseña:
+                                    <input type="password" value={repitContra} onChange={(e) => setRepitContra(e.target.value)} />
+                                </label>
+                        </fieldset>
+
                     </div>
 
                     {msg && (<p className='msg-personal'> {msg} </p>)}

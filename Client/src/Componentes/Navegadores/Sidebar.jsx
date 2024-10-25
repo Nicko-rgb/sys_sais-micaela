@@ -42,7 +42,6 @@ const Sidebar = ({ tipoUser }) => {
         return <li>No hay opciones disponibles</li>;
     }
   };
-
   return (
     <div className="sidebar-content">
       

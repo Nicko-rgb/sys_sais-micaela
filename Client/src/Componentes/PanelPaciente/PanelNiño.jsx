@@ -32,7 +32,7 @@ const Panel = () => {
         <div className="panel">
             <NavLogin />
             <div className="sub_panel">
-                <h4>Panel de Servicios Para el Niño</h4>
+                <h5>Panel de Servicios Para el Niño</h5>
                 <div className='box_opciones'>
                     <Link to='/panel' className='volver_link'>
                         <RiPlayReverseLargeFill /> VOLVER

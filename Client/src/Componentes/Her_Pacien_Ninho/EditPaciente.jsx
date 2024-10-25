@@ -172,7 +172,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
     }
     setFormData((prevData) => {
       const newData = { ...prevData, [name]: value };
-      console.log(`Campo actualizado - ${name}:`, value);
+      console.log(Campo actualizado - ${name}:, value);
       return newData;
     });
   };
@@ -184,7 +184,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
 
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/actualizar/paciente/${paciente.id_paciente}`,
+        http://localhost:5000/api/actualizar/paciente/${paciente.id_paciente},
         formData
       );
 
@@ -248,7 +248,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
       default:
         return (
           <section
-            className={`container-editar-paciente ${animateClass} section-active`}
+            className={container-editar-paciente ${animateClass} section-active}
           >
             <h3>DATOS DEL PACIENTE</h3>
             <form onSubmit={handleSubmit}>

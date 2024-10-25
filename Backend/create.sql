@@ -128,3 +128,144 @@ CREATE TABLE dias_bloqueados (
     UNIQUE (fecha) -- Para evitar duplicados de la misma fecha
 );
 
+
+CREATE TABLE `etnia` (
+  `id_etnia` int(11) NOT NULL,
+  `nombre_etnia` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `etnia`
+--
+
+INSERT INTO `etnia` (`id_etnia`, `nombre_etnia`) VALUES
+(1, 'Achuar / Achual, Achuale, Achuare'),
+(2, 'Aimara / Aru'),
+(3, 'Amahuaca / Amin waka, Yora'),
+(4, 'Arabela / Chiripuno, Tapueyocuaca'),
+(5, 'Ashaninka / Campa ashaninka'),
+(6, 'Asheninka / Asheninka del Gran Pajonal'),
+(7, 'Bora / Booraa, Miamuna, Miranha, Miranya'),
+(8, 'Capanahua / Buskipani, Nuquencaibo'),
+(9, 'Cashinahua / Caxinahua, Huni kuin, Kachinahua'),
+(10, 'Chamicuro / Camikodlo, Chamicolos'),
+(11, 'Chapra / Shapra'),
+(12, 'Chitonahua / Murunahua, Yora'),
+(13, 'Ese eja / Eseejja, Huarayo, Tiatinagua'),
+(14, 'Harakbut / Amarakaeri, Arasaeri, Kisamberi, Pukirieri, Sapiteri, Toyoeri, Wachipaeri'),
+(15, 'Ikitu / Amacacore, Iquito, Quiturran'),
+(16, 'Inapari / Inamari, Inapari, Kushitireni'),
+(17, 'Isconahua / Isconawa, Iskobakebo'),
+(18, 'Jaqaru / Aimara central, Aimara tupino, Aru, Cauqui'),
+(19, 'Jibaro / Jibaro del rio Corrientes, Shiwiar, Siwaro'),
+(20, 'Kakataibo / Uni, Unibo'),
+(21, 'Kakinte / Poyenisati'),
+(22, 'Kandozi / Kandoshi'),
+(23, 'Kichwa / Inga, Quichua, Lamas, Llacuash'),
+(24, 'Kukama kukamiria / Cocama cocamilla, Xibitaona'),
+(25, 'Madija / Culina, Kolina, Madiha'),
+(26, 'Maijuna / Maijiki, Orejon'),
+(27, 'Marinahua / Onocoin, Yora'),
+(28, 'Mashco Piro'),
+(29, 'Mastanahua / Yora'),
+(30, 'Matses / Mayoruna'),
+(31, 'Matsigenka / Machiguenga, Matsiganga, Matsiguenga'),
+(32, 'Muniche / Munichi'),
+(33, 'Murui-muinani / Huitoto'),
+(34, 'Nahua / Yora'),
+(35, 'Nanti / Matsigenka'),
+(36, 'Nomatsigenga / Atiri, Nomachiguenga'),
+(37, 'Ocaina / Dukaiya, Dyoxaiya'),
+(38, 'Omagua / Ariana, Omagua yete, Pariana, Umawa'),
+(39, 'Secoya / Aido pai'),
+(40, 'Sharanahua / Onicoin, Yora'),
+(41, 'Shawi / Campo piyapi, Chayawita, Tshahui'),
+(42, 'Shipibo-konibo / Chioeo-conivo, Joni, Shipibo'),
+(43, 'Shiwilu / Jebero, Shiwila, Xebero'),
+(44, 'Tikuna / Duuxugu, Ticuna'),
+(45, 'Urarina / Itucali, Itukale, Kacha edze'),
+(46, 'Uro / Uru'),
+(47, 'Vacacocha / Abijira, Aushiri, Awshira, Aewa'),
+(48, 'Wampis / Huambisa, Shuar-suampis'),
+(49, 'Yagua / Nihamwo, Yihamwo'),
+(50, 'Yaminahua / Jjamimawa, Yora'),
+(51, 'Yanesha/Amage,Amuesha,Amuexia'),
+(52, 'Yine/Chotaquiro,/Pira,Piro,Simirinche'),
+(53, 'Afrodescendiente/Afroperuano,Negro,Zambo'),
+(54, 'Blanco'),
+(55, 'Mestizo'),
+(56, 'Asiatico Descendiente'),
+(57, 'Otros');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `financiamiento`
+--
+
+CREATE TABLE `financiamiento` (
+  `id_financiamiento` int(11) NOT NULL,
+  `nombre_financiamiento` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `financiamiento`
+--
+
+INSERT INTO `financiamiento` (`id_financiamiento`, `nombre_financiamiento`) VALUES
+(1, 'SELECCIONE FINANCIAMIENTO'),
+(2, 'S.I.S'),
+(3, 'ESSALUD'),
+(4, 'S.O.A.T'),
+(5, 'SANIDAD F.A.P'),
+(6, 'SANIDAD NAVAL'),
+(7, 'SANIDAD EP'),
+(8, 'SANIDAD PNP'),
+(9, 'PRIVADOS'),
+(10, 'OTROS'),
+(11, 'EXONERADO');
+
+-- --------------------------------------------------------
+
+CREATE TABLE `programa` (
+  `id_programa` int(11) NOT NULL,
+  `nombre_programa` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `programa`
+--
+
+INSERT INTO `programa` (`id_programa`, `nombre_programa`) VALUES
+(1, 'SELECCIONE PROGRAMA'),
+(2, 'PIN PVL'),
+(3, 'CUNA+'),
+(4, 'JUNTOS'),
+(5, 'OTROS'),
+(6, 'NINGUNO');
+
+-- --------------------------------------------------------
+
+CREATE TABLE `nacimiento_paciente_ninos` (
+  `ID_DATOS_NACIMIENTO` int(11) NOT NULL,
+  `EDAD_GESTACIONAL` int(11) DEFAULT NULL,
+  `ID_PACIENTE` int(11) DEFAULT NULL,
+  `PESO` decimal(5,2) DEFAULT NULL,
+  `TALLA` decimal(5,2) DEFAULT NULL,
+  `PERIMETRO_CEFALICO` decimal(5,2) DEFAULT NULL,
+  `ID_ETNIA` int(11) DEFAULT NULL,
+  `ID_FINANCIAMENTO` int(11) DEFAULT NULL,
+  `ID_PROGRAMA` int(11) DEFAULT NULL,
+  `codigo_sis` varchar(12) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `nacimiento_paciente_ninos`
+--
+
+INSERT INTO `nacimiento_paciente_ninos` (`ID_DATOS_NACIMIENTO`, `EDAD_GESTACIONAL`, `ID_PACIENTE`, `PESO`, `TALLA`, `PERIMETRO_CEFALICO`, `ID_ETNIA`, `ID_FINANCIAMENTO`, `ID_PROGRAMA`, `codigo_sis`) VALUES
+(16, 6363, 3, 5.20, 1.72, 15.20, 5, 2, 3, 'XDXDfghj'),
+(17, 90, 9, 60.00, 1.62, 55.00, 5, 4, 4, '22'),
+(18, 848, 10, 37.00, 737.00, 838.00, 4, 6, 5, '888');
+
+-- -------------------

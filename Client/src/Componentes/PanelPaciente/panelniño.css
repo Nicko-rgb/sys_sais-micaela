@@ -92,6 +92,7 @@
     font-size: large;
     font-family: 'poppins';
     text-transform: uppercase;
+    text-align: center;
 }
 .panel .box_opciones{
     box-shadow: 0 0 2px #00796b;

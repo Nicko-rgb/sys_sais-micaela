@@ -1,0 +1,98 @@
+.selected {
+    display: flex;
+    flex-direction: column; /* Asegura que los elementos estén en columna */
+    gap: 1rem; /* Espacio entre los elementos */
+}
+
+.selected label {
+    position: relative;
+    font-size: 16px; 
+    display: flex;
+    flex-direction: column;
+}
+
+.selected .ico-mas {
+    position: absolute;
+    right: 0;
+    top: -5px; /* Ajuste según sea necesario */
+    font-size: 22px;
+    padding: 5px;
+    color: rgb(46, 100, 238);
+    cursor: pointer;
+}
+.selected select{
+    color: red;
+    border: red solid;
+}
+.selected input{
+    border: red solid 1px;
+}
+.selected .react-select{
+    border: red solid;
+}
+.react-select__control {
+    border-radius: 4px; /* Bordes redondeados */
+}
+
+.react-select__placeholder {
+    color: #999; /* Color del placeholder */
+}
+
+/* Estilo para el menú desplegable */
+.react-select__menu {
+    display: flex;
+    flex-direction: column;
+    z-index: 9999; /* Asegura que el menú se muestre sobre otros elementos */
+}
+
+/* Opciones del menú en columna */
+.selected .react-select__menu-list {
+    display: flex;
+    flex-direction: column;
+    color: red;
+}
+/* Estilos adicionales para el control del select */
+.react-select__control--is-focused,
+.react-select__control:hover {
+    border-color: rgb(46, 238, 184);
+}
+
+
+
+
+
+
+
+.selected {
+    display: flex;
+    flex-direction: column; /* Asegura que los elementos estén en columna */
+    gap: 1rem; /* Espacio entre los elementos */
+}
+
+.selected label {
+    position: relative;
+}
+
+.selected .ico-mas {
+    cursor: pointer;
+    color: rgb(46, 100, 238);
+}
+
+.react-select__control {
+    border-radius: 4px; /* Bordes redondeados */
+}
+
+.react-select__placeholder {
+    color: #999; /* Color del placeholder */
+}
+
+/* Estilo para el menú desplegable */
+.react-select__menu {
+    z-index: 9999; /* Asegura que el menú se muestre sobre otros elementos */
+}
+
+/* Opciones del menú en columna */
+.react-select__menu-list {
+    display: flex;
+    flex-direction: column; /* Asegura que las opciones estén en columna */
+}

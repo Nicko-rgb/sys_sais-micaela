@@ -20,6 +20,7 @@ import Control from './Componentes/Her_Pacien_Ninho/Control/control';
 import Seguimientonutricional from './Componentes/Her_Pacien_Ninho/Control/seguimientonutricional';
 import ListarControles from './Componentes/Her_Pacien_Ninho/Control/listarcontroles';
 import ActualizarControles from './Componentes/Her_Pacien_Ninho/Control/actualizarControles';
+import ExportExcel from './Componentes/Personales/Turnos/Excel';
 
 function App() {
 
@@ -41,12 +42,13 @@ function App() {
                         <Route path="/perfil/:name/:id" element={<Perfil />} />
                         <Route path="/visita" element={<Visitadomiciliaria />} />
                         <Route path="/historialvisita" element={<HistorialVisitas />} />
-                        <Route path="/control" element={<Control/>} />
+                        <Route path="/control/:historialClinico" element={<Control/>} />
                         <Route path="/seguimiento" element={<Seguimientonutricional/>} />
                         <Route path="/listarcontroles" element={<ListarControles/>} />
                         <Route path="/actualizarcontroles" element={<ActualizarControles/>} />
                         {/* <Route path="/historialControles" element={<HistorialControles />} /> */}
                         {/* <Route path="/modal-salida" element={<Modalnavtop />} /> */}
+                        <Route path="/exportar-turno" element={<ExportExcel />} />
                     </Routes>
                 </AuthProvider> 
             </BrowserRouter>

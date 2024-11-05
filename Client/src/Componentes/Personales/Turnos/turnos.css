@@ -130,7 +130,10 @@
   position: relative;
   z-index: 10;
 }
-.turnos-personal .acciones div p {
+.turnos-personal .filtros .filtro span{
+  text-transform: uppercase;
+}
+.turnos-personal .acciones div .btn-filtro {
   width: 120px;
   background-color: rgb(97, 208, 97);
   color: white;
@@ -142,7 +145,6 @@
   display: flex;
   justify-content: left;
   gap: 3px;
-  height: 15px;
 }
 .turnos-personal .acciones .filtro{
   position: absolute;
@@ -155,7 +157,7 @@
   color: white;
   display: none;
 }
-.turnos-personal .acciones div p:hover~.filtro{
+.turnos-personal .acciones div .btn-filtro:hover~.filtro{
   display: flex;
 }
 .turnos-personal .acciones .filtro:hover{
@@ -225,6 +227,41 @@
   animation: fadeIn 0.3s ease;
   padding: 10px;
 }
+.turnos-personal .leyenda-turno{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+  font-family: 'poppins';
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.turnos-personal .buttons-turno{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.turnos-personal .buttons-turno .paginacion{
+  display: flex;
+  gap: 20px;
+}
+.turnos-personal .buttons-turno .paginacion button{
+  height: 25px;
+  border-radius: 0;
+  border: none;
+  box-shadow: 0 0 1px black;
+}
+.turnos-personal .buttons-turno .btn-export{
+  background-color: #51b7ab;
+  height: 10px;
+  color: white;
+  font-weight: bold;
+}
+
+.turnos-personal .buttons-turno .btn-export .icoExport{
+  font-size: 18px;
+}
 
 @keyframes fadeIn {
   from {
@@ -270,6 +307,7 @@
   white-space: nowrap;
   padding: 2px;
   width: auto;
+  font-size: 11px;
 }
 .turnos-personal table .names:hover{
   text-decoration: underline;

@@ -1,0 +1,17 @@
+.aaa{
+    position: relative;
+    overflow-y: auto;
+}
+.turnos-personal table{
+    border-collapse: collapse;
+    margin: 0;
+}
+.turnos-personal .fecha-cambiar{
+    position: relative;
+}
+.turnos-personal table .celda-vacio{
+    border: none;
+}
+.turnos-personal table .celda-vacio:hover{
+    background-color: white;
+}

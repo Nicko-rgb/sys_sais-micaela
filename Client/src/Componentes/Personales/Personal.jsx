@@ -13,7 +13,7 @@ import { FaUserEdit } from 'react-icons/fa';
 import { AiFillSchedule } from "react-icons/ai";
 import { FaXmark, FaCheck } from "react-icons/fa6";
 
-
+ 
 const Personal = () => {
     const [verForm, setVerForm] = useState(false);
     const [personalList, setPersonalList] = useState([]);
@@ -151,7 +151,7 @@ const Personal = () => {
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                         <button onClick={handleVerTurnos}>VER TURNOS <AiFillSchedule className="ico-verturnos" /></button>
-                        <p className='btn-filtro' onClick={handleOpenFilter}>< MdMenuOpen className='ico' />Filtrar Datos</p>
+                        <button className='btn-filtro' onClick={handleOpenFilter}>< MdMenuOpen className='ico' />Filtrar Datos</button>
                         {openFiltro && (
                             <div className="filtro">
                                 <span onClick={() => handleFilterChange('todos')}>Todos</span>

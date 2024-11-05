@@ -3,10 +3,11 @@ import axios from "axios";
 import Select from "react-select";
 import "./editarpas.css";
 
-const NacimientoPaciente = ({ pacienteId, onClose }) => {
+const NacimientoPaciente = ({ pacienteId, onClose}) => {
   const [birthData, setBirthData] = useState({
     id_paciente: pacienteId,
     edad_gestacional: "",
+    dni:"",
     peso: "",
     talla: "",
     perimetro_cefalico: "",
@@ -15,14 +16,31 @@ const NacimientoPaciente = ({ pacienteId, onClose }) => {
     codigo_sis: "",
     id_programa: "",
   });
+  // añadir un estado de generacion de codigo
+const [codigoSis, setCodigoSis] = useState("");
+  // funcion de cambiar los cambios del codio
+  const handleCodigoSisChange=(e)=>{
+    const {value}=e.target;
+    setCodigoSis(value);
+  }
 
+  
   const [etnias, setEtnias] = useState([]);
   const [financiamientos, setFinanciamientos] = useState([]);
   const [programas, setProgramas] = useState([]);
   const [isEditing, setIsEditing] = useState(false); // Controlar si se está editando
   // EFECTO PARA LISTAR LOS DATOS DEL PACIENTE 
+  // Generate the code automaticamente
+  const generateCodigoSis = (idFinanciamiento, dni) => {
+    return `340-${idFinanciamiento}-${dni}`;
+  };
+  useEffect(() => {
+    if (birthData.id_financiamiento && birthData.dni) {
+      const generatedCode = generateCodigoSis(birthData.id_financiamiento,  birthData.dni);
+      setCodigoSis(generatedCode);
+    }
+  }, [birthData.id_financiamiento,  birthData.dni]);
   
-
   // Este useEffect carga datos de etnias, financiamientos y programas, además de los datos de nacimiento si pacienteId existe.
   useEffect(() => {
     fetchData();
@@ -87,8 +105,6 @@ const NacimientoPaciente = ({ pacienteId, onClose }) => {
         [name]: value,
     }));
 };
-
- 
 
   // Envía los datos al servidor, ya sea para crear o editar
   const handleBirthDataSubmit = async (e) => {
@@ -251,7 +267,7 @@ const NacimientoPaciente = ({ pacienteId, onClose }) => {
                       ).nombre_financiamiento,
                     }
                   : null
-              }
+              } 
               onChange={(selectedOption) =>
                 handleBirthDataChange({
                   target: {
@@ -274,8 +290,8 @@ const NacimientoPaciente = ({ pacienteId, onClose }) => {
             <input
               type="text"
               name="codigo_sis"
-              value={birthData.codigo_sis}
-              onChange={handleBirthDataChange}
+              value={codigoSis }
+              onChange={handleCodigoSisChange}
             />
           </label>
         </div>

@@ -238,6 +238,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
         return (
           <NacimientoPaciente
             pacienteId={paciente.id_paciente}
+            paciente = {paciente}
             onClose={onCloseEdit}
           />
         );

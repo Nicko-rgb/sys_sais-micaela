@@ -472,6 +472,72 @@ app.put('/api/personal/actualizar-estado/:id', async (req, res) => {
     }
 });
 
+// Ruta para guardar la profesión y el servicio del personal de salud
+app.post('/api/personal/guardar-profes-servi', async (req, res) => {
+    const { profesion, servicio } = req.body;
+
+    if (!profesion || !servicio) {
+        return res.status(400).json({ message: 'La profesión y el servicio son obligatorios.' });
+    }
+
+    const connection = await pool.getConnection(); // Obtener conexión
+    try {
+        await connection.beginTransaction(); // Iniciar transacción
+
+        // Verificar si la profesión ya existe
+        const checkProfQuery = 'SELECT COUNT(*) AS count FROM profesiones WHERE nombre_profesion = ?';
+        const [checkProfResult] = await connection.query(checkProfQuery, [profesion]);
+
+        if (checkProfResult[0].count === 0) {
+            // Insertar nueva profesión solo si no existe
+            const insertProfQuery = 'INSERT INTO profesiones (nombre_profesion) VALUES (?)';
+            await connection.query(insertProfQuery, [profesion]);
+        }
+
+        // Verificar si el servicio ya existe
+        const checkServQuery = 'SELECT COUNT(*) AS count FROM servicios WHERE nombre_servicio = ?';
+        const [checkServResult] = await connection.query(checkServQuery, [servicio]);
+
+        if (checkServResult[0].count === 0) {
+            // Insertar nuevo servicio solo si no existe
+            const insertServQuery = 'INSERT INTO servicios (nombre_servicio) VALUES (?)';
+            await connection.query(insertServQuery, [servicio]);
+        }
+
+        await connection.commit(); // Confirmar transacción
+        res.status(200).json({ message: 'Profesión y servicio añadidos (si no existían).' });
+    } catch (error) {
+        console.error('Error al añadir profesión o servicio', error);
+        await connection.rollback(); // Revertir transacción en caso de error
+        res.status(500).json({ message: 'Error al añadir profesión o servicio.' });
+    } finally {
+        if (connection) connection.release(); // Liberar conexión
+    }
+});
+
+// Ruta para obtener todas las profesiones
+app.get('/api/obtener/profesiones', async (req, res) => {
+    try {
+        const query = 'SELECT * FROM profesiones';
+        const [result] = await pool.query(query);
+        res.json(result);
+    } catch (error) {
+        console.error('Error al obtener profesiones', error);
+        res.status(500).json({ message: 'Error al obtener profesiones.' });
+    }
+});
+
+// Ruta para obtener todos los servicios
+app.get('/api/obtener/servicios', async (req, res) => {
+    try {
+        const query = 'SELECT * FROM servicios';
+        const [result] = await pool.query(query);
+        res.json(result);
+    } catch (error) {
+        console.error('Error al obtener servicios', error);
+        res.status(500).json({ message: 'Error al obtener servicios.' });
+    }
+});
 // Ruta para obtener los tipos de turno de personal de salud
 app.get('/api/tipos-turno', async (req, res) => {
     try {
@@ -482,8 +548,8 @@ app.get('/api/tipos-turno', async (req, res) => {
         res.status(500).json({ message: 'Error al obtener los tipos de turno.' });
     }
 });
- //ruta para obtner fecha bloquedad para personal de salud
- app.get('/api/obtener-fechas-bloqueadas', async (req, res) => {
+//ruta para obtner fecha bloquedad para personal de salud
+app.get('/api/obtener-fechas-bloqueadas', async (req, res) => {
     try {
         const [results] = await pool.query('SELECT fecha FROM dias_bloqueados WHERE bloqueado = TRUE');
         res.json(results);
@@ -559,13 +625,13 @@ app.get('/api/obtener-turnos/personal', async (req, res) => {
 //ruta para guardar turnos de personal
 app.post('/api/asignar-turno/personal', async (req, res) => {
     const { id_personal, fecha, id_turno_tipo } = req.body;
-    
+
     try {
         // Inserta o actualiza el turno en la base de datos
         await pool.query(
             `INSERT INTO turnos_personal (id_personal, fecha, id_turno_tipo)
             VALUES (?, ?, ?)
-            ON DUPLICATE KEY UPDATE id_turno_tipo = VALUES(id_turno_tipo)`, 
+            ON DUPLICATE KEY UPDATE id_turno_tipo = VALUES(id_turno_tipo)`,
             [id_personal, id_turno_tipo, fecha]
         );
 
@@ -631,22 +697,6 @@ app.post('/api/sais/login', async (req, res) => {
 // Endpoint para crear un nuevo registro de nacimiento (POST)
 app.post("/api/nacimiento", async (req, res) => {
     const {
-      id_paciente,
-      edad_gestacional,
-      peso,
-      talla,
-      perimetro_cefalico,
-      id_etnia,
-      id_financiamiento,
-      codigo_sis,
-      id_programa,
-    } = req.body;
-  
-    const query =
-      "INSERT INTO nacimiento_paciente_ninos (ID_PACIENTE, EDAD_GESTACIONAL, PESO, TALLA, PERIMETRO_CEFALICO, ID_ETNIA, ID_FINANCIAMENTO, codigo_sis, ID_PROGRAMA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-  
-    try {
-      const [result] = await pool.query(query, [
         id_paciente,
         edad_gestacional,
         peso,
@@ -656,30 +706,46 @@ app.post("/api/nacimiento", async (req, res) => {
         id_financiamiento,
         codigo_sis,
         id_programa,
-      ]);
-      
-      res.status(201).json({ message: "Datos de nacimiento creados exitosamente" });
+    } = req.body;
+
+    const query =
+        "INSERT INTO nacimiento_paciente_ninos (ID_PACIENTE, EDAD_GESTACIONAL, PESO, TALLA, PERIMETRO_CEFALICO, ID_ETNIA, ID_FINANCIAMENTO, codigo_sis, ID_PROGRAMA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    try {
+        const [result] = await pool.query(query, [
+            id_paciente,
+            edad_gestacional,
+            peso,
+            talla,
+            perimetro_cefalico,
+            id_etnia,
+            id_financiamiento,
+            codigo_sis,
+            id_programa,
+        ]);
+
+        res.status(201).json({ message: "Datos de nacimiento creados exitosamente" });
     } catch (err) {
-      console.error("Error al insertar datos:", err);
-      res.status(500).json({ message: "Error al guardar los datos" });
+        console.error("Error al insertar datos:", err);
+        res.status(500).json({ message: "Error al guardar los datos" });
     }
-  });
-  
+});
+
 // Endpoint para actualizar un registro de nacimiento (PUT)
 // CORREGIDO
 app.put("/api/nacimiento/:id_paciente", async (req, res) => {
     const { id_paciente } = req.params;
     const {
-      edad_gestacional,
-      peso,
-      talla,
-      perimetro_cefalico,
-      id_etnia,
-      id_financiamiento,
-      codigo_sis,
-      id_programa,
+        edad_gestacional,
+        peso,
+        talla,
+        perimetro_cefalico,
+        id_etnia,
+        id_financiamiento,
+        codigo_sis,
+        id_programa,
     } = req.body;
-  
+
     const query = `
       UPDATE nacimiento_paciente_ninos 
       SET 
@@ -693,56 +759,56 @@ app.put("/api/nacimiento/:id_paciente", async (req, res) => {
         ID_PROGRAMA = ?
       WHERE ID_PACIENTE = ?
     `;
-  
+
     try {
-      const [result] = await pool.query(query, [
-        edad_gestacional,
-        peso,
-        talla,
-        perimetro_cefalico,
-        id_etnia,
-        id_financiamiento,
-        codigo_sis,
-        id_programa,
-        id_paciente
-      ]);
-  
-      if (result.affectedRows === 0) {
-        return res.status(404).json({ message: "Registro no encontrado" });
-      }
-  
-      res.status(200).json({ message: "Datos de nacimiento actualizados exitosamente" });
+        const [result] = await pool.query(query, [
+            edad_gestacional,
+            peso,
+            talla,
+            perimetro_cefalico,
+            id_etnia,
+            id_financiamiento,
+            codigo_sis,
+            id_programa,
+            id_paciente
+        ]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Registro no encontrado" });
+        }
+
+        res.status(200).json({ message: "Datos de nacimiento actualizados exitosamente" });
     } catch (err) {
-      console.error("Error al actualizar los datos:", err);
-      res.status(500).json({ message: "Error al actualizar los datos" });
+        console.error("Error al actualizar los datos:", err);
+        res.status(500).json({ message: "Error al actualizar los datos" });
     }
-  });
+});
 //   PARA LISTAR LOS DATOS
 
 app.get("/api/nacimiento/:id_paciente", async (req, res) => {
-  const { id_paciente } = req.params;
+    const { id_paciente } = req.params;
 
-  const query = `
+    const query = `
     SELECT ID_PACIENTE, EDAD_GESTACIONAL, PESO, TALLA, PERIMETRO_CEFALICO, ID_ETNIA, ID_FINANCIAMENTO, codigo_sis, ID_PROGRAMA
     FROM nacimiento_paciente_ninos
     WHERE ID_PACIENTE = ?
   `;
 
-  try {
-    const [result] = await pool.query(query, [id_paciente]);
+    try {
+        const [result] = await pool.query(query, [id_paciente]);
 
-    if (result.length > 0) {
-      res.status(200).json(result[0]);  // Devolvemos los datos si se encuentran
-    } else {
-      res.status(404).json({ message: "Datos de nacimiento no encontrados para este paciente" });
+        if (result.length > 0) {
+            res.status(200).json(result[0]);  // Devolvemos los datos si se encuentran
+        } else {
+            res.status(404).json({ message: "Datos de nacimiento no encontrados para este paciente" });
+        }
+    } catch (err) {
+        console.error("Error al obtener los datos:", err);
+        res.status(500).json({ message: "Error al obtener los datos de nacimiento" });
     }
-  } catch (err) {
-    console.error("Error al obtener los datos:", err);
-    res.status(500).json({ message: "Error al obtener los datos de nacimiento" });
-  }
 });
 
-  
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Función para enviar el correo electrónico

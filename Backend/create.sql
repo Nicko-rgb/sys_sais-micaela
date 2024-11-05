@@ -130,7 +130,7 @@ CREATE TABLE dias_bloqueados (
 
 
 CREATE TABLE `etnia` (
-  `id_etnia` int(11) NOT NULL,
+  `id_etnia` INT AUTO_INCREMENT PRIMARY KEY,
   `nombre_etnia` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -204,7 +204,7 @@ INSERT INTO `etnia` (`id_etnia`, `nombre_etnia`) VALUES
 --
 
 CREATE TABLE `financiamiento` (
-  `id_financiamiento` int(11) NOT NULL,
+  `id_financiamiento` INT AUTO_INCREMENT PRIMARY KEY,
   `nombre_financiamiento` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -228,7 +228,7 @@ INSERT INTO `financiamiento` (`id_financiamiento`, `nombre_financiamiento`) VALU
 -- --------------------------------------------------------
 
 CREATE TABLE `programa` (
-  `id_programa` int(11) NOT NULL,
+  `id_programa` INT AUTO_INCREMENT PRIMARY KEY,
   `nombre_programa` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -245,9 +245,18 @@ INSERT INTO `programa` (`id_programa`, `nombre_programa`) VALUES
 (6, 'NINGUNO');
 
 -- --------------------------------------------------------
-
+CREATE TABLE `profesiones` (
+  `id_profesion`  INT AUTO_INCREMENT PRIMARY KEY,
+  `nombre_profesion` varchar(50) NOT NULL UNIQUE
+);
+-- --------------------------------------------------------
+CREATE TABLE `servicios` (
+  `id_servicio` INT AUTO_INCREMENT PRIMARY KEY,
+  `nombre_servicio` varchar(50) NOT NULL UNIQUE
+);
+-----------------------------------------------------------
 CREATE TABLE `nacimiento_paciente_ninos` (
-  `ID_DATOS_NACIMIENTO` int(11) NOT NULL,
+  `ID_DATOS_NACIMIENTO` INT AUTO_INCREMENT PRIMARY KEY,
   `EDAD_GESTACIONAL` int(11) DEFAULT NULL,
   `ID_PACIENTE` int(11) DEFAULT NULL,
   `PESO` decimal(5,2) DEFAULT NULL,

@@ -3,7 +3,7 @@
     width: 100%;
     position: relative;
     box-sizing: border-box;
-}
+} 
 
 .personal-salud .sub-personal {
     padding-top: 37px;
@@ -75,7 +75,6 @@
     align-items: center;
     gap: 20px;
     justify-content: space-between;
-    max-width: 1000px;
     width: 100%;
     margin: auto;
 }
@@ -111,8 +110,7 @@
 }
 
 .personal-salud .box-buscar .btn-filtro {
-    height: 14px;
-    width: 120px;
+    width: 130px;
     background-color: rgb(97, 208, 97);
     color: white;
     font-weight: bold;
@@ -121,6 +119,7 @@
     border: none;
     cursor: pointer;
     position: end;
+    text-transform: uppercase;
 }
 .personal-salud .box-buscar button:hover{
     background-color: rgb(74, 173, 74);

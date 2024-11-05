@@ -13,7 +13,7 @@ const Leyenda = ({ tiposDeTurno }) => {
             case 'GD':
                 return 'Guardia Diurna';
             case 'GDD':
-                return 'Guardia Devolucion';
+                return 'Guardia Devolución';
             case 'MVD':
                 return 'Mañana Variable';
             case 'TVD':
@@ -30,13 +30,29 @@ const Leyenda = ({ tiposDeTurno }) => {
     };
 
     return (
-        <div className="leyenda">
-            {tiposDeTurno.map(tipo => (
-                <p key={tipo.clave_turno}>
-                    {tipo.clave_turno}: {obtenerDescripcionTurno(tipo.clave_turno)}
-                </p>
-            ))}
-        </div>
+        <table className="leyenda">
+            <thead>
+                <tr>
+                    <th colSpan={2} style={{ textAlign: 'center', color: 'green', border: 'black solid 1px', backgroundColor: 'lightyellow', fontSize: '14px' }}>
+                        LEYENDA DE TURNOS
+                    </th>
+                </tr>
+                <tr>
+                    <th style={{border: 'black solid 1px'}}>Clave</th>
+                    <th style={{border: 'black solid 1px'}}>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {tiposDeTurno.map(tipo => (
+                    <tr>
+                        <td key={tipo.clave_turno} style={{ border: 'black solid 1px', padding: '5px', fontFamily: 'poppins', fontSize: '12px', textAlign: 'center'}}>
+                            {tipo.clave_turno}
+                        </td>
+                        <td style={{border: 'black solid 1px', fontFamily: 'poppins', fontSize: '12px'}}>{obtenerDescripcionTurno(tipo.clave_turno)}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
     );
 };
 

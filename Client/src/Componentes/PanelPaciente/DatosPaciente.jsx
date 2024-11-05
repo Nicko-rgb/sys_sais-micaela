@@ -6,9 +6,9 @@ import NavPie from '../Navegadores/NavPie';
 import OpcionesD from '../Her_Pacien_Ninho/OpcionesD';
 import OpcionesI from '../Her_Pacien_Ninho/OpcionesI';
 import EditPaciente from '../Her_Pacien_Ninho/EditPaciente';
-
 import { FaUserEdit} from 'react-icons/fa'; 
 import { IoMdFemale, IoMdMale  } from "react-icons/io";
+import Control from '../Her_Pacien_Ninho/Control/control';
 
 const DatosPaciente = () => {
     const { historialClinico } = useParams(); // Obtener el historial clínico de la ruta
@@ -129,7 +129,7 @@ const DatosPaciente = () => {
                         </div>
                     </div>
                 )}
-                <OpcionesI />
+                <OpcionesI paciente={paciente}/>
             </main>
 
             <NavPie />

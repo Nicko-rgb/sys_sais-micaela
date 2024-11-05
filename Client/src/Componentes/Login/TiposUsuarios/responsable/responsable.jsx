@@ -15,7 +15,7 @@ const Responsable = () => {
   const departamento = 'Cardiología';
   const imagenPerfil = 'https://i.pinimg.com/1200x/b3/b8/57/b3b85713a822ad3e2c5e1eb74af91554.jpg'; // Aquí puedes poner una URL válida de una imagen
 
-  const { userPersonal, tipoUser} = EstadoSesion();
+  const { userPersonal, tipoUser} = EstadoSesion(); 
 
   return (
     <div className="profile-container">

@@ -16,7 +16,7 @@
   
 .opciones-right {
   position: fixed;
-  border-left: gray solid;
+  /* border-left: gray solid; */
   right: 0;
   top: 35px;
   background-color: #ffffff;
@@ -39,19 +39,20 @@
   background-color: #00796b;
   position: sticky;
   top: 0;
-  color: white;
+  color: white "bold";
 }
 
-.opciones-right .cabeza {
-  display: flex;
-  align-items: center;
-  margin-top: 2px;
-  justify-content: center;
-  background-color: #00796b;
-  position: sticky;
-  top: 0;
-  color: white;
-}
+  .opciones-right .cabeza {
+    display: flex;
+    align-items: center;
+    margin-top: 2px;
+    justify-content: center;
+    background-color: #00796b;
+    position: sticky;
+    top: 0;
+    color: white;
+    font-size: 18px;
+  }
 
 .cabeza .icons {
   width: 100%;
@@ -73,12 +74,9 @@
   margin-top: 5px;
 }
 
-.opciones-right .cabeza p {
-  background: transparent;
-  border: none;
-}
 
-section p {
+/* ESTILO PARA LAS OPCIONES DEL LADO IZQUIERDO */
+.opciones-left p {
   margin: 0;    
   border: gray solid 1px;
   font-family: 'poppins';
@@ -94,24 +92,22 @@ section p {
   /* Convierte el texto a mayúsculas */
 }
 
-.opciones-right section a {
-  margin: 0;
+
+/* ESTILO PARA LAS OPCIONES DEL LADO DERECHO */
+.opciones-right button {
+  margin-top: 4px;    
   border: gray solid 1px;
   font-family: 'poppins';
   background-color: #f0f0f0;
   font-size: 13px;
   padding: 5px 5px;
   cursor: pointer;
-  text-decoration: none;
-  margin: 0;
+  width: 190px;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 5px;
-  color: black;
-  height: 25px;
+  justify-content: center;
   text-transform: uppercase;
-  /* Convierte el texto a mayúsculas */
 }
 
 .opciones-right section a img {
@@ -168,11 +164,6 @@ section .opciones3.hide {
   }
 }
 
-.cabeza p {
-  margin: 0;
-  /* font-size: 16px; */
-  /* font-weight: bold; */
-}
 
 /* Options container */
 .opciones1,
@@ -238,23 +229,21 @@ section a img {
   border-radius: 6px;
   margin-top: 7px;
 }
-
+ 
 
 .opciones-right .opcion-item summary::-webkit-details-marker {
   display: none;
 }
 
 .opcion-item[open] summary {
-  background-color: #b4d7c8; /* Verde más oscuro pero relajante para estados abiertos */
+  background-color: rgb(0, 249, 46); /* Verde más oscuro pero relajante para estados abiertos */
 } 
 
 
 /* Hover effects */
 section details .p p:hover{
-  background-color: #d3f3ee; /* Verde agua más claro para el hover */
+  background-color: #00fbd5; /* Verde agua más claro para el hover */
 }
-
-
 
 
 .opcion-item summary:hover {

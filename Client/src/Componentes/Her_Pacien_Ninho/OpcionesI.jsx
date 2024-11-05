@@ -1,13 +1,12 @@
 import React from "react";
 import "./opciones.css";
-import { MdOutlineAppRegistration } from "react-icons/md";
 import { PiNotePencil } from "react-icons/pi";
 import { TbMedicineSyrup } from "react-icons/tb";
 import { MdOutlineBloodtype, MdOutlineVaccines } from "react-icons/md";
 import { IoBody } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
-const OpcionesI = () => {
+const OpcionesI = ({ paciente }) => {
   const navigate = useNavigate(); // Hook de navegación
 
   const handleNewVisitClick = () => {
@@ -24,9 +23,10 @@ const OpcionesI = () => {
     navigate("/actualizarcontroles"); // Redirige a la ruta de "Actualizar controles"
   };
 
-  const iraControl = () => {
-    navigate("/control"); // Redirige a la
-  };
+  const irAControl = () => {
+    navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
+};
+
   return (
     <section className="opciones-right">
       <div className="cabeza">
@@ -35,9 +35,9 @@ const OpcionesI = () => {
       <div className="opciones4">
         {/* <details name='opcion' className="opcion-item">
           <summary><MdOutlineAppRegistration className='icon' />DATOS</summary>
-          <p>GENERAL</p>
-          <p>TARJETA DE CONTROL</p>
-          <p>EDITAR DATOS</p>
+          <button>GENERAL</button>
+          <button>TARJETA DE CONTROL</button>
+          <button>EDITAR DATOS</button> 
         </details> */}
         <details name="opcion" className="opcion-item">
           <summary>
@@ -45,24 +45,26 @@ const OpcionesI = () => {
             CONTROL
           </summary>
           <div className="submenu-control-nino">
-          <button onClick={iraControl} className="control-nino">
-            CONTROL NIÑO
-          </button>
+            <button onClick={irAControl} className="control-nino">
+              CONTROL NIÑO
+            </button>
           </div>
           <div className="submenu-control-nino">
             <button onClick={seguimientoNutricional}>
               SEGUIMIENTO NUTRICIONAL
             </button>
           </div>
-          <p className="historial-controles">HIST DE CONTROLES</p>
           <div className="submenu-historial-controles">
-            <button onClick={actualizarControles}>
-            ACTUALIZAR CONTROLES
+            <button onClick="">
+              HIST DE CONTROLES
             </button>
           </div>
-          <button className="p" onClick={handleNewVisitClick}>
-            VISITA DOMICILIARIA
-          </button>
+          <div className="submenu-historial-controles">
+            <button onClick={actualizarControles}>
+              ACTUALIZAR CONTROLES
+            </button>
+          </div>
+          <button className="button" onClick={handleNewVisitClick}>VISITA DOMICILIARIA</button>
           <button onClick={iraHistorialVisita}>HIST DE VISITA</button>
         </details>
 
@@ -71,18 +73,17 @@ const OpcionesI = () => {
             <TbMedicineSyrup className="icon" />
             SUPLEMENTOS
           </summary>
-
-          <p>Entrega Suplemento</p>
-          <p> Historial Suplemento</p>
-          <p>Actualizar Suplementos</p>
+          <button>Entrega Suplemento</button>
+          <button> Historial Suplemento</button>
+          <button>Actualizar Suplementos</button>
         </details>
         <details name="opcion" className="opcion-item">
           <summary>
             <MdOutlineBloodtype className="icon" />
             TAMISAJE
           </summary>
-          <p>Tamizaje-Dozaje</p>
-          <p> Historial Tamizaje</p>
+          <button>Tamizaje-Dozaje</button>
+          <button> Historial Tamizaje</button>
         </details>
         <details name="opcion" className="opcion-item">
           <summary>
@@ -90,17 +91,17 @@ const OpcionesI = () => {
             <IoBody className="icon" />
             PSICOMOTOR
           </summary>
-          <p>Evaluacion Psicomotor</p>
-          <p> Historial Psicomotor</p>
+          <button>Evaluacion Psicomotor</button>
+          <button> Historial Psicomotor</button>
         </details>
         <details name="opcion" className="opcion-item">
           <summary>
             <MdOutlineVaccines className="icon" />
             VACUNA
           </summary>
-          <p>Vacunar Niño</p>
-          <p> Historial Vacunas</p>
-          <p> Vacunas Faltantes</p>
+          <button>Vacunar Niño</button>
+          <button> Historial Vacunas</button>
+          <button> Vacunas Faltantes</button>
         </details>
       </div>
     </section>

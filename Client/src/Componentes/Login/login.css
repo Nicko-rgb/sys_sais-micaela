@@ -12,7 +12,7 @@
     /* padding-bottom: 40px; */
     /* box-sizing: border-box; */
 }
-.content-wrappe {
+.content-wrappe { 
     display: flex;
     flex: 1;
     /* padding: 35px 0; Espacio para los navs */
@@ -288,6 +288,11 @@
     gap: 4px;
     align-items: right;
 }
+
+.nav_login .opcion-nav .reloj{
+    cursor: default;
+}
+
 .nav_login .opcion-nav .ico-closse-sesion{
     font-size: 25px;
     color: rgb(238, 64, 64);

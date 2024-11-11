@@ -312,8 +312,8 @@ td {
 
 /* Día actual */
 .calendar-cita .react-calendar__tile--now {
-  background-color: rgba(0, 150, 136, 0.15);
-  color: #004d40;
+  background-color: rgba(37, 189, 7, 0.877);
+  color: #0c0c0c;
   font-weight: bold;
 }
 

@@ -27,6 +27,10 @@ const OpcionesI = ({ paciente }) => {
     navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
 };
 
+ const EntregaSuplementos = () => {
+  navigate("/Entregasuplementos"); // Redirige a la ruta entregar suplementos
+ }
+
   return (
     <section className="opciones-right">
       <div className="cabeza">
@@ -73,7 +77,7 @@ const OpcionesI = ({ paciente }) => {
             <TbMedicineSyrup className="icon" />
             SUPLEMENTOS
           </summary>
-          <button>Entrega Suplemento</button>
+          <button onClick={ EntregaSuplementos }>Entrega Suplemento</button>
           <button> Historial Suplemento</button>
           <button>Actualizar Suplementos</button>
         </details>

@@ -28,7 +28,7 @@ const OpcionesI = ({ paciente }) => {
 };
 
  const EntregaSuplementos = () => {
-  navigate("/Entregasuplementos"); // Redirige a la ruta entregar suplementos
+  navigate(`/Entregasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar suplementos
  }
 
   return (

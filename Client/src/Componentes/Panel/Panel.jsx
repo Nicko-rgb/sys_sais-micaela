@@ -18,7 +18,7 @@ const volver = () => {
 
 const Panel = () => { 
 
-    const { userPersonal, isLoggedIn } = EstadoSesion()
+    const { isLoggedIn } = EstadoSesion()
     return (
         <div className="panel">
             {isLoggedIn ? (

@@ -527,6 +527,16 @@ app.get('/api/obtener/profesiones', async (req, res) => {
     }
 });
 
+app.get('/api/vista-personal', async (req, res) => {
+    try {
+        const vista = 'SELECT * FROM vista_personal_activo';
+        const [result] = await pool.query(vista)
+        res.json(result);
+    } catch (error) {
+        console.error('Error al obtener vista personal', error);
+    }
+})
+
 // Ruta para obtener todos los servicios
 app.get('/api/obtener/servicios', async (req, res) => {
     try {
@@ -978,7 +988,20 @@ app.get('/api/citas-ninhos', async (req, res) => {
 });
 
 // Route to get all appointments within the next three days
-app.get('/api/filtrar-ninho-citas', async (req, res) => {
+app.get('/api/filtrar-todas-citas-ninho', async (req, res) => {
+    const query = 'SELECT * FROM cita_ninhos'; // Trae todas las citas
+
+    try {
+        const [results] = await pool.query(query);
+        res.json(results);
+    } catch (error) {
+        console.error('Error fetching appointments:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+//ruta  para filtrar citas de un rango de 3 dias
+app.get('/api/filtrar-cita-ninho-3', async (req, res) => {
     const query = 'SELECT * FROM cita_ninhos WHERE fecha >= CURDATE() AND fecha <= DATE_ADD(CURDATE(), INTERVAL 3 DAY)';
 
     try {

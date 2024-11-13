@@ -58,7 +58,7 @@
   gap: 10px;
   padding: 30px;
   border-radius: 8px;
-  box-shadow: 0 0 4px rgb(34, 244, 34);
+  box-shadow: 0 0 4px #00796b;
   background-color: white;
   transition: .5s ease;
   width: auto;
@@ -131,7 +131,18 @@ input {
   font-size: 16px;
   border-radius: 3px;
   border: none;
-  box-shadow: 0 0 2px gray;
+  box-shadow: 0 0 1px gray, 0 0 1px gray,
+   0 0 1px gray,
+   0 0 1px gray,
+   0 0 1px gray,
+   0 0 1px gray,
+   0 0 1px gray,
+   0 0 1px gray;
+}
+.registrar form input:focus{
+  border: solid 1px #00796b;
+  box-shadow: none;
+  /* padding: 4.8px; */
 }
 
 .registrar form .form_paciente #fechas {
@@ -208,7 +219,7 @@ input {
 
 .registrar form button {
   margin: auto;
-  background-color: rgb(97, 208, 97);
+  background-color: #00796b;
   color: white;
   border: none;
   padding: 12px 35px;
@@ -223,9 +234,10 @@ input {
 }
 
 .registrar form button:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
   box-shadow: 0 0 3px;
-  background: rgb(65, 168, 65);
+  box-shadow: 0 0 3px #00796b;
+  background: #026c60;
 }
 
 .registrar form .ico_guardar {
@@ -255,7 +267,7 @@ input {
   border-radius: 5px;
   box-shadow: 0 0 2px gray;
   border: none;
-  width: 105%;
+  width: 100%;
 }
 
 .registrar form .form_responsable label {

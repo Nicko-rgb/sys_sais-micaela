@@ -1,7 +1,7 @@
 import React from "react";
 import "./estilosGeneralControl.css";
 
-const Seguimientonutricional = () => { 
+const Seguimientonutricional = () => {
   return (
     <div className="seguimiento-Nutricional">
       <form className="seguimiento-form" action="">
@@ -61,7 +61,7 @@ const Seguimientonutricional = () => {
         <fieldset className="seguimiento-cuartobloque">
           <legend>Próxima Cita</legend>
           <div className="seguimiento-control">
-            <label htmlFor="proximaCita">Próx Cita ()</label>
+            <label htmlFor="proximaCita">Próx. Cita ()</label>
             <input type="date" id="proximaCita" />
           </div>
           <div className="seguimiento-control">

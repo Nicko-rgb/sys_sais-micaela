@@ -33,7 +33,7 @@ const Sidebar = ({ tipoUser }) => {
       case 'Responsable':
         return (
           <>
-            <li><Link to="/personal/tareas"><BsListTask /> Mis Tareas</Link></li>
+            <li><Link to="/personal/tareas"><BsListTask />Tareas XXX</Link></li>
             <li><Link to="/personal/solicitudes"><AiOutlineForm /> Solicitudes</Link></li>
             <li><Link to="/personal/horario"><BsCalendarCheck /> Mi Horario</Link></li>
           </>

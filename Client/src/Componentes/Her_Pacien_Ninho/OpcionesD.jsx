@@ -11,7 +11,7 @@ import { BiCalendarEdit } from "react-icons/bi";
 import { AiOutlineMonitor } from "react-icons/ai";
 import { VscGraph } from "react-icons/vsc";
 import { GrUpdate } from "react-icons/gr";
-import { LuDatabaseBackup } from "react-icons/lu"; 
+import { LuDatabaseBackup } from "react-icons/lu";
 
 const OpcionesD = ( {pacienteDatos, abrirLista} ) => {
     const [activeIcon, setActiveIcon] = useState(0); // 0 para el primer icono, 1 para el segundo, 2 para el tercero

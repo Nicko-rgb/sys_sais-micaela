@@ -4,13 +4,13 @@ import { PiNotePencil } from "react-icons/pi";
 import { TbMedicineSyrup } from "react-icons/tb";
 import { MdOutlineBloodtype, MdOutlineVaccines } from "react-icons/md";
 import { IoBody } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
 
 const OpcionesI = ({ paciente }) => {
   const navigate = useNavigate(); // Hook de navegación
 
   const handleNewVisitClick = () => {
-    navigate("/visita"); // Redirige a la ruta de "Nueva Visita"
+    navigate("/visita"); // Redirige a la ruta de "Nueva Visita" 
   };
   const iraHistorialVisita = () => {
     navigate("/historialvisita"); // Redirige a la ruta de "historialVisita"
@@ -25,7 +25,11 @@ const OpcionesI = ({ paciente }) => {
 
   const irAControl = () => {
     navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
-};
+  };
+
+  const IraTamizaje = () => {
+    navigate(`/tamizaje/${paciente.hist_clinico}`, { state: { paciente } });
+  }
 
   return (
     <section className="opciones-right">
@@ -80,9 +84,9 @@ const OpcionesI = ({ paciente }) => {
         <details name="opcion" className="opcion-item">
           <summary>
             <MdOutlineBloodtype className="icon" />
-            TAMISAJE
+            TAMIZAJE
           </summary>
-          <button>Tamizaje-Dozaje</button>
+          <button onClick={IraTamizaje}>Tamizaje-Dozaje</button>
           <button> Historial Tamizaje</button>
         </details>
         <details name="opcion" className="opcion-item">

@@ -21,6 +21,8 @@ import Seguimientonutricional from './Componentes/Her_Pacien_Ninho/Control/segui
 import ListarControles from './Componentes/Her_Pacien_Ninho/Control/listarcontroles';
 import ActualizarControles from './Componentes/Her_Pacien_Ninho/Control/actualizarControles';
 import ExportExcel from './Componentes/Personales/Turnos/Excel';
+import TamizajeDozaje from './Componentes/Her_Pacien_Ninho/Tamizaje/TamizajeDozaje';
+
 
 function App() {
 
@@ -49,6 +51,7 @@ function App() {
                         {/* <Route path="/historialControles" element={<HistorialControles />} /> */}
                         {/* <Route path="/modal-salida" element={<Modalnavtop />} /> */}
                         <Route path="/exportar-turno" element={<ExportExcel />} />
+                        <Route path="/tamizaje/:historialClinico" element={<TamizajeDozaje />} />
                     </Routes>
                 </AuthProvider> 
             </BrowserRouter>

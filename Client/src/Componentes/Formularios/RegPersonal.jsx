@@ -203,10 +203,10 @@ const RegPersonal = ({ handleForm }) => {
                                 <input type="text" value={dni} onChange={(e) => setNameUser(e.target.value)} style={{ cursor: 'no-drop' }} readOnly />
                             </label>
                             <label>Contraseña:
-                                <input type="password" value={contrasena} onChange={(e) => setContrasena(e.target.value)} />
+                                <input type="text" value={contrasena} onChange={(e) => setContrasena(e.target.value)} />
                             </label>
                             <label>Repetir contraseña:
-                                <input type="password" value={repitContra} onChange={(e) => setRepitContra(e.target.value)} />
+                                <input type="text" value={repitContra} onChange={(e) => setRepitContra(e.target.value)} />
                             </label>
                         </fieldset>
                     </div>

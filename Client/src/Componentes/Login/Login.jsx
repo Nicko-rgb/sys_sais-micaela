@@ -117,7 +117,6 @@ const handleSubmit = async (e) => {
                                 required
                                 maxLength={"8"}
                                 pattern='\d{8}'
-                                title='INGRESE DNI VALIDO DE 8 DIGITOS '
                             />
                             <CiUser className='ico_form_login' />
                         </div>

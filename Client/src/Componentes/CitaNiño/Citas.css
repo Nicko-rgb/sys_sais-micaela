@@ -16,12 +16,14 @@
   color: green;
   text-decoration: underline;
   background: transparent;
-  padding: 5px 15px;
   display: flex;
   align-items: center;
   font-family: 'poppins';
   font-size: 14px;
-  top: -50px;
+  top: -40px;
+  padding:10;
+  height: 30px;
+  width: 100px;
   left: -20px;
   border: none;
 }
@@ -51,10 +53,11 @@
 
 .opciones-cita section .box-citas {
   position: relative;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  max-width: 700px;
+  gap: 20px;
 }
 
 .opciones-cita section div .box {
@@ -78,7 +81,7 @@
 .opciones-cita section div .box:hover {
   transform: scale(1.05);
   color: white;
-  background-color: #3058a6;
+  background-color: #00796b;
   box-shadow: 0 0 2px greenyellow;
 }
 
@@ -91,8 +94,10 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-top: 50px;
-}
+  margin-top: 20px;
+  gap: 10px;
+
+ }
 .opciones-cita .container-tabla hr{
   width: 90%;
 }
@@ -100,9 +105,80 @@
   font-family: 'poppins';
   font-weight: bold;
   font-size: 15px;
+  margin: 0;
+}
+.opciones-cita .sub-contend{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 700px;
+  padding: 4px;
+ }
+.opciones-cita .box_buscar {
+  max-width: 706px;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  gap: 20px;
+}
+.opciones-cita .box_buscar .ico_buscar{
+  position: absolute;
+  font-size: 23px;
+  top: 5px;
+  left: 5px;
+}
+.opciones-cita .box_buscar .ico-info {
+  position: absolute;
+  right: 0px;
+  top: -20px;
+  color: gray;
+  cursor: pointer;
+}
+.opciones-cita .box_buscar .msg-ico{
+  position: absolute;
+  font-weight: 200;
+  font-family: Comic Sans MS;
+  font-family: 'Roboto', sans-serif;
+  left: calc(100% + 5px);
+  top: -15px;
+  padding: 5px;
+  font-size: 12px;
+  background-color: #373636;
+  color: white;
+  display: none;
+}
+.opciones-cita .box_buscar .ico-info:hover ~ .msg-ico {
+  display: block;
+}
+.opciones-cita .box_buscar input {
+  padding: 4px;
+  font-size: 15px;
+  outline: none;
+  color: rgb(96, 93, 93);
+  border: gray solid 1px;
+  width: auto;
+}
+.opciones-cita .box_buscar .txt-buscar {
+  width: 85%;
+  padding-left: 33px;
+
+  text-transform: capitalize;
+}
+.opciones-cita .box_buscar .txt-buscar::placeholder{
+  font-style: italic;
+  text-transform: capitalize;
+  font-size: .9em;
+}
+.opciones-cita .box_buscar .txt-buscar:focus{
+  border: #00796b solid 1px;
+}
+.opciones-cita .txt-buscar:focus ~ .ico_buscar {
+  color: #00796b;
 }
 .opciones-cita table {
   border-collapse: collapse;
+  width: 100%;
 }
 
 .opciones-cita table th {

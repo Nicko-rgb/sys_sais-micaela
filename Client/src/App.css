@@ -1,4 +1,7 @@
-
+* {
+  box-sizing: border-box;
+  font-family: 'poppins';
+}
 .App {
   box-sizing: border-box;
   position: relative;

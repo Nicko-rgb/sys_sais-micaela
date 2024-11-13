@@ -247,12 +247,9 @@
 
 
 
-
-
-
 .nav_login{
     position: fixed;
-    width: calc(100% - 40px);
+    width: 100%;
     top: 0;
     background: rgb(48, 48, 48);
     color: rgb(97, 208, 97);
@@ -263,14 +260,8 @@
     border-bottom: solid 3px #00796b;
     font-family: 'poppins';
     position: relative;
-    height: 35px;
+    height: 37px;
     z-index: 3;
-}
-
-.nav_login .icon{
-    font-size: 23px;
-    padding: 5px;
-    border-radius: 50%;
 }
 
 .nav_login div{
@@ -293,24 +284,27 @@
     cursor: default;
 }
 
-.nav_login .opcion-nav .ico-closse-sesion{
-    font-size: 25px;
-    color: rgb(238, 64, 64);
+.nav_login .iconn{
+    font-size: 32px;
     padding: 5px;
+    border-radius: 50%;
     transition: .3s ease;
+    box-shadow: 0 0 1px;
+}
+.nav_login .icon1 {
+    box-shadow: none;
+}
+
+.nav_login .opcion-nav .ico-closse-sesion{
+    color: rgb(238, 64, 64);
 }
 .nav_login .ico-people{
-    font-size: 25px;
     color: rgb(93, 64, 238);
-    padding: 5px;
-    transition: .3s ease;
 }
 .nav_login .ico-yo-user{
-    font-size: 18px;
-    padding: 8px;
     color: #00796b;
-    transition: .3s ease;
 }
+
 .nav_login .opcion-nav .ico-people:hover, .ico-closse-sesion:hover, .ico-yo-user:hover, .icon_login_nav:hover{
     background: rgb(78, 78, 78);
     box-shadow: 0 0 3px #00796b;
@@ -326,8 +320,8 @@
 
 .nav_pie{
     position: fixed;
-    width: calc(100% - 40px);
-    height: 35px;
+    width: 100%;
+    height: 37px;
     bottom: 0;
     background: rgb(48, 48, 48);
     display: flex;
@@ -391,7 +385,7 @@
 /* Estilos para el contenedor principal del Sidebar */
 .sidebarMenu {
     position: fixed;
-    top: 35px; /* Ajusta según la altura de tu NavLogin */
+    top: 37px; /* Ajusta según la altura de tu NavLogin */
     right: -280px;
     width: 280px;
     height: calc(100vh - 73px);

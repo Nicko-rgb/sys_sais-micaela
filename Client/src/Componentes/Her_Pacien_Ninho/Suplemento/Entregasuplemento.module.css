@@ -1,0 +1,100 @@
+.entregacontainer {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .volverbutton {
+    margin: 10px 0;
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .nompaci {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center;     /* Center vertically */
+    height: 100px;           /* Ensure full viewport height for vertical centering */
+    text-align: center;      /* Center the text inside the div */
+    font-size: 1.2rem;       /* Adjust font size to reduce text size */
+    padding: 10px;           /* Optional: Add padding for spacing */
+    width: auto;             /* Make width auto to adjust to the content */
+    max-width: 90%;          /* Optional: Set a max-width for responsiveness */
+    margin: 0 auto;          /* Center the div horizontally */
+  }
+   
+  .cardscontainer {
+    display: grid;
+    gap: 10px; /* Espacio entre las tarjetas */
+    grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
+  }
+  
+  .card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    background-color: #f9f9f9;
+  }
+  
+  .card h3 {
+    margin-top: 0;
+  }
+  
+  .alert {
+    background-color: #ffeb99;
+    padding: 8px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  /* Nueva clase para las filas de dos columnas */
+  .formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  
+  .form input[type="text"],
+  .form input[type="number"],
+  .form input[type="date"],
+  .form select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 90%;
+  }
+  
+  .entregarbutton {
+    align-self: start;
+    padding: 8px 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .info {
+    background-color: #ffeb99;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 20px;
+  }
+  
+  @media (min-width: 768px) {
+    .cardscontainer {
+      grid-template-columns: repeat(2, 1fr); /* Dos columnas en pantallas medianas y grandes */
+    }
+  }
+  

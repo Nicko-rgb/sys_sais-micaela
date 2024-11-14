@@ -27,13 +27,11 @@ const OpcionesI = ({ paciente }) => {
   const irAControl = () => {
     navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
 };
+const Entregasuplemento = () => {
+  navigate(`/Entregasuplemento/${paciente.hist_clinico}`, { state: { paciente } });
+};
 
- const EntregaSuplementos = () => {
-  navigate(`/Entregasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar suplementos
- }
- const ListaSuplemento = () => {
-  navigate(`/Listasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
- }
+ 
 
 
   return (
@@ -82,8 +80,8 @@ const OpcionesI = ({ paciente }) => {
             <TbMedicineSyrup className="icon" />
             SUPLEMENTOS
           </summary>
-          <button onClick={ EntregaSuplementos }>Entrega Suplemento</button>
-          <button onClick={ ListaSuplemento}> Historial Suplemento</button>
+          <button onClick={Entregasuplemento}>Entrega Suplemento</button>
+          <button > Historial Suplemento</button>
           <button>Actualizar Suplementos</button>
         </details>
         <details name="opcion" className="opcion-item">

@@ -61,7 +61,9 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
     edad--;
   }
   return edad
-})
+
+
+  })
 
   // SLECTES DE DEPARTAMENTOS
   const handleDepartmentChange = (event) => {

@@ -264,36 +264,30 @@
 
 /* Botón de enviar */
 .editar-paciente button[type="submit"] {
-    background-color: #069a89;
+    background-color: #3058a6;
     color: white;
-    font-weight: bold;
     padding: 10px 20px;
     font-family: 'Poppins', sans-serif;
-    font-size: 13px;
+    font-size: 12px;
     border-radius: 5px;
-    width: 28%;
+    width: 25%;
     cursor: pointer;
     border: none;
     transition: background-color 0.3s ease;
 }
 
 .editar-paciente button[type="submit"]:hover {
-    background-color: #058172;
+    background-color: #254a82;
 }
 
 .editar-paciente button[type="button"]{
     background-color: red;
     color: white;
-    font-weight: bold;
     cursor: pointer;
     padding: 10px 20px;
     width: 25%;
     border-radius: 5px;
     border: none;
     font-family: 'Poppins', sans-serif;
-    font-size: 13px;
-}
-
-.editar-paciente button[type="button"]:hover {
-    background-color: rgb(228, 7, 7);
+    font-size: 12px;
 }

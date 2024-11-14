@@ -22,6 +22,7 @@ import ListarControles from './Componentes/Her_Pacien_Ninho/Control/listarcontro
 import ActualizarControles from './Componentes/Her_Pacien_Ninho/Control/actualizarControles';
 import ExportExcel from './Componentes/Personales/Turnos/Excel';
 import Entregasuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Entregasuplemento';
+import Listasumplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Listasumplemento';
 
 
 
@@ -58,6 +59,7 @@ function App() {
                         {/* <Route path="/modal-salida" element={<Modalnavtop />} /> */}
                         <Route path="/exportar-turno" element={<ExportExcel />} />
                        <Route path= "/Entregasuplemento/:historialClinico" element ={<Entregasuplemento/>}/>
+                       <Route path="Listasuplemento/:historialClinico" element ={<Listasumplemento/>}/>
                         
                         
                     </Routes>

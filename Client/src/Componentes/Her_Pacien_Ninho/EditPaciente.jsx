@@ -61,9 +61,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
     edad--;
   }
   return edad
-
-
-  })
+})
 
   // SLECTES DE DEPARTAMENTOS
   const handleDepartmentChange = (event) => {
@@ -184,7 +182,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
 
     try {
       const response = await axios.put(
-        'http://localhost:5000/api/actualizar/paciente/${paciente.id_paciente}',
+        `http://localhost:5000/api/actualizar/paciente/${paciente.id_paciente}`,
         formData
       );
 

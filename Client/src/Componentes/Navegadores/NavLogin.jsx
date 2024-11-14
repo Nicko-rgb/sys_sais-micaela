@@ -60,7 +60,7 @@ const Layout = ({ children }) => {
     <div className="app-layout">
       <div className="nav_login" style={{ position: 'fixed' }}>
         <div className='recargar' onClick={RecargarPagina}>
-          <FaUsersCog className='icon icon1' />
+          <FaUsersCog className='iconn icon1' />
           <p>Sistema de Atención Integral de Salud - C.S. MICAELA BASTIDAS</p>
         </div>
         <div className="opcion-nav">
@@ -70,11 +70,10 @@ const Layout = ({ children }) => {
               <div className="reloj" style={{ color: 'white', marginLeft: '10px', fontSize: "12px" }}>
                 {formatTime(currentTime)} {/* Muestra el reloj en tiempo real */}
               </div>
-              <IoPeopleSharp className='icon ico-people' onClick={openPersonal} title='USERS PERSONAL' />
-              <FaUser className='icon ico-yo-user' onClick={RutaPerfil} title='PERFIL USUARIO' />
-              {/* Cambiar a openLogoutModal */}
-              <BiLogOutCircle className='icon ico-closse-sesion' onClick={openLogoutModal} title='CERRAR SESION' />
-              <FaBarsStaggered className='icon icon_login_nav' onClick={toggleSidebar} />
+              <IoPeopleSharp className='iconn ico-people' onClick={openPersonal} title='USERS PERSONAL' />
+              <FaUser className='iconn ico-yo-user' onClick={RutaPerfil} title='PERFIL USUARIO' />
+              <BiLogOutCircle className='iconn ico-closse-sesion' onClick={openLogoutModal} title='CERRAR SESION' />
+              <FaBarsStaggered className='iconn icon_login_nav' onClick={toggleSidebar} />
             </>
           )}
         </div>

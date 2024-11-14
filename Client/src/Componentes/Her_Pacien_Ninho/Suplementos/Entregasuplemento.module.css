@@ -1,0 +1,97 @@
+/* Entregasuplemento.module.css */
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+    gap: 15px; /* Reducido el espacio entre las tarjetas */
+    padding: 0px;
+    margin-left: 120px; /* Deja espacio para el botón "Volver" */
+    
+    overflow: hidden; /* Evita barras de desplazamiento innecesarias */
+}
+
+.volverbtn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 8px 12px;
+    font-size: 14px;
+    background-color: #ddd;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    margin: 3px 0; /* Asegura el margen entre las tarjetas */
+    padding: 20px;
+    width: 100%; /* Las tarjetas ocuparán todo el espacio disponible dentro de la columna */
+    max-width: 400px; /* Aumento el ancho máximo para que sean más anchas */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
+}
+
+.notice {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.row label {
+    flex: 1;
+    font-size: 14px;
+}
+
+.row input,
+.row select {
+    flex: 2;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.agegroups {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+}
+
+.entregarbtn {
+    align-self: flex-end;
+    padding: 6px 12px;
+    font-size: 12px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Diseño responsivo en pantallas pequeñas */
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr; /* Una sola columna en pantallas pequeñas */
+    }
+
+    .card {
+        width: 90%; /* Las tarjetas ocuparán el 90% del espacio disponible */
+        max-width: none; /* El ancho máximo ya no es necesario en pantallas pequeñas */
+    }
+}

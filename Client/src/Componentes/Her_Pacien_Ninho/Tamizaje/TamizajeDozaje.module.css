@@ -1,0 +1,104 @@
+.contGeneral {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Dos columnas de igual tamaño */
+  gap: 20px;
+  padding: 20px;
+  justify-items: center; /* Centra los elementos horizontalmente */
+
+}
+
+.container {
+  width: 100%; /* Asegura que el contenedor ocupe el ancho completo de la columna */
+  max-width: 500px; /* Establece un ancho máximo para los contenedores */
+  padding: 25px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.iconstar {
+  margin-right: 10px;
+  color: #ffcc00;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.message {
+  font-size: 1em;
+  font-weight: bold ;
+  padding: 8px;
+  color: #474646;
+  margin-bottom: 10px;
+  background-color: #ffeca0;
+}
+
+.formGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.formGroup input[type="date"], [type="text"] {
+  font-size: 17px;
+  padding: 5px;
+  outline: none;
+}
+
+.formGroup [type="text"] {
+  border: rgb(67, 66, 66);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.radioGroup {
+  display: flex;
+  gap: 10px;
+}
+
+.separator {
+  margin: 0 5px;
+  color: #aaa;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.guardarButton, .solicitarButton {
+  width: 48%;
+  padding: 10px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.guardarButton {
+  background-color: #069a89;
+  color: white;
+  font-weight: bold
+}
+
+.solicitarButton {
+  background-color: #b2b2b2;
+  color: black;
+  font-weight: bold;
+}
+

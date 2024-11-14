@@ -4,11 +4,9 @@ import { Link } from 'react-router-dom';
 import NavLogin from '../Navegadores/NavLogin';
 import NavPie from '../Navegadores/NavPie';
 import Citas1 from './Citas1';
-import HorasCita from '../Complementos/HorasCita'; 
+import HorasCita from '../Complementos/HorasCita';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
-import { MdPersonSearch } from 'react-icons/md';
-import { IoMdFemale, IoMdMale } from "react-icons/io";
-
+import { MdPersonSearch, MdOutlineInfo } from 'react-icons/md';
 
 const OpcionesCita = () => {
     const [cita, setCita] = useState(false);
@@ -16,24 +14,27 @@ const OpcionesCita = () => {
     const [citasData, setCitasData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-
-    const [currentPage, setCurrentPage] = useState(1); // Página actual
-    const itemsPerPage = 10; // Número de citas por página
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [searching, setSearching] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
 
     const agregarCita = (especialidad) => {
         setSelectedSpecialty(especialidad);
-        setCita(!cita); // Alternar la visualización del calendario
+        setCita(!cita);
     };
 
-    // Función para obtener las citas y ordenar por fecha
-    const fetchCitas = async () => {
+    // Llamada inicial para citas cercanas de 3 días
+    const fetchCitas = async (allDates = false) => {
+        setLoading(true);
+        const url = allDates 
+            ? 'http://localhost:5000/api/filtrar-todas-citas-ninho'
+            : 'http://localhost:5000/api/filtrar-cita-ninho-3';
+
         try {
-            const response = await fetch('http://localhost:5000/api/filtrar-ninho-citas');
+            const response = await fetch(url);
             const data = await response.json();
-            
-            // Ordenar las citas por fecha (las más cercanas primero)
             const sortedData = data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-            
             setCitasData(sortedData);
         } catch (error) {
             console.error('Error fetching citasData:', error);
@@ -43,50 +44,50 @@ const OpcionesCita = () => {
     };
 
     useEffect(() => {
-        // Llamar a fetchCitas por primera vez
         fetchCitas();
-
-        // Actualizar cada 30 segundos sin recargar la página
-        const intervalId = setInterval(fetchCitas, 3000); // 3 segundos
-
-        return () => clearInterval(intervalId); // Limpiar el intervalo al desmontar el componente
     }, []);
 
-    // Cálculo de los datos filtrados según el término de búsqueda
-    const filteredCitas = citasData.filter(cita => {
+    // Filtrado combinado de citas según términos de búsqueda y fecha seleccionada
+    const getFilteredCitas = () => {
         const search = searchTerm.trim().toLowerCase();
- 
-        // Si el término de búsqueda está vacío, no filtrar
-        if (!search) return true;
+        
+        return citasData.filter(cita => {
+            const nombreCompleto = `${cita.nombres} ${cita.apellidos}`.toLowerCase();
+            const apellidosCompleto = `${cita.apellidos} ${cita.nombres}`.toLowerCase();
+            const fechaCita = new Date(cita.fecha).toLocaleDateString();
 
-        const nombresCompleto = `${cita.nombres} ${cita.apellidos}`.toLowerCase().replace(/\s+/g, ' ').trim();
-        const apellidosCompleto = `${cita.apellidos} ${cita.nombres}`.toLowerCase().replace(/\s+/g, ' ').trim();
+            const matchDate = !selectedDate || fechaCita === selectedDate;
+            const matchSearch = !search || 
+                nombreCompleto.includes(search) || 
+                apellidosCompleto.includes(search) || 
+                cita.dni.includes(search) ||
+                cita.fecha.includes(search);
 
-        // Verifica si el término de búsqueda aparece en el nombre completo o el apellido completo, sin importar el orden
-        return (
-            nombresCompleto.includes(search) ||
-            apellidosCompleto.includes(search) ||
-            cita.dni.includes(search) ||  // Búsqueda por DNI
-            cita.fecha.includes(search)   // Búsqueda por fecha
-        );
-    });
+            return matchDate && matchSearch;
+        });
+    };
+
+    const filteredCitas = getFilteredCitas();
 
     // Paginación de los datos filtrados
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const currentCitas = filteredCitas.slice(startIndex, endIndex);
 
-    // Funciones para cambiar de página
-    const nextPage = () => {
-        if (endIndex < filteredCitas.length) {
-            setCurrentPage(currentPage + 1);
-        }
+    const nextPage = () => endIndex < filteredCitas.length && setCurrentPage(currentPage + 1);
+    const prevPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
+
+    // Controladores para los inputs
+    const handleDateChange = (e) => {
+        setSelectedDate(e.target.value);
+        setCurrentPage(1);
     };
 
-    const prevPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
+    const handleSearchChange = async (e) => {
+        setSearchTerm(e.target.value);
+        setSearching(true);
+        await fetchCitas(true);  // Trae citas de todas las fechas
+        setSearching(false);
     };
 
     return (
@@ -99,7 +100,7 @@ const OpcionesCita = () => {
                         <Link to='/panel-niño' className='volver_link'>
                             <RiPlayReverseLargeFill /> Volver
                         </Link>
-                        
+
                         {Object.keys(HorasCita).map((key) => {
                             const { especialidad, icono: Icono } = HorasCita[key];
 
@@ -114,50 +115,64 @@ const OpcionesCita = () => {
                 <div className="container-tabla">
                     <hr />
                     <p>CITAS PENDIENTES CERCANAS</p>
-                    <div className="box_buscar">
-                        <MdPersonSearch className="ico_buscar" />
-                        <input
-                            type="text"
-                            placeholder="Ingrese Nombre, DNI o Fecha de cita"
-                            className="buscar_input"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)} // Actualizar el término de búsqueda
-                        />
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>N°</th>
-                                <th>Fecha</th>
-                                <th>Hora</th>
-                                <th>Nombre Paciente</th>
-                                <th>Nombre Médico</th>
-                                <th>Estado</th>
-                                <th>Motivo Cita</th>
-                                <th>Especialidad</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {loading ? (
+                    <div className="sub-contend">
+                        <div className="box_buscar">
+                            <input
+                                type="text"
+                                placeholder="Buscar por nombre, DNI o fecha..."
+                                className="txt-buscar"
+                                value={searchTerm}
+                                onChange={handleSearchChange}
+                            />
+                            <MdPersonSearch className="ico_buscar" />
+                            <input 
+                                type="date" 
+                                className='date-search' 
+                                value={selectedDate || ''} 
+                                onChange={handleDateChange} 
+                            />
+                            <MdOutlineInfo className='ico-info' />
+                            <p className="msg-ico">Selecciona una fecha para buscar</p>
+                        </div>
+                        <table>
+                            <thead>
                                 <tr>
-                                    <td colSpan="8">Cargando citas...</td>
+                                    <th>N°</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    <th>Nombre Paciente</th>
+                                    <th>Nombre Médico</th>
+                                    <th>Estado</th>
+                                    <th>Motivo Cita</th>
+                                    <th>Especialidad</th>
                                 </tr>
-                            ) : (
-                                currentCitas.map((cita, index) => (
-                                    <tr key={index}>
-                                        <td>{startIndex + index + 1}</td>
-                                        <td>{new Date(cita.fecha).toLocaleDateString()}</td>
-                                        <td>{cita.hora}</td>
-                                        <td>{cita.apellidos}, {cita.nombres}</td>
-                                        <td>{cita.nombreMedico || 'Nombre Médico'}</td> 
-                                        <td>{cita.estado || 'Estado'}</td> 
-                                        <td>{cita.motivoConsulta}</td>
-                                        <td>{cita.especialidad}</td>
+                            </thead>
+                            <tbody>
+                                {loading || searching ? (
+                                    <tr>
+                                        <td colSpan="8">Buscando datos...</td>
                                     </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
+                                ) : currentCitas.length > 0 ? (
+                                    currentCitas.map((cita, index) => (
+                                        <tr key={index}>
+                                            <td>{startIndex + index + 1}</td>
+                                            <td>{new Date(cita.fecha).toLocaleDateString()}</td>
+                                            <td>{cita.hora}</td>
+                                            <td>{cita.apellidos}, {cita.nombres}</td>
+                                            <td>{cita.nombreMedico || 'Nombre Médico'}</td>
+                                            <td>{cita.estado || 'Estado'}</td>
+                                            <td>{cita.motivoConsulta}</td>
+                                            <td>{cita.especialidad}</td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="8">No hay citas cercanas</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
 
                     {/* Botones de paginación */}
                     <div className="pagination">

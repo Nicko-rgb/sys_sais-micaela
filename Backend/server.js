@@ -3,14 +3,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mysql = require('mysql2/promise'); // Importar mysql2
-const bcrypt = require('bcryptjs');
 const cron = require('node-cron');
 const nodemailer = require('nodemailer'); // Importar nodemailer para enviar correos electrónicos
 const crypto = require('crypto'); // Importar crypto para generar tokens únicos
-const { log } = require('console');
 const app = express();
 const PORT = process.env.PORT || 5000;
-const router = express.Router();
 // Configura tu conexión a la base de datos
 const pool = mysql.createPool({
     host: 'localhost',
@@ -1013,6 +1010,34 @@ app.get('/api/filtrar-cita-ninho-3', async (req, res) => {
     }
 });
 
+//ruta para obtner horarios de cita de niños
+app.get('/api/horarios-cita-nino', async (req, res) => {
+    const { especialidad } = req.query;
+
+    try {
+        const [horarios] = await pool.execute(
+            'SELECT * FROM horario_cita_nino WHERE especialidad = ? ORDER BY turno, hora_inicio',
+            [especialidad]
+        );
+        res.json(horarios);
+    } catch (error) {
+        console.error('Error al obtener los horarios:', error);
+        res.status(500).json({ error: 'Error al obtener los horarios' });
+    }
+});
+
+// Ruta para obtener especialidades únicas
+app.get('/api/especialidad-unico-nino', async (req, res) => {
+    try {
+        const query = 'SELECT DISTINCT especialidad FROM horario_cita_nino'
+        const [results] = await pool.query(query);
+        res.json(results);
+    } catch (error) {
+        console.error('Error al obtener especialidades:', error);
+        res.status(500).json({ error: 'Error al obtener especialidades' });
+    }
+});
+
 
 // ENDPOINTS PARA CONSULTAR DE LA BASE DE DATOS LOS DATOS DE BD,//NACIMIENTO
 // Endpoint para obtener los programas
@@ -1047,6 +1072,7 @@ app.get('/api/etnias', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
+
 
 // Iniciar el servidor
 app.listen(PORT, async () => {

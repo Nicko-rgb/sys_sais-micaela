@@ -32,12 +32,12 @@ const OpcionesI = ({ paciente }) => {
     navigate(`/tamizaje/${paciente.hist_clinico}`, { state: { paciente } });
   }
 
- const EntregaSuplementos = () => {
-  navigate(`/Entregasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar suplementos
- }
- const ListaSuplemento = () => {
-  navigate(`/Listasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
- }
+  const EntregaSuplementos = () => {
+    navigate(`/Entregasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar suplementos
+  }
+  const ListaSuplemento = () => {
+    navigate(`/Listasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
+  }
 
 
   return (
@@ -86,8 +86,8 @@ const OpcionesI = ({ paciente }) => {
             <TbMedicineSyrup className="icon" />
             SUPLEMENTOS
           </summary>
-          <button onClick={ EntregaSuplementos }>Entrega Suplemento</button>
-          <button onClick={ ListaSuplemento}> Historial Suplemento</button>
+          <button onClick={EntregaSuplementos}>Entrega Suplemento</button>
+          <button onClick={ListaSuplemento}> Historial Suplemento</button>
           <button>Actualizar Suplementos</button>
         </details>
         <details name="opcion" className="opcion-item">

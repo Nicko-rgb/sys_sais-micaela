@@ -1,33 +1,35 @@
-import './Citas.css';
+import './panelCita.css';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import NavLogin from '../Navegadores/NavLogin';
 import NavPie from '../Navegadores/NavPie';
-import Citas1 from './Citas1';
-import HorasCita from '../Complementos/HorasCita';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
 import { MdPersonSearch, MdOutlineInfo } from 'react-icons/md';
+import axios from 'axios';
+import { TbNurse } from "react-icons/tb";
+import { FaUserDoctor } from "react-icons/fa6";
+import { MdPsychology } from "react-icons/md";
+import { FaTooth, FaCalendarAlt, FaBaby } from 'react-icons/fa';
+import { LiaNutritionix } from "react-icons/lia";
+import { CiCalendar } from 'react-icons/ci';
 
 const OpcionesCita = () => {
-    const [cita, setCita] = useState(false);
-    const [selectedSpecialty, setSelectedSpecialty] = useState(null);
     const [citasData, setCitasData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [searching, setSearching] = useState(false);
+    const [searchDate, setSearchDate] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
-    const agregarCita = (especialidad) => {
-        setSelectedSpecialty(especialidad);
-        setCita(!cita);
+    const navigate = useNavigate()
+
+    const handleCita = (especialidad) => {
+        navigate(`/cita-niño/${especialidad}`, { state: { especialidad } });
     };
 
-    // Llamada inicial para citas cercanas de 3 días
     const fetchCitas = async (allDates = false) => {
         setLoading(true);
-        const url = allDates 
+        const url = allDates
             ? 'http://localhost:5000/api/filtrar-todas-citas-ninho'
             : 'http://localhost:5000/api/filtrar-cita-ninho-3';
 
@@ -47,19 +49,31 @@ const OpcionesCita = () => {
         fetchCitas();
     }, []);
 
-    // Filtrado combinado de citas según términos de búsqueda y fecha seleccionada
+    const [especialidades, setEspecialidades] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/api/especialidad-unico-nino')
+            .then(response => {
+                setEspecialidades(response.data);
+            })
+            .catch(error => {
+                console.error("Error al obtener los horarios:", error);
+            });
+    }, []);
+
+    // Filtrado de citas según el término de búsqueda y la fecha seleccionada
     const getFilteredCitas = () => {
         const search = searchTerm.trim().toLowerCase();
-        
-        return citasData.filter(cita => {
-            const nombreCompleto = `${cita.nombres} ${cita.apellidos}`.toLowerCase();
-            const apellidosCompleto = `${cita.apellidos} ${cita.nombres}`.toLowerCase();
-            const fechaCita = new Date(cita.fecha).toLocaleDateString();
 
-            const matchDate = !selectedDate || fechaCita === selectedDate;
-            const matchSearch = !search || 
-                nombreCompleto.includes(search) || 
-                apellidosCompleto.includes(search) || 
+        return citasData.filter(cita => {
+            const fullName = `${cita.nombres} ${cita.apellidos}`.toLowerCase();
+            const reverseName = `${cita.apellidos} ${cita.nombres}`.toLowerCase();
+            const normalizedSearchTerm = searchTerm.trim().toLowerCase().replace(/\s+/g, ' ');
+
+            const matchDate = !searchDate || cita.fecha === searchDate;
+            const matchSearch = !search ||
+                fullName.includes(normalizedSearchTerm) ||
+                reverseName.includes(normalizedSearchTerm) ||
                 cita.dni.includes(search) ||
                 cita.fecha.includes(search);
 
@@ -78,16 +92,36 @@ const OpcionesCita = () => {
     const prevPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
 
     // Controladores para los inputs
-    const handleDateChange = (e) => {
-        setSelectedDate(e.target.value);
+    const handleDateChange = async (e) => {
+        const date = e.target.value;
+        setSearchDate(date);
+        if (!date && !searchTerm) {
+            await fetchCitas(false);
+        } else {
+            await fetchCitas(true);
+        }
         setCurrentPage(1);
     };
 
     const handleSearchChange = async (e) => {
-        setSearchTerm(e.target.value);
-        setSearching(true);
-        await fetchCitas(true);  // Trae citas de todas las fechas
-        setSearching(false);
+        const term = e.target.value;
+        setSearchTerm(term);
+        if (!term && !searchDate) {
+            await fetchCitas(false);
+        } else {
+            await fetchCitas(true);
+        }
+        setCurrentPage(1);
+    };
+
+    const iconMap = {
+        "Obstetricia_CPN": <FaBaby />,
+        "Odontología": <FaTooth />,
+        "Psicología": <MdPsychology />,
+        "Nutrición": <LiaNutritionix />,
+        "Medicina": <FaUserDoctor />,
+        "Enfermería": <TbNurse />,
+        "Planificación": <FaCalendarAlt />
     };
 
     return (
@@ -101,12 +135,15 @@ const OpcionesCita = () => {
                             <RiPlayReverseLargeFill /> Volver
                         </Link>
 
-                        {Object.keys(HorasCita).map((key) => {
-                            const { especialidad, icono: Icono } = HorasCita[key];
 
+                        {especialidades.map((especialidad, index) => {
+                            const icon = iconMap[especialidad.especialidad] || null; // Obtiene el ícono o null si no existe
                             return (
-                                <button key={key} className="box" onClick={() => agregarCita(especialidad)} >
-                                    <Icono className='icon' />{especialidad}
+                                <button key={index}
+                                    className='box'
+                                    onClick={() => handleCita(especialidad.especialidad)}>
+                                    {icon} {/* Renderiza el ícono */}
+                                    {especialidad.especialidad}
                                 </button>
                             );
                         })}
@@ -114,7 +151,7 @@ const OpcionesCita = () => {
                 </section>
                 <div className="container-tabla">
                     <hr />
-                    <p>CITAS PENDIENTES CERCANAS</p>
+                    <p>CITAS PENDIENTES CERCANAS {searchDate}</p>
                     <div className="sub-contend">
                         <div className="box_buscar">
                             <input
@@ -125,14 +162,14 @@ const OpcionesCita = () => {
                                 onChange={handleSearchChange}
                             />
                             <MdPersonSearch className="ico_buscar" />
-                            <input 
-                                type="date" 
-                                className='date-search' 
-                                value={selectedDate || ''} 
-                                onChange={handleDateChange} 
+                            <input
+                                type="date"
+                                className='date-search'
+                                value={searchDate}
+                                onChange={handleDateChange}
                             />
                             <MdOutlineInfo className='ico-info' />
-                            <p className="msg-ico">Selecciona una fecha para buscar</p>
+                            <p className="msg-ico">Escriba una fecha</p>
                         </div>
                         <table>
                             <thead>
@@ -148,7 +185,7 @@ const OpcionesCita = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {loading || searching ? (
+                                {loading ? (
                                     <tr>
                                         <td colSpan="8">Buscando datos...</td>
                                     </tr>
@@ -176,19 +213,16 @@ const OpcionesCita = () => {
 
                     {/* Botones de paginación */}
                     <div className="pagination">
-                        <button onClick={prevPage} disabled={currentPage === 1}>
+                        <button onClick={prevPage} className={currentPage === 1 ? '' : 'btn-a'} disabled={currentPage === 1}>
                             Ver menos
                         </button>
-                        <button onClick={nextPage} disabled={endIndex >= filteredCitas.length}>
+                        <button onClick={nextPage} className={endIndex >= filteredCitas.length ? '' : 'btn-a'}>
                             Ver más
                         </button>
                     </div>
                 </div>
             </main>
             <NavPie />
-            {cita && (
-                <Citas1 especialidad={selectedSpecialty} agregarCita={agregarCita} />
-            )}
         </div>
     );
 }

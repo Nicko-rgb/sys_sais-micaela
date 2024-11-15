@@ -58,7 +58,7 @@ const Panel = () => {
 
                 {/* Modal */}
                 {showModal && (
-                    <div className="modal">
+                    <div className="modalp">
                         <div className="modal_content">
                             <h4>Elige una opción</h4>
                             <div className="modal_buttons">

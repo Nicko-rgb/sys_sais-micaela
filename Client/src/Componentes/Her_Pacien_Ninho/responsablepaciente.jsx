@@ -115,7 +115,7 @@ const ResponsablePaciente = ({ paciente, onCloseEdit }) => {
         <section className="container-editar-responsable section-active">
             <h3>DATOS DEL RESPONSABLE DEL PACIENTE</h3>
             <form onSubmit={handleSubmit}>
-                <div className="cortos_dniTipo">
+                <div className="datos-cortos">
                     <label>
                         DNI:
                         <input
@@ -152,7 +152,7 @@ const ResponsablePaciente = ({ paciente, onCloseEdit }) => {
                         </select>
                     </label>
                 </div>
-                <div className="dato-solo">
+                <div className="datos-cortos">
                     <label>
                         Nombres:
                         <input
@@ -181,7 +181,7 @@ const ResponsablePaciente = ({ paciente, onCloseEdit }) => {
                         />
                     </label>
                 </div>
-                <div className="cortos_apellidos">
+                <div className="datos-cortos">
                     <label>
                         Paterno:
                         <input
@@ -237,7 +237,7 @@ const ResponsablePaciente = ({ paciente, onCloseEdit }) => {
                         />
                     </label>
                 </div>
-                <div className="cortos_celulares">
+                <div className="cortos-cortos" style={{display: 'flex', gap: '20px'}}>
                     <label>
                         Celular 1:
                         <input
@@ -280,7 +280,7 @@ const ResponsablePaciente = ({ paciente, onCloseEdit }) => {
                         />
                     </label>
                 </div>
-                <div className="cortos_localidadsec">
+                <div className="datos-cortos">
                     <label>
                         Localidad:
                         <input
@@ -311,18 +311,16 @@ const ResponsablePaciente = ({ paciente, onCloseEdit }) => {
                         </select>
                     </label>
                 </div>
-                <div className="dato-solo">
-                    <label>
-                        Dirección:
-                        <input
-                            type="text"
-                            name="direccion_res"
-                            value={formData.direccion_res}
-                            onChange={handleChange}
-                        />
-                    </label>
-                </div>
-                <div className="datos-departamento">
+                <label>
+                    Dirección:
+                    <input
+                        type="text"
+                        name="direccion_res"
+                        value={formData.direccion_res}
+                        onChange={handleChange}
+                    />
+                </label>
+                <div className="datos-cortos">
                     <label>
                         Departamento:
                         <select
@@ -330,7 +328,7 @@ const ResponsablePaciente = ({ paciente, onCloseEdit }) => {
                             value={formData.departamento_res}
                             onChange={handleChange}
                         >
-                            <option value="">Seleccionar Departamento</option>
+                            <option value="">Sel.. Departamento</option>
                             {departamento.map((dept) => (
                                 <option key={dept} value={dept}>
                                     {dept}
@@ -346,7 +344,7 @@ const ResponsablePaciente = ({ paciente, onCloseEdit }) => {
                             onChange={handleChange}
                             disabled={!formData.departamento_res}
                         >
-                            <option value="">Seleccionar Provincia</option>
+                            <option value="">Sel.. Provincia</option>
                             {provincia.map((prov) => (
                                 <option key={prov} value={prov}>
                                     {prov}
@@ -362,7 +360,7 @@ const ResponsablePaciente = ({ paciente, onCloseEdit }) => {
                             onChange={handleChange}
                             disabled={!formData.provincia_res}
                         >
-                            <option value="">Seleccionar Distrito</option>
+                            <option value="">Sel.. Distrito</option>
                             {distrito.map((dist) => (
                                 <option key={dist} value={dist}>
                                     {dist}
@@ -372,8 +370,8 @@ const ResponsablePaciente = ({ paciente, onCloseEdit }) => {
                     </label>
                 </div>
                 <div className="box-botones">
-                    <button type="submit">Guardar Cambios</button>
-                    <button type="button" onClick={onCloseEdit}>
+                    <button className="save" type="submit">Guardar Cambios</button>
+                    <button className="cancel" type="button" onClick={onCloseEdit}>
                         Cancelar
                     </button>
                 </div>

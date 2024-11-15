@@ -1,489 +1,81 @@
-.opciones-cita {
-  position: relative;
-  padding-bottom: 70px;
-  overflow-y: auto;
-  height: auto;
+.cita-nino {
+    position: relative;
+    padding-bottom: 70px;
+    overflow-y: auto;
+    height: auto;
 }
 
-.opciones-cita main {
-  margin-top: 37px;
-
+.cita-nino .react-calendar {
+    border: red solid;
+    width: 300px;
+}
+.cita-nino .custom-calendar {
+    background-color: #f9f9f9; /* Color de fondo del calendario */
+    border: 1px solid #ddd; /* Borde del calendario */
+    border-radius: 5px; /* Bordes redondeados */
 }
 
-.volver_link {
-  position: absolute;
-  cursor: pointer;
-  color: green;
-  text-decoration: underline;
-  background: transparent;
-  display: flex;
-  align-items: center;
-  font-family: 'poppins';
-  font-size: 14px;
-  top: -40px;
-  padding:10;
-  height: 30px;
-  width: 100px;
-  left: -20px;
-  border: none;
-}
-.opciones-cita .volver_link:hover {
-  background: rgb(238, 238, 238);
-}
-.opciones-cita h5 {
-  text-align: center;
-  font-size: large;
-  font-family: 'poppins';
-  margin: 0;
-  margin-top: 50px;
+/* Estilo para los días del mes */
+.react-calendar__tile {
+    border: none;
+    box-shadow: 0 0 1px black;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px; /* Bordes redondeados para los días */
 }
 
-
-
-.opciones-cita main section {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 20px;
-  padding-bottom: 0;
-  align-items: center;
-  margin-top: 30px;
+/* Estilo para los días de domingo */
+.react-calendar__tile--sunday {
+    background-color: #ffe6e6; /* Color de fondo específico para domingos */
+    color: #d9534f; /* Color del texto para domingos */
 }
 
-.opciones-cita section .box-citas {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  max-width: 700px;
-  gap: 20px;
+/* Estilo al pasar el mouse sobre un día */
+.react-calendar__tile:hover {
+    background-color: #e7f3fe; /* Color de fondo al pasar el mouse */
+    color: #31708f; /* Color del texto al pasar el mouse */
 }
 
-.opciones-cita section div .box {
-  font-family: 'poppins';
-  padding: 5px;
-  width: 145px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  background-color: white;
-  border: none;
-  box-shadow: 0 0 5px black;
-  border-radius: 2px;
-  font-size: 16px;
-  transition: 0.3s ease;
+/* Estilo para el día seleccionado */
+.react-calendar__tile--active {
+    background-color: #007bff; /* Color de fondo para el día activo */
+    color: white; /* Color del texto para el día activo */
 }
 
-.opciones-cita section div .box:hover {
-  transform: scale(1.05);
-  color: white;
-  background-color: #00796b;
-  box-shadow: 0 0 2px greenyellow;
+/* Estilo para el día actual */
+.react-calendar__tile--now {
+    border: 2px solid #007bff; /* Borde alrededor del día actual */
 }
 
-.opciones-cita div .icon {
-  font-size: 20px;
-  margin: 0;
+/* Estilo para días deshabilitados (ejemplo) */
+.react-calendar__tile--disabled {
+    opacity: 0.5; /* Menos opacidad para días deshabilitados */
 }
 
-.opciones-cita .container-tabla {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 20px;
-  gap: 10px;
-
- }
-.opciones-cita .container-tabla hr{
-  width: 90%;
+.cita-nino table {
+    border-collapse: collapse;
 }
-.opciones-cita .container-tabla p{
-  font-family: 'poppins';
-  font-weight: bold;
-  font-size: 15px;
-  margin: 0;
+.cita-nino table th, td {
+    border: gray solid 1px;
 }
-.opciones-cita .sub-contend{
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-width: 700px;
-  padding: 4px;
- }
-.opciones-cita .box_buscar {
-  max-width: 706px;
-  width: 100%;
-  box-sizing: border-box;
-  position: relative;
-  display: flex;
-  gap: 20px;
+.cita-nino table th{
+    font-size: 13px;
+    padding: 4px 6px;
+    font-weight: 540;
+    background-color: #07c5af;
 }
-.opciones-cita .box_buscar .ico_buscar{
-  position: absolute;
-  font-size: 23px;
-  top: 5px;
-  left: 5px;
-}
-.opciones-cita .box_buscar .ico-info {
-  position: absolute;
-  right: 0px;
-  top: -20px;
-  color: gray;
-  cursor: pointer;
-}
-.opciones-cita .box_buscar .msg-ico{
-  position: absolute;
-  font-weight: 200;
-  font-family: Comic Sans MS;
-  font-family: 'Roboto', sans-serif;
-  left: calc(100% + 5px);
-  top: -15px;
-  padding: 5px;
-  font-size: 12px;
-  background-color: #373636;
-  color: white;
-  display: none;
-}
-.opciones-cita .box_buscar .ico-info:hover ~ .msg-ico {
-  display: block;
-}
-.opciones-cita .box_buscar input {
-  padding: 4px;
-  font-size: 15px;
-  outline: none;
-  color: rgb(96, 93, 93);
-  border: gray solid 1px;
-  width: auto;
-}
-.opciones-cita .box_buscar .txt-buscar {
-  width: 85%;
-  padding-left: 33px;
-
-  text-transform: capitalize;
-}
-.opciones-cita .box_buscar .txt-buscar::placeholder{
-  font-style: italic;
-  text-transform: capitalize;
-  font-size: .9em;
-}
-.opciones-cita .box_buscar .txt-buscar:focus{
-  border: #00796b solid 1px;
-}
-.opciones-cita .txt-buscar:focus ~ .ico_buscar {
-  color: #00796b;
-}
-.opciones-cita table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-.opciones-cita table th {
-  font-size: 14px;
-  font-family: calibri;
-  background-color: #f5ce71;
-}
-
-.opciones-cita table td {
-  font-family: 'poppins';
-  font-size: 12px;
-  border: gray solid 1px;
-}
-
-.opciones-cita tbody button {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  cursor: pointer;
-}
-.opciones-cita .pagination{
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
-.opciones-cita .pagination button{
-  width: 100px;
-  padding: 5px;
-  border: none;
-  background-color: #00796b;
-  font-family: 'poppins';
-  cursor: pointer;
-}
-.opciones-cita th,
-td {
-  padding: 6px;
-  text-align: left;
-  border: 1px solid gray;
-}
-
-.opciones-cita tbody td {
-  font-family: 'poppins';
-  font-size: 12px;
-  text-transform: uppercase;
-  height: 5px;
-  padding: 5px;
-}
-
-.opciones-cita tbody .btns{
-  display: flex;
-  height: auto;
-  gap: 10px;
-}
-.opciones-cita tbody .btn{
-  margin: auto;
-  border-radius: 3px;
-  border: none;
-  font-family: 'poppins';
-  font-size: 12px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  transition: .3s ease;
-}
-.opciones-cita tbody .btn-primary{
-  background-color: #2b6867;
-  color: white;
-}
-.opciones-cita tbody .btn-danger{
-  background-color: rgb(242, 108, 132);
-  font-weight: bold;
-  color: white;
-}
-.opciones-cita tbody .btn:hover{
-  box-shadow: 0 0 5px rgb(53, 230, 115);
-}
-.opciones-cita tbody .ico{
-  font-size: 16px;
-}
-
-.opciones-cita th {
-  background-color: #cecece;
-}
- 
-.opciones-cita tbody tr:hover {
-  background-color: rgb(206, 216, 255);
+.cita-nino table td {
+    margin: 0;
+    font-size: 12px;
+    font-family: 'Roboto', sans-serif;
 
 }
-
-
-/* Contenedor del calendario */
-.calendar-cita {
-  position: fixed;
-  width: 100%;
-  height: calc(100% - 70px);
-  left: 0;
-  margin: auto;
-  top: 35px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 100;
-    background-color: white;
-  overflow-y: auto;
-  box-sizing: border-box;
-  padding: 20px;
+.cita-nino table tbody .receso{
+    background-color: #d6d1a0;
 }
-
-.calendar-cita main {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  border-radius: 0;
-  box-sizing: border-box;
+.cita-nino table  tbody .atencion-especial {
+    background-color: #ffa6a6c4;
 }
-.calendar-cita .contenedor{
-  display: flex;
-  box-sizing: border-box;
-
-}
-
-
-
-/* Estilo general del calendario */
-.calendar-cita .react-calendar {
-  margin-left: 0px;
-  top: 200px;
-  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
-  border: 3px solid rgba(0, 150, 136, 0.2);
-  background-color: #ffffff;
-  border-radius: 12px;
-  max-width: 350px;
-  width: 100%;
-  font-family: 'Roboto', sans-serif;
-  padding: 20px;
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-/* Hover para todo el calendario */
-.calendar-cita .react-calendar:hover {
-  box-shadow: 0 6px 18px rgba(0, 150, 136, 0.25);
-  border-color: rgba(0, 150, 136, 0.5);
-}
-
-/* Cabecera del calendario */
-.calendar-cita .react-calendar__navigation {
-  background-color: #009688;
-  color: #fff;
-  border-radius: 12px 12px 0 0;
-  padding: 10px 20px;
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.1em;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Ajuste para el título en la cabecera */
-.calendar-cita .react-calendar__navigation button {
-  font-size: 1.1em;
-  color: #ffffff;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.calendar-cita .react-calendar__navigation button:hover {
-  color: #000000;
-}
-
-/* Estilos para los días */
-.calendar-cita .react-calendar__tile {
-  background-color: #e0f2f1;
-  color: #004d40;
-  border-radius: 50%;
-  padding: 12px;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.2s, transform 0.2s;
-}
-
-/* Hover para los días */
-.calendar-cita .react-calendar__tile:hover {
-  background-color: #80cbc4;
-  transform: scale(1.05);
-}
-
-/* Días seleccionados */
-.calendar-cita .react-calendar__tile--active {
-  background-color: #00796b;
-  color: #fff;
-  border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(0, 121, 107, 0.4);
-}
-
-/* Diferenciación de días de otros meses */
-.calendar-cita .react-calendar__tile--neighboringMonth {
-  background-color: rgba(224, 224, 224, 0.3);
-  color: #757575;
-  opacity: 0.6;
-}
-
-/* Hover para días fuera del mes actual */
-.calendar-cita .react-calendar__tile--neighboringMonth:hover {
-  background-color: rgba(179, 179, 179, 0.4);
-  transform: scale(1.05);
-}
-
-/* Día actual */
-.calendar-cita .react-calendar__tile--now {
-  background-color: rgba(37, 189, 7, 0.877);
-  color: #0c0c0c;
-  font-weight: bold;
-}
-
-/* Estilo para los domingos */
-.calendar-cita .react-calendar__tile--sunday {
-  background-color: rgba(255, 235, 238, 0.7); /* Fondo rosa claro */
-  color: #c62828; /* Color más oscuro para el texto */
-}
-
-/* Hover para los domingos */
-.calendar-cita .react-calendar__tile--sunday:hover {
-  background-color: rgba(255, 205, 210, 0.8); /* Fondo rosa más oscuro */
-}
-
-
-.calendar-cita main hr {
-  width: 90%;
-}
-.calendar-cita .box-calendar {
-  margin-top: 60px;
-  margin-left: 80px;
-  /* border: red solid 2px; */
-  display: flex;
-  padding: 10px;
-  position: fixed;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.calendar-cita .box-calendar p {
-  font-size: 16px;
-  font-family: 'poppins';
-  margin: 1;
-  text-transform: uppercase;
-  align-items: center;
-}
-
-.calendar-cita main h3 {
-  position: absolute;
-  text-align: center;
-  width: 100%;
-  font-family: 'poppins';
-  top: -50px;
-  z-index: 1;
-}
-
-.calendar-cita .list-cita {
-  margin-left: 450px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.calendar-cita .close-cita {
-  position: absolute;
-  top: -30px;
-  z-index: 1;
-}
-
-.atencion-especial {
-  background-color:  rgb(182, 222, 244);
-  color: black;
-}
-.receso {
-  background-color: rgb(225, 221, 181);
-  color: black;
-}
-
-.citas2 {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-items: center;
-}
-
-@media (max-width: 1000px) {
-  .calendar-cita main {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .calendar-cita .box-calendar {
-    width: 100%;
-    display: flex;
-    align-items: center;
-  }
-
-  .calendar-cita main hr {
-    display: none;
-  }
-
-  .calendar-cita table {
-    margin: auto;
-  }
+.cita-nino table tbody tr:hover{
+    background-color: #A8E6CF;
 }

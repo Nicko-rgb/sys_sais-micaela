@@ -81,6 +81,17 @@ CREATE TABLE cita_ninhos (
     fechaRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+--CREAR UNA TABLA PARA MANEJAR EL HORARIO DE CITAS DE LOS NIÑOS
+CREATE TABLE horario_cita_nino (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    especialidad VARCHAR(50),
+    icono VARCHAR(50),
+    turno VARCHAR(10), -- 'mañana' o 'tarde' receso
+    tipo_atencion VARCHAR(20), -- 'normal' o 'AtencionEspecial'
+    hora_inicio TIME,
+    hora_fin TIME
+);
+
 -- CREAMOS UNA TABLA PARA REGISTRAR A LOS PERSONALES DE SALUD
 CREATE TABLE personal_salud (
     id_personal INT AUTO_INCREMENT PRIMARY KEY,

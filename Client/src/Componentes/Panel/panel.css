@@ -16,7 +16,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     &::-webkit-scrollbar {
-        width: 12px; /* Ancho de la barra de desplazamiento vertical */
+        width: 12px;
     }
 }
 .panel .opciones>p{
@@ -33,7 +33,7 @@
 }
 .panel .opciones .box{
     background-color: #f0f0f0;
-    height: 50px;
+    height: 70px;
     padding: 10px;
     font-family: 'poppins';
     text-decoration: none;

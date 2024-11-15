@@ -64,8 +64,6 @@ const DatosPaciente = () => {
         }
     }
 
-
-
     return (
         <div className="datos-paciente">
             <NavLogin />

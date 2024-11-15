@@ -26,7 +26,6 @@ const OpcionesI = ({ paciente }) => {
 
   const irAControl = () => {
     navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
-  };
 
   const IraTamizaje = () => {
     navigate(`/tamizaje/${paciente.hist_clinico}`, { state: { paciente } });
@@ -38,7 +37,6 @@ const OpcionesI = ({ paciente }) => {
   const ListaSuplemento = () => {
     navigate(`/Listasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
   }
-
 
   return (
     <section className="opciones-right">

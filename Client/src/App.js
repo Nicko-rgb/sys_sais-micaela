@@ -15,15 +15,16 @@ import Perfil from './Componentes/Perfil User/Perfil';
 import Visitadomiciliaria from './Componentes/Her_Pacien_Ninho/Control/visitadomiciliaria';
 import HistorialVisitas from './Componentes/Her_Pacien_Ninho/Control/historialvisitas';
 import Control from './Componentes/Her_Pacien_Ninho/Control/control';
-// import HistorialControles from './Componentes/Her_Pacien_Ninho/Control/historialcontroles';
-// import Modalnavtop from './Componentes/Navegadores/Modalnavtop';
 import Seguimientonutricional from './Componentes/Her_Pacien_Ninho/Control/seguimientonutricional';
 import ListarControles from './Componentes/Her_Pacien_Ninho/Control/listarcontroles';
 import ActualizarControles from './Componentes/Her_Pacien_Ninho/Control/actualizarControles';
 import ExportExcel from './Componentes/Personales/Turnos/Excel';
+
 import TamizajeDozaje from './Componentes/Her_Pacien_Ninho/Tamizaje/TamizajeDozaje';
 import HistorialTamizaje from './Componentes/Her_Pacien_Ninho/Tamizaje/HistorialTamizaje';
-
+import Entregasuplemento from './Componentes/Her_Pacien_Ninho/Suplementos/Entregasuplemento';
+import ListaSuplemento from './Componentes/Her_Pacien_Ninho/Suplementos/Listasuplemento';
+import Cita1 from './Componentes/CitaNiño/Citas1';
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
                         <Route path="/panel/:historialClinico" element={<DatosPaciente />} />
                         <Route path="/list/:tipo" element={<Listas />} />
                         <Route path="/panel-cita" element={<PanelCita />} />
+                        <Route path='/cita-niño/:especialidad' element={<Cita1 />} />
                         <Route path="/personal-salud" element={<Personal />} />
                         <Route path="/reset-password" element={<ResetPassword />} />
                         <Route path="/contact-administrador" element={<ContactAdmi />} />
@@ -55,6 +57,9 @@ function App() {
                         <Route path="/exportar-turno" element={<ExportExcel />} />
                         <Route path="/tamizaje/:historialClinico" element={<TamizajeDozaje />} />
                         <Route path="/historialtamizaje/:historialClinico" element={<HistorialTamizaje/>}/>
+                        <Route path="/Entregasuplementos/:historialClinico" element={<Entregasuplemento/>}/>
+                        <Route path="/Listasuplementos/:historialClinico" element={<ListaSuplemento/>}/>
+    
                     </Routes>
                 </AuthProvider> 
             </BrowserRouter>

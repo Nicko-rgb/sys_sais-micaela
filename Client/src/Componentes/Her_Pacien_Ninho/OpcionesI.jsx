@@ -26,7 +26,6 @@ const OpcionesI = ({ paciente }) => {
 
   const irAControl = () => {
     navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
-  };
 
   const IraTamizaje = () => {
     navigate(`/tamizaje/${paciente.hist_clinico}`, { state: { paciente } });
@@ -90,8 +89,8 @@ const OpcionesI = ({ paciente }) => {
             <TbMedicineSyrup className="icon" />
             SUPLEMENTOS
           </summary>
-          <button onClick={ EntregaSuplementos }>Entrega Suplemento</button>
-          <button onClick={ ListaSuplemento}> Historial Suplemento</button>
+          <button onClick={EntregaSuplementos}>Entrega Suplemento</button>
+          <button onClick={ListaSuplemento}> Historial Suplemento</button>
           <button>Actualizar Suplementos</button>
         </details>
         <details name="opcion" className="opcion-item">

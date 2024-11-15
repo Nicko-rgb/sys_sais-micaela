@@ -1,201 +1,96 @@
-import React, { useState } from 'react';
-import HorasCita from '../Complementos/HorasCita';
-import FormCitas from './FormCitas';
-import { TiUserAdd } from "react-icons/ti";
-import { FaMale, FaFemale } from 'react-icons/fa';
-import EstadoSesion from '../Complementos/EstadoSesion';
+import React from 'react';
+import './citas.css';
+import { CiEdit } from "react-icons/ci";
+import { FaRegCalendarPlus } from "react-icons/fa6";
+import { MdOutlineRemoveCircleOutline } from "react-icons/md";
 
-const Citas2 = ({ fecha, especialidad, consultorio2, citas, personal }) => {
-    const [verForm, setVerForm] = useState(false);
-    const [horaSeleccionada, setHoraSeleccionada] = useState('');
-    const { tipoUser } = EstadoSesion()
+const Citas2 = ({ especialidad, horarios, consultorio }) => {
+    const formatTime = (timeString) => {
+        if (!timeString) return '---';
 
-    const handleAgregarCita = (hora) => {
-        setHoraSeleccionada(hora);
-        setVerForm(true);
+        const parts = timeString.split(':');
+        if (parts.length < 2) return '---';
+
+        const hours = parts[0].padStart(2, '0');
+        const minutes = parts[1].padStart(2, '0');
+
+        return `${hours}:${minutes}`;
     };
 
-    const handleCloseForm = () => {
-        setVerForm(false);
-        setHoraSeleccionada('');
-    };
-
-    const renderRow = (horario, index, turno) => {
-        // Filtrar citas para el consultorio 2
-        const citaActual = citas.find(cita => cita.hora === horario.hora && cita.consultorio === 2);
-        const profesional = personal.find(profesional => profesional.especial_cita === especialidad);
-        const esReceso = horario.receso;
-        const esAtencionEspecial = horario.AtencionEspecial;
-
-        // Renderizar fila para "Receso"
-        if (esReceso) {
-            return (
-                <tr key={horario.hora} className="receso">
-                    <td>{horario.receso}</td>
-                    <td colSpan={10} style={{ textAlign: 'center' }}>REFRIGERIO</td>
-                </tr>
-            );
-        }
-
-        // Renderizar fila para "Atención Especial"
-        if (esAtencionEspecial) {
-            return esAtencionEspecial.map((especial, index) => {
-                const citaEspecial = citas.find(cita => cita.hora === especial.hora && cita.consultorio === consultorio2);
-                return (
-                    <tr key={`especial-${index}`} className="atencion-especial">
-                        <td>{especial.hora}</td>
-                        <td>{turno}</td>
-                        <td>{citaEspecial ? citaEspecial.dni : ''}</td>
-                        <td> {/* Agregar ícono de género antes del nombre si hay una cita actual */}
-                            {citaEspecial ? (
-                                <>
-                                    {citaEspecial.sexo === 'Femenino' ? (
-                                        <FaFemale style={{ color: 'pink', marginRight: '5px', fontSize: '0.9rem' }} />
-                                    ) : (
-                                        <FaMale style={{ color: 'blue', marginRight: '5px', fontSize: '0.9rem' }} />
-                                    )}
-                                    {citaEspecial.apellidos}, {citaEspecial.nombres}
-                                </>
-                            ) : ''}</td>
-                        <td>{citaEspecial ? citaEspecial.telefono : ''}</td>
-                        <td>
-                            {citaEspecial ?
-                                new Date(citaEspecial.fechaNacimiento).toLocaleDateString('es-ES', {
-                                    day: '2-digit',
-                                    month: '2-digit',
-                                    year: 'numeric'
-                                })
-                                : ''
-                            }
-                        </td>
-                        <td>{citaEspecial ? citaEspecial.telefono : ''}</td>
-                        {especialidad === 'Medicina' && <td>{citaEspecial ? citaEspecial.direccion : ''}</td>}
-                        {especialidad === 'Obstetricia_CPN' && <td>{citaEspecial ? citaEspecial.semEmbarazo : ''}</td>}
-                        {especialidad === 'Planificación' && <td>{citaEspecial ? citaEspecial.metodo : ''}</td>}
-                        <td> </td>
-                        <td>
-                            {profesional ? (
-                                <span>{profesional.nombres} {profesional.paterno}</span>
-                            ) : (
-                                <span>No disponible</span>
-                            )}
-                        </td>
-                        <td className='btns'>
-                            {citaEspecial ? (
-                                <button className="btn btn-danger">EDI. CITA</button>
-                            ) : (
-                                <>
-                                    <button className="btn btn-primary" onClick={() => handleAgregarCita(horario.atencion)}>
-                                        <TiUserAdd className='ico' />
-                                        AG. CITA
-                                    </button>
-                                    {tipoUser === 'Jefe' || tipoUser === 'Admin' && (
-                                        <button>BLOQUEAR</button>
-                                    )}
-                                </>
-                            )}
-                        </td>
-                    </tr>
-                );
-            });
-        }
-
-        // Renderizar fila para citas normales
-        return (
-            <tr key={horario.hora}>
-                <td>{horario.hora}</td>
-                <td>{turno}</td>
-                <td>{citaActual ? citaActual.dni : ''}</td>
-                <td> {/* Agregar ícono de género antes del nombre si hay una cita actual */}
-                    {citaActual ? (
-                        <>
-                            {citaActual.sexo === 'Femenino' ? (
-                                <FaFemale style={{ color: 'pink', marginRight: '5px', fontSize: '0.9rem' }} />
-                            ) : (
-                                <FaMale style={{ color: 'blue', marginRight: '5px', fontSize: '0.9rem' }} />
-                            )}
-                            {citaActual.apellidos}, {citaActual.nombres}
-                        </>
-                    ) : ''}</td>
-                <td>{citaActual ? citaActual.edad : ''}</td>
-                <td>
-                    {citaActual ?
-                        new Date(citaActual.fechaNacimiento).toLocaleDateString('es-ES', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric'
-                        })
-                        : ''
-                    }
-                </td>
-                <td>{citaActual ? citaActual.telefono : ''}</td>
-                {especialidad === 'Medicina' && <td>{citaActual ? citaActual.direccion : ''}</td>}
-                {especialidad === 'Obstetricia_CPN' && <td>{citaActual ? citaActual.semEmbarazo : ''}</td>}
-                {especialidad === 'Planificación' && <td>{citaActual ? citaActual.metodo : ''}</td>}
-                <td> </td>
-                <td>
-                    {profesional ? (
-                        <span>{profesional.nombres} {profesional.paterno}</span>
-                    ) : (
-                        <span>No disponible</span>
-                    )}
-                </td>
-                <td className='btns'>
-                    {citaActual ? (
-                        <button className="btn btn-danger">EDI. CITA</button>
-                    ) : (
-                        <>
-                            <button className="btn btn-primary" onClick={() => handleAgregarCita(horario.atencion)}>
-                                <TiUserAdd className='ico' />
-                                AG. CITA
-                            </button>
-                            {tipoUser === 'Jefe' || tipoUser === 'Admin' && (
-                                <button>BLOQUEAR</button>
-                            )}
-                        </>
-                    )}
-                </td>
-            </tr>
-        );
-    };
+    let colSpan = 0;
+    if (especialidad === 'Medicina' || especialidad === 'Obstetricia_CPN' || especialidad === 'Planificación') {
+        colSpan = 8;
+    } else {
+        colSpan = 9;
+    }
 
     return (
-        <div className="citas2">
-            <h4>Citas para el día {fecha} en consultorio {consultorio2} - {especialidad}</h4>
-            <div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Hora</th>
-                            <th>Turno</th>
-                            <th>DNI</th>
-                            <th>Apellidos y Nombres</th>
-                            <th>Edad</th>
-                            <th>Fec. Nacimiento</th>
-                            <th>Celular</th>
-                            {especialidad === 'Medicina' && <th>Dirección</th>}
-                            {especialidad === 'Obstetricia_CPN' && <th>Sem. de Embarazo</th>}
-                            {especialidad === 'Planificación' && <th>Método Planificación</th>}
-                            <th>Motivo Consulta</th>
-                            <th>Prof Responsable</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {HorasCita[especialidad]?.horarios.mañana.map((horario, index) => renderRow(horario, index, 'Mañana'))}
-                        {HorasCita[especialidad]?.horarios.tarde.map((horario, index) => renderRow(horario, index, 'Tarde'))}
-                    </tbody>
-                </table>
-            </div>
-            {verForm && (
-                <FormCitas
-                    especialidad={especialidad}
-                    fecha={fecha}
-                    hora={horaSeleccionada}
-                    consultorio={consultorio2}
-                    handleCloseForm={handleCloseForm}
-                />
-            )}
+        <div className="container-tb2">
+            <p>CONSULTORIO N° {consultorio} </p>
+            <table className="cita-table">
+                <thead>
+                    <tr>
+                        <th>Hora</th>
+                        <th>Turno</th>
+                        <th>DNI</th>
+                        <th>Apellidos y Nombres</th>
+                        <th>Edad</th>
+                        <th>Fecha Nacimiento</th>
+                        <th>Celular</th>
+                        {especialidad === 'Medicina' && <th>Dirección</th>}
+                        {especialidad === 'Obstetricia_CPN' && <th>Sem. de Embarazo</th>}
+                        {especialidad === 'Planificación' && <th>Método Planificación</th>}
+                        <th>Motivo Consulta</th>
+                        <th>Responsable</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {horarios.map((horario, index) => {
+                        if (horario.tipo_atencion === 'receso') {
+                            return (
+                                <tr key={index} className="receso">
+                                    <td style={{ textAlign: 'center' }} colSpan="2">{formatTime(horario.hora_inicio)} - {formatTime(horario.hora_fin)}</td>
+                                    <td style={{ textAlign: 'center' }} colSpan={colSpan}>Receso</td>
+                                    {especialidad === 'Medicina' && <td></td>}
+                                    {especialidad === 'Obstetricia_CPN' && <td></td>}
+                                    {especialidad === 'Planificación' && <td></td>}
+                                </tr>
+                            );
+                        }
+
+                        const tipoAtencion = horario.tipo_atencion === 'AtencionEspecial'
+                            ? 'atencion-especial'
+                            : horario.tipo_atencion === 'receso'
+                                ? 'receso'
+                                : 'normal';
+
+                        return (
+                            <tr key={index} className={tipoAtencion}>
+                                <td>{`${formatTime(horario.hora_inicio)} - ${formatTime(horario.hora_fin)}`}</td>
+                                <td>{horario.turno}</td>
+                                <td>{horario.dni || '---'}</td>
+                                <td>{horario.apellidos_nombres || '---'}</td>
+                                <td>{horario.edad || '---'}</td>
+                                <td>{horario.fecha_nacimiento || '---'}</td>
+                                <td>{horario.celular || '---'}</td>
+                                {especialidad === 'Medicina' && <td></td>}
+                                {especialidad === 'Obstetricia_CPN' && <td></td>}
+                                {especialidad === 'Planificación' && <td></td>}
+                                <td>{horario.motivo_consulta || '---'}</td>
+                                <td>{horario.responsable || '---'}</td>
+                                <td>
+                                    <>
+                                        <CiEdit className='ico' />
+                                        <FaRegCalendarPlus className='ico' />
+                                        <MdOutlineRemoveCircleOutline className='ico' />
+                                    </>
+                                </td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
         </div>
     );
 };

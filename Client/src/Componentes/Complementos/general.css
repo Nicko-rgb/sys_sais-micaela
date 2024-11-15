@@ -1,0 +1,43 @@
+
+.btn-cancel {
+    background-color: #f44336;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+}
+
+.volver_link {
+    position: absolute;
+    cursor: pointer;
+    color: green;
+    text-decoration: underline;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    font-family: 'poppins';
+    font-size: 14px;
+    top: -40px;
+    padding: 10;
+    height: 30px;
+    width: 100px;
+    left: -20px;
+    border: none;
+}
+
+.title-page {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: large;
+    font-family: 'poppins';
+    margin: 0;
+    margin-top: 50px;
+    color: black;
+}
+
+.sub-title {
+    font-family: 'poppins';
+    font-weight: bold;
+    font-size: 15px;
+    margin: 0;
+}

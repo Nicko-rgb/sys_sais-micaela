@@ -118,176 +118,73 @@
 
 /* Formularios */
 .editar-paciente form {
-    max-width: 600px;
+    max-width: 650px;
     width: 100%;
-    /* border : 2px solid    #3058a6; */
     display: flex;
     flex-direction: column;
     gap: 10px;
     padding: 30px;
     position: relative;
     padding-bottom: 100px;
+    box-sizing: border-box;
     margin: 0 auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), 0 6px 20px rgba(0, 0, 0, 0.1);
 }
-
-.editar-paciente .datos_cortos , .box-botones {
+.editar-paciente form .datos-cortos{
     display: flex;
-    gap: 30px;
-
+    flex-direction: row;
+    gap: 20px;
+    width: 100%;
 }
-
-/* FORM NACIMIENTO */
-
-.editar-paciente .container-editar-nacimiento .nomPaciente{
-    border: red solid 2px;
-    padding: 0%;
-    width: 350px;
-    font-size: 16px;
-    border: none;
-    margin-left: 420px;
-    background: rgb(232, 231, 231);
-}
-
-.editar-paciente .datosNaci1{
+.editar-paciente form label{
     display: flex;
-    gap: 30px;
-    width: 598px;
+    flex-direction: column;
+    width: 100%;
 }
-
-.editar-paciente .dato-solo input{
-    width: 585px;
-}
-
-.editar-paciente .datosNaci2{
-    display: flex;
-    gap: 30px;
-    width: 608px;
-}
-
-
-.editar-paciente .datos-apellidos{
-    display: flex;
-    width: 608px;
-    gap: 25px;
-
-}
-
-.editar-paciente .datos_naci{
-    display: flex;
-    gap: 30px;
-    width: 610px
-}
-
-
-.editar-paciente .datos_naci select{
-    width: 200px;
-
-}
-
-
-
-.editar-paciente .box-botones{
-    
-    display:flex ;
-    justify-content: center;
-    margin-top: 20px;
-    /* border: 2px solid green; */
-
-}
-
-
-/* FORM REPONSABLE */
-.editar-paciente .cortos_dniTipo{
-    display: flex;
-    gap: 30px;
-    width: 610px;
-}
-
-.editar-paciente .cortos_dniTipo select{
-    width: 298px;
-}
-
-.editar-paciente .cortos_apellidos{
-    display: flex;
-    gap: 30px;
-    width: 608px;
-}
-
-.editar-paciente .cortos_celulares{
-    display: flex;
-    gap: 30px;
-    width: 608px;
-}
-
-.editar-paciente .cortos_localidadsec{
-    display: flex;
-    gap: 30px;
-    width: 609px;
-}
-
-.editar-paciente .cortos_localidadsec select{
-    width: 300px;
-}
-
-.editar-paciente .datos-departamento{
-    display: flex;
-    gap: 30px;
-}
-
-.editar-paciente .datos-departamento select{
-    width: 183px;
-}
-
-
-.editar-paciente section label {
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    color: #555;
-}
-
-.editar-paciente section input {
-    border: 2px solid #cecece;
-    padding: 8px 12px;
-    font-size: 15px;
-    border-radius: 4px;
-    width: 92%;
+.editar-paciente form input{
+    border: #a7c3d7 solid;
+    border-width: 3px;
+    padding: 5px;
+    border-radius: 5px;
     outline: none;
-    transition: border-color 0.3s ease;
+    font-size: 17px;
+    transition: .3s ease;
+}
+.editar-paciente form input:focus{
+    border: #5e94f0 solid;
 }
 
-.editar-paciente section input:focus {
-    border-color: #6ea3f5;
-    border: 1px #6ea3f5 solid;
-
-}
-
-/* Botón de enviar */
-.editar-paciente button[type="submit"] {
-    background-color: #3058a6;
-    color: white;
-    padding: 10px 20px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 12px;
+.editar-paciente form select {
+    border: #a9b7d4 solid;
+    padding: 5px;
     border-radius: 5px;
-    width: 25%;
-    cursor: pointer;
+    outline: none;
+    font-size: 17px;
+}
+.editar-paciente form .box-botones{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+.editar-paciente .box-botones button{
     border: none;
-    transition: background-color 0.3s ease;
-}
-
-.editar-paciente button[type="submit"]:hover {
-    background-color: #254a82;
-}
-
-.editar-paciente button[type="button"]{
-    background-color: red;
+    width: 150px;
+    height: 45px;
+    font-weight: bold;
+    border-radius: 7px;
     color: white;
     cursor: pointer;
-    padding: 10px 20px;
-    width: 25%;
-    border-radius: 5px;
-    border: none;
-    font-family: 'Poppins', sans-serif;
-    font-size: 12px;
+    transition: .3s ease;
+}
+.editar-paciente .box-botones button:hover{
+    transform: scale(1.03);
+}
+.editar-paciente .box-botones .cancel{
+    background-color: gray;
+    box-shadow: 0 0 3px #5e94f0;
+}
+.editar-paciente .box-botones .save {
+    background-color: #5e94f0;
+    box-shadow: 0 0 3px gray;
 }

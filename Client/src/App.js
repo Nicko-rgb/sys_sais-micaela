@@ -22,8 +22,8 @@ import ExportExcel from './Componentes/Personales/Turnos/Excel';
 
 import TamizajeDozaje from './Componentes/Her_Pacien_Ninho/Tamizaje/TamizajeDozaje';
 import HistorialTamizaje from './Componentes/Her_Pacien_Ninho/Tamizaje/HistorialTamizaje';
-import Entregasuplemento from './Componentes/Her_Pacien_Ninho/Suplementos/Entregasuplemento';
-import ListaSuplemento from './Componentes/Her_Pacien_Ninho/Suplementos/Listasuplemento';
+import Entregasuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Entregasuplemento'
+import ListaSuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Listasumplemento'
 import Cita1 from './Componentes/CitaNiño/Citas1';
 
 

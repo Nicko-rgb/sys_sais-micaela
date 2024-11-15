@@ -21,6 +21,7 @@ import ActualizarControles from './Componentes/Her_Pacien_Ninho/Control/actualiz
 import ExportExcel from './Componentes/Personales/Turnos/Excel';
 
 import TamizajeDozaje from './Componentes/Her_Pacien_Ninho/Tamizaje/TamizajeDozaje';
+import HistorialTamizaje from './Componentes/Her_Pacien_Ninho/Tamizaje/HistorialTamizaje';
 import Entregasuplemento from './Componentes/Her_Pacien_Ninho/Suplementos/Entregasuplemento';
 import ListaSuplemento from './Componentes/Her_Pacien_Ninho/Suplementos/Listasuplemento';
 import Cita1 from './Componentes/CitaNiño/Citas1';
@@ -55,6 +56,7 @@ function App() {
                         {/* <Route path="/modal-salida" element={<Modalnavtop />} /> */}
                         <Route path="/exportar-turno" element={<ExportExcel />} />
                         <Route path="/tamizaje/:historialClinico" element={<TamizajeDozaje />} />
+                        <Route path="/historialtamizaje/:historialClinico" element={<HistorialTamizaje/>}/>
                         <Route path="/Entregasuplementos/:historialClinico" element={<Entregasuplemento/>}/>
                         <Route path="/Listasuplementos/:historialClinico" element={<ListaSuplemento/>}/>
     

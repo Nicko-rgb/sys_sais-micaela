@@ -1026,6 +1026,37 @@ app.get('/api/horarios-cita-nino', async (req, res) => {
     }
 });
 
+
+// Ruta para bloquear horas de las citas de los niños
+app.post('/api/nino/bloquear-hora-cita', async (req, res) => {
+    const { fecha, hora_inicio, hora_fin, consultorio, especialidad } = req.body;
+
+    try {
+        await pool.query(
+            'INSERT INTO hora_cita_nino_bloqueada (fecha, hora_inicio, hora_fin, consultorio, especialidad) VALUES (?, ?, ?, ?, ?)',
+            [fecha, hora_inicio, hora_fin, consultorio, especialidad]
+        );
+        res.status(200).json({ message: 'Hora bloqueada exitosamente' });
+    } catch (error) {
+        if (error.code === 'ER_DUP_ENTRY') {
+            res.status(400).json({ message: 'Ya existe un bloqueo para esta hora' });
+        } else {
+            res.status(500).json({ message: 'Error al bloquear la hora', error });
+        }
+    }
+});
+//api para consultar si el horario (hora) es bloqueda en cita niño
+app.get('/api/nino/verificar-bloqueos-cita', async (req, res) => {
+    try {
+        const bloqueos = await pool.query('SELECT * FROM hora_cita_nino_bloqueada');
+        // Ejemplo de una respuesta corregida
+        res.json(bloqueos[0]); 
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener bloqueos', error });
+    }
+});
+
+
 // Ruta para obtener especialidades únicas
 app.get('/api/especialidad-unico-nino', async (req, res) => {
     try {

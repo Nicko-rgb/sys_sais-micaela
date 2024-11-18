@@ -92,6 +92,19 @@ CREATE TABLE horario_cita_nino (
     hora_fin TIME
 );
 
+USE db_sais;
+--CREAR UNA TABLA PARA MANEJAR LOS HORARIOS BLOQUEADOS
+CREATE TABLE hora_cita_nino_bloqueada (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fecha VARCHAR(20) NOT NULL,
+    hora_inicio VARCHAR(20) NOT NULL,
+    hora_fin VARCHAR(20) NOT NULL,
+    consultorio VARCHAR(50) NOT NULL,
+    especialidad VARCHAR(100) NOT NULL,
+    UNIQUE (fecha, hora_inicio, hora_fin, consultorio)
+);
+
+
 -- CREAMOS UNA TABLA PARA REGISTRAR A LOS PERSONALES DE SALUD
 CREATE TABLE personal_salud (
     id_personal INT AUTO_INCREMENT PRIMARY KEY,

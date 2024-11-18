@@ -1,10 +1,8 @@
 import React from 'react';
 import './citas.css';
-import { CiEdit } from "react-icons/ci";
-import { FaRegCalendarPlus } from "react-icons/fa6";
-import { MdOutlineRemoveCircleOutline } from "react-icons/md";
+import CuerpoTabla from './CuerpoTabla';
 
-const Citas2 = ({ especialidad, horarios, consultorio }) => {
+const Citas2 = ({ especialidad, fecha, fechaT, horarios,  consultorio }) => {
     const formatTime = (timeString) => {
         if (!timeString) return '---';
 
@@ -17,16 +15,12 @@ const Citas2 = ({ especialidad, horarios, consultorio }) => {
         return `${hours}:${minutes}`;
     };
 
-    let colSpan = 0;
-    if (especialidad === 'Medicina' || especialidad === 'Obstetricia_CPN' || especialidad === 'Planificación') {
-        colSpan = 8;
-    } else {
-        colSpan = 9;
-    }
-
     return (
-        <div className="container-tb2">
-            <p>CONSULTORIO N° {consultorio} </p>
+        <div className="container-tb">
+            <div className="header-tab">
+                <p className="sub-title-page">CONSULTORIO N° { consultorio}</p>
+                <p className='sub-title-page'>{fechaT} </p>
+            </div>
             <table className="cita-table">
                 <thead>
                     <tr>
@@ -45,51 +39,13 @@ const Citas2 = ({ especialidad, horarios, consultorio }) => {
                         <th>Acción</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {horarios.map((horario, index) => {
-                        if (horario.tipo_atencion === 'receso') {
-                            return (
-                                <tr key={index} className="receso">
-                                    <td style={{ textAlign: 'center' }} colSpan="2">{formatTime(horario.hora_inicio)} - {formatTime(horario.hora_fin)}</td>
-                                    <td style={{ textAlign: 'center' }} colSpan={colSpan}>Receso</td>
-                                    {especialidad === 'Medicina' && <td></td>}
-                                    {especialidad === 'Obstetricia_CPN' && <td></td>}
-                                    {especialidad === 'Planificación' && <td></td>}
-                                </tr>
-                            );
-                        }
-
-                        const tipoAtencion = horario.tipo_atencion === 'AtencionEspecial'
-                            ? 'atencion-especial'
-                            : horario.tipo_atencion === 'receso'
-                                ? 'receso'
-                                : 'normal';
-
-                        return (
-                            <tr key={index} className={tipoAtencion}>
-                                <td>{`${formatTime(horario.hora_inicio)} - ${formatTime(horario.hora_fin)}`}</td>
-                                <td>{horario.turno}</td>
-                                <td>{horario.dni || '---'}</td>
-                                <td>{horario.apellidos_nombres || '---'}</td>
-                                <td>{horario.edad || '---'}</td>
-                                <td>{horario.fecha_nacimiento || '---'}</td>
-                                <td>{horario.celular || '---'}</td>
-                                {especialidad === 'Medicina' && <td></td>}
-                                {especialidad === 'Obstetricia_CPN' && <td></td>}
-                                {especialidad === 'Planificación' && <td></td>}
-                                <td>{horario.motivo_consulta || '---'}</td>
-                                <td>{horario.responsable || '---'}</td>
-                                <td>
-                                    <>
-                                        <CiEdit className='ico' />
-                                        <FaRegCalendarPlus className='ico' />
-                                        <MdOutlineRemoveCircleOutline className='ico' />
-                                    </>
-                                </td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
+                <CuerpoTabla
+                        horarios={horarios}
+                        especialidad={especialidad}
+                        formatTime={formatTime}
+                        fecha={fecha}
+                        consultorio={ consultorio}
+                    />
             </table>
         </div>
     );

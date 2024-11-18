@@ -4,7 +4,7 @@ import { RiCloseCircleFill } from "react-icons/ri";
 import { TfiWrite } from "react-icons/tfi";
 
 // Componente de formulario para agregar una cita
-const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) => {
+const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio }) => {
     const [hisClinico, setHisClinico] = useState('');
     const [dni, setDni] = useState('');
     const [apellidos, setApellidos] = useState('');
@@ -109,17 +109,17 @@ const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) 
             if (!response.ok) {
                 throw new Error('Error al registrar la cita');
             }
-            handleCloseForm()
+            closeForm()
             //mostrar mensaje de exito
             alert('Cita registrada con exito');
 
-            handleCloseForm()
+            closeForm()
             window.location.reload()
         } catch (error) {
             console.error('Error al registrar la cita:', error);
         } finally{
             // Cerrar el formulario después de enviar los datos
-            handleCloseForm()
+            closeForm()
         }
     };
 
@@ -191,7 +191,7 @@ const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) 
                     </label>
                     <div className="btns">
                         <button className='btn-register' type="submit"><TfiWrite className="icon" />REGISTRAR CITA</button>
-                        <button className='btn-close' type="button" onClick={handleCloseForm}> <RiCloseCircleFill className="icon" /> Cerrar</button>
+                        <button className='btn-close' type="button" onClick={closeForm}> <RiCloseCircleFill className="icon" /> Cerrar</button>
                     </div>
                 </form>
             </main>

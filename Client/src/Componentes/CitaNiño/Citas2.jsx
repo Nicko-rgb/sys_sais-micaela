@@ -1,5 +1,5 @@
 import React from 'react';
-import './citas.css';
+import './Citas.css';
 import { CiEdit } from "react-icons/ci";
 import { FaRegCalendarPlus } from "react-icons/fa6";
 import { MdOutlineRemoveCircleOutline } from "react-icons/md";

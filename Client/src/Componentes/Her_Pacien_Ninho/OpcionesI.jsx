@@ -27,6 +27,7 @@ const OpcionesI = ({ paciente }) => {
   const irAControl = () => {
     navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
 
+  }
   const IraTamizaje = () => {
     navigate(`/tamizaje/${paciente.hist_clinico}`, { state: { paciente } });
   }
@@ -71,7 +72,7 @@ const OpcionesI = ({ paciente }) => {
             </button>
           </div>
           <div className="submenu-historial-controles">
-            <button onClick="">
+            <button >
               HIST DE CONTROLES
             </button>
           </div>

@@ -64,7 +64,7 @@ const Cita1 = () => {
     return (
         <div className="cita-nino">
             <NavLogin />
-            <h5 className="title-page">Horarios de cita para <span style={{ textDecoration: 'underline' }}>{especialidad}</span> </h5>
+            <h4 className="title-page">Horarios de cita para <span style={{ textDecoration: 'underline' }}>{especialidad}</span> </h4>
             <Calendar
                 className="custom-calendar"
                 onChange={handleDateChange}

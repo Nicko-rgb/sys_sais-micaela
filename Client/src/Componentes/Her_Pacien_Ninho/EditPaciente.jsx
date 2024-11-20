@@ -93,8 +93,8 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
     );
     const districts = selectedProvinceData ? selectedProvinceData.distritos : [];
 
-    const [activeSection, setActiveSection] = useState("datos"); // Sección activa por defecto
-    const [animateClass, setAnimateClass] = useState(""); // Clase de animación
+    const [activeSection, setActiveSection] = useState("datos");
+    const [animateClass, setAnimateClass] = useState(""); 
 
     // EFECTO PARA CARGAR DATOS
     useEffect(() => {
@@ -174,7 +174,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
         }
         setFormData((prevData) => {
             const newData = { ...prevData, [name]: value };
-            console.log('Campo actualizado - ${name}:', value);
+            console.log(`Campo actualizado - ${name}:`, value);
             return newData;
         });
     };
@@ -252,7 +252,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
             default:
                 return (
                     <section
-                        className={'container-editar-paciente ${animateClass} section-active'}
+                        className={`container-editar-paciente ${animateClass} section-active`}
                     >
                         <h3>DATOS DEL PACIENTE</h3>
                         <form onSubmit={handleSubmit}>
@@ -492,7 +492,7 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                 </section>
                 {renderSection()}
             </main>
-            <NavPie />
+            <NavPie/>
         </div>
     );
 };

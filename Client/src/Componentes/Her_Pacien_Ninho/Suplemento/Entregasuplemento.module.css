@@ -1,7 +1,7 @@
-.entregacontainer {
+.entregacontainer {    
     width: 90%;
     max-width: 1200px;
-    margin: 0 auto;
+    margin:40px  auto 0;
     font-family: Arial, sans-serif;
   }
   
@@ -27,7 +27,23 @@
     max-width: 90%;          /* Optional: Set a max-width for responsiveness */
     margin: 0 auto;          /* Center the div horizontally */
   }
-   
+  .histosupplementbutton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .histosupplementbutton:hover {
+    background-color: #218838;
+  } 
+
   .cardscontainer {
     display: grid;
     gap: 10px; /* Espacio entre las tarjetas */

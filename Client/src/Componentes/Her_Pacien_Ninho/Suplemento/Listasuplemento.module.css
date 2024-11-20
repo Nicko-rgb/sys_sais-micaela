@@ -1,0 +1,224 @@
+.listasumplementocontainer {
+    padding: 20px;
+  }
+  
+  .contentwrapper {
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .backlink {
+    display: flex;
+    align-items: center;    
+    color: green;
+    font-size: 16px;
+  }
+  
+  .backlink:hover {
+background: rgb(238, 238, 238);
+  }
+  
+  .newsupplementbutton {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .newsupplementbutton:hover {
+    background-color: #218838;
+  }
+  
+  .deliverytable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .deliverytable th,
+  .deliverytable td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .deliverytable th {
+    /* background-color:  */
+    color: rgb(12, 12, 12);
+  }
+  
+  .deliverytable tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .deliverytable tr:hover {
+    background-color: #ddd;
+  }
+  .pac h3 {
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #000000;
+  }
+  .pac h2{
+    margin-bottom: 20px;
+    font-size: 30px;
+    color: #000000;
+  }
+  
+  .editbutton,
+  .deletebutton {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .editbutton {
+    background-color: #ffffff;
+    color: black;
+    margin-right: 10px; /* Separar los botones */
+  }
+  
+  .editbutton:hover {
+    background-color: #ccc3c4;
+  }
+  
+  .deletebutton {
+    background-color: #fafdfa;
+    color: white;
+  }
+  
+  .deletebutton:hover {
+    background-color: #ccc3c4;
+  }
+  
+  /* Modal general */
+  .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modalContent {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 800px;
+    width: 90%;
+    text-align: center;
+  }
+  
+  .modalContent h3 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #333;
+  }
+  
+  /* Estilo para los inputs en dos columnas */
+  .inputGroup {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas de igual tamaño */
+    gap: 20px; /* Espacio entre columnas */
+    margin-bottom: 20px;
+  }
+  
+  .inputGroup label {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .inputGroup input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+  }
+  
+  .modalActions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .savebutton,
+  .cancelbutton {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .savebutton {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .savebutton:hover {
+    background-color: #218838;
+  }
+  
+  .cancelbutton {
+    background-color: #eb0c29;
+    color: white;
+  }
+  
+  .cancelbutton:hover {
+    background-color: #d83434;
+  }
+  
+  /* Modal de confirmación de eliminación */
+  .modalOverlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modalContent {
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .modalActions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .deletebuttons {
+    border:none;
+    border-radius: 5px;
+    background-color: #13e741;
+    color: white;
+    font-size: 16px ;
+  }
+  
+  .deletebuttons:hover {
+    background-color: #2d9c40;
+  }
+  

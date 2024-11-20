@@ -45,10 +45,10 @@ const Panel = () => {
                             <h5><MdDateRange className='icon_box' style={{ background: 'rgb(99, 191, 209)' }} /> Citas</h5>
                             <p>OTORGAR CITAS</p>
                         </Link>
-                        <button className="box" onClick={openModal}>
+                        <Link className="box" onClick={openModal}>
                             <h5><FaCheckCircle className="icon_box" style={{ background: 'rgb(32, 180, 111)' }} /> Acreditación</h5>
                             <p>VERIFICA AFILIACIÓN</p>
-                        </button>
+                        </Link>
                         <Link className="box" to='/personal-salud'>
                             <h5><HiUsers className="icon_box" style={{ background: 'gray' }} /> Personal</h5>
                             <p>USUARIO DE ACCESO</p>

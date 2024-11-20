@@ -145,7 +145,7 @@
     border-collapse: collapse;
 }
 .cita-nino table th, td {
-    border: gray solid 1px;
+    border: rgb(119, 119, 119) solid 1px;
 }
 .cita-nino table th{
     font-size: 13px;
@@ -160,21 +160,28 @@
 
 }
 .cita-nino table tbody .receso{
-    background-color: #d6d1a0;
+    background-color: #a0d6cd62;
 }
 .cita-nino table tbody .receso:hover {
-    background-color: #d6d1a0;
+    background-color: #a0d6cd62;
 }
 .cita-nino table  tbody .atencion-especial {
-    background-color: #ffa6a6c4;
+    background-color: #e4ffa6c4;
+}
+.cita-nino table  tbody .atencion-especial:hover {
+    background-color: #bedf70e3;
 }
 .cita-nino table tbody tr:hover{
-    background-color: #A8E6CF;
+    background-color: #a8e6cfae;
 }
 
 .cita-nino table tbody .bloqueada {
-    background-color: #b8454f; /* Fondo rosado */
+    background-color: rgba(255, 98, 98, 0.71); /* Fondo rosado */
     color: #721c24; /* Texto oscuro */
+    cursor: no-drop;
+}
+.cita-nino table tbody .bloqueada:hover{
+    background-color: rgba(255, 98, 98, 0.71); /* Fondo rosado */
 }
 
 .cita-nino table .box-ac{

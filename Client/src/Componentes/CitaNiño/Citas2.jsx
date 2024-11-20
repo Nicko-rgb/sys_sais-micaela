@@ -1,5 +1,5 @@
 import React from 'react';
-import './citas.css';
+import './Citas.css';
 import CuerpoTabla from './CuerpoTabla';
 
 const Citas2 = ({ especialidad, fecha, fechaT, horarios,  consultorio }) => {

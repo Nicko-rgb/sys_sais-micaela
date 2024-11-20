@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './citas.css';
+import './Citas.css';
 import { BiPlusCircle } from "react-icons/bi";
 import { CiEdit } from "react-icons/ci";
 import { RxValueNone } from "react-icons/rx";

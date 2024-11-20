@@ -6,17 +6,17 @@ import { Link } from "react-router-dom";
 
 function Entregasuplemento() {
   const [fechaAtencion, setFechaAtencion] = useState('');
-  const [entregas, setEntregas] = useState([]); 
-  const [showModal, setShowModal] = useState(false); 
-  const [modalMessage, setModalMessage] = useState(''); 
-  const [isRedirecting, setIsRedirecting] = useState(false); 
+  const [entregas, setEntregas] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   const location = useLocation();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const { paciente } = location.state || {};
 
   useEffect(() => {
-    const today = new Date().toISOString().split('T')[0]; 
+    const today = new Date().toISOString().split('T')[0];
     setFechaAtencion(today);
   }, []);
 
@@ -31,22 +31,22 @@ function Entregasuplemento() {
       setShowModal(true);
       return;
     }
-  
+
     const nuevaEntrega = {
       suplemento,
       cantidad,
       presentacion,
       fechaAtencion
     };
-  
+
     // Guarda la entrega en el estado
     setEntregas([...entregas, nuevaEntrega]);
-  
+
     setModalMessage(`Entrega de ${suplemento} realizada con éxito.`);
     setShowModal(true);
-    setIsRedirecting(true); 
+    setIsRedirecting(true);
   };
-  
+
 
   const handleModalClose = () => {
     setShowModal(false);
@@ -55,7 +55,7 @@ function Entregasuplemento() {
       navigate(`/Listasuplemento/${paciente.hist_clinico}`, { state: { paciente, entregas } });
     }
   };
-  
+
 
   return (
     <div className={style.entregacontainer}>
@@ -78,9 +78,9 @@ function Entregasuplemento() {
               <form className={style.form}>
                 <div className={style.formRow}>
                   <label>N° Entrega: <input type="number" value="1" readOnly /></label>
-                  <label>Fec. Atención: 
-                    <input 
-                      type="date" 
+                  <label>Fec. Atención:
+                    <input
+                      type="date"
                       value={fechaAtencion}
                       onChange={handleDateChange}
                       max={new Date().toISOString().split('T')[0]} // Restrict to today or previous dates
@@ -90,15 +90,15 @@ function Entregasuplemento() {
                 </div>
                 <div className={style.formRow}>
                   <label>Cantidad: <input id="cantidadVA" type="text" placeholder="C, J, C, B" required /></label>
-                  <label>Presentación: 
+                  <label>Presentación:
                     <select id="presentacionVA">
                       <option>VA</option>
                     </select>
                   </label>
                 </div>
-                <button 
-                  className={style.entregarbutton} 
-                  type="button" 
+                <button
+                  className={style.entregarbutton}
+                  type="button"
                   onClick={() => {
                     const cantidad = document.getElementById("cantidadVA").value;
                     const presentacion = document.getElementById("presentacionVA").value;
@@ -117,9 +117,9 @@ function Entregasuplemento() {
               <form className={style.form}>
                 <div className={style.formRow}>
                   <label>N° Entrega: <input type="number" value="1" readOnly /></label>
-                  <label>Fec. Atención: 
-                    <input 
-                      type="date" 
+                  <label>Fec. Atención:
+                    <input
+                      type="date"
                       value={fechaAtencion}
                       onChange={handleDateChange}
                       max={new Date().toISOString().split('T')[0]} // Restrict to today or previous dates
@@ -129,15 +129,15 @@ function Entregasuplemento() {
                 </div>
                 <div className={style.formRow}>
                   <label>Cantidad: <input id="cantidadZN" type="text" placeholder="C, J, C, B" required /></label>
-                  <label>Presentación: 
+                  <label>Presentación:
                     <select id="presentacionZN">
                       <option>ZN</option>
                     </select>
                   </label>
                 </div>
-                <button 
-                  className={style.entregarbutton} 
-                  type="button" 
+                <button
+                  className={style.entregarbutton}
+                  type="button"
                   onClick={() => {
                     const cantidad = document.getElementById("cantidadZN").value;
                     const presentacion = document.getElementById("presentacionZN").value;
@@ -156,9 +156,9 @@ function Entregasuplemento() {
               <form className={style.form}>
                 <div className={style.formRow}>
                   <label>N° Entrega: <input type="number" value="1" readOnly /></label>
-                  <label>Fec. Atención: 
-                    <input 
-                      type="date" 
+                  <label>Fec. Atención:
+                    <input
+                      type="date"
                       value={fechaAtencion}
                       onChange={handleDateChange}
                       max={new Date().toISOString().split('T')[0]} // Restrict to today or previous dates
@@ -168,15 +168,15 @@ function Entregasuplemento() {
                 </div>
                 <div className={style.formRow}>
                   <label>Cantidad: <input id="cantidadMZ" type="text" placeholder="C, J, C, B" required /></label>
-                  <label>Presentación: 
+                  <label>Presentación:
                     <select id="presentacionMZ">
                       <option>MZ</option>
                     </select>
                   </label>
                 </div>
-                <button 
-                  className={style.entregarbutton} 
-                  type="button" 
+                <button
+                  className={style.entregarbutton}
+                  type="button"
                   onClick={() => {
                     const cantidad = document.getElementById("cantidadMZ").value;
                     const presentacion = document.getElementById("presentacionMZ").value;
@@ -195,9 +195,9 @@ function Entregasuplemento() {
               <form className={style.form}>
                 <div className={style.formRow}>
                   <label>N° Entrega: <input type="number" value="1" readOnly /></label>
-                  <label>Fec. Atención: 
-                    <input 
-                      type="date" 
+                  <label>Fec. Atención:
+                    <input
+                      type="date"
                       value={fechaAtencion}
                       onChange={handleDateChange}
                       max={new Date().toISOString().split('T')[0]} // Restrict to today or previous dates
@@ -207,7 +207,7 @@ function Entregasuplemento() {
                 </div>
                 <div className={style.formRow}>
                   <label>Cantidad: <input id="cantidadMN" type="text" placeholder="C, J, C, B" required /></label>
-                  <label>Presentación: 
+                  <label>Presentación:
                     <select id="presentacionMN">
                       <option>MN</option>
                       <option>HP</option>
@@ -216,9 +216,9 @@ function Entregasuplemento() {
                     </select>
                   </label>
                 </div>
-                <button 
-                  className={style.entregarbutton} 
-                  type="button" 
+                <button
+                  className={style.entregarbutton}
+                  type="button"
                   onClick={() => {
                     const cantidad = document.getElementById("cantidadMN").value;
                     const presentacion = document.getElementById("presentacionMN").value;

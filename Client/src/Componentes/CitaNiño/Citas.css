@@ -4,16 +4,16 @@
     overflow-y: auto;
     height: auto;
 }
-.cita-nino h5{
+.cita-nino h4{
     position: fixed;
     width: 100%;
     background-color: white;
-    padding-top: 12px;
+    padding-top: 15px;
     /* text-align: center; */
     display: flex;
     gap: 4px;
     justify-content: center;
-    top: -13px;
+    top: 35px;
     z-index: 2;
 }
 

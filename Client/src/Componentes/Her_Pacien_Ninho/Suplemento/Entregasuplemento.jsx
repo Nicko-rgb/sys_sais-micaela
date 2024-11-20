@@ -6,17 +6,17 @@ import { Link } from "react-router-dom";
 
 function Entregasuplemento() {
   const [fechaAtencion, setFechaAtencion] = useState('');
-  const [entregas, setEntregas] = useState([]); // Estado para almacenar las entregas
-  const [showModal, setShowModal] = useState(false); // Estado para el modal
-  const [modalMessage, setModalMessage] = useState(''); // Mensaje del modal
-  const [isRedirecting, setIsRedirecting] = useState(false); // Estado para controlar la redirección
+  const [entregas, setEntregas] = useState([]); 
+  const [showModal, setShowModal] = useState(false); 
+  const [modalMessage, setModalMessage] = useState(''); 
+  const [isRedirecting, setIsRedirecting] = useState(false); 
 
   const location = useLocation();
-  const navigate = useNavigate(); // Inicializar el hook useNavigate
+  const navigate = useNavigate(); 
   const { paciente } = location.state || {};
 
   useEffect(() => {
-    const today = new Date().toISOString().split('T')[0]; // Formato yyyy-mm-dd
+    const today = new Date().toISOString().split('T')[0]; 
     setFechaAtencion(today);
   }, []);
 
@@ -44,14 +44,14 @@ function Entregasuplemento() {
   
     setModalMessage(`Entrega de ${suplemento} realizada con éxito.`);
     setShowModal(true);
-    setIsRedirecting(true); // Habilitar la redirección
+    setIsRedirecting(true); 
   };
   
-  // Función para manejar el cierre del modal y redirigir
+
   const handleModalClose = () => {
     setShowModal(false);
     if (isRedirecting) {
-      // Pasar los datos de las entregas al componente Listasuplemento
+
       navigate(`/Listasuplemento/${paciente.hist_clinico}`, { state: { paciente, entregas } });
     }
   };

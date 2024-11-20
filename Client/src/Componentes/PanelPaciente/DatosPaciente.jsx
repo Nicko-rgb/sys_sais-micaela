@@ -6,8 +6,8 @@ import NavPie from '../Navegadores/NavPie';
 import OpcionesD from '../Her_Pacien_Ninho/OpcionesD';
 import OpcionesI from '../Her_Pacien_Ninho/OpcionesI';
 import EditPaciente from '../Her_Pacien_Ninho/EditPaciente';
-import { FaUserEdit} from 'react-icons/fa'; 
-import { IoMdFemale, IoMdMale  } from "react-icons/io";
+import { FaUserEdit } from 'react-icons/fa';
+import { IoMdFemale, IoMdMale } from "react-icons/io";
 import Control from '../Her_Pacien_Ninho/Control/control';
 
 const DatosPaciente = () => {
@@ -25,7 +25,7 @@ const DatosPaciente = () => {
 
     const obtenerDatosPaciente = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/pacientes/${historialClinico}`); // Ajusta la ruta según tu API
+            const response = await fetch(`http://localhost:5000/api/obtener-pacientes/hist-clinico/${historialClinico}`); // Ajusta la ruta según tu API
             const data = await response.json();
             setPaciente(data);
             setLoading(false);
@@ -64,11 +64,10 @@ const DatosPaciente = () => {
         }
     }
 
-
-
     return (
         <div className="datos-paciente">
             <NavLogin />
+            <OpcionesI paciente={paciente} />
             <OpcionesD pacienteDatos={paciente} />
             <main>
                 {loading ? (
@@ -100,7 +99,7 @@ const DatosPaciente = () => {
                                         {paciente.sexo === 'Femenino' ? (
                                             <IoMdFemale style={{ color: 'hotpink', marginRight: '5px', fontSize: '15px' }} />
                                         ) : (
-                                            <IoMdMale  style={{ color: 'blue', marginRight: '5px', fontSize: '15px' }} />
+                                            <IoMdMale style={{ color: 'blue', marginRight: '5px', fontSize: '15px' }} />
                                         )}
                                         {paciente.ape_paterno} {paciente.ape_materno}, {paciente.nombres}</td>
                                     <td>{new Date(paciente.fecha_nacimiento).toLocaleDateString()}</td>
@@ -129,13 +128,11 @@ const DatosPaciente = () => {
                         </div>
                     </div>
                 )}
-                <OpcionesI paciente={paciente}/>
             </main>
 
             <NavPie />
             {edit && (
-                <EditPaciente paciente={paciente} onCloseEdit={edicionPaciente}
-                />
+                <EditPaciente paciente={paciente} onCloseEdit={edicionPaciente} />
             )}
         </div>
     );

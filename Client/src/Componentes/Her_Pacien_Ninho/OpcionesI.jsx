@@ -4,14 +4,14 @@ import { PiNotePencil } from "react-icons/pi";
 import { TbMedicineSyrup } from "react-icons/tb";
 import { MdOutlineBloodtype, MdOutlineVaccines } from "react-icons/md";
 import { IoBody } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
 
 
 const OpcionesI = ({ paciente }) => {
   const navigate = useNavigate(); // Hook de navegación
 
   const handleNewVisitClick = () => {
-    navigate("/visita"); // Redirige a la ruta de "Nueva Visita"
+    navigate("/visita"); // Redirige a la ruta de "Nueva Visita" 
   };
   const iraHistorialVisita = () => {
     navigate("/historialvisita"); // Redirige a la ruta de "historialVisita"
@@ -26,96 +26,97 @@ const OpcionesI = ({ paciente }) => {
 
   const irAControl = () => {
     navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
-};
-const Entregasuplemento = () => {
-  navigate(`/Entregasuplemento/${paciente.hist_clinico}`, { state: { paciente } });
-};
-const Listasuplemento = () => {
-  navigate(`/Listasuplemento/${paciente.hist_clinico}`, { state: { paciente } });
-};
 
- 
+    const IraTamizaje = () => {
+      navigate(`/tamizaje/${paciente.hist_clinico}`, { state: { paciente } });
+    }
+
+    const iraHistorialTamizaje = () => {
+      navigate(`/historialtamizaje/${paciente.hist_clinico}`, { state: { paciente } });
+    }
+
+    const EntregaSuplementos = () => {
+      navigate(`/Entregasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar suplementos
+    }
+    const ListaSuplemento = () => {
+      navigate(`/Listasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
+    }
 
 
-  return (
-    <section className="opciones-right">
-      <div className="cabeza">
-        <p>Menú de Opciones</p>
+    return (
+      <div className="opciones-right">
+        <div className="cabeza">
+          <p>Menú de Opciones</p>
+        </div>
+        <div className="opciones4">
+          <details name="opcion" className="opcion-item">
+            <summary>
+              <PiNotePencil className="icon" />
+              CONTROL
+            </summary>
+            <div className="submenu-control-nino">
+              <button onClick={irAControl} className="control-nino">
+                CONTROL NIÑO
+              </button>
+            </div>
+            <div className="submenu-control-nino">
+              <button onClick={seguimientoNutricional}>
+                SEGUIMIENTO NUTRICIONAL
+              </button>
+            </div>
+            <div className="submenu-historial-controles">
+              <button onClick="">
+                HIST DE CONTROLES
+              </button>
+            </div>
+            <div className="submenu-historial-controles">
+              <button onClick={actualizarControles}>
+                ACTUALIZAR CONTROLES
+              </button>
+            </div>
+            <button className="button" onClick={handleNewVisitClick}>VISITA DOMICILIARIA</button>
+            <button onClick={iraHistorialVisita}>HIST DE VISITA</button>
+          </details>
+
+          <details name="opcion" className="opcion-item">
+            <summary>
+              <TbMedicineSyrup className="icon" />
+              SUPLEMENTOS
+            </summary>
+            <button onClick={EntregaSuplementos}>Entrega Suplemento</button>
+            <button onClick={ListaSuplemento}> Historial Suplemento</button>
+            <button>Actualizar Suplementos</button>
+          </details>
+          <details name="opcion" className="opcion-item">
+            <summary>
+              <MdOutlineBloodtype className="icon" />
+              TAMIZAJE
+            </summary>
+            <button onClick={IraTamizaje}>Tamizaje-Dozaje</button>
+            <button onClick={iraHistorialTamizaje}> Historial Tamizaje</button>
+          </details>
+          <details name="opcion" className="opcion-item">
+            <summary>
+              {" "}
+              <IoBody className="icon" />
+              PSICOMOTOR
+            </summary>
+            <button>Evaluacion Psicomotor</button>
+            <button> Historial Psicomotor</button>
+          </details>
+          <details name="opcion" className="opcion-item">
+            <summary>
+              <MdOutlineVaccines className="icon" />
+              VACUNA
+            </summary>
+            <button>Vacunar Niño</button>
+            <button> Historial Vacunas</button>
+            <button> Vacunas Faltantes</button>
+          </details>
+        </div>
       </div>
-      <div className="opciones4">
-        {/* <details name='opcion' className="opcion-item">
-          <summary><MdOutlineAppRegistration className='icon' />DATOS</summary>
-          <button>GENERAL</button>
-          <button>TARJETA DE CONTROL</button>
-          <button>EDITAR DATOS</button> 
-        </details> */}
-        <details name="opcion" className="opcion-item">
-          <summary>
-            <PiNotePencil className="icon" />
-            CONTROL
-          </summary>
-          <div className="submenu-control-nino">
-            <button onClick={irAControl} className="control-nino">
-              CONTROL NIÑO
-            </button>
-          </div>
-          <div className="submenu-control-nino">
-            <button onClick={seguimientoNutricional}>
-              SEGUIMIENTO NUTRICIONAL
-            </button>
-          </div>
-          <div className="submenu-historial-controles">
-            <button onClick="">
-              HIST DE CONTROLES
-            </button>
-          </div>
-          <div className="submenu-historial-controles">
-            <button onClick={actualizarControles}>
-              ACTUALIZAR CONTROLES
-            </button>
-          </div>
-          <button className="button" onClick={handleNewVisitClick}>VISITA DOMICILIARIA</button>
-          <button onClick={iraHistorialVisita}>HIST DE VISITA</button>
-        </details>
+    );
+  }
+}
 
-        <details name="opcion" className="opcion-item">
-          <summary>
-            <TbMedicineSyrup className="icon" />
-            SUPLEMENTOS
-          </summary>
-          <button onClick={Entregasuplemento}>Entrega Suplemento</button>
-          <button onClick={Listasuplemento}> Historial Suplemento</button>
-          <button>Actualizar Suplementos</button>
-        </details>
-        <details name="opcion" className="opcion-item">
-          <summary>
-            <MdOutlineBloodtype className="icon" />
-            TAMISAJE
-          </summary>
-          <button>Tamizaje-Dozaje</button>
-          <button> Historial Tamizaje</button>
-        </details>
-        <details name="opcion" className="opcion-item">
-          <summary>
-            {" "}
-            <IoBody className="icon" />
-            PSICOMOTOR
-          </summary>
-          <button>Evaluacion Psicomotor</button>
-          <button> Historial Psicomotor</button>
-        </details>
-        <details name="opcion" className="opcion-item">
-          <summary>
-            <MdOutlineVaccines className="icon" />
-            VACUNA
-          </summary>
-          <button>Vacunar Niño</button>
-          <button> Historial Vacunas</button>
-          <button> Vacunas Faltantes</button>
-        </details>
-      </div>
-    </section>
-  );
-};
-
-export default OpcionesI;
+export default OpcionesI

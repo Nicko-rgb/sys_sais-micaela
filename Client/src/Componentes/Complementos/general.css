@@ -1,0 +1,95 @@
+
+/* Estilos para Botones */
+button {
+    border: none; 
+    cursor: pointer;
+    transition: .3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+button:hover{
+    transform: scale(1.02);
+}
+
+/* Botón Guardar */
+.btn-save {
+    background-color: #28a745;
+    color: #FFFFFF; 
+}
+
+.btn-save:hover {
+    background-color: #218838;
+}
+
+/* Botón Cancelar */
+.btn-cancel {
+    background-color: #6c757d;
+    color: #FFFFFF;
+}
+
+.btn-cancel:hover {
+    background-color: #5a6268;
+}
+
+/* Botón Borrar */
+.btn-delete {
+    background-color: #dc3545;
+    color: #FFFFFF;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+/* Botón Enviar/Confirmar */
+.btn-submit {
+    background-color: dodgerblue;
+    color: #FFFFFF;
+}
+.btn-submit:hover {
+    background-color: #0056b3; 
+}
+.msg-error {
+    color: rgb(255, 59, 59);
+    font-size: 14px;
+    text-align: center;
+    transition: .3s ease;
+    margin: 0;
+}
+
+
+.title-page {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: large;
+    font-family: 'poppins';
+    color: black;
+    margin: 0;
+    margin-top: 10px;
+}
+
+.sub-title-page {
+    text-align: center;
+    font-size: large;
+    font-family: 'poppins';
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.volver_link {
+    position: absolute;
+    color: green;
+    text-decoration: underline;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    font-family: 'poppins';
+    font-size: 14px;
+    padding:10;
+    height: 30px;
+    width: 100px;
+    border: none;
+  }

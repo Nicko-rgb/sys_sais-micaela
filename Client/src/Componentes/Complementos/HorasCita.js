@@ -231,47 +231,8 @@ const HorasCita = {
                 { hora: '17:30 - 18:00 ' },
             ] 
         }
-    },
-    // Transmisibles: {
-    //     especialidad: 'Trasnmisibles',
-    //     icono: MdPsychology,
-    //     horarios: {
-    //         mañana: [
-    //             { hora: '08:00 - 08:30' },
-    //         ],
-    //         tarde: [
-    //             { hora: '09:00 - 10:30' },
+    }
 
-    //         ]
-    //     }
-    // }
-    // Biología: {
-    //     especialidad: 'Biología',
-    //     icono: MdPsychology,
-    //     horarios: {
-    //         mañana: [
-    //             { hora: '08:00 - 08:30' },
-    //             { hora: '08:30 - 09:00' },
-    //             { hora: '09:00 - 09:30' },
-    //             { hora: '09:30 - 10:00' },
-    //             { hora: '10:00 - 10:30' },
-    //             { hora: '10:30 - 11:00' },
-    //             { hora: '11:00 - 11:30' },
-    //             { hora: '11:30 - 12:00' },
-    //         ],
-    //         tarde: [
-    //             { receso: '12:00 - 14:00' },
-    //             { hora: '14:00 - 14:30' },
-    //             { hora: '14:30 - 15:00' },
-    //             { hora: '15:00 - 15:30' },
-    //             { hora: '15:30 - 16:00' },
-    //             { hora: '16:00 - 16:30 ' },
-    //             { hora: '16:30 - 17:00 ' },
-    //             { hora: '17:00 - 17:30 ' },
-    //             { hora: '17:30 - 18:00 ' },
-    //         ] 
-    //     }
-    // }
 };
 
 export default HorasCita;

@@ -3,14 +3,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mysql = require('mysql2/promise'); // Importar mysql2
-const bcrypt = require('bcryptjs');
 const cron = require('node-cron');
 const nodemailer = require('nodemailer'); // Importar nodemailer para enviar correos electrónicos
 const crypto = require('crypto'); // Importar crypto para generar tokens únicos
-const { log } = require('console');
 const app = express();
 const PORT = process.env.PORT || 5000;
-const router = express.Router();
 // Configura tu conexión a la base de datos
 const pool = mysql.createPool({
     host: 'localhost',
@@ -144,12 +141,11 @@ app.post('/api/registrar/pacientes', async (req, res) => {
 
 
 // Endpoint para obtener datos del paciente según su historial clínico
-app.get('/api/pacientes/:historialClinico', async (req, res) => {
-    const { historialClinico } = req.params; // Obtener el historial clínico de los parámetros de la ruta
+app.get('/api/obtener-pacientes/hist-clinico/:historialClinico', async (req, res) => {
+    const { historialClinico } = req.params;
 
     const connection = await pool.getConnection();
     try {
-        // Consulta para obtener el paciente y su responsable
         const [rows] = await connection.execute(
             `SELECT p.*, r.*
              FROM pacientes p
@@ -157,20 +153,41 @@ app.get('/api/pacientes/:historialClinico', async (req, res) => {
              WHERE p.hist_clinico = ?`,
             [historialClinico]
         );
-
-        // Verificar si se encontró el paciente
         if (rows.length === 0) {
             return res.status(404).json({ message: 'Paciente no encontrado' });
         }
 
-        res.json(rows[0]); // Devolver el primer paciente encontrado (incluyendo datos del responsable)
+        res.json(rows[0]);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al obtener los datos del paciente', error: error.message });
     } finally {
-        connection.release(); // Liberar la conexión
+        connection.release(); 
     }
 });
+
+//ruta optener datos de paciente segun dni
+app.get('/api/obtener-pacientes/dni/:dni', async (req, res) => {
+    const { dni } = req.params; // Obtener el DNI de los parámetros
+    const connection = await pool.getConnection();
+    try {
+        const [rows] = await connection.execute(
+            `SELECT p.*, r.*
+             FROM pacientes p
+             LEFT JOIN responsable_de_paciente r ON p.id_responsable = r.id_responsable
+             WHERE p.dni = ?`,
+            [dni]
+        )
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'Paciente no encontrado' });
+        }
+        res.json(rows[0]); // Devolver el primer paciente encontrado
+    }
+    catch (err) {
+        console.error(err);
+    } finally {
+        connection.release();
+    }
+})
 
 
 //ruta para filtrar pacientes segun tipo de paciente
@@ -526,6 +543,16 @@ app.get('/api/obtener/profesiones', async (req, res) => {
         res.status(500).json({ message: 'Error al obtener profesiones.' });
     }
 });
+
+app.get('/api/vista-personal', async (req, res) => {
+    try {
+        const vista = 'SELECT * FROM vista_personal_activo';
+        const [result] = await pool.query(vista)
+        res.json(result);
+    } catch (error) {
+        console.error('Error al obtener vista personal', error);
+    }
+})
 
 // Ruta para obtener todos los servicios
 app.get('/api/obtener/servicios', async (req, res) => {
@@ -977,8 +1004,21 @@ app.get('/api/citas-ninhos', async (req, res) => {
     }
 });
 
-// Route to get all appointments within the next three days
-app.get('/api/filtrar-ninho-citas', async (req, res) => {
+// Route para obtener todas las citas de los niños
+app.get('/api/filtrar-todas-citas-ninho', async (req, res) => {
+    const query = 'SELECT * FROM cita_ninhos'; // Trae todas las citas
+
+    try {
+        const [results] = await pool.query(query);
+        res.json(results);
+    } catch (error) {
+        console.error('Error fetching appointments:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+//ruta  para filtrar citas de un rango de 3 dias
+app.get('/api/filtrar-cita-ninho-3', async (req, res) => {
     const query = 'SELECT * FROM cita_ninhos WHERE fecha >= CURDATE() AND fecha <= DATE_ADD(CURDATE(), INTERVAL 3 DAY)';
 
     try {
@@ -987,6 +1027,65 @@ app.get('/api/filtrar-ninho-citas', async (req, res) => {
     } catch (error) {
         console.error('Error fetching appointments:', error);
         res.status(500).json({ error: error.message });
+    }
+});
+
+//ruta para obtner horarios de cita de niños
+app.get('/api/horarios-cita-nino', async (req, res) => {
+    const { especialidad } = req.query;
+
+    try {
+        const [horarios] = await pool.execute(
+            'SELECT * FROM horario_cita_nino WHERE especialidad = ? ORDER BY turno, hora_inicio',
+            [especialidad]
+        );
+        res.json(horarios);
+    } catch (error) {
+        console.error('Error al obtener los horarios:', error);
+        res.status(500).json({ error: 'Error al obtener los horarios' });
+    }
+});
+
+
+// Ruta para bloquear horas de las citas de los niños
+app.post('/api/nino/bloquear-hora-cita', async (req, res) => {
+    const { fecha, hora_inicio, hora_fin, consultorio, especialidad } = req.body;
+
+    try {
+        await pool.query(
+            'INSERT INTO hora_cita_nino_bloqueada (fecha, hora_inicio, hora_fin, consultorio, especialidad) VALUES (?, ?, ?, ?, ?)',
+            [fecha, hora_inicio, hora_fin, consultorio, especialidad]
+        );
+        res.status(200).json({ message: 'Hora bloqueada exitosamente' });
+    } catch (error) {
+        if (error.code === 'ER_DUP_ENTRY') {
+            res.status(400).json({ message: 'Ya existe un bloqueo para esta hora' });
+        } else {
+            res.status(500).json({ message: 'Error al bloquear la hora', error });
+        }
+    }
+});
+//api para consultar si el horario (hora) es bloqueda en cita niño
+app.get('/api/nino/verificar-bloqueos-cita', async (req, res) => {
+    try {
+        const bloqueos = await pool.query('SELECT * FROM hora_cita_nino_bloqueada');
+        // Ejemplo de una respuesta corregida
+        res.json(bloqueos[0]); 
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener bloqueos', error });
+    }
+});
+
+
+// Ruta para obtener especialidades únicas
+app.get('/api/especialidad-unico-nino', async (req, res) => {
+    try {
+        const query = 'SELECT DISTINCT especialidad FROM horario_cita_nino'
+        const [results] = await pool.query(query);
+        res.json(results);
+    } catch (error) {
+        console.error('Error al obtener especialidades:', error);
+        res.status(500).json({ error: 'Error al obtener especialidades' });
     }
 });
 
@@ -1024,6 +1123,7 @@ app.get('/api/etnias', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
+
 
 // Iniciar el servidor
 app.listen(PORT, async () => {

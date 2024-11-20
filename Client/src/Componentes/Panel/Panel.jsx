@@ -11,53 +11,53 @@ import adulto from '../Ico/adulto.png';
 import adultoMayor from '../Ico/adultoMayor.png';
 import gestante from '../Ico/gestante.png';
 import EstadoSesion from '../Complementos/EstadoSesion';
- 
+
 const volver = () => {
     window.location.href = '/'
 }
 
-const Panel = () => { 
+const Panel = () => {
 
-    const { userPersonal, isLoggedIn } = EstadoSesion()
+    const { isLoggedIn } = EstadoSesion()
     return (
         <div className="panel">
             {isLoggedIn ? (
                 <>
-                <NavLogin />
-            <div className="opciones">
-                <p>Paquete de atención integral por curso de vida </p>
-                <Link className="box" to='/panel-niño'>
-                    <img src={niño} alt="" />
-                    <p>Niño</p>
-                    <p className="edad">0 - 11 años</p>
-                </Link> 
-                <Link className="box" to= '/panel-adolescente'>
-                    <img src={adolescente} alt=''/>
-                    <p>Adolescente</p>
-                    <p className="edad">12 - 17 años</p>
-                </Link>
-                <Link className="box" to='/panel-joven'>
-                    <img src={joven} alt=''/>                
-                    <p>Joven</p>
-                    <p className="edad">18 - 29 años</p>
-                </Link>
-                <Link className="box" to='/panel-adulto'>
-                    <img src={adulto} alt='' />
-                    <p>Adulto</p>
-                    <p className="edad">30 - 59 años</p>
-                </Link>
-                <Link className="box" to='/panel-adultomayor'>
-                    <img src={adultoMayor} alt='' />
-                    <p>Adulto Mayor</p>
-                    <p className="edad">60 a más</p>
-                </Link>
-                <Link className="box" to='/gestante'>
-                    <img src={gestante} alt='' />
-                    <p>Gestante</p>
-                </Link>
-            </div>
-            <Buscar />
-            <NavPie />
+                    <NavLogin />
+                    <div className="opciones">
+                        <p>Paquete de atención integral por curso de vida </p>
+                        <Link className="box" to='/panel-niño'>
+                            <img src={niño} alt="" />
+                            <p>Niño</p>
+                            <p className="edad">0 - 11 años</p>
+                        </Link>
+                        <Link className="box" to='/panel-adolescente'>
+                            <img src={adolescente} alt='' />
+                            <p>Adolescente</p>
+                            <p className="edad">12 - 17 años</p>
+                        </Link>
+                        <Link className="box" to='/panel-joven'>
+                            <img src={joven} alt='' />
+                            <p>Joven</p>
+                            <p className="edad">18 - 29 años</p>
+                        </Link>
+                        <Link className="box" to='/panel-adulto'>
+                            <img src={adulto} alt='' />
+                            <p>Adulto</p>
+                            <p className="edad">30 - 59 años</p>
+                        </Link>
+                        <Link className="box" to='/panel-adultomayor'>
+                            <img src={adultoMayor} alt='' />
+                            <p>Adulto Mayor</p>
+                            <p className="edad">60 a más</p>
+                        </Link>
+                        <Link className="box" to='/gestante'>
+                            <img src={gestante} alt='' />
+                            <p>Gestante</p>
+                        </Link>
+                    </div>
+                    <Buscar />
+                    <NavPie />
                 </>
             ) : (
                 <div>
@@ -65,7 +65,7 @@ const Panel = () => {
                     <button onClick={volver}>INCIAR SESION</button>
                 </div>
             )}
-            
+
         </div>
     );
 }

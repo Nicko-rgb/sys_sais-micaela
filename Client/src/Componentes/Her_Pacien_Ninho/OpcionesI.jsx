@@ -34,6 +34,10 @@ const Listasuplemento = () => {
   navigate(`/Listasuplemento/${paciente.hist_clinico}`, { state: { paciente } });
 };
 
+const Actualizarsuplemento = () => {
+  navigate(`/Actualizarsuplemento/${paciente.hist_clinico}`, { state: { paciente } });
+};
+
  
 
 
@@ -85,7 +89,7 @@ const Listasuplemento = () => {
           </summary>
           <button onClick={Entregasuplemento}>Entrega Suplemento</button>
           <button onClick={Listasuplemento}> Historial Suplemento</button>
-          <button>Actualizar Suplementos</button>
+          <button onClick={Actualizarsuplemento}>Actualizar Suplementos</button>
         </details>
         <details name="opcion" className="opcion-item">
           <summary>

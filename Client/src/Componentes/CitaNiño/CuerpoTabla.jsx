@@ -3,14 +3,15 @@ import './Citas.css';
 import { BiPlusCircle } from "react-icons/bi";
 import { CiEdit } from "react-icons/ci";
 import { RxValueNone } from "react-icons/rx";
-import { FaLockOpen } from "react-icons/fa";
+import { PiLockKeyOpenFill } from "react-icons/pi";
 import FormCitas from './FormCitas';
 import axios from 'axios';
 
-const CuerpoTabla = ({ horarios, citas, especialidad, fecha, consultorio }) => {
+const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
     const [openForm, setOpenForm] = useState(false);
     const [formData, setFormData] = useState(null);
     const [blockedRows, setBlockedRows] = useState([]);
+    const [citas, setCitas] = useState([]);
 
     // Obtener filas bloqueadas desde el servidor
     const fetchBlockedRows = async () => {
@@ -21,6 +22,15 @@ const CuerpoTabla = ({ horarios, citas, especialidad, fecha, consultorio }) => {
             console.error('Error al obtener filas bloqueadas:', error);
         }
     };
+
+    const fetchCitas = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/filtrar-todas-citas-ninho')
+            setCitas(response.data);
+        } catch (error) {
+            console.error('Error al obtener citas:', error);
+        }
+    }
 
     // Formatear hora en formato HH:mm
     const formatTime = (timeString) => {
@@ -70,7 +80,6 @@ const CuerpoTabla = ({ horarios, citas, especialidad, fecha, consultorio }) => {
                 Number(blocked.consultorio) === Number(consultorio)
         );
     };
-    
 
     // Cerrar el formulario
     const closeForm = () => {
@@ -81,13 +90,31 @@ const CuerpoTabla = ({ horarios, citas, especialidad, fecha, consultorio }) => {
     // Cargar datos al cargar componente
     useEffect(() => {
         fetchBlockedRows();
+        fetchCitas();
     }, []);
+
+    //creamos una funcion para recortar un texto
+    const recortarTexto = (texto) => {
+        if (texto.length > 20) {
+            return texto.substring(0, 20) + '...';
+        }
+        return texto
+    }
 
     return (
         <>
             <tbody>
                 {horarios.map((horario, index) => {
                     const rowBlocked = isRowBlocked(horario);
+
+                    // Encuentra una cita filtrada que coincida con este horario
+                    const cita = citas.find(
+                        (c) =>
+                            c.hora === `${formatTime(horario.hora_inicio)} - ${formatTime(horario.hora_fin)}` &&
+                            c.especialidad === especialidad &&
+                            c.consultorio === consultorio &&
+                            new Date(c.fecha).toISOString().split('T')[0] === fecha
+                    );
 
                     if (horario.tipo_atencion === 'receso') {
                         return (
@@ -113,16 +140,16 @@ const CuerpoTabla = ({ horarios, citas, especialidad, fecha, consultorio }) => {
                         <tr key={index} className={rowClass}>
                             <td>{`${formatTime(horario.hora_inicio)} - ${formatTime(horario.hora_fin)}`}</td>
                             <td>{horario.turno}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            {especialidad === 'Medicina' && <td></td>}
-                            {especialidad === 'Obstetricia_CPN' && <td></td>}
-                            {especialidad === 'Planificación' && <td></td>}
-                            <td></td>
-                            <td>Responsable</td>
+                            <td>{cita ? cita.dni : '---'}</td>
+                            <td>{cita ? cita.nombres : '---'} {cita ? cita.apellidos : '---'} </td>
+                            <td>{cita ? cita.edad : '---'}</td>
+                            <td>{cita ? new Date(cita.fechaNacimiento).toLocaleDateString() : '---'}</td>
+                            <td>{cita ? cita.telefono : '---'}</td>
+                            {especialidad === 'Medicina' && <td>{cita ? cita.direccion : '---'}</td>}
+                            {especialidad === 'Obstetricia_CPN' && <td>{cita ? cita.semEmbarazo : '---'}</td>}
+                            {especialidad === 'Planificación' && <td>{cita ? cita.metodo : '---'}</td>}
+                            <td>{recortarTexto(cita ? cita.motivoConsulta : '---' )}</td>
+                            <td>Responsable </td>
                             <td className="box-ac" style={{ padding: '0' }}>
                                 <div className="accion">
                                     {!rowBlocked ? (
@@ -138,7 +165,7 @@ const CuerpoTabla = ({ horarios, citas, especialidad, fecha, consultorio }) => {
                                             />
                                         </>
                                     ) : (
-                                        <FaLockOpen className="ico ico-abi" />
+                                        <PiLockKeyOpenFill className="ico ico-abi" />
                                     )}
                                 </div>
                             </td>
@@ -146,6 +173,7 @@ const CuerpoTabla = ({ horarios, citas, especialidad, fecha, consultorio }) => {
                     );
                 })}
             </tbody>
+
             {openForm && (
                 <FormCitas
                     closeForm={closeForm}

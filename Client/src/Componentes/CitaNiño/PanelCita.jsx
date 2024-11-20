@@ -123,6 +123,14 @@ const OpcionesCita = () => {
         "Planificación": <FaCalendarAlt />
     };
 
+    //creamos una funcion para recortar un texto
+    const recortarTexto = (texto) => {
+        if (texto.length > 20) {
+            return texto.substring(0, 20) + '...';
+        }
+        return texto
+    }
+
     return (
         <div className="opciones-cita">
             <NavLogin />
@@ -198,7 +206,7 @@ const OpcionesCita = () => {
                                             <td>{cita.apellidos}, {cita.nombres}</td>
                                             <td>{cita.nombreMedico || 'Nombre Médico'}</td>
                                             <td>{cita.estado || 'Estado'}</td>
-                                            <td>{cita.motivoConsulta}</td>
+                                            <td>{recortarTexto(cita.motivoConsulta)}</td>
                                             <td>{cita.especialidad}</td>
                                             <td>{cita.consultorio}</td>
                                         </tr>

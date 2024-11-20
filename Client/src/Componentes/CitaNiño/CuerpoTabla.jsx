@@ -7,7 +7,7 @@ import { FaLockOpen } from "react-icons/fa";
 import FormCitas from './FormCitas';
 import axios from 'axios';
 
-const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
+const CuerpoTabla = ({ horarios, citas, especialidad, fecha, consultorio }) => {
     const [openForm, setOpenForm] = useState(false);
     const [formData, setFormData] = useState(null);
     const [blockedRows, setBlockedRows] = useState([]);
@@ -78,7 +78,7 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
         setFormData(null);
     };
 
-    // Cargar filas bloqueadas al montar el componente
+    // Cargar datos al cargar componente
     useEffect(() => {
         fetchBlockedRows();
     }, []);
@@ -122,7 +122,7 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                             {especialidad === 'Obstetricia_CPN' && <td></td>}
                             {especialidad === 'Planificación' && <td></td>}
                             <td></td>
-                            <td></td>
+                            <td>Responsable</td>
                             <td className="box-ac" style={{ padding: '0' }}>
                                 <div className="accion">
                                     {!rowBlocked ? (

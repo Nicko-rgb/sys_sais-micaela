@@ -141,12 +141,11 @@ app.post('/api/registrar/pacientes', async (req, res) => {
 
 
 // Endpoint para obtener datos del paciente según su historial clínico
-app.get('/api/pacientes/:historialClinico', async (req, res) => {
-    const { historialClinico } = req.params; // Obtener el historial clínico de los parámetros de la ruta
+app.get('/api/obtener-pacientes/hist-clinico/:historialClinico', async (req, res) => {
+    const { historialClinico } = req.params;
 
     const connection = await pool.getConnection();
     try {
-        // Consulta para obtener el paciente y su responsable
         const [rows] = await connection.execute(
             `SELECT p.*, r.*
              FROM pacientes p
@@ -154,20 +153,41 @@ app.get('/api/pacientes/:historialClinico', async (req, res) => {
              WHERE p.hist_clinico = ?`,
             [historialClinico]
         );
-
-        // Verificar si se encontró el paciente
         if (rows.length === 0) {
             return res.status(404).json({ message: 'Paciente no encontrado' });
         }
 
-        res.json(rows[0]); // Devolver el primer paciente encontrado (incluyendo datos del responsable)
+        res.json(rows[0]);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al obtener los datos del paciente', error: error.message });
     } finally {
-        connection.release(); // Liberar la conexión
+        connection.release(); 
     }
 });
+
+//ruta optener datos de paciente segun dni
+app.get('/api/obtener-pacientes/dni/:dni', async (req, res) => {
+    const { dni } = req.params; // Obtener el DNI de los parámetros
+    const connection = await pool.getConnection();
+    try {
+        const [rows] = await connection.execute(
+            `SELECT p.*, r.*
+             FROM pacientes p
+             LEFT JOIN responsable_de_paciente r ON p.id_responsable = r.id_responsable
+             WHERE p.dni = ?`,
+            [dni]
+        )
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'Paciente no encontrado' });
+        }
+        res.json(rows[0]); // Devolver el primer paciente encontrado
+    }
+    catch (err) {
+        console.error(err);
+    } finally {
+        connection.release();
+    }
+})
 
 
 //ruta para filtrar pacientes segun tipo de paciente
@@ -984,7 +1004,7 @@ app.get('/api/citas-ninhos', async (req, res) => {
     }
 });
 
-// Route to get all appointments within the next three days
+// Route para obtener todas las citas de los niños
 app.get('/api/filtrar-todas-citas-ninho', async (req, res) => {
     const query = 'SELECT * FROM cita_ninhos'; // Trae todas las citas
 

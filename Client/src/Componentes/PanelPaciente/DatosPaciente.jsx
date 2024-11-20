@@ -25,7 +25,7 @@ const DatosPaciente = () => {
 
     const obtenerDatosPaciente = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/pacientes/${historialClinico}`); // Ajusta la ruta según tu API
+            const response = await fetch(`http://localhost:5000/api/obtener-pacientes/hist-clinico/${historialClinico}`); // Ajusta la ruta según tu API
             const data = await response.json();
             setPaciente(data);
             setLoading(false);

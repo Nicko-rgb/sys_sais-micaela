@@ -11,7 +11,6 @@ import { FaUserDoctor } from "react-icons/fa6";
 import { MdPsychology } from "react-icons/md";
 import { FaTooth, FaCalendarAlt, FaBaby } from 'react-icons/fa';
 import { LiaNutritionix } from "react-icons/lia";
-import { CiCalendar } from 'react-icons/ci';
 
 const OpcionesCita = () => {
     const [citasData, setCitasData] = useState([]);
@@ -182,6 +181,7 @@ const OpcionesCita = () => {
                                     <th>Estado</th>
                                     <th>Motivo Cita</th>
                                     <th>Especialidad</th>
+                                    <th>Consultorio</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -200,6 +200,7 @@ const OpcionesCita = () => {
                                             <td>{cita.estado || 'Estado'}</td>
                                             <td>{cita.motivoConsulta}</td>
                                             <td>{cita.especialidad}</td>
+                                            <td>{cita.consultorio}</td>
                                         </tr>
                                     ))
                                 ) : (

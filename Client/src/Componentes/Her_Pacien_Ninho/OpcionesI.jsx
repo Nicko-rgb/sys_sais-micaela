@@ -25,22 +25,22 @@ const OpcionesI = ({ paciente }) => {
   };
 
   const irAControl = () => {
-    navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
+    navigate(/control/${paciente.hist_clinico}, { state: { paciente } });
 
   }
   const IraTamizaje = () => {
-    navigate(`/tamizaje/${paciente.hist_clinico}`, { state: { paciente } });
+    navigate(/tamizaje/${paciente.hist_clinico}, { state: { paciente } });
   }
 
   const iraHistorialTamizaje = () => {
-    navigate(`/historialtamizaje/${paciente.hist_clinico}`, { state: { paciente } });
+    navigate(/historialtamizaje/${paciente.hist_clinico}, { state: { paciente } });
   }
 
  const EntregaSuplementos = () => {
-  navigate(`/Entregasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar suplementos
+  navigate(/Entregasuplementos/${paciente.hist_clinico}, { state: { paciente } }); // Redirige a la ruta entregar suplementos
  }
  const ListaSuplemento = () => {
-  navigate(`/Listasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
+  navigate(/Listasuplementos/${paciente.hist_clinico}, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
  }
 
 

@@ -2,58 +2,31 @@
     position: fixed;
     top: 0;
     left: 0;
-    bottom: 0;
-    right: 0;
-    width: 100%; 
+    width: 100%;
     height: 100%;
-    z-index: 55;
-    background: #f7f9fc;
+    z-index: 600;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.611);
+    padding: 30px 10px;
+    padding-bottom: 100px;
     overflow-y: auto;
-    box-sizing: border-box;
-    padding-bottom: 120px;
-    font-family: 'Poppins', sans-serif;
 }
 
-.form-cita .form-fechaHora {
-    display: flex;
-    flex-direction: column;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-100px) scale(0.1);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.form-cita form {
+    max-width: 600px;
     width: 100%;
-    gap: 0;
-    padding: 0;
-}
-
-.form-cita .form-fechaHora .sub-formfechaHora {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-.form-cita .cstr {
-    margin: auto;
-}
-
-.form-cita .form-fechaHora p {
-    text-align: center;
-    padding: 2px;
-    border: none;
-    box-shadow: 0 0 2px  #00796b;
-    border-radius: 5px;
-    background: gray;
-    color: white;
-
-}
-
-.form-cita main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 5px 10px;
-    box-sizing: border-box;
-    margin-top: 30px;
-}
-
-.form-cita main form {
-    max-width: 500px;
     border-radius: 6px;
     padding: 25px;
     padding-right: 35px;
@@ -61,20 +34,90 @@
     display: flex;
     gap: 15px;
     flex-direction: column;
-    font-family: 'poppins';
+    margin: auto;
     box-sizing: border-box;
-    box-shadow: 0 0 7px  #00796b;
+    box-shadow: 0 0 7px  dodgerblue;
+    background-color: white;
+    animation: fadeIn .5s ease;
+    background-color: rgb(255, 255, 255);
+    position: relative;
+
+}
+.form-cita .ico-close {
+    position: absolute;
+    top: -30px;
+    right: 10px;
+    font-size: 30px;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .3s ease;
+    padding: 5px;
+}
+.form-cita .ico-close:hover{
+    color: red;
 }
 
-.form-cita main form h2 {
+.form-cita form h2 {
     text-align: center;
     margin: 0;
     font-size: 24px;
-    /* Tamaño de fuente más grande */
     font-family: 'poppins';
-    color: #18544d;
+    color: dodgerblue;
+    margin: 0;
 }
-
+.form-cita form .fechas {
+    display: flex;
+    justify-content: space-between;
+}
+.form-cita form .box-fechas{
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-radius: 6px;
+    background-color: rgba(30, 143, 255, 0.113);
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.444);
+    width: 40%;
+}
+.form-cita form .box-fechas p {
+    margin: 0;
+    text-align: center;
+    font-size: 14px;
+}
+.form-cita form .box-fechas span {
+    text-align: center;
+    font-weight: bold;
+}
+.form-cita .box-btn {
+    display: flex;
+    justify-content: end;
+    margin-top: 10px;
+}
+.form-cita form .btn {
+    background-color: rgb(97, 208, 97);
+    color: white;
+    font-size: 15px;
+    width: 130px;
+}
+.form-cita form .disable {
+    background-color: rgb(222, 222, 222);
+    cursor: no-drop;
+}
+.form-cita .box-filtra {
+    position: relative;
+    border: rgba(30, 143, 255, 0.594) solid 1px;
+    padding: 18px 10px;
+    border-radius: 6px;
+}
+.form-cita .box-filtra p {
+    position: absolute;
+    font-size: 13px;
+    top: -22px;
+    color: black;
+    font-weight: 600;
+    background-color: white;
+    padding: 0 8px;
+}
 .form-cita form div {
     display: flex;
     flex-direction: row;
@@ -83,123 +126,61 @@
 
 .form-cita form div label {
     width: 100%;
-
 }
 
 .form-cita form input {
-    padding: 5px;
-    font-size: 14px;
+    padding: 7px;
+    font-size: 15px;
     outline: none;
     font-family: 'poppins';
-    border: solid 1px #00796b;
-    /* box-shadow: 0 0 2px black; */
     border-radius: 2px;
     transition: border-color 0.3s;
-    /* Transición suave */
+}
+.form-cita form input, textarea {
+    border-radius: 5px;
+    border: solid 2px rgba(30, 143, 255, 0.282);
+    background-color: rgb(252, 255, 254);
+}
+.form-cita form textarea{
+    font-size: 15px;
 }
 
-.form-cita form input:focus {
-    border: solid 1px rgb(101, 174, 174);
+.form-cita form input:focus, textarea:focus {
+    border: solid 2px dodgerblue;
     box-shadow: none
 }
 
-
-.form-cita form .btns {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-    border: none;
-    width: 102%;
+.form-cita form .noo {
+    cursor: no-drop;
 }
+.form-cita form .noo:focus{
+    border: solid 2px rgba(30, 143, 255, 0.282);
 
-.form-cita .btns button {
-    padding: 12px 24px;
-    width: 190px;
+}
+.form-cita form textarea {
+    padding: 5px;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 70px;
+    outline: none;
+}
+.form-cita form .btnss {
     display: flex;
     justify-content: center;
-    align-items: center;
-    gap: 5px;
+    margin-top: 20px;
+    width: 100%;
     border: none;
+}
+
+.form-cita .btnss button {
+    padding: 12px 24px;
+    width: 190px;
     border-radius: 10px;
     color: white;
     font-family: 'poppins';
     font-weight: bold;
+}
+
+.form-cita .btnss .ico {
     cursor: pointer;
-    transition: .3s ease;
-}
-
-.form-cita .btns .btn-register {
-    background: #069a89;
-    box-shadow: 0 0 1px #eb3553;
-}
-
-.form-cita .btns .btn-register:hover {
-    box-shadow: 0 0 4px #eb3553;
-}
-
-.form-cita .btns .btn-close {
-    background: #eb3553;
-    box-shadow: #069a89;
-}
-
-.form-cita .btns .btn-close:hover {
-    background: #eb3553;
-    box-shadow: 0 0 5px #069a89;
-}
-
-.form-cita .btns .ico {
-    cursor: pointer;
-}
-
-.form-cita .loading {
-    position: fixed;
-    z-index: 50;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.459);
-}
-
-.form-cita .loading div {
-    background-color: white;
-    box-shadow: 0 0 3px #00796b;
-    padding: 20px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.form-cita .loading div .icon {
-    font-size: 25px;
-    animation: rotar 1s linear infinite;
-}
-
-@keyframes rotar {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    33% {
-        transform: rotate(120deg);
-    }
-
-    66% {
-        transform: rotate(240deg);
-    }
-
-    99% {
-        transform: rotate(360deg);
-    }
-}
-
-.form-cita .loading div p {
-    margin: 0;
-    font-family: 'poppins';
-    color: #00796b;
 }

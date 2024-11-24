@@ -42,7 +42,7 @@ function Entregasuplemento() {
     // Guarda la entrega en el estado
     setEntregas([...entregas, nuevaEntrega]);
 
-    setModalMessage(Entrega de ${suplemento} realizada con éxito.);
+    setModalMessage(`Entrega de ${suplemento} realizada con éxito.`);
     setShowModal(true);
     setIsRedirecting(true);
   };
@@ -52,7 +52,7 @@ function Entregasuplemento() {
     setShowModal(false);
     if (isRedirecting) {
 
-      navigate(/Listasuplemento/${paciente.hist_clinico}, { state: { paciente, entregas } });
+      navigate(`/Listasuplemento/${paciente.hist_clinico}`, { state: { paciente, entregas } });
     }
   };
 
@@ -62,7 +62,7 @@ function Entregasuplemento() {
       {paciente ? (
         <>
           <div>
-            <Link to={/panel/${paciente.hist_clinico}}>
+            <Link to={`/panel/${paciente.hist_clinico}`}>
               <RiPlayReverseLargeFill /> VOLVER
             </Link>
             <div className={style.nompaci}>

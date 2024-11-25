@@ -1,12 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaUserPlus, FaUserMinus, FaChartBar } from "react-icons/fa";
-import { MdManageAccounts } from "react-icons/md";
+import { MdManageAccounts, MdHistory, MdNotifications } from "react-icons/md";
 import { RiTeamLine, RiTaskLine } from "react-icons/ri";
-import { GiProgression } from "react-icons/gi";
-import { BsListTask, BsCalendarCheck } from "react-icons/bs";
-import { AiOutlineForm } from "react-icons/ai";
-import "./sidebar.css"
+import { GiProgression, GiHealthNormal } from "react-icons/gi";
+import { BsListTask, BsCalendarCheck, BsClipboardData } from "react-icons/bs";
+import { AiOutlineForm, AiOutlineSetting } from "react-icons/ai";
+import { IoStatsChartOutline, IoSettingsSharp } from "react-icons/io5";
+import { AiOutlineDashboard } from 'react-icons/ai';
+import "./sidebar.css";
 
 const Sidebar = ({ tipoUser }) => {
   const renderMenuItems = () => {
@@ -14,12 +16,12 @@ const Sidebar = ({ tipoUser }) => {
       case 'Admin':
         return (
           <>
-            <li><Link to="/admin/usuarios"><MdManageAccounts /> Gestionar Usuarios</Link></li>
-            <li><Link to="/admin/agregar"><FaUserPlus /> Agregar Personal</Link></li>
-            <li><Link to="/admin/eliminar"><FaUserMinus /> Eliminar Usuario</Link></li> 
-            <li><Link to="/admin/eliminar"><FaUserMinus /> Ver Inventario</Link></li> 
-            <li><Link to="/admin/eliminar"><FaUserMinus /> Generar Reportes</Link></li> 
-            <li><Link to="/admin/eliminar"><FaUserMinus /> Eliminar Usuario</Link></li> 
+            <li><Link to="/panel"><AiOutlineDashboard /> Inicio Panel</Link></li>
+            <li><Link to="/personal-salud"><FaUserPlus /> Ver Personal</Link></li>
+            <li><Link to="/admin/reportes"><FaChartBar /> Generar Reportes</Link></li>
+            <li><Link to="/admin/gestion-usuarios"><MdManageAccounts /> Gestión de Usuarios</Link></li>
+            <li><Link to="/admin/notificaciones"><MdNotifications /> Notificaciones</Link></li>
+            <li><Link to="/configuaracion-sistema"><AiOutlineSetting /> Configuración del Sistema</Link></li>
           </>
         );
       case 'Jefe':
@@ -28,6 +30,9 @@ const Sidebar = ({ tipoUser }) => {
             <li><Link to="/jefe/equipo"><RiTeamLine /> Ver Equipo</Link></li>
             <li><Link to="/jefe/asignar-tareas"><RiTaskLine /> Asignar Tareas</Link></li>
             <li><Link to="/jefe/rendimiento"><GiProgression /> Rendimiento del Equipo</Link></li>
+            <li><Link to="/jefe/estadisticas"><IoStatsChartOutline /> Estadísticas de Equipo</Link></li>
+            <li><Link to="/jefe/historial-tareas"><MdHistory /> Historial de Tareas</Link></li>
+            <li><Link to="/jefe/informes"><BsClipboardData /> Informes</Link></li>
           </>
         );
       case 'Responsable':
@@ -36,6 +41,9 @@ const Sidebar = ({ tipoUser }) => {
             <li><Link to="/personal/tareas"><BsListTask /> Mis Tareas</Link></li>
             <li><Link to="/personal/solicitudes"><AiOutlineForm /> Solicitudes</Link></li>
             <li><Link to="/personal/horario"><BsCalendarCheck /> Mi Horario</Link></li>
+            <li><Link to="/personal/historial-clinico"><GiHealthNormal /> Historial Clínico</Link></li>
+            <li><Link to="/personal/actualizar-informacion"><MdManageAccounts /> Actualizar Información</Link></li>
+            <li><Link to="/personal/configuracion"><IoSettingsSharp /> Configuración Personal</Link></li>
           </>
         );
       default:
@@ -45,7 +53,6 @@ const Sidebar = ({ tipoUser }) => {
 
   return (
     <div className="sidebar-content">
-      
       <h3>{tipoUser}</h3>
       <nav>
         <ul>

@@ -20,6 +20,7 @@ import Control from './Componentes/Her_Pacien_Ninho/Control/control';
 import Seguimientonutricional from './Componentes/Her_Pacien_Ninho/Control/seguimientonutricional';
 import ListarControles from './Componentes/Her_Pacien_Ninho/Control/listarcontroles';
 import ActualizarControles from './Componentes/Her_Pacien_Ninho/Control/actualizarControles';
+import ConfiguracionSistema from './Componentes/Login/TiposUsuarios/admin/configuracionSistema/configuracionSistema';
 
 function App() {
 
@@ -45,6 +46,7 @@ function App() {
                         <Route path="/seguimiento" element={<Seguimientonutricional/>} />
                         <Route path="/listarcontroles" element={<ListarControles/>} />
                         <Route path="/actualizarcontroles" element={<ActualizarControles/>} />
+                        <Route path="/configuaracion-sistema" element={<ConfiguracionSistema/>} />
                         {/* <Route path="/historialControles" element={<HistorialControles />} /> */}
                         {/* <Route path="/modal-salida" element={<Modalnavtop />} /> */}
                     </Routes>

@@ -1,6 +1,6 @@
 
-/* Modal Styles */
-.panel .modal {
+/* modalp Styles */
+.panel .modalp {
     position: fixed;
     top: 0px;
     left: 0;
@@ -24,7 +24,7 @@
     width: 300px;
 }
 
-.modal .modal_content h4{
+.modalp .modal_content h4{
     font-size: 17px;
     color: #333;
     margin-left: 10px;
@@ -74,7 +74,6 @@
     background-color: #e53935;
 }
 
-/* Rest of your CSS... */
 
 
 .panel{
@@ -85,13 +84,14 @@
 .panel .sub_panel{
     width: 100%;
     padding-bottom: 100px;
-    margin-top: 60px;
+    margin-top: 50px;
 }
-.panel .sub_panel>h4{
+.panel .sub_panel>h5{
     font-family: 'poppins';
-    display: flex;
-    justify-content: center;
-    font-size: 18px;
+    font-size: large;
+    font-family: 'poppins';
+    text-transform: uppercase;
+    text-align: center;
 }
 .panel .box_opciones{
     box-shadow: 0 0 2px #00796b;
@@ -146,6 +146,7 @@
     text-decoration: none;
     color: black;
     border: none;
+    height:80px;
     background-color: white;
 }
 .panel .boxs .box:hover{

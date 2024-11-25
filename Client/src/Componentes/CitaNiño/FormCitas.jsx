@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './formcita.css';
 import { RiCloseCircleFill } from "react-icons/ri";
 import { TfiWrite } from "react-icons/tfi";
+import { MdOpenInNew } from "react-icons/md";
 
 // Componente de formulario para agregar una cita
-const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) => {
+const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio }) => {
+    const navigate = useNavigate();
     const [hisClinico, setHisClinico] = useState('');
     const [dni, setDni] = useState('');
     const [apellidos, setApellidos] = useState('');
@@ -16,65 +19,93 @@ const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) 
     const [direccion, setDireccion] = useState('');
     const [semEmbarazo, setSemEmbarazo] = useState('');
     const [metodo, setMetodo] = useState('');
-    const [idRespons, setIdRespons] = useState('')
+    const [idRespons, setIdRespons] = useState('');
 
     // Función para buscar paciente por Hist. Clínico
     const handleHisClinicoChange = async (e) => {
         const value = e.target.value;
         setHisClinico(value);
- 
+
         if (value) {
             try {
-                const response = await fetch(`http://localhost:5000/api/pacientes/${value}`);
+                const response = await fetch(`http://localhost:5000/api/obtener-pacientes/hist-clinico/${value}`);
                 if (!response.ok) {
                     throw new Error('Paciente no encontrado');
                 }
                 const data = await response.json();
 
                 // Completar los campos con la información del paciente
-                setIdRespons(data.id_responsable)
+                setIdRespons(data.id_responsable);
                 setDni(data.dni);
                 setApellidos(`${data.ape_paterno} ${data.ape_materno}`);
                 setNombres(data.nombres);
-                
-                // Convertir la fecha de nacimiento al formato correcto
+
                 const formattedDate = new Date(data.fecha_nacimiento).toISOString().split('T')[0];
                 setFechaNacimiento(formattedDate);
-                
+
                 setEdad(data.edad);
-                setTelefono(data.celular1 || data.celular2 || data.celular1_res); // Usar celular1 si está disponible
+                setTelefono(data.celular1 || data.celular2 || data.celular1_res);
                 if (especialidad === 'Medicina') {
                     setDireccion(data.direccion || data.direccion_res);
-                }
-                if (especialidad === 'Planificación') {
-                    // Aquí puedes establecer un método predeterminado si es necesario
-                }
-                if (especialidad === 'Obstetricia_CPN') {
-                    // Aquí puedes establecer semanas de embarazo predeterminadas si es necesario
                 }
             } catch (error) {
                 console.error('Error al buscar paciente:', error);
             }
         } else {
-            // Limpiar campos si el Hist. Clínico está vacío
-            setDni('');
-            setApellidos('');
-            setNombres('');
-            setFechaNacimiento('');
-            setEdad('');
-            setTelefono('');
-            if (especialidad === 'Medicina') {
-                setDireccion('');
-            }
-            if (especialidad === 'Planificación') {
-                setMetodo('');
-            }
-            if (especialidad === 'Obstetricia_CPN') {
-                setSemEmbarazo('');
-            }
+            clearFields();
         }
     };
 
+    // Función para buscar paciente por DNI
+    const handleDniChange = async (e) => {
+        const value = e.target.value;
+        setDni(value);
+
+        if (value) {
+            try {
+                const response = await fetch(`http://localhost:5000/api/obtener-pacientes/dni/${value}`);
+                if (!response.ok) {
+                    throw new Error('Paciente no encontrado');
+                }
+                const data = await response.json();
+
+                // Completar los campos con la información del paciente
+                setIdRespons(data.id_responsable);
+                setHisClinico(data.hist_clinico);
+                setApellidos(`${data.ape_paterno} ${data.ape_materno}`);
+                setNombres(data.nombres);
+
+                const formattedDate = new Date(data.fecha_nacimiento).toISOString().split('T')[0];
+                setFechaNacimiento(formattedDate);
+
+                setEdad(data.edad);
+                setTelefono(data.celular1 || data.celular2 || data.celular1_res);
+                if (especialidad === 'Medicina') {
+                    setDireccion(data.direccion || data.direccion_res);
+                }
+            } catch (error) {
+                console.error('Error al buscar paciente:', error);
+            }
+        } else {
+            clearFields();
+        }
+    };
+
+    // Función para limpiar campos
+    const clearFields = () => {
+        setHisClinico('')
+        setDni('');
+        setApellidos('');
+        setNombres('');
+        setFechaNacimiento('');
+        setEdad('');
+        setTelefono('');
+        if (especialidad === 'Medicina') setDireccion('');
+        if (especialidad === 'Planificación') setMetodo('');
+        if (especialidad === 'Obstetricia_CPN') setSemEmbarazo('');
+    };
+
+    // Función para enviar los datos del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -94,7 +125,7 @@ const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) 
             direccion: especialidad === 'Medicina' ? direccion : undefined,
             metodo: especialidad === 'Planificación' ? metodo : undefined,
             semEmbarazo: especialidad === 'Obstetricia_CPN' ? semEmbarazo : undefined,
-            idRespons
+            idRespons,
         };
 
         try {
@@ -105,96 +136,110 @@ const FormCitas = ({ especialidad, handleCloseForm, hora, fecha, consultorio }) 
                 },
                 body: JSON.stringify(citaData),
             });
-            
+
             if (!response.ok) {
                 throw new Error('Error al registrar la cita');
             }
-            handleCloseForm()
-            //mostrar mensaje de exito
-            alert('Cita registrada con exito');
 
-            handleCloseForm()
-            window.location.reload()
+            alert('Cita registrada con éxito');
+            window.location.reload();
         } catch (error) {
             console.error('Error al registrar la cita:', error);
-        } finally{
-            // Cerrar el formulario después de enviar los datos
-            handleCloseForm()
+        } finally {
+            closeForm();
         }
+    };
+
+    // Navegar para editar paciente
+    const handleIrEdit = () => {
+        navigate(`/panel/${hisClinico}`);
     };
 
     return (
         <div className="form-cita">
-            <main>
-                <form onSubmit={handleSubmit}>
-                    <h2>Agendar cita para {especialidad} - Niño</h2>
-                    <div className="form-fechaHora">
-                        <div className="sub-formfechaHora">
-                            <p> FECHA: {fecha} </p>
-                            <p> HORA: {hora} </p>
-                        </div>
-                        <p className='cstr'> CONSULTORIO: Nº {consultorio} </p>
+            <form onSubmit={handleSubmit}>
+                <p className="ico-close" onClick={closeForm}>×</p>
+                <h2>Agendar cita para <span style={{ textDecoration: 'underline' }}>{especialidad}</span> - Niño</h2>
+                <div className="fechas">
+                    <div className="box-fechas">
+                        <p> Fecha</p>
+                        <span>{fecha}</span>
                     </div>
-                    <div>
-                        <label>
-                            Hist. Clínico:
-                            <input value={hisClinico} onChange={handleHisClinicoChange} required />
-                        </label>
-                        <label>
-                            DNI:
-                            <input value={dni} onChange={(e) => setDni(e.target.value)} required />
-                        </label>
+                    <div className="box-fechas">
+                        <p> Hora</p>
+                        <span>{hora}</span>
                     </div>
+                    <div className="box-fechas">
+                        <p> Consultorio </p>
+                        <span>N° {consultorio}</span>
+                    </div>
+                </div>
+                <div className="box-btn">
+                    <button onClick={handleIrEdit} disabled={!nombres} className={nombres ? 'btn' : 'disable'} >
+                        <MdOpenInNew /> Editar Datos
+                    </button>
+                </div>
+                <div className='box-filtra'>
+                    <label>
+                        Hist. Clínico:
+                        <input value={hisClinico} onChange={handleHisClinicoChange} required />
+                    </label>
+                    <label>
+                        DNI:
+                        <input value={dni} onChange={handleDniChange} required />
+                    </label>
+                    <p>Filtra datos por Historia clínica o DNI</p>
+                </div>
+                <div>
                     <label>
                         Apellidos:
-                        <input value={apellidos} onChange={(e) => setApellidos(e.target.value)} readOnly required />
+                        <input value={apellidos} className='noo' readOnly required />
                     </label>
                     <label>
                         Nombres:
-                        <input value={nombres} onChange={(e) => setNombres(e.target.value)} readOnly required />
+                        <input value={nombres} className='noo' readOnly required />
                     </label>
-                    <div>
-                        <label>
-                            Fech. Nacimiento:
-                            <input type='date' value={fechaNacimiento} onChange={(e) => setFechaNacimiento(e.target.value)} required />
-                        </label>
-                        <label>
-                            Edad:
-                            <input type='text' value={edad} onChange={(e) => setEdad(e.target.value)} readOnly required />
-                        </label>
-                    </div>
+                </div>
+                <div>
                     <label>
-                        Celular:
-                        <input type='text' value={telefono} onChange={(e) => setTelefono(e.target.value)} required />
+                        Fech. Nacimiento:
+                        <input type="date" className='noo' value={fechaNacimiento} readOnly required />
                     </label>
-                    {especialidad === 'Medicina' && (
-                        <label>
-                            Direccion:
-                            <input type="text" value={direccion} onChange={(e) => setDireccion(e.target.value)} required />
-                        </label>
-                    )}
-                    {especialidad === 'Planificación' && (
-                        <label>
-                            Metodo de Planificación:
-                            <input type="text" value={metodo} onChange={(e) => setMetodo(e.target.value)} required />
-                        </label>
-                    )}
-                    {especialidad === 'Obstetricia_CPN' && (
-                        <label>
-                            Semanas de embarazo:
-                            <input type="text" value={semEmbarazo} onChange={(e) => setSemEmbarazo(e.target.value)} required />
-                        </label>
-                    )}
                     <label>
-                        Motivo Consulta:
-                        <input value={motivoConsulta} onChange={(e) => setMotivoConsulta(e.target.value)} required />
+                        Edad:
+                        <input type="text" className='noo' value={edad} readOnly required />
                     </label>
-                    <div className="btns">
-                        <button className='btn-register' type="submit"><TfiWrite className="icon" />REGISTRAR CITA</button>
-                        <button className='btn-close' type="button" onClick={handleCloseForm}> <RiCloseCircleFill className="icon" /> Cerrar</button>
-                    </div>
-                </form>
-            </main>
+                </div>
+                <label>
+                    Celular:
+                    <input type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)} required />
+                </label>
+                {especialidad === 'Medicina' && (
+                    <label>
+                        Dirección:
+                        <input type="text" value={direccion} onChange={(e) => setDireccion(e.target.value)} required />
+                    </label>
+                )}
+                {especialidad === 'Planificación' && (
+                    <label>
+                        Método de Planificación:
+                        <input type="text" value={metodo} onChange={(e) => setMetodo(e.target.value)} required />
+                    </label>
+                )}
+                {especialidad === 'Obstetricia_CPN' && (
+                    <label>
+                        Semanas de embarazo:
+                        <input type="text" value={semEmbarazo} onChange={(e) => setSemEmbarazo(e.target.value)} required />
+                    </label>
+                )}
+                <label>
+                    Motivo de Consulta:
+                    <textarea value={motivoConsulta} onChange={(e) => setMotivoConsulta(e.target.value)} required></textarea>
+                </label>
+                <div className="btnss">
+                    <button className="btn-save" type="submit"><TfiWrite /> Guardar Cita</button>
+                </div>
+            </form>
         </div>
     );
 };

@@ -1,0 +1,155 @@
+
+
+.titHist {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Centra los elementos verticalmente */
+  margin: 5px;
+}
+
+.titHist button {
+  background-color: #333;
+  color: #fff;
+  padding: 5px 10px; /* Añade un pequeño padding para evitar el espacio adicional */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.3s ease;
+  align-self: center; /* Evita que el botón se estire al alto del contenedor */
+  height: auto; /* Asegura que el alto del botón solo dependa de su contenido */
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  /* align-self: center; */
+}
+
+
+.titHist button:hover {
+  background-color: #555; /* Cambio de color al pasar el mouse */
+}
+
+.contGeneral {
+  margin-top: 5px; /* Reducido margen superior */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px; /* Reducido el espacio entre columnas */
+  padding: 5px; /* Reducido el padding */
+  justify-items: center;
+  /* border: #069a89 solid 1px; */
+}
+
+.container {
+  width: 100%;
+  max-width: 500px; /* Reducido el ancho máximo */
+  padding: 15px; /* Reducido el padding */
+  background-color: #f9f9f9;
+  border-radius: 6px; /* Esquinas más pequeñas */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra más suave */
+}
+
+.header {
+  font-size: 1.2em; /* Reducido tamaño de fuente */
+  font-weight: bold;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: #333;
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px; /* Reducido margen inferior */
+}
+
+.iconstar {
+  margin-right: 6px; /* Reducido margen derecho */
+  color: #ffcc00;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  padding: 3px; /* Reducido el padding */
+  gap: 8px; /* Reducido el espacio entre elementos */
+}
+
+.message {
+  font-size: 0.85em; /* Reducido tamaño de fuente */
+  font-weight: bold;
+  padding: 5px; /* Reducido el padding */
+  color: #474646;
+  margin-bottom: 6px; /* Reducido margen inferior */
+  background-color: #ffeca0;
+}
+
+.formGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* Reducido el espacio entre los elementos */
+}
+
+.formGroup input[type="date"],
+.formGroup input[type="text"] {
+  font-size: 14px; /* Reducido tamaño de fuente */
+  padding: 4px 8px; /* Reducido el padding */
+  outline: none;
+  border-radius: 3px; /* Reducido el borde redondeado */
+  border: 1px solid rgb(82, 82, 82);
+}
+
+.formGroup input[type="text"] {
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra más ligera */
+}
+
+.formGroup input[type="date"]:focus,
+.formGroup input[type="text"]:focus {
+  border-color: #4a90e2;
+  box-shadow: 0px 2px 4px rgba(74, 144, 226, 0.2); /* Sombra en foco más ligera */
+}
+
+.formGroup label {
+  font-size: 14px; /* Reducido tamaño de fuente */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.radioGroup {
+  display: flex;
+  gap: 6px; /* Reducido el espacio entre opciones */
+}
+
+.separator {
+  margin: 0 3px; /* Reducido margen */
+  color: #aaa;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px; /* Reducido margen superior */
+}
+
+.guardarButton,
+.solicitarButton {
+  width: 120px; /* Reducido ancho */
+  padding: 6px; /* Reducido padding */
+  font-size: 0.85em; /* Reducido tamaño de fuente */
+  border: none;
+  border-radius: 3px; /* Esquinas más pequeñas */
+  cursor: pointer;
+  /* font-weight: bold; */
+}
+
+.guardarButton {
+  background-color: #069a89;
+  color: white;
+}
+
+.guardarButton:hover{
+  background-color: #0a7c6a;
+}
+
+.solicitarButton {
+  background-color: #b2b2b2;
+  color: black;
+}
+
+.solicitarButton:hover{
+  background-color: #a1a1a1;
+}

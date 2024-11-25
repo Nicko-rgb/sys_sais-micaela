@@ -37,7 +37,7 @@
   
   .profile-container .profile-header {
     display: flex;
-    border: red solid 2px;
+    /* border: red solid 2px; */
     align-items: center;
     margin-bottom: 20px;
   }

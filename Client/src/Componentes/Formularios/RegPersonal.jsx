@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './reg_personal.css';
 import { AiOutlineClose } from "react-icons/ai";
 import { IoCloudUploadOutline } from "react-icons/io5";
+import Selected from './Select';
 
 const RegPersonal = ({ handleForm }) => {
     const [dni, setDni] = useState('');
@@ -25,17 +26,12 @@ const RegPersonal = ({ handleForm }) => {
     const [mostrarConsultorio, setMostrarConsultorio] = useState(false);
 
     const handleKeyPress = (e) => {
-        if (!/[0-9]/.test(e.key)) {
-            e.preventDefault(); // Evitar que se escriban caracteres no numéricos
-        }
+        if (!/[0-9]/.test(e.key)) e.preventDefault();
     };
 
-    // Mostrar el campo de consultorio si la especialidad es válida
     const handleEspecialidadChange = (e) => {
         const selectedEspecialidad = e.target.value;
         setEspecialidad(selectedEspecialidad);
-
-        // Mostrar el campo de consultorio si es Enfermería, Medicina u Odontología
         setMostrarConsultorio(
             selectedEspecialidad === 'Enfermería' ||
             selectedEspecialidad === 'Medicina' ||
@@ -47,56 +43,41 @@ const RegPersonal = ({ handleForm }) => {
         e.preventDefault();
         setLoading(true);
         setMsg('');
-    
-        // Validaciones
+
         if (!dni || !paterno || !materno || !nombres || !tipoUser || !profesion || !servicio || !condicion || !celular || !correo || !contrasena || !repitContra) {
             setMsg('Todos los campos son obligatorios.');
             setLoading(false);
             return;
         }
-    
+
         if (contrasena !== repitContra) {
             setMsg('Las contraseñas no coinciden.');
             setLoading(false);
             return;
         }
-    
-        // Crear un objeto con los datos del formulario
+
         const dataPersonal = {
-            dni,
-            paterno,
-            materno,
-            nombres,
-            tipoUser,
-            profesion,
-            servicio,
-            especialidad,
-            consultorio: tieneEspecialidad ? consultorio : '',
-            condicion,
-            celular,
-            correo,
-            nameUser,
-            contrasena
+            dni, paterno, materno, nombres, tipoUser, profesion, servicio,
+            especialidad, consultorio: tieneEspecialidad ? consultorio : '',
+            condicion, celular, correo, nameUser, contrasena
         };
-    
+
         try {
             const response = await fetch('http://localhost:5000/api/register/personal-salud', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dataPersonal),
             });
-    
+
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Error al registrar el personal.');
             }
-    
+
             const result = await response.json();
             setMsg(result.message);
             alert('Registro Exitoso');
-            handleForm()
+            handleForm();
         } catch (error) {
             setMsg('Error al registrar el personal. Intenta nuevamente.');
             console.error('Error:', error);
@@ -108,9 +89,15 @@ const RegPersonal = ({ handleForm }) => {
 
     const handleCheckboxChange = () => {
         setTieneEspecialidad(!tieneEspecialidad);
-        if (!tieneEspecialidad) {
-            setEspecialidad(''); // Limpiar especialidad si se desmarca
-        }
+        if (!tieneEspecialidad) setEspecialidad('');
+    };
+
+    const handleProfesionChange = (selectedOption) => {
+        setProfesion(selectedOption ? selectedOption.label : '');
+    };
+
+    const handleServicioChange = (selectedOption) => {
+        setServicio(selectedOption ? selectedOption.label : '');
     };
 
     return (
@@ -146,21 +133,16 @@ const RegPersonal = ({ handleForm }) => {
                                 <option value="Responsable">Responsable</option>
                             </select>
                         </label>
-                        <label>Profesión:
-                            <input type="text" value={profesion} onChange={(e) => setProfesion(e.target.value)} />
-                        </label>
-                        <label>Servicio:
-                            <input type="text" value={servicio} onChange={(e) => setServicio(e.target.value)} />
-                        </label>
                     </div>
-
+                    
+                    <Selected 
+                        onProfesionChange={handleProfesionChange}
+                        onServicioChange={handleServicioChange}
+                    />
+                    
                     <div className='especialidad'>
                         <label className='label-especialidad'>
-                            <input
-                                type="checkbox"
-                                checked={tieneEspecialidad}
-                                onChange={handleCheckboxChange}
-                            />
+                            <input type="checkbox" checked={tieneEspecialidad} onChange={handleCheckboxChange} />
                             Tiene Especialidad en Citas?
                         </label>
 
@@ -206,31 +188,33 @@ const RegPersonal = ({ handleForm }) => {
                             </select>
                         </label>
                         <label>Celular:
-                            <input type="text" value={celular} onChange={(e) => setCelular(e.target.value)} onKeyPress={handleKeyPress} />
+                            <input type="text" value={celular} onChange={(e) => setCelular(e.target.value)} maxLength={9} onKeyPress={handleKeyPress} />
                         </label>
                     </div>
 
                     <label>Correo:
                         <input type="email" value={correo} onChange={(e) => setCorreo(e.target.value)} />
                     </label>
-                    {/* <label>Nombre de Usuario:
-                        <input type="text" value={nameUser} onChange={(e) => setNameUser(e.target.value)} />
-                    </label> */}
 
-                    <div>
-                        <label>Contraseña:
-                            <input type="password" value={contrasena} onChange={(e) => setContrasena(e.target.value)} />
-                        </label>
-                        <label>Repetir contraseña:
-                            <input type="password" value={repitContra} onChange={(e) => setRepitContra(e.target.value)} />
-                        </label>
+                    <div className="credencialesAcceso">
+                        <fieldset>
+                            <legend>credenciales de acceso</legend>
+                            <label>Usuario(DNI):
+                                <input type="text" value={dni} onChange={(e) => setNameUser(e.target.value)} style={{ cursor: 'no-drop' }} readOnly />
+                            </label>
+                            <label>Contraseña:
+                                <input type="text" value={contrasena} onChange={(e) => setContrasena(e.target.value)} />
+                            </label>
+                            <label>Repetir contraseña:
+                                <input type="text" value={repitContra} onChange={(e) => setRepitContra(e.target.value)} />
+                            </label>
+                        </fieldset>
                     </div>
 
                     {msg && (<p className='msg-personal'> {msg} </p>)}
 
-                    <button type='submit' className='btn-personal'>
-                        {loading ? 'Cargando...' : 'REGISTRAR'}
-                        <IoCloudUploadOutline className={`ico ${loading ? 'flotar' : ''}`} />
+                    <button type='submit' disabled={loading} className='btn-personal'>
+                        {loading ? 'Guardando...' : 'Registrar'}
                     </button>
                 </form>
             </div>

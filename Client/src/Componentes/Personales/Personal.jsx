@@ -8,12 +8,12 @@ import EditPersonales from './EditPersonales/EditPersonales';
 import VerTurnos from './Turnos/VerTurnos';
 import { IoPersonAddSharp } from 'react-icons/io5';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
-import { MdPersonSearch } from 'react-icons/md';
+import { MdPersonSearch, MdMenuOpen  } from 'react-icons/md';
 import { FaUserEdit } from 'react-icons/fa';
-import { MdMenuOpen } from "react-icons/md";
 import { AiFillSchedule } from "react-icons/ai";
+import { FaXmark, FaCheck } from "react-icons/fa6";
 
-
+ 
 const Personal = () => {
     const [verForm, setVerForm] = useState(false);
     const [personalList, setPersonalList] = useState([]);
@@ -137,7 +137,7 @@ const Personal = () => {
                     <button className='open-form' onClick={handleForm}>
                         <IoPersonAddSharp /> REGISTRAR NUEVO
                     </button>
-                </div>
+                </div> 
                 <section>
                     <div className="box-buscar">
                         <Link to='/panel-niño' className='volver_link'>
@@ -151,7 +151,7 @@ const Personal = () => {
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                         <button onClick={handleVerTurnos}>VER TURNOS <AiFillSchedule className="ico-verturnos" /></button>
-                        <p className='btn-filtro' onClick={handleOpenFilter}>< MdMenuOpen className='ico' />Filtrar Datos</p>
+                        <button className='btn-filtro' onClick={handleOpenFilter}>< MdMenuOpen className='ico' />Filtrar Datos</button>
                         {openFiltro && (
                             <div className="filtro">
                                 <span onClick={() => handleFilterChange('todos')}>Todos</span>
@@ -174,7 +174,7 @@ const Personal = () => {
                                         <th>Especialidad en Citas</th>
                                         <th>Condición</th>
                                         <th>Celular</th>
-                                        <th>Acción</th>
+                                        <th style={{ textAlign: "center" }}>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -191,8 +191,9 @@ const Personal = () => {
                                             <td>{personal.celular}</td>
                                             <td className='btns'>
                                                 <div>
-                                                    <button onClick={() => handleToggleClick(personal)}>
+                                                    <button className={personal.estado === 'activo' ? 'activo' : 'inactivo'} onClick={() => handleToggleClick(personal)}>
                                                         {personal.estado === 'activo' ? 'Inactivar' : 'Activar'}
+                                                        {personal.estado === 'activo' ? <FaXmark /> : <FaCheck /> }
                                                     </button>
                                                     <button onClick={() => handleEditClick(personal)}>
                                                         <FaUserEdit />Editar

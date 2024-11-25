@@ -38,7 +38,7 @@ const Sidebar = ({ tipoUser }) => {
       case 'Responsable':
         return (
           <>
-            <li><Link to="/personal/tareas"><BsListTask /> Mis Tareas</Link></li>
+            <li><Link to="/personal/tareas"><BsListTask />Tareas XXX</Link></li>
             <li><Link to="/personal/solicitudes"><AiOutlineForm /> Solicitudes</Link></li>
             <li><Link to="/personal/horario"><BsCalendarCheck /> Mi Horario</Link></li>
             <li><Link to="/personal/historial-clinico"><GiHealthNormal /> Historial Clínico</Link></li>
@@ -50,7 +50,6 @@ const Sidebar = ({ tipoUser }) => {
         return <li>No hay opciones disponibles</li>;
     }
   };
-
   return (
     <div className="sidebar-content">
       <h3>{tipoUser}</h3>

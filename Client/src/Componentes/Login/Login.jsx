@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import NavLogin from '../Navegadores/NavLogin';
-import NavPie from '../Navegadores/NavPie';
 import { CiUser } from "react-icons/ci";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { Link } from 'react-router-dom';
@@ -20,11 +18,6 @@ const Login = () => {
     const navigate = useNavigate(); // Hook for programmatic navigation
 
     const { handleLogin } = EstadoSesion(); // Custom hook for managing login state
-
-    // Function to toggle sidebar
-    const toggleSidebar = () => {
-        setSidebarOpen(!sidebarOpen);
-    };
 
     // Function to close sidebar when clicking outside
     const closeSidebar = () => {
@@ -117,7 +110,6 @@ const handleSubmit = async (e) => {
                                 required
                                 maxLength={"8"}
                                 pattern='\d{8}'
-                                title='INGRESE DNI VALIDO DE 8 DIGITOS '
                             />
                             <CiUser className='ico_form_login' />
                         </div>
@@ -150,4 +142,4 @@ const handleSubmit = async (e) => {
     );
 };
 
-export default Login; 
+export default Login;

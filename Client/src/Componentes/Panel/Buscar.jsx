@@ -6,7 +6,7 @@ import RegistrarPas from '../Formularios/RegPasciente';
 import EditPaciente from "../Her_Pacien_Ninho/EditPaciente"
 import './buscar.css';
 import { IoPersonAddSharp } from 'react-icons/io5';
-import { FaUserEdit, FaMale, FaFemale } from 'react-icons/fa';
+import { FaUserEdit } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { IoMdFemale, IoMdMale  } from "react-icons/io";
 
@@ -50,6 +50,7 @@ const Buscar = () => {
                     'Content-Type': 'application/json',
                 },
             });
+            
 
             if (!response.ok) {
                 throw new Error('Error al actualizar los datos de los pacientes');
@@ -57,6 +58,7 @@ const Buscar = () => {
 
             const data = await response.json();
             alert(data.message); // Muestra un mensaje de éxito
+            window.location.reload()
 
         } catch (error) {
             console.error('Error:', error);
@@ -126,14 +128,14 @@ const Buscar = () => {
                             <thead>
                                 <tr>
                                     <th>N°</th>
-                                    <th>DNI</th>
+                                    <th style={{ textAlign: "center" }}>DNI</th>
                                     <th>Historia Clínica</th>
-                                    <th>Nombres</th>
-                                    <th>Sexo</th>
+                                    <th style={{ textAlign: "center" }}>Nombres</th>
+                                    <th style={{ textAlign: "center" }}>Sexo</th>
                                     <th>Fecha de Nacimiento</th>
-                                    <th>Edad</th>
-                                    <th>Tipo</th>
-                                    <th>Acción</th>
+                                    <th style={{ textAlign: "center" }}>Edad</th>
+                                    <th style={{ textAlign: "center" }}>Tipo</th>
+                                    <th style={{ textAlign: "center" }}>Acción</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -4,7 +4,7 @@ import { RiPlayReverseLargeFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { MdMenuOpen, MdPersonSearch, MdNavigateNext, MdNavigateBefore } from "react-icons/md";
 import Informacion from '../infoTurno/Informacion';
-import Leyenda from "../infoTurno/Leyendas";
+import { AiOutlineExport } from "react-icons/ai";
 
 const AsignaTurno = ({ closeTurnos }) => {
     const [personales, setPersonales] = useState([]);
@@ -12,13 +12,15 @@ const AsignaTurno = ({ closeTurnos }) => {
     const [cargando, setCargando] = useState(true);
     const [paginaActual, setPaginaActual] = useState(1);
     const [filtroCondicion, setFiltroCondicion] = useState('Todos');
+    const [profesionFiltro, setProfesionFiltro] = useState([])
+    const [condicionFiltro, setCondiconFiltro] = useState([])
     const [busqueda, setBusqueda] = useState('');
     const [personalSeleccionado, setPersonalSeleccionado] = useState(null);
     const [modalAbierto, setModalAbierto] = useState(false);
     const [tiposDeTurno, setTiposDeTurno] = useState([]);
     const [columnasBloqueadas, setColumnasBloqueadas] = useState([]); // Cambiar a un arreglo de fechas bloqueadas
     const [columnaSeleccionada, setColumnaSeleccionada] = useState(null);
-    const [turnos, setTurnos] = useState([]); //Para guardar los turnos 
+    const [turnos, setTurnos] = useState([]); //Para guardar los turnos
     const filasPorPagina = 10;
 
     useEffect(() => {
@@ -28,6 +30,13 @@ const AsignaTurno = ({ closeTurnos }) => {
                 const response = await fetch('http://localhost:5000/api/obtener/personal-salud');
                 const data = await response.json();
                 setPersonales(data);
+
+                // Filtrar tipos de profesion unicos
+                const preofesionUnicos = Array.from(new Set(data.map(personal => personal.profesion)));
+                setProfesionFiltro(preofesionUnicos);
+                //filtrar tipo e condicion unicos
+                const condicionUnicos = Array.from(new Set(data.map(personal => personal.condicion)));
+                setCondiconFiltro(condicionUnicos);
             } catch (error) {
                 console.error('Error al obtener los personales de salud:', error);
             } finally {
@@ -112,7 +121,7 @@ const AsignaTurno = ({ closeTurnos }) => {
     const personalesFiltrados = personales.filter(personal => {
         const coincideBusqueda = `${personal.paterno} ${personal.materno} ${personal.nombres}`.toLowerCase().includes(busqueda.toLowerCase()) ||
             personal.dni.includes(busqueda);
-        const coincideCondicion = filtroCondicion === 'Todos' || personal.condicion === filtroCondicion;
+        const coincideCondicion = filtroCondicion === 'Todos' || personal.condicion === filtroCondicion || personal.profesion === filtroCondicion;
         return coincideBusqueda && coincideCondicion;
     });
 
@@ -134,10 +143,16 @@ const AsignaTurno = ({ closeTurnos }) => {
         }
     };
 
-    const manejarClickPersonal = (personal) => {
+    const manejarClickPersonal = (personal, event) => {
+        const { top, right } = event.currentTarget.getBoundingClientRect();
         setPersonalSeleccionado(personal);
         setModalAbierto(true);
+        setColumnaSeleccionada(null)
+        setModalPosicion({ top: top + window.scrollY, left: right }); // Posiciona a la derecha
     };
+
+    // Añade un estado para la posición del modal
+    const [modalPosicion, setModalPosicion] = useState({ top: 0, left: 0 });
 
     const cerrarModal = () => {
         setModalAbierto(false);
@@ -180,8 +195,9 @@ const AsignaTurno = ({ closeTurnos }) => {
 
     const manejarSeleccionColumna = (fecha) => {
         if (columnaSeleccionada === fecha) {
-            setColumnaSeleccionada(null); // Si haces clic de nuevo en la misma columna, se cierra
+            setColumnaSeleccionada(null);
         } else {
+            setModalAbierto(false)
             setColumnaSeleccionada(fecha); // Selecciona la columna actual
         }
     };
@@ -222,6 +238,32 @@ const AsignaTurno = ({ closeTurnos }) => {
         return turno ? turno.clave_turno : '';
     };
 
+    const obtenerDescripcionTurno = (clave_turno) => {
+        switch (clave_turno) {
+            case 'M':
+                return 'Mañana';
+            case 'T':
+                return 'Tarde';
+            case 'MT':
+                return 'Mañana y Tarde';
+            case 'GD':
+                return 'Guardia Diurna';
+            case 'GDD':
+                return 'Guardia Devolución';
+            case 'MVD':
+                return 'Mañana Variable';
+            case 'TVD':
+                return 'Tarde Variable';
+            case 'MVSF':
+                return 'Mañana Variable Sin Fines de Semana';
+            case 'TVSL':
+                return 'Tarde Variable Sin Lunes';
+            case 'L':
+                return 'Libre';
+            default:
+                return 'Desconocido';
+        }
+    };
 
     return (
         <div className="turnos-personal">
@@ -240,15 +282,21 @@ const AsignaTurno = ({ closeTurnos }) => {
                             onChange={(e) => setBusqueda(e.target.value)}
                         />
                         <div className="filtros">
-                            <p><MdMenuOpen className='ico' />CONDICION</p>
+                            <button className="btn-filtro"><MdMenuOpen className='ico' />CONDICION</button>
                             <div className="filtro">
-                                <span onClick={() => setFiltroCondicion('Todos')}>Todos</span>
-                                <span onClick={() => setFiltroCondicion('Contratados')}>Contratados</span>
-                                <span onClick={() => setFiltroCondicion('Nombrado')}>Nombrado</span>
-                                <span onClick={() => setFiltroCondicion('Tercero')}>Tercero</span>
-                                <span onClick={() => setFiltroCondicion('CAS')}>CAS</span>
-                                <span onClick={() => setFiltroCondicion('CLAS')}>CLAS</span>
-                                <span onClick={() => setFiltroCondicion('Serums')}>Serums</span>
+                                <span onClick={() => setFiltroCondicion('Todos')}>TODOS</span>
+                                {condicionFiltro.map((condicion, index) => (
+                                    <span key={index} onClick={() => setFiltroCondicion(condicion)} >{condicion}</span>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="filtros">
+                            <button className="btn-filtro"><MdMenuOpen className='ico' />PROFESION</button>
+                            <div className="filtro">
+                                <span onClick={() => setFiltroCondicion('Todos')}>TODOS</span>
+                                {profesionFiltro.map((tipo, index) => (
+                                    <span key={index} onClick={() => setFiltroCondicion(tipo)} >{tipo}</span>
+                                ))}
                             </div>
                         </div>
                         <span className="contador">{filtroCondicion}: {activosFiltrados.length}</span>
@@ -263,7 +311,7 @@ const AsignaTurno = ({ closeTurnos }) => {
                     ) : (
                         <table>
                             <thead>
-                                <tr>
+                                <tr style={{ backgroundColor: '#f5ce71', fontFamily: 'calibri' }}>
                                     <th>N°</th>
                                     <th className="cab">Personal</th>
                                     {fechasDelMes.map((fecha, index) => {
@@ -298,17 +346,10 @@ const AsignaTurno = ({ closeTurnos }) => {
                             </thead>
                             <tbody>
                                 {personalesPaginados.map((personal, index) => (
-                                    <tr key={index}>
-                                        <td>{(paginaActual - 1) * filasPorPagina + index + 1}</td>
-                                        <td className="names" onClick={() => manejarClickPersonal(personal)}>
-                                            {`${personal.paterno} ${personal.materno} ${personal.nombres}`}
-                                            {modalAbierto && (
-                                                <Informacion
-                                                    personal={personalSeleccionado}
-                                                    cerrarModal={cerrarModal}
-                                                    tiposDeTurno={tiposDeTurno}
-                                                />
-                                            )}
+                                    <tr key={personal.id_personal}>
+                                        <td style={{ textAlign: 'center' }}>{(paginaActual - 1) * filasPorPagina + index + 1}</td>
+                                        <td className="names" onClick={(event) => manejarClickPersonal(personal, event)}>
+                                            {`${personal.paterno} ${personal.materno}, ${personal.nombres}`}
                                         </td>
                                         {fechasDelMes.map((fecha, fechaIndex) => {
                                             const esDomingo = fecha.getDay() === 0; // Verifica si es domingo
@@ -319,22 +360,20 @@ const AsignaTurno = ({ closeTurnos }) => {
                                                     key={fechaIndex}
                                                     className={`${columnaBloqueada ? 'bloqueada' : ''} ${esDomingo ? 'domingo' : ''}`.trim()}
                                                 >
-                                                    {/* Solo muestra el select si no es domingo y no está bloqueada */}
                                                     {!esDomingo && !columnaBloqueada && (
                                                         <select
-                                                        className={
-                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'M' ? 'mm' :
-                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'T' ? 'tt' :
-                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'GD' ? 'gd' :
-                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'GDD' ? 'gdd' :
-                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'MT' ? 'mt' :
-                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'MVD' ? 'mvd' :
-                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'TVD' ? 'tvd' :
-                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'MVSF' ? 'mvsf' :
-                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'TVSL' ? 'tvsl' :
-                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'L' ? 'll' :
-                                                            ''
-                                                        }
+                                                            className={
+                                                                obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'M' ? 'mm' :
+                                                                    obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'T' ? 'tt' :
+                                                                        obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'GD' ? 'gd' :
+                                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'GDD' ? 'gdd' :
+                                                                                obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'MT' ? 'mt' :
+                                                                                    obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'MVD' ? 'mvd' :
+                                                                                        obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'TVD' ? 'tvd' :
+                                                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'MVSF' ? 'mvsf' :
+                                                                                                obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'TVSL' ? 'tvsl' :
+                                                                                                    obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'L' ? 'll' : ''
+                                                            }
                                                             value={turnos[`${personal.id_personal}_${fecha.toDateString()}`] || ""}
                                                             onChange={(e) => manejarGuardarTurno(personal.id_personal, fecha, e.target.value)}
                                                         >
@@ -354,13 +393,34 @@ const AsignaTurno = ({ closeTurnos }) => {
                             </tbody>
                         </table>
                     )}
-                    <div className="paginacion">
-                        <button onClick={manejarVerMenos} disabled={paginaActual === 1}>Ver menos</button>
-                        <button onClick={manejarVerMas} disabled={indiceFinal >= activosFiltrados.length}>Ver más</button>
+                    <div className="leyenda-turno">
+                        {tiposDeTurno.map(tipo => (
+                            <p> {tipo.clave_turno}: {obtenerDescripcionTurno(tipo.clave_turno)}</p>
+                        ))}
                     </div>
-                    <Leyenda turno={turnos} tiposDeTurno={tiposDeTurno} />
+                    <div className="buttons-turno">
+                        <div className="paginacion">
+                            <button onClick={manejarVerMenos} disabled={paginaActual === 1}><MdNavigateBefore className="ico-cambiar" />Ver menos</button>
+                            <button onClick={manejarVerMas} disabled={indiceFinal >= activosFiltrados.length}>Ver más <MdNavigateNext className="ico-cambiar" /></button>
+                        </div>
+                        <Link className="btn-export" to='/exportar-turno'>IR A EXPORTAR A EXCEL <AiOutlineExport className="icoExport"/></Link>
+                    </div>
                 </section>
             </main>
+            {modalAbierto && personalSeleccionado && (
+                <div style={{
+                    position: 'absolute',
+                    top: modalPosicion.top,
+                    left: modalPosicion.left,
+                    transform: 'translate(0, 0)',
+                }}>
+                    <Informacion
+                        personals={personalSeleccionado}
+                        cerrarModal={cerrarModal}
+                        tiposDeTurno={tiposDeTurno}
+                    />
+                </div>
+            )}
         </div>
     );
 };

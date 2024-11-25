@@ -32,7 +32,7 @@ const Panel = () => {
         <div className="panel">
             <NavLogin />
             <div className="sub_panel">
-                <h4>Panel de Servicios Para el Niño</h4>
+                <h5>Panel de Servicios Para el Niño</h5>
                 <div className='box_opciones'>
                     <Link to='/panel' className='volver_link'>
                         <RiPlayReverseLargeFill /> VOLVER
@@ -45,10 +45,10 @@ const Panel = () => {
                             <h5><MdDateRange className='icon_box' style={{ background: 'rgb(99, 191, 209)' }} /> Citas</h5>
                             <p>OTORGAR CITAS</p>
                         </Link>
-                        <button className="box" onClick={openModal}>
+                        <Link className="box" onClick={openModal}>
                             <h5><FaCheckCircle className="icon_box" style={{ background: 'rgb(32, 180, 111)' }} /> Acreditación</h5>
                             <p>VERIFICA AFILIACIÓN</p>
-                        </button>
+                        </Link>
                         <Link className="box" to='/personal-salud'>
                             <h5><HiUsers className="icon_box" style={{ background: 'gray' }} /> Personal</h5>
                             <p>USUARIO DE ACCESO</p>
@@ -58,7 +58,7 @@ const Panel = () => {
 
                 {/* Modal */}
                 {showModal && (
-                    <div className="modal">
+                    <div className="modalp">
                         <div className="modal_content">
                             <h4>Elige una opción</h4>
                             <div className="modal_buttons">

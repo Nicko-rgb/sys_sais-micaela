@@ -1,322 +1,340 @@
 /* Contenedor principal para la visita domiciliaria */
 .visitadomiciliaria-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    background-color: #d0e0e8; /* Azul pálido y relajante */
-    padding: 20px; /* Espacio alrededor del formulario */
-    height: 100vh; /* Mantiene la altura de la ventana */
-    overflow-y: auto; /* Permite el scroll vertical si es necesario */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw; /* Ocupa todo el ancho de la ventana */
+  background-color: #d0e0e8; /* Azul pálido */
+  height: 100vh; /* Ocupa toda la altura de la ventana */
+  padding: 0; /* Quitar padding global para evitar desplazamiento */
+  box-sizing: border-box; /* Incluye padding y borde en las dimensiones */
+  overflow: hidden; /* Oculta el scroll */
 }
 
 /* Estilos del formulario */
 .visitadomiciliaria-formulario {
-    margin-top: 14%;
-    background-color: #ffffff; /* Fondo blanco para el formulario */
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18); /* Sombra más pronunciada */
-    width: 100%;
-    max-width: 600px; /* Máximo ancho del formulario */
+  background-color: #ffffff; /* Fondo blanco para el formulario */
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18); /* Sombra más pronunciada */
+  width: 100%;
+  max-width: 600px; /* Máximo ancho del formulario */
 }
 
 /* Título del formulario */
 .visitadomiciliaria-titulo {
-    text-align: center;
-    font-size: 24px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 20px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
 }
 
 /* Estilos de labels e inputs */
 .visitadomiciliaria-label {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 8px;
-    display: block;
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 8px;
+  display: block;
 }
 
 .visitadomiciliaria-input,
 .visitadomiciliaria-select,
 .visitadomiciliaria-textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-    margin-top: 8px;
-    margin-bottom: 20px;
-    outline: none;
-    transition: border-color 0.3s ease;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-top: 8px;
+  margin-bottom: 20px;
+  outline: none;
+  transition: border-color 0.3s ease;
 }
 
 .visitadomiciliaria-input:focus,
 .visitadomiciliaria-select:focus,
 .visitadomiciliaria-textarea:focus {
-    border-color: #007bff; /* Color de borde al enfocar */
+  border-color: #007bff; /* Color de borde al enfocar */
 }
 
 .visitadomiciliaria-textarea {
-    resize: vertical; /* Permite redimensionar verticalmente */
-    min-height: 100px; /* Altura mínima del textarea */
+  resize: vertical; /* Permite redimensionar verticalmente */
+  min-height: 100px; /* Altura mínima del textarea */
 }
 
 /* Estilos de los radio buttons en cajitas */
 .visitadomiciliaria-efectividad {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
 }
 
 .visitadomiciliaria-radio-box {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: border-color 0.3s ease, background-color 0.3s ease;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .visitadomiciliaria-radio-box input[type="radio"] {
-    display: none; /* Oculta el radio button */
+  display: none; /* Oculta el radio button */
 }
 
 .visitadomiciliaria-radio-box span {
-    font-size: 16px;
-    color: #555;
+  font-size: 16px;
+  color: #555;
 }
 
 .visitadomiciliaria-radio-box:hover {
-    border-color: #007bff; /* Color de borde al pasar el mouse */
+  border-color: #007bff; /* Color de borde al pasar el mouse */
 }
 
 .visitadomiciliaria-radio-box input[type="radio"]:checked + span {
-    color: #007bff;
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 4px;
+  color: #007bff;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 4px;
 }
 
 /* Estilos de botones */
 .visitadomiciliaria-botones {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
 .visitadomiciliaria-guardar,
 .visitadomiciliaria-cancelar {
-    padding: 12px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .visitadomiciliaria-guardar {
-    background-color: #007bff;
-    color: #fff;
+  background-color: #007bff;
+  color: #fff;
 }
 
 .visitadomiciliaria-guardar:hover {
-    background-color: #0056b3; /* Color al pasar el mouse */
-    transform: translateY(-2px);
+  background-color: #0056b3; /* Color al pasar el mouse */
+  transform: translateY(-2px);
 }
 
 .visitadomiciliaria-cancelar {
-    background-color: #f44336;
-    color: #fff;
+  background-color: #f44336;
+  color: #fff;
 }
 
 .visitadomiciliaria-cancelar:hover {
-    background-color: #d32f2f; /* Color al pasar el mouse */
-    transform: translateY(-2px);
+  background-color: #d32f2f; /* Color al pasar el mouse */
+  transform: translateY(-2px);
 }
 
 /* Estilos responsive */
 @media (max-width: 768px) {
-    .visitadomiciliaria-formulario {
-        padding: 20px; /* Menos padding en dispositivos pequeños */
-    }
+  .visitadomiciliaria-formulario {
+    padding: 20px; /* Menos padding en dispositivos pequeños */
+  }
 
-    .visitadomiciliaria-botones {
-        flex-direction: column;
-        gap: 10px; /* Espacio entre botones */
-    }
+  .visitadomiciliaria-botones {
+    flex-direction: column;
+    gap: 10px; /* Espacio entre botones */
+  }
 
-    .visitadomiciliaria-guardar,
-    .visitadomiciliaria-cancelar {
-        width: 100%; /* Botones ocupan el 100% del ancho */
-    }
+  .visitadomiciliaria-guardar,
+  .visitadomiciliaria-cancelar {
+    width: 100%; /* Botones ocupan el 100% del ancho */
+  }
 }
-
 
 /* ESTILOS DE HISTORIAL VISITAS */
 /* HistorialVisitas.css */
 
 /* HistorialVisitas.css */
 
+.HistorialVisitas-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Empuja el contenido hacia la parte superior */
+  height: 100vh;
+  width: 100vw;
+  background-color: #f0f4f8;
+  padding-top: 50px; /* Ajusta la separación desde el borde superior */
+  box-sizing: border-box;
+}
+
+/* Estilos del componente .HistorialVisitas */
 .HistorialVisitas {
-    font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: 20px auto;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .HistorialVisitas__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .HistorialVisitas__title {
-    font-size: 1.4em;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .HistorialVisitas__new-visit {
-    background-color: #007bff;
-    color: #fff;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .HistorialVisitas__new-visit:hover {
-    background-color: #0056b3;
-  }
- /* HistorialVisitas.css */
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  width: 100%;
+  background-color: #fff;
+  border: gray solid 2px;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  overflow: auto; /* Scroll solo si el contenido excede el área visible */
+}
+
+.HistorialVisitas__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.HistorialVisitas__title {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #333;
+}
+
+.HistorialVisitas__new-visit {
+  background-color: #007bff;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.HistorialVisitas__new-visit:hover {
+  background-color: #0056b3;
+}
+/* HistorialVisitas.css */
 
 .HistorialVisitas__search {
-    display: flex;
-    align-items: center;
-    /* gap: 8px; */
-    margin-bottom: 15px;
-  }
-  
-  .labelBuscar {
-    font-weight: bold;
-    color: #555;
-    /* white-space: nowrap; Para evitar que el texto se divida en dos líneas */
-  }
-  
-  .inputBuscar {
-    padding: 8px 12px;
-    width: 100%;
-    /* max-width: 200px; Ancho moderado del input */
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    outline: none;
-    transition: border-color 0.3s;
-  }
-  
-  .inputBuscar:focus {
-    border-color: #007bff;
-  }
-  
-  
-  .HistorialVisitas__input {
-    padding: 8px 12px;
-    width: 100%;
-    max-width: 300px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    outline: none;
-  }
-  
-  .HistorialVisitas__table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  
-  .HistorialVisitas__table th, .HistorialVisitas__table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-    font-size: 0.9em;
-    color: #333;
-  }
-  
-  .HistorialVisitas__table th {
-    background-color: #f9f9f9;
-    font-weight: 600;
-    color: #555;
-  }
-  
-  .HistorialVisitas__table tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .HistorialVisitas__no-data {
-    text-align: center;
-    color: #999;
-    font-style: italic;
-  }
-  
-  .HistorialVisitas__pagination {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .HistorialVisitas__pagination-controls {
-    display: flex;
-    gap: 8px;
-  }
-  
-  .HistorialVisitas__page-button {
-    padding: 6px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #f8f8f8;
-    cursor: pointer;
-    font-size: 0.9em;
-    color: #555;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .HistorialVisitas__page-button:disabled {
-    background-color: #f0f0f0;
-    color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  .HistorialVisitas__page-button:not(:disabled):hover {
-    background-color: #007bff;
-    color: #fff;
-  }
-  
+  display: flex;
+  align-items: center;
+  /* gap: 8px; */
+  margin-bottom: 15px;
+}
 
-  /* ESTILOS DE LOS PANELES DE CONTROL */
+.labelBuscar {
+  font-weight: bold;
+  color: #555;
+  /* white-space: nowrap; Para evitar que el texto se divida en dos líneas */
+}
+
+.inputBuscar {
+  padding: 8px 12px;
+  width: 100%;
+  /* max-width: 200px; Ancho moderado del input */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.inputBuscar:focus {
+  border-color: #007bff;
+}
+
+.HistorialVisitas__input {
+  padding: 8px 12px;
+  width: 100%;
+  max-width: 300px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+}
+
+.HistorialVisitas__table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.HistorialVisitas__table th,
+.HistorialVisitas__table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9em;
+  color: #333;
+}
+
+.HistorialVisitas__table th {
+  background-color: #f9f9f9;
+  font-weight: 600;
+  color: #555;
+}
+
+.HistorialVisitas__table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.HistorialVisitas__no-data {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+
+.HistorialVisitas__pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.HistorialVisitas__pagination-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.HistorialVisitas__page-button {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  cursor: pointer;
+  font-size: 0.9em;
+  color: #555;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.HistorialVisitas__page-button:disabled {
+  background-color: #f0f0f0;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.HistorialVisitas__page-button:not(:disabled):hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* ESTILOS DE LOS PANELES DE CONTROL */
 /* Estilos generales */
 /* Estilos específicos para el componente Control */
-.ControlPRincipal{
+.ControlPrincipal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   background-color: #7295bd;
 }
+
 .control-form {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
+  /* margin-top: 50px; */
   background-color: #f0f4f8;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
 }
 
 .control-form h2 {
@@ -364,14 +382,12 @@
   border-radius: 4px;
   font-size: 14px;
 }
-.fondo{
+.fondo {
   /* border:  2px solid green;  */
   display: flex;
   gap: 40px;
   justify-content: space-evenly;
   align-items: center;
-
-
 }
 .control-form input[type="checkbox"] {
   width: 18px;
@@ -483,7 +499,7 @@
   background-color: #ffffff; /* Fondo blanco para un aspecto limpio */
   border-radius: 8px; /* Bordes redondeados */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra más suave */
-  font-family: 'Arial', sans-serif; /* Tipografía clara */
+  font-family: "Arial", sans-serif; /* Tipografía clara */
 }
 
 .seguimiento-form {
@@ -638,7 +654,7 @@ legend {
   background-color: white;
 }
 
-.table-controles th, 
+.table-controles th,
 .table-controles td {
   border: 1px solid #cce7cc;
   padding: 10px;
@@ -654,7 +670,8 @@ legend {
   background-color: #f2f8f2;
 }
 
-.edit-btn, .delete-btn {
+.edit-btn,
+.delete-btn {
   background: none;
   border: none;
   cursor: pointer;
@@ -686,12 +703,12 @@ legend {
   .table-controles {
     font-size: 14px;
   }
-  
-  .table-controles th, 
+
+  .table-controles th,
   .table-controles td {
     padding: 5px;
   }
-  
+
   .search-container input {
     width: 100%;
     margin-top: 5px;
@@ -699,7 +716,6 @@ legend {
 }
 /* estilo de ACTUALIZAR CONTROLES *********************************** */
 /* Contenedor de la tabla */
-
 
 /* Contenedor de la tabla */
 .tabla-container {
@@ -714,7 +730,7 @@ legend {
   width: 70%; /* Limitar el ancho del contenedor */
   max-width: 50%; /* Máximo ancho de la tabla */
   padding: 10px;
-  border: rgb(230, 228, 228) solid 2px; 
+  border: rgb(230, 228, 228) solid 2px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
   background-color: #eaeaea; /* Fondo blanco */
   text-align: center;

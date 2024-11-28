@@ -18,6 +18,7 @@ const Sidebar = ({ tipoUser }) => {
           <>
             <li><Link to="/panel"><AiOutlineDashboard /> Inicio Panel</Link></li>
             <li><Link to="/personal-salud"><FaUserPlus /> Ver Personal</Link></li>
+            <li><Link to="/personal-salud"><FaUserPlus /> Asignar Turnos</Link></li>
             <li><Link to="/admin/reportes"><FaChartBar /> Generar Reportes</Link></li>
             <li><Link to="/admin/gestion-usuarios"><MdManageAccounts /> Gestión de Usuarios</Link></li>
             <li><Link to="/admin/notificaciones"><MdNotifications /> Notificaciones</Link></li>
@@ -29,6 +30,8 @@ const Sidebar = ({ tipoUser }) => {
           <>
             <li><Link to="/jefe/equipo"><RiTeamLine /> Ver Equipo</Link></li>
             <li><Link to="/jefe/asignar-tareas"><RiTaskLine /> Asignar Tareas</Link></li>
+            <li><Link to="/personal-salud"><FaUserPlus /> Asignar Turnos</Link></li>
+            <li><Link to="/admin/gestion-usuarios"><MdManageAccounts /> Gestión de Usuarios</Link></li>
             <li><Link to="/jefe/rendimiento"><GiProgression /> Rendimiento del Equipo</Link></li>
             <li><Link to="/jefe/estadisticas"><IoStatsChartOutline /> Estadísticas de Equipo</Link></li>
             <li><Link to="/jefe/historial-tareas"><MdHistory /> Historial de Tareas</Link></li>

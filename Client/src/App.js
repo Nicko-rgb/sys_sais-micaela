@@ -18,7 +18,14 @@ import Control from './Componentes/Her_Pacien_Ninho/Control/control';
 import Seguimientonutricional from './Componentes/Her_Pacien_Ninho/Control/seguimientonutricional';
 import ListarControles from './Componentes/Her_Pacien_Ninho/Control/listarcontroles';
 import ActualizarControles from './Componentes/Her_Pacien_Ninho/Control/actualizarControles';
-import ConfiguracionSistema from './Componentes/Login/TiposUsuarios/admin/configuracionSistema/configuracionSistema';
+import ExportExcel from './Componentes/Personales/Turnos/Excel';
+
+import TamizajeDozaje from './Componentes/Her_Pacien_Ninho/Tamizaje/TamizajeDozaje';
+import HistorialTamizaje from './Componentes/Her_Pacien_Ninho/Tamizaje/HistorialTamizaje';
+import Entregasuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Entregasuplemento';
+import ListaSuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Listasumplemento';
+import Cita1 from './Componentes/CitaNiño/Citas1';
+
 
 function App() {
 
@@ -45,7 +52,6 @@ function App() {
                         <Route path="/seguimiento" element={<Seguimientonutricional/>} />
                         <Route path="/listarcontroles" element={<ListarControles/>} />
                         <Route path="/actualizarcontroles" element={<ActualizarControles/>} />
-                        <Route path="/configuaracion-sistema" element={<ConfiguracionSistema/>} />
                         {/* <Route path="/historialControles" element={<HistorialControles />} /> */}
                         {/* <Route path="/modal-salida" element={<Modalnavtop />} /> */}
                         <Route path="/exportar-turno" element={<ExportExcel />} />

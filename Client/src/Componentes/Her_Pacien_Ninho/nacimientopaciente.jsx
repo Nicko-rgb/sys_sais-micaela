@@ -3,11 +3,11 @@ import axios from "axios";
 import Select from "react-select";
 import "./editarpas.css";
 
-const NacimientoPaciente = ({ pacienteId, onClose }) => {
+const NacimientoPaciente = ({ pacienteId, onClose,pacienteDni }) => {
     const [birthData, setBirthData] = useState({
         id_paciente: pacienteId,
         edad_gestacional: "",
-        dni: "",
+        dni:pacienteDni,
         peso: "",
         talla: "",
         perimetro_cefalico: "",
@@ -16,9 +16,15 @@ const NacimientoPaciente = ({ pacienteId, onClose }) => {
         codigo_sis: "",
         id_programa: "",
     });
+
+
+    
+ 
     // añadir un estado de generacion de codigo
     const [codigoSis, setCodigoSis] = useState("");
     // funcion de cambiar los cambios del codio
+    // Generar el codigo Sis
+ 
     const handleCodigoSisChange = (e) => {
         const { value } = e.target;
         setCodigoSis(value);
@@ -31,12 +37,20 @@ const NacimientoPaciente = ({ pacienteId, onClose }) => {
     const [isEditing, setIsEditing] = useState(false); // Controlar si se está editando
     // EFECTO PARA LISTAR LOS DATOS DEL PACIENTE 
     // Generate the code automaticamente
-    const generateCodigoSis = (idFinanciamiento, dni) => {
-        return `340-${idFinanciamiento}-${dni}`;
-    };
+    const generateCodigoSis = () => {
+        if (birthData.id_financiamiento && birthData.dni) {
+            const generatedCode = `340-${birthData.id_financiamiento}-${birthData.dni}`;
+            setCodigoSis(generatedCode);
+        } else {
+            alert("Debe seleccionar un financiamiento y asegurarse de que el DNI esté presente.");
+        }
+    }
     useEffect(() => {
+        console.log("Financiamiento:", birthData.id_financiamiento);
+        console.log("DNI:", birthData.dni);
         if (birthData.id_financiamiento && birthData.dni) {
             const generatedCode = generateCodigoSis(birthData.id_financiamiento, birthData.dni);
+            console.log("Código generado:");
             setCodigoSis(generatedCode);
         }
     }, [birthData.id_financiamiento, birthData.dni]);
@@ -52,19 +66,14 @@ const NacimientoPaciente = ({ pacienteId, onClose }) => {
     // Carga datos de selectores
     const fetchData = async () => {
         try {
-            const resFinanciamiento = await fetch(
-                "http://localhost:5000/api/financiamientos"
-            );
-            const financiamientosData = await resFinanciamiento.json();
-            setFinanciamientos(financiamientosData);
-
-            const resEtnia = await fetch("http://localhost:5000/api/etnias");
-            const etniasData = await resEtnia.json();
-            setEtnias(etniasData);
-
-            const resPrograma = await fetch("http://localhost:5000/api/programas");
-            const programasData = await resPrograma.json();
-            setProgramas(programasData);
+            const [resFinanciamiento, resEtnia, resPrograma] = await Promise.all([
+                fetch("http://localhost:5000/api/financiamientos"),
+                fetch("http://localhost:5000/api/etnias"),
+                fetch("http://localhost:5000/api/programas"),
+            ]);
+            setFinanciamientos(await resFinanciamiento.json());
+            setEtnias(await resEtnia.json());
+            setProgramas(await resPrograma.json());
         } catch (error) {
             console.error("Error al cargar los datos:", error);
         }
@@ -90,6 +99,7 @@ const NacimientoPaciente = ({ pacienteId, onClose }) => {
                     id_programa: response.data.ID_PROGRAMA
                 });
                 setIsEditing(true); // Si ya hay datos, es una edición
+                setCodigoSis(response.data.codigo_sis || "");
             }
         } catch (error) {
             console.error("Error al cargar los datos de nacimiento:", error);
@@ -107,27 +117,27 @@ const NacimientoPaciente = ({ pacienteId, onClose }) => {
     };
 
     // Envía los datos al servidor, ya sea para crear o editar
+ 
     const handleBirthDataSubmit = async (e) => {
         e.preventDefault();
-        console.log("Datos a enviar:", birthData); // Verifica los datos que se envían
         try {
+            const finalData = {
+                ...birthData,
+                codigo_sis: codigoSis,
+            };
             if (isEditing) {
-                const response = await axios.put(
+                await axios.put(
                     `http://localhost:5000/api/nacimiento/${pacienteId}`,
-                    birthData
+                    finalData
                 );
-                console.log("Datos actualizados exitosamente", response.data);
             } else {
-                const response = await axios.post(
-                    "http://localhost:5000/api/nacimiento",
-                    birthData
-                )
+                await axios.post("http://localhost:5000/api/nacimiento", finalData);
             }
             alert("Datos guardados correctamente");
-            onClose(); // Cerrar el modal o componente después de guardar
+            onClose();
         } catch (error) {
             console.error("Error:", error);
-            alert(error.response?.data?.message || "Error al guardar los datos");
+            alert("Error al guardar los datos");
         }
     };
 
@@ -251,7 +261,7 @@ const NacimientoPaciente = ({ pacienteId, onClose }) => {
                 </div>
 
                 <div className="datos-cortos">
-                    <label>
+                <label>
                         Financiamiento:
                         <Select
                             name="id_financiamiento"
@@ -281,7 +291,6 @@ const NacimientoPaciente = ({ pacienteId, onClose }) => {
                                 label: f.nombre_financiamiento,
                             }))}
                             placeholder="Seleccione un financiamiento"
-                            isSearchable={true}
                         />
                     </label>
 
@@ -294,6 +303,13 @@ const NacimientoPaciente = ({ pacienteId, onClose }) => {
                             onChange={handleCodigoSisChange}
                         />
                     </label>
+                    <button
+                        type="button"
+                        onClick={generateCodigoSis}
+                        className="generate-button"
+                    >
+                        Generar Código SIS
+                    </button>
                 </div>
 
                 <div>

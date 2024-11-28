@@ -38,6 +38,9 @@ const Actualizarsuplemento = () => {
   navigate(`/Actualizarsuplemento/${paciente.hist_clinico}`, { state: { paciente } });
 };
 
+const EvaluacionPsicomotor = () => {
+  navigate(`/EvaluacionPsicomotor/${paciente.hist_clinico}`, { state: {paciente} });
+}
  
 
 
@@ -105,7 +108,7 @@ const Actualizarsuplemento = () => {
             <IoBody className="icon" />
             PSICOMOTOR
           </summary>
-          <button>Evaluacion Psicomotor</button>
+          <button onClick={EvaluacionPsicomotor}>Evaluacion Psicomotor</button>
           <button> Historial Psicomotor</button>
         </details>
         <details name="opcion" className="opcion-item">

@@ -24,7 +24,7 @@ import ExportExcel from './Componentes/Personales/Turnos/Excel';
 import Entregasuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Entregasuplemento';
 import Listasumplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Listasumplemento';
 import Actualizarsuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/actualizarsuplemento';
-
+import EvaluacionPsicomotor from './Componentes/Her_Pacien_Ninho/Psicomotor/EvaluacionPsicomotor'
 
 
 
@@ -62,7 +62,7 @@ function App() {
                        <Route path= "/Entregasuplemento/:historialClinico" element ={<Entregasuplemento/>}/>
                        <Route path="Listasuplemento/:historialClinico" element ={<Listasumplemento/>}/>
                        <Route path="Actualizarsuplemento/:historialClinico" element ={<Actualizarsuplemento/>}/>
-                        
+                       <Route path="EvaluacionPsicomotor/:historialClinico" element ={<EvaluacionPsicomotor/>}/>
                         
                     </Routes>
                 </AuthProvider> 

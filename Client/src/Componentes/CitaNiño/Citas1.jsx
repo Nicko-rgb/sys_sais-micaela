@@ -16,7 +16,6 @@ const Cita1 = () => {
     const consultorio1 = 1;
     const consultorio2 = 2;
     const [fecha, setFecha] = useState(new Date());
-    const [citas, setCitas] = useState([]);
 
 
     useEffect(() => {
@@ -26,22 +25,6 @@ const Cita1 = () => {
                 .catch(error => console.error("Error al obtener los horarios:", error));
         }
     }, [especialidad]);
-
-    // Obtener las citas registradas
-    useEffect(() => {
-        if (especialidad) {
-            axios.get('http://localhost:5000/api/filtrar-todas-citas-ninho')
-                .then(response => {
-                    console.log('Datos de citas:', response.data);
-                    setCitas(response.data);
-                })
-                .catch(error => {
-                    console.error("Error al obtener las citas:", error);
-                    setCitas([]); // Asegúrate de manejar el error asignando un array vacío
-                });
-        }
-    }, [especialidad]);
-    
 
     const handleDateChange = (date) => {
         setFecha(date);
@@ -97,7 +80,6 @@ const Cita1 = () => {
                         </thead>
                         <CuerpoTabla
                             horarios={horarios}
-                            citas = {citas}
                             especialidad={especialidad}
                             fecha={fechaFormatNumero}
                             consultorio={consultorio1}

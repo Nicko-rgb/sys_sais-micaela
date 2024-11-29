@@ -161,7 +161,7 @@ app.get('/api/obtener-pacientes/hist-clinico/:historialClinico', async (req, res
     } catch (error) {
         console.error(error);
     } finally {
-        connection.release(); 
+        connection.release();
     }
 });
 
@@ -1003,6 +1003,50 @@ app.get('/api/citas-ninhos', async (req, res) => {
         res.status(500).json({ message: 'Error al obtener citas.' });
     }
 });
+//ruta para editar las citas de los niños
+app.put('/api/edit-citas-ninio/:id', async (req, res) => {
+    const { id } = req.params; // ID de la cita a actualizar
+    const { fecha, hora } = req.body; // Datos enviados desde el cliente
+
+    try {
+        // Consulta SQL para actualizar la cita en la base de datos
+        const query = `UPDATE cita_ninhos SET fecha = ?, hora = ? WHERE id = ?;`;
+        const values = [fecha, hora, id];
+
+        // Ejecutar la consulta
+        const [result] = await pool.execute(query, values);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Cita no encontrada.' });
+        }
+
+        res.status(200).json({ message: 'Cita actualizada correctamente.' });
+    } catch (error) {
+        console.error('Error al actualizar la cita:', error);
+        res.status(500).json({ error: 'Error al actualizar la cita.' });
+    }
+});
+
+//ruta para borrar cita de un nino
+app.delete('/api/delete-citas-ninio/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const query = 'DELETE FROM cita_ninhos WHERE id = ?';
+        const [result] = await pool.execute(query, [id]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Cita no encontrada.' });
+        }
+
+        res.status(200).json({ message: 'Cita eliminada correctamente.' });
+    } catch (error) {
+        console.error('Error al borrar la cita:', error);
+        res.status(500).json({ error: 'Error al borrar la cita.' });
+    }
+});
+
+
 
 // Route para obtener todas las citas de los niños
 app.get('/api/filtrar-todas-citas-ninho', async (req, res) => {
@@ -1066,12 +1110,37 @@ app.post('/api/nino/bloquear-hora-cita', async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
+=======
+// Ruta para desbloquear horas de las citas de los niños
+app.delete('/api/nino/desbloquear-hora-cita', async (req, res) => {
+    const { fecha, hora_inicio, hora_fin, consultorio, especialidad } = req.body;
+
+    try {
+        const result = await pool.query(
+            'DELETE FROM hora_cita_nino_bloqueada WHERE fecha = ? AND hora_inicio = ? AND hora_fin = ? AND consultorio = ? AND especialidad = ?',
+            [fecha, hora_inicio, hora_fin, consultorio, especialidad]
+        );
+
+        // Verificar si se eliminó alguna fila
+        if (result.affectedRows === 0) {
+            return res.status(400).json({ message: 'No se encontró un bloqueo para esta hora' });
+        }
+
+        res.status(200).json({ message: 'Hora desbloqueada exitosamente' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al desbloquear la hora', error });
+    }
+});
+
+
+>>>>>>> main
 //api para consultar si el horario (hora) es bloqueda en cita niño
 app.get('/api/nino/verificar-bloqueos-cita', async (req, res) => {
     try {
         const bloqueos = await pool.query('SELECT * FROM hora_cita_nino_bloqueada');
         // Ejemplo de una respuesta corregida
-        res.json(bloqueos[0]); 
+        res.json(bloqueos[0]);
     } catch (error) {
         res.status(500).json({ message: 'Error al obtener bloqueos', error });
     }
@@ -1089,6 +1158,7 @@ app.get('/api/especialidad-unico-nino', async (req, res) => {
         res.status(500).json({ error: 'Error al obtener especialidades' });
     }
 });
+
 
 
 // ENDPOINTS PARA CONSULTAR DE LA BASE DE DATOS LOS DATOS DE BD,//NACIMIENTO

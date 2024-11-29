@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
+import { FaCalendarCheck } from "react-icons/fa";
+import { RiPlayReverseLargeFill } from "react-icons/ri";
 import axios from 'axios';
 import './Citas.css';
 import '../Complementos/general.css';
@@ -13,6 +15,7 @@ const Cita1 = () => {
     const location = useLocation();
     const { especialidad } = location.state || {};
     const [horarios, setHorarios] = useState([]);
+    const [openCalendar, setOpenCalendar] = useState(false)
     const consultorio1 = 1;
     const consultorio2 = 2;
     const [fecha, setFecha] = useState(new Date());
@@ -42,22 +45,32 @@ const Cita1 = () => {
         day: 'numeric',
     });
 
+    const handleCalendar = () => {
+        setOpenCalendar(!openCalendar);
+    }
+
     const fechaFormatNumero = new Date(fecha).toISOString().split('T')[0];
 
     return (
         <div className="cita-nino">
             <NavLogin />
             <h4 className="title-page">Horarios de cita para <span style={{ textDecoration: 'underline' }}>{especialidad}</span> </h4>
-            <Calendar
-                className="custom-calendar"
-                onChange={handleDateChange}
-                value={fecha}
-                tileClassName={({ date, view }) => view === 'month' && date.getDay() === 0 ? 'react-calendar__tile--sunday' : null}
-            />
             <main>
                 <div className="container-tb">
                     <div className="header-tab">
+                        <Link to='/panel-cita' className='volver_link'>
+                            <RiPlayReverseLargeFill /> Volver
+                        </Link>
+                        {openCalendar && (
+                            <Calendar
+                                className="custom-calendar"
+                                onChange={handleDateChange}
+                                value={fecha}
+                                tileClassName={({ date, view }) => view === 'month' && date.getDay() === 0 ? 'react-calendar__tile--sunday' : null}
+                            />
+                        )}
                         <p className="sub-title-page">CONSULTORIO N° {consultorio1}  </p>
+                        <button className='bt' onClick={handleCalendar}><FaCalendarCheck />{openCalendar ? 'Cerrar Calendario' : 'Abrir Calendario'} </button>
                         <p className='sub-title-page'>{fechaFormateada} </p>
                     </div>
                     <table className="cita-table">

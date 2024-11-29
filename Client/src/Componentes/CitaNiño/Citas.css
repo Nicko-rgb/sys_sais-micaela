@@ -4,6 +4,9 @@
     overflow-y: auto;
     height: auto;
 }
+.cita-nino main {
+    margin-top: 60px;
+}
 .cita-nino h4{
     position: fixed;
     width: 100%;
@@ -30,6 +33,10 @@
     background-color: white; /* Color de fondo del calendario */
     border: #07c5afb3 solid; /* Borde del calendario */
     border-radius: 5px; /* Bordes redondeados */
+    position: absolute;
+    top: -40px;
+    left: -20px;
+    animation: fadeIn .5s ease;
 }
 .react-calendar__navigation{
     display: flex;
@@ -131,11 +138,23 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    position: relative;
+}
+.cita-nino .volver_link {
+    top: -30px;
 }
 .cita-nino .container-tb .header-tab {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+}
+.cita-nino .header-tab .bt {
+    background-color: rgb(74, 219, 74);
+    color: white;
+    font-weight: 600;
+    height: 30px;
+    text-transform: uppercase;
 }
 .cita-nino .container-tb .header-tab p{
     text-transform: uppercase;
@@ -176,17 +195,21 @@
 }
 
 .cita-nino table tbody .bloqueada {
-    background-color: rgba(255, 98, 98, 0.71); /* Fondo rosado */
+    background-color: #dc354641;
     color: #721c24; /* Texto oscuro */
     cursor: no-drop;
 }
 .cita-nino table tbody .bloqueada:hover{
-    background-color: rgba(255, 98, 98, 0.71); /* Fondo rosado */
+    background-color: #dc354641;
 }
+/* .cita-nino table tbody .bloqueada td {
+    border: none;
+} */
 
 .cita-nino table .box-ac{
-    width: 90px;
+    width: 100px;
     background-color: white;
+    cursor: default;
 }
 
 .cita-nino table .accion{
@@ -196,7 +219,13 @@
     padding: 0 4px;
 }
 .cita-nino table .ico-edit{
-    display: none;
+    color: black;
+    background-color: #07c5af95;
+    width: 100%;
+}
+.cita-nino table .ico-edit:hover{
+    background-color: #30d2ffe9;
+    box-shadow: 0 0 5px #30d2ffe9;
 }
 .cita-nino table .ico {
     margin: auto;
@@ -206,23 +235,82 @@
     transition: .3s ease;
     padding: 3px;
     cursor: pointer;
+    width: 100%;
 }
 .cita-nino table .ico-mas {
     color: green;
-    background-color: rgba(0, 128, 0, 0.19);
+    background-color: rgba(0, 128, 0, 0.206);
 }
-.cita-nino table .ico-bloq {
+.cita-nino table .ico-bloq, .ico-delete {
     color: #dc3545;
-    background-color: #dc354624;
+    background-color: #dc354641;
 }
-
+.cita-nino table .ico-abi {
+    color: rgb(63, 138, 243);
+    background-color: rgba(63, 138, 243, 0.331);
+    width: 100%;
+}
 .cita-nino table .ico-mas:hover{
     background-color: green;
     color: white;
     box-shadow: 0 0 5px green, 0 0 5px green;
 }
-.cita-nino table .ico-bloq:hover {
+.cita-nino table .ico-bloq:hover, .ico-delete:hover {
     background-color: #dc3545;
     color: white;
     box-shadow: 0 0 5px #dc3545, 0 0 5px #dc3545;
+}
+.cita-nino table .ico-abi:hover {
+    background-color: rgb(63, 138, 243);
+    color: white;
+    box-shadow: 0 0 5px rgb(63, 138, 243), 0 0 5px rgb(63, 138, 243) ;
+}
+
+
+
+/* STYLO PARA MODAL DE BORRADO DE CITA */
+.borrar-cita {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 600;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.611);
+    padding: 30px 10px;
+    padding-bottom: 100px;
+    overflow-y: auto;
+}
+.borrar-cita .contend {
+    max-width: 500px;
+    width: 100%;
+    border-radius: 6px;
+    padding: 25px;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    box-shadow: 0 0 7px  #dc3545;
+    background-color: white;
+    animation: fadeIn .5s ease;
+    background-color: rgb(255, 255, 255);
+}
+.borrar-cita h2 {
+    margin: 0;
+}
+.borrar-cita .contend span {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.borrar-cita .btns {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.borrar-cita .btns button {
+    width: 120px;
+    height: 40px;
+    border-radius: 6px;
 }

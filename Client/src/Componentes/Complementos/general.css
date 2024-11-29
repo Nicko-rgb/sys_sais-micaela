@@ -1,7 +1,6 @@
-
 /* Estilos para Botones */
 button {
-    border: none; 
+    border: none;
     cursor: pointer;
     transition: .3s ease;
     display: flex;
@@ -9,14 +8,15 @@ button {
     justify-content: center;
     gap: 5px;
 }
-button:hover{
+
+button:hover {
     transform: scale(1.02);
 }
 
 /* Botón Guardar */
 .btn-save {
     background-color: #28a745;
-    color: #FFFFFF; 
+    color: #FFFFFF;
 }
 
 .btn-save:hover {
@@ -48,9 +48,11 @@ button:hover{
     background-color: dodgerblue;
     color: #FFFFFF;
 }
+
 .btn-submit:hover {
-    background-color: #0056b3; 
+    background-color: #0056b3;
 }
+
 .msg-error {
     color: rgb(255, 59, 59);
     font-size: 14px;
@@ -80,15 +82,22 @@ button:hover{
 
 .volver_link {
     position: absolute;
+    cursor: pointer;
     color: green;
     text-decoration: underline;
     background: transparent;
     display: flex;
+    gap: 5px;
     align-items: center;
-    font-family: 'poppins';
+    justify-content: center;
     font-size: 14px;
-    padding:10;
     height: 30px;
     width: 100px;
+    text-transform: uppercase;
+    background: rgb(235, 235, 235);
     border: none;
-  }
+}
+
+.volver_link:hover {
+    background: rgb(216, 216, 216);
+}

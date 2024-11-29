@@ -142,7 +142,6 @@ const OpcionesCita = () => {
                             <RiPlayReverseLargeFill /> Volver
                         </Link>
 
-
                         {especialidades.map((especialidad, index) => {
                             const icon = iconMap[especialidad.especialidad] || null; // Obtiene el ícono o null si no existe
                             return (
@@ -195,7 +194,7 @@ const OpcionesCita = () => {
                             <tbody>
                                 {loading ? (
                                     <tr>
-                                        <td colSpan="8">Buscando datos...</td>
+                                        <td colSpan="9">Buscando datos...</td>
                                     </tr>
                                 ) : currentCitas.length > 0 ? (
                                     currentCitas.map((cita, index) => (
@@ -213,7 +212,7 @@ const OpcionesCita = () => {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan="8">No hay citas cercanas</td>
+                                        <td colSpan="9">No hay citas cercanas</td>
                                     </tr>
                                 )}
                             </tbody>

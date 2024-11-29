@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './formcita.css';
-import { RiCloseCircleFill } from "react-icons/ri";
 import { TfiWrite } from "react-icons/tfi";
 import { MdOpenInNew } from "react-icons/md";
 
@@ -237,7 +236,7 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio }) => {
                     <textarea value={motivoConsulta} onChange={(e) => setMotivoConsulta(e.target.value)} required></textarea>
                 </label>
                 <div className="btnss">
-                    <button className="btn-save" type="submit"><TfiWrite /> Guardar Cita</button>
+                    <button className="btn-submit" type="submit"><TfiWrite /> Guardar Cita</button>
                 </div>
             </form>
         </div>

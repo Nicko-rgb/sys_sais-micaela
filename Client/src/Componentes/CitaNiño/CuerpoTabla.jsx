@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import './Citas.css';
 import { BiPlusCircle } from "react-icons/bi";
-import { CiEdit } from "react-icons/ci";
+import { PiPencilLineBold } from "react-icons/pi";
 import { RxValueNone } from "react-icons/rx";
 import { PiLockKeyOpenFill } from "react-icons/pi";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import FormCitas from './FormCitas';
 import axios from 'axios';
+import EditCita from './EditCita';
+import BorrarCita from './BorrarCita';
 
 const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
     const [openForm, setOpenForm] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false)
+    const [openDelete, setOpenDelete] = useState(false)
+    const [citaSelect, setCitaSelect] = useState(null)
     const [formData, setFormData] = useState(null);
     const [blockedRows, setBlockedRows] = useState([]);
     const [citas, setCitas] = useState([]);
@@ -59,6 +65,35 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
         }
     };
 
+    // Desbloquear una fila
+    const handleUnblockRow = async (horario) => {
+        const data = {
+            fecha,
+            hora_inicio: formatTime(horario.hora_inicio),
+            hora_fin: formatTime(horario.hora_fin),
+            consultorio,
+            especialidad,
+        };
+
+        try {
+            await axios.delete('http://localhost:5000/api/nino/desbloquear-hora-cita', { data });
+            // Actualizar el estado para eliminar la fila bloqueada de las filas bloqueadas
+            setBlockedRows((prev) => prev.filter(
+                (blocked) =>
+                    blocked.fecha !== fecha ||
+                    blocked.hora_inicio !== formatTime(horario.hora_inicio) ||
+                    blocked.hora_fin !== formatTime(horario.hora_fin) ||
+                    blocked.consultorio !== consultorio ||
+                    blocked.especialidad !== especialidad
+            ));
+            alert('Fila desbloqueada exitosamente');
+        } catch (error) {
+            console.error('Error al desbloquear fila:', error);
+            alert('No se pudo desbloquear la fila');
+        }
+    };
+
+
     // Abrir el formulario para gestionar citas
     const handleOpenForm = (hora_inicio, hora_fin) => {
         setFormData({
@@ -69,6 +104,17 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
         });
         setOpenForm(true);
     };
+
+    //abrir el formulario para editar cita
+    const handleEditForm = (citaEdit) => {
+        setCitaSelect(citaEdit)
+        setOpenEdit(true)
+    }
+
+    const handleDelete = (citaEdit) => {
+        setCitaSelect(citaEdit)
+        setOpenDelete(true)
+    } 
 
     const isRowBlocked = (horario) => {
         return blockedRows.some(
@@ -85,18 +131,29 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
     const closeForm = () => {
         setOpenForm(false);
         setFormData(null);
+        setCitaSelect(null)
+        setOpenEdit(false)
+        setOpenDelete(false)
     };
 
     // Cargar datos al cargar componente
     useEffect(() => {
         fetchBlockedRows();
-        fetchCitas();
     }, []);
+
+    useEffect(() => {
+        fetchCitas();
+        const intervalId = setInterval(() => {
+            fetchCitas();
+        }, 1000);
+
+        return () => clearInterval(intervalId);
+    }, []); 
 
     //creamos una funcion para recortar un texto
     const recortarTexto = (texto) => {
-        if (texto.length > 20) {
-            return texto.substring(0, 20) + '...';
+        if (texto.length > 30) {
+            return texto.substring(0, 30) + '...';
         }
         return texto
     }
@@ -148,24 +205,35 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                             {especialidad === 'Medicina' && <td>{cita ? cita.direccion : '---'}</td>}
                             {especialidad === 'Obstetricia_CPN' && <td>{cita ? cita.semEmbarazo : '---'}</td>}
                             {especialidad === 'Planificación' && <td>{cita ? cita.metodo : '---'}</td>}
-                            <td>{recortarTexto(cita ? cita.motivoConsulta : '---' )}</td>
+                            <td>{recortarTexto(cita ? cita.motivoConsulta : '---')}</td>
                             <td>Responsable </td>
                             <td className="box-ac" style={{ padding: '0' }}>
                                 <div className="accion">
                                     {!rowBlocked ? (
                                         <>
-                                            <CiEdit className="ico ico-edit" />
-                                            <BiPlusCircle
-                                                className="ico ico-mas"
-                                                onClick={() => handleOpenForm(horario.hora_inicio, horario.hora_fin)}
-                                            />
-                                            <RxValueNone
-                                                className="ico ico-bloq"
-                                                onClick={() => handleBlockRow(horario)}
-                                            />
+                                            {cita ? (
+                                                <>
+                                                    <PiPencilLineBold title='EDITAT CITA' className="ico ico-edit" onClick={() => handleEditForm(cita) } />
+                                                    <RiDeleteBin6Line title='BORRAR CITA' className='ico ico-delete' onClick={() => handleDelete(cita)} />
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <BiPlusCircle
+                                                        title='AGREGAR CITA'
+                                                        className="ico ico-mas"
+                                                        onClick={() => handleOpenForm(horario.hora_inicio, horario.hora_fin)}
+                                                    />
+                                                    <RxValueNone
+                                                        title='BLOQUEAR HORA'
+                                                        className="ico ico-bloq"
+                                                        onClick={() => handleBlockRow(horario)}
+                                                    />
+                                                </>
+                                            )}
+
                                         </>
                                     ) : (
-                                        <PiLockKeyOpenFill className="ico ico-abi" />
+                                        <PiLockKeyOpenFill className="ico ico-abi" onClick={() => handleUnblockRow(horario)} />
                                     )}
                                 </div>
                             </td>
@@ -182,6 +250,20 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                     especialidad={formData.especialidad}
                     consultorio={formData.consultorio}
                 />
+            )}
+            {openEdit && (
+                <EditCita
+                    citaData = {citaSelect}
+                    closeForm={closeForm}
+                    horarios = {horarios}
+                    formatTime = {formatTime}
+                 />
+            )}
+            {openDelete && (
+                <BorrarCita
+                    citaData = {citaSelect}
+                    close={closeForm}
+                 />
             )}
         </>
     );

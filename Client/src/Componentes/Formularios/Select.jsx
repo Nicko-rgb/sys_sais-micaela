@@ -46,10 +46,10 @@ const Selected = ({ onProfesionChange, onServicioChange }) => {
         const nuevaProfesion = prompt("Ingrese la nueva profesión:");
         if (nuevaProfesion) {
             try {
-                const response = await fetch('http://localhost:5000/api/obtener/profesiones', {
+                const response = await fetch('http://localhost:5000/api/personal/guardar-profes-servi', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ nombre_profesion: nuevaProfesion })
+                    body: JSON.stringify({ profesion: nuevaProfesion }) // Cambié 'nombre_profesion' a 'profesion'
                 });
 
                 if (response.ok) {
@@ -71,10 +71,10 @@ const Selected = ({ onProfesionChange, onServicioChange }) => {
         const nuevoServicio = prompt("Ingrese el nuevo servicio:");
         if (nuevoServicio) {
             try {
-                const response = await fetch('http://localhost:5000/api/obtener/servicios', {
+                const response = await fetch('http://localhost:5000/api/personal/guardar-profes-servi', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ nombre_servicio: nuevoServicio })
+                    body: JSON.stringify({ servicio: nuevoServicio }) // Cambié 'nombre_servicio' a 'servicio'
                 });
 
                 if (response.ok) {
@@ -101,7 +101,7 @@ const Selected = ({ onProfesionChange, onServicioChange }) => {
                     options={profesiones}
                     value={selectedProfesion}
                     onChange={handleProfesionChange}
-                    placeholder="" // Placeholder vacío para que no se muestre texto adicional
+                    placeholder="Seleccione una profesión" // Placeholder más descriptivo
                     isClearable // Permite limpiar la selección
                 />
             </label>
@@ -113,7 +113,7 @@ const Selected = ({ onProfesionChange, onServicioChange }) => {
                     options={servicios}
                     value={selectedServicio}
                     onChange={handleServicioChange}
-                    placeholder="" // Placeholder vacío para que no se muestre texto adicional
+                    placeholder="Seleccione un servicio" // Placeholder más descriptivo
                     isClearable // Permite limpiar la selección
                 />
             </label>

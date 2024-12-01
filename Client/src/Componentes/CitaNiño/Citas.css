@@ -28,15 +28,29 @@
     top: 0;
     z-index: 1;
 }
+.cita-nino .md-calendar {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.202);
+    z-index: 100;
+    display: flex;
+}
+.cita-nino .md-cale {
+    position: relative;
+    margin: auto;
+    padding: 10px;
+}
 .cita-nino .custom-calendar {
     padding: 10px;
     background-color: white; /* Color de fondo del calendario */
     border: #07c5afb3 solid; /* Borde del calendario */
     border-radius: 5px; /* Bordes redondeados */
-    position: absolute;
-    top: -40px;
-    left: -20px;
     animation: fadeIn .5s ease;
+    margin: 0;
+    margin-bottom: 100px;
 }
 .react-calendar__navigation{
     display: flex;
@@ -150,11 +164,16 @@
     position: relative;
 }
 .cita-nino .header-tab .bt {
-    background-color: rgb(74, 219, 74);
+    background-color: rgb(25, 216, 101);
     color: white;
     font-weight: 600;
     height: 30px;
     text-transform: uppercase;
+    display: flex;
+    align-items: center;
+}
+.cita-nino .header-tab button .icod {
+    font-size: 16px;
 }
 .cita-nino .container-tb .header-tab p{
     text-transform: uppercase;

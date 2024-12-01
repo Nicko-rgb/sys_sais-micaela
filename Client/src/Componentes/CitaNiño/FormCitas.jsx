@@ -107,7 +107,7 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio }) => {
     // Función para enviar los datos del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         const citaData = {
             especialidad,
             fecha,
@@ -126,7 +126,7 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio }) => {
             semEmbarazo: especialidad === 'Obstetricia_CPN' ? semEmbarazo : undefined,
             idRespons,
         };
-
+    
         try {
             const response = await fetch('http://localhost:5000/api/registrar/cita-nino', {
                 method: 'POST',
@@ -135,19 +135,20 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio }) => {
                 },
                 body: JSON.stringify(citaData),
             });
-
+    
+            const result = await response.json();
+    
             if (!response.ok) {
-                throw new Error('Error al registrar la cita');
+                throw new Error(result.error || 'Error al registrar la cita');
             }
-
-            alert('Cita registrada con éxito');
-            window.location.reload();
+            alert(result.message || 'Cita registrada con éxito');
+            closeForm()
         } catch (error) {
+            alert(`Error: ${error.message}`);
             console.error('Error al registrar la cita:', error);
-        } finally {
-            closeForm();
         }
     };
+    
 
     // Navegar para editar paciente
     const handleIrEdit = () => {
@@ -211,29 +212,29 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio }) => {
                 </div>
                 <label>
                     Celular:
-                    <input type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)} required />
+                    <input type="text" className='siEdit' value={telefono} onChange={(e) => setTelefono(e.target.value)} required />
                 </label>
                 {especialidad === 'Medicina' && (
                     <label>
                         Dirección:
-                        <input type="text" value={direccion} onChange={(e) => setDireccion(e.target.value)} required />
+                        <input type="text" className='siEdit' value={direccion} onChange={(e) => setDireccion(e.target.value)} required />
                     </label>
                 )}
                 {especialidad === 'Planificación' && (
                     <label>
                         Método de Planificación:
-                        <input type="text" value={metodo} onChange={(e) => setMetodo(e.target.value)} required />
+                        <input type="text" className='siEdit' value={metodo} onChange={(e) => setMetodo(e.target.value)} required />
                     </label>
                 )}
                 {especialidad === 'Obstetricia_CPN' && (
                     <label>
                         Semanas de embarazo:
-                        <input type="text" value={semEmbarazo} onChange={(e) => setSemEmbarazo(e.target.value)} required />
+                        <input type="text" className='siEdit' value={semEmbarazo} onChange={(e) => setSemEmbarazo(e.target.value)} required />
                     </label>
                 )}
                 <label>
                     Motivo de Consulta:
-                    <textarea value={motivoConsulta} onChange={(e) => setMotivoConsulta(e.target.value)} required></textarea>
+                    <textarea className='siEdit' value={motivoConsulta} onChange={(e) => setMotivoConsulta(e.target.value)} required></textarea>
                 </label>
                 <div className="btnss">
                     <button className="btn-submit" type="submit"><TfiWrite /> Guardar Cita</button>

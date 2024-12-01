@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { FaCalendarCheck } from "react-icons/fa";
 import { RiPlayReverseLargeFill } from "react-icons/ri";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import axios from 'axios';
 import './Citas.css';
 import '../Complementos/general.css';
@@ -15,11 +16,10 @@ const Cita1 = () => {
     const location = useLocation();
     const { especialidad } = location.state || {};
     const [horarios, setHorarios] = useState([]);
-    const [openCalendar, setOpenCalendar] = useState(false)
+    const [openCalendar, setOpenCalendar] = useState(false);
     const consultorio1 = 1;
     const consultorio2 = 2;
     const [fecha, setFecha] = useState(new Date());
-
 
     useEffect(() => {
         if (especialidad) {
@@ -31,6 +31,28 @@ const Cita1 = () => {
 
     const handleDateChange = (date) => {
         setFecha(date);
+    };
+
+    const handlePreviousDay = () => {
+        // Restar un día a la fecha actual
+        setFecha((prevFecha) => {
+            const newFecha = new Date(prevFecha);
+            newFecha.setDate(newFecha.getDate() - 1);
+            return newFecha;
+        });
+    };
+
+    const handleNextDay = () => {
+        // Sumar un día a la fecha actual
+        setFecha((prevFecha) => {
+            const newFecha = new Date(prevFecha);
+            newFecha.setDate(newFecha.getDate() + 1);
+            return newFecha;
+        });
+    };
+
+    const handleCalendar = () => {
+        setOpenCalendar(!openCalendar);
     };
 
     if (!especialidad) {
@@ -45,10 +67,6 @@ const Cita1 = () => {
         day: 'numeric',
     });
 
-    const handleCalendar = () => {
-        setOpenCalendar(!openCalendar);
-    }
-
     const fechaFormatNumero = new Date(fecha).toISOString().split('T')[0];
 
     return (
@@ -62,15 +80,21 @@ const Cita1 = () => {
                             <RiPlayReverseLargeFill /> Volver
                         </Link>
                         {openCalendar && (
-                            <Calendar
-                                className="custom-calendar"
-                                onChange={handleDateChange}
-                                value={fecha}
-                                tileClassName={({ date, view }) => view === 'month' && date.getDay() === 0 ? 'react-calendar__tile--sunday' : null}
-                            />
+                            <div className="md-calendar" onClick={handleCalendar} >
+                                <div className="md-cale" onClick={(e) => e.stopPropagation()}>
+                                    <Calendar
+                                        className="custom-calendar"
+                                        onChange={handleDateChange}
+                                        value={fecha}
+                                        tileClassName={({ date, view }) => view === 'month' && date.getDay() === 0 ? 'react-calendar__tile--sunday' : null}
+                                    />
+                                </div>
+                            </div>
                         )}
                         <p className="sub-title-page">CONSULTORIO N° {consultorio1}  </p>
                         <button className='bt' onClick={handleCalendar}><FaCalendarCheck />{openCalendar ? 'Cerrar Calendario' : 'Abrir Calendario'} </button>
+                        <button className='bt' onClick={handlePreviousDay}><IoIosArrowBack className='icod' /> Anterior</button>
+                        <button className='bt' onClick={handleNextDay}>Siguiente <IoIosArrowForward className='icod' /></button>
                         <p className='sub-title-page'>{fechaFormateada} </p>
                     </div>
                     <table className="cita-table">

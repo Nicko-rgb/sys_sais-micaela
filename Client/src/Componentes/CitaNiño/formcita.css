@@ -24,7 +24,7 @@
 }
 
 .form-cita form {
-    width: 600px;
+    width: 640px;
     margin: 0 auto;
     background-color: white;
     display: flex;
@@ -40,9 +40,9 @@
 }
 .form-cita .ico-close {
     position: absolute;
-    top: -30px;
+    top: -50px;
     right: 10px;
-    font-size: 30px;
+    font-size: 40px;
     color: black;
     font-weight: bold;
     cursor: pointer;
@@ -104,6 +104,12 @@
     padding: 18px 10px;
     border-radius: 6px;
     background-color: rgba(30, 143, 255, 0.113);
+    text-align: center;
+}
+.form-cita .box-filtra input, .form-cita .box-filtra select {
+    font-weight: bold;
+    text-align: center;
+    box-shadow: none;
 }
 .form-cita .box-filtra p {
     position: absolute;
@@ -125,7 +131,7 @@
     width: 100%;
 }
 
-.form-cita form input, select {
+.form-cita form input, .form-cita form select {
     padding: 7px;
     font-size: 15px;
     outline: none;
@@ -133,7 +139,7 @@
     border-radius: 2px;
     transition: border-color 0.3s;
 }
-.form-cita form input, textarea, select {
+.form-cita form input, .form-cita textarea, .form-cita select {
     border-radius: 5px;
     border: solid 2px rgba(30, 143, 255, 0.282);
     background-color: rgb(252, 255, 254);
@@ -142,7 +148,7 @@
     font-size: 15px;
 }
 
-.form-cita form input:focus, textarea:focus {
+.form-cita form input:focus, .form-cita textarea:focus {
     border: solid 2px dodgerblue;
     box-shadow: none;
     background-color: white;
@@ -151,20 +157,21 @@
 .form-cita form .noo {
     cursor: no-drop;
 }
-.form-cita form .noo:focus{
-    border: solid 2px rgba(30, 143, 255, 0.282);
-
-}
 .form-cita form textarea {
     padding: 5px;
     min-width: 100%;
     max-width: 100%;
     min-height: 70px;
     outline: none;
+    background-color: white;
+}
+.form-cita form .siEdit {
+    border: solid 2px rgba(12, 134, 110, 0.438);
 }
 .form-cita form .no-edit{
     font-weight: bold;
     cursor: no-drop;
+    text-align: center;
 }
 .form-cita form .btnss {
     display: flex;

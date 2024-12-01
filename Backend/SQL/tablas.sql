@@ -80,6 +80,10 @@ CREATE TABLE cita_ninhos (
     FOREIGN KEY (id_responsable) REFERENCES responsable_de_paciente (id_responsable) ON DELETE SET NULL,
     fechaRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+use db_sais;
+CREATE UNIQUE INDEX idx_unico_horario
+ON cita_ninhos (especialidad, fecha, hora, consultorio);
+
 
 --CREAR UNA TABLA PARA MANEJAR EL HORARIO DE CITAS DE LOS NIÑOS
 CREATE TABLE horario_cita_nino (

@@ -18,6 +18,7 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
     const [formData, setFormData] = useState(null);
     const [blockedRows, setBlockedRows] = useState([]);
     const [citas, setCitas] = useState([]);
+    const [personal, setPersonal] = useState([])
 
     // Obtener filas bloqueadas desde el servidor
     const fetchBlockedRows = async () => {
@@ -37,6 +38,17 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
             console.error('Error al obtener citas:', error);
         }
     }
+
+    // Obtener la lista de personal desde el backend
+    const fetchPersonal = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/api/obtener/personal-salud');
+            const data = await response.json();
+            setPersonal(data);
+        } catch (error) {
+            console.error('Error al obtener el personal:', error);
+        }
+    };
 
     // Formatear hora en formato HH:mm
     const formatTime = (timeString) => {
@@ -94,7 +106,7 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
     };
 
 
-    // Abrir el formulario para gestionar citas
+    // Abrir el formulario para registrar citas
     const handleOpenForm = (hora_inicio, hora_fin) => {
         setFormData({
             fecha,
@@ -114,7 +126,7 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
     const handleDelete = (citaEdit) => {
         setCitaSelect(citaEdit)
         setOpenDelete(true)
-    } 
+    }
 
     const isRowBlocked = (horario) => {
         return blockedRows.some(
@@ -139,7 +151,8 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
     // Cargar datos al cargar componente
     useEffect(() => {
         fetchBlockedRows();
-    }, []);
+        fetchPersonal();
+    },  []);
 
     useEffect(() => {
         fetchCitas();
@@ -148,12 +161,12 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
         }, 1000);
 
         return () => clearInterval(intervalId);
-    }, []); 
+    }, []);
 
     //creamos una funcion para recortar un texto
     const recortarTexto = (texto) => {
         if (texto.length > 30) {
-            return texto.substring(0, 30) + '...';
+            return texto.substring(0, 20) + '...';
         }
         return texto
     }
@@ -172,6 +185,15 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                             c.consultorio === consultorio &&
                             new Date(c.fecha).toISOString().split('T')[0] === fecha
                     );
+
+                    // Encuentra al profesional responsable para atención para este horario
+                    const responsable = personal.find(
+                        (res) =>
+                            res.especial_cita.toLowerCase() === especialidad.toLowerCase() &&
+                            Number(res.num_consultorio) === Number(consultorio)
+                    );
+                    console.log(responsable);
+                    
 
                     if (horario.tipo_atencion === 'receso') {
                         return (
@@ -206,14 +228,14 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                             {especialidad === 'Obstetricia_CPN' && <td>{cita ? cita.semEmbarazo : '---'}</td>}
                             {especialidad === 'Planificación' && <td>{cita ? cita.metodo : '---'}</td>}
                             <td>{recortarTexto(cita ? cita.motivoConsulta : '---')}</td>
-                            <td>Responsable </td>
+                            <td>{responsable ? `${responsable.paterno} ${responsable.nombres}` : '---'}  </td>
                             <td className="box-ac" style={{ padding: '0' }}>
                                 <div className="accion">
                                     {!rowBlocked ? (
                                         <>
                                             {cita ? (
                                                 <>
-                                                    <PiPencilLineBold title='EDITAT CITA' className="ico ico-edit" onClick={() => handleEditForm(cita) } />
+                                                    <PiPencilLineBold title='EDITAR CITA' className="ico ico-edit" onClick={() => handleEditForm(cita)} />
                                                     <RiDeleteBin6Line title='BORRAR CITA' className='ico ico-delete' onClick={() => handleDelete(cita)} />
                                                 </>
                                             ) : (
@@ -253,17 +275,18 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
             )}
             {openEdit && (
                 <EditCita
-                    citaData = {citaSelect}
+                    citaData={citaSelect}
                     closeForm={closeForm}
-                    horarios = {horarios}
-                    formatTime = {formatTime}
-                 />
+                    horarios={horarios}
+                    formatTime={formatTime}
+                    especialidad={especialidad}
+                />
             )}
             {openDelete && (
                 <BorrarCita
-                    citaData = {citaSelect}
+                    citaData={citaSelect}
                     close={closeForm}
-                 />
+                />
             )}
         </>
     );

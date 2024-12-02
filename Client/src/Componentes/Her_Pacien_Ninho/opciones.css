@@ -137,6 +137,7 @@ section .opciones3.hide {
   position: fixed;
   width: 200px;
   top: 35px;
+  left: 0;
   height: calc(100vh - 80px);
   overflow-y: auto;
   pointer-events: initial;

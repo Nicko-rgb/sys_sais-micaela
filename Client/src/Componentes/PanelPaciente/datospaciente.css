@@ -11,6 +11,12 @@
     padding-bottom: 50px;
     padding: 35px 0; 
 }
+.datos-paciente .hola{
+    width: 200px;
+    height: 200px;
+    background-color: black;
+    position: absolute;
+}
 
 .datos-paciente .box-result {
     margin-left: 233px;

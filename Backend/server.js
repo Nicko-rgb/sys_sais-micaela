@@ -3,14 +3,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mysql = require('mysql2/promise'); // Importar mysql2
-const bcrypt = require('bcryptjs');
 const cron = require('node-cron');
 const nodemailer = require('nodemailer'); // Importar nodemailer para enviar correos electrónicos
 const crypto = require('crypto'); // Importar crypto para generar tokens únicos
-const { log } = require('console');
 const app = express();
 const PORT = process.env.PORT || 5000;
-const router = express.Router();
 // Configura tu conexión a la base de datos
 const pool = mysql.createPool({
     host: 'localhost',
@@ -144,12 +141,11 @@ app.post('/api/registrar/pacientes', async (req, res) => {
 
 
 // Endpoint para obtener datos del paciente según su historial clínico
-app.get('/api/pacientes/:historialClinico', async (req, res) => {
-    const { historialClinico } = req.params; // Obtener el historial clínico de los parámetros de la ruta
+app.get('/api/obtener-pacientes/hist-clinico/:historialClinico', async (req, res) => {
+    const { historialClinico } = req.params;
 
     const connection = await pool.getConnection();
     try {
-        // Consulta para obtener el paciente y su responsable
         const [rows] = await connection.execute(
             `SELECT p.*, r.*
              FROM pacientes p
@@ -157,20 +153,41 @@ app.get('/api/pacientes/:historialClinico', async (req, res) => {
              WHERE p.hist_clinico = ?`,
             [historialClinico]
         );
-
-        // Verificar si se encontró el paciente
         if (rows.length === 0) {
             return res.status(404).json({ message: 'Paciente no encontrado' });
         }
 
-        res.json(rows[0]); // Devolver el primer paciente encontrado (incluyendo datos del responsable)
+        res.json(rows[0]);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al obtener los datos del paciente', error: error.message });
     } finally {
-        connection.release(); // Liberar la conexión
+        connection.release();
     }
 });
+
+//ruta optener datos de paciente segun dni
+app.get('/api/obtener-pacientes/dni/:dni', async (req, res) => {
+    const { dni } = req.params; // Obtener el DNI de los parámetros
+    const connection = await pool.getConnection();
+    try {
+        const [rows] = await connection.execute(
+            `SELECT p.*, r.*
+             FROM pacientes p
+             LEFT JOIN responsable_de_paciente r ON p.id_responsable = r.id_responsable
+             WHERE p.dni = ?`,
+            [dni]
+        )
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'Paciente no encontrado' });
+        }
+        res.json(rows[0]); // Devolver el primer paciente encontrado
+    }
+    catch (err) {
+        console.error(err);
+    } finally {
+        connection.release();
+    }
+})
 
 
 //ruta para filtrar pacientes segun tipo de paciente
@@ -471,41 +488,42 @@ app.put('/api/personal/actualizar-estado/:id', async (req, res) => {
         if (connection) connection.release(); // Liberar la conexión en lugar de cerrarla
     }
 });
-
 // Ruta para guardar la profesión y el servicio del personal de salud
 app.post('/api/personal/guardar-profes-servi', async (req, res) => {
-    const { profesion, servicio } = req.body;
-
-    if (!profesion || !servicio) {
-        return res.status(400).json({ message: 'La profesión y el servicio son obligatorios.' });
-    }
+    const { profesion, servicio } = req.body; // Desestructuramos los valores del cuerpo de la solicitud
 
     const connection = await pool.getConnection(); // Obtener conexión
     try {
         await connection.beginTransaction(); // Iniciar transacción
 
-        // Verificar si la profesión ya existe
-        const checkProfQuery = 'SELECT COUNT(*) AS count FROM profesiones WHERE nombre_profesion = ?';
-        const [checkProfResult] = await connection.query(checkProfQuery, [profesion]);
+        // Si se proporciona una profesión
+        if (profesion) {
+            // Verificar si la profesión ya existe
+            const checkProfQuery = 'SELECT COUNT(*) AS count FROM profesiones WHERE nombre_profesion = ?';
+            const [checkProfResult] = await connection.query(checkProfQuery, [profesion]);
 
-        if (checkProfResult[0].count === 0) {
-            // Insertar nueva profesión solo si no existe
-            const insertProfQuery = 'INSERT INTO profesiones (nombre_profesion) VALUES (?)';
-            await connection.query(insertProfQuery, [profesion]);
+            if (checkProfResult[0].count === 0) {
+                // Insertar nueva profesión solo si no existe
+                const insertProfQuery = 'INSERT INTO profesiones (nombre_profesion) VALUES (?)';
+                await connection.query(insertProfQuery, [profesion]);
+            }
         }
 
-        // Verificar si el servicio ya existe
-        const checkServQuery = 'SELECT COUNT(*) AS count FROM servicios WHERE nombre_servicio = ?';
-        const [checkServResult] = await connection.query(checkServQuery, [servicio]);
+        // Si se proporciona un servicio
+        if (servicio) {
+            // Verificar si el servicio ya existe
+            const checkServQuery = 'SELECT COUNT(*) AS count FROM servicios WHERE nombre_servicio = ?';
+            const [checkServResult] = await connection.query(checkServQuery, [servicio]);
 
-        if (checkServResult[0].count === 0) {
-            // Insertar nuevo servicio solo si no existe
-            const insertServQuery = 'INSERT INTO servicios (nombre_servicio) VALUES (?)';
-            await connection.query(insertServQuery, [servicio]);
+            if (checkServResult[0].count === 0) {
+                // Insertar nuevo servicio solo si no existe
+                const insertServQuery = 'INSERT INTO servicios (nombre_servicio) VALUES (?)';
+                await connection.query(insertServQuery, [servicio]);
+            }
         }
 
         await connection.commit(); // Confirmar transacción
-        res.status(200).json({ message: 'Profesión y servicio añadidos (si no existían).' });
+        res.status(200).json({ message: 'Profesión y/o servicio añadidos (si no existían).' });
     } catch (error) {
         console.error('Error al añadir profesión o servicio', error);
         await connection.rollback(); // Revertir transacción en caso de error
@@ -526,6 +544,16 @@ app.get('/api/obtener/profesiones', async (req, res) => {
         res.status(500).json({ message: 'Error al obtener profesiones.' });
     }
 });
+
+app.get('/api/vista-personal', async (req, res) => {
+    try {
+        const vista = 'SELECT * FROM vista_personal_activo';
+        const [result] = await pool.query(vista)
+        res.json(result);
+    } catch (error) {
+        console.error('Error al obtener vista personal', error);
+    }
+})
 
 // Ruta para obtener todos los servicios
 app.get('/api/obtener/servicios', async (req, res) => {
@@ -929,40 +957,29 @@ app.get('/api/reset-password/:token', async (req, res) => {
 });
 
 //ruta para registrar las citas para el niño
-app.post('/api/registrar/cita-nino', (req, res) => {
+app.post('/api/registrar/cita-nino', async (req, res) => {
     const { especialidad, fecha, hora, consultorio, hisClinico, dni, apellidos, nombres, fechaNacimiento, edad, telefono, motivoConsulta, direccion, metodo, semEmbarazo, idRespons } = req.body;
 
     const sql = `
         INSERT INTO cita_ninhos (
-            especialidad, fecha, hora, consultorio, hisClinico, dni, apellidos, nombres, fechaNacimiento, edad, telefono, motivoConsulta, direccion, metodo, semEmbarazo, id_responsable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            especialidad, fecha, hora, consultorio, hisClinico, dni, apellidos, nombres, fechaNacimiento, edad, telefono, motivoConsulta, direccion, metodo, semEmbarazo, id_responsable
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-    const values = [
-        especialidad,
-        fecha,
-        hora,
-        consultorio,
-        hisClinico,
-        dni,
-        apellidos,
-        nombres,
-        fechaNacimiento,
-        edad,
-        telefono,
-        motivoConsulta,
-        direccion || null,
-        metodo || null,
-        semEmbarazo || null,
-        idRespons || null
-    ];
+    const values = [ especialidad, fecha, hora, consultorio, hisClinico, dni, apellidos, nombres, fechaNacimiento, edad, telefono, motivoConsulta, direccion || null, metodo || null, semEmbarazo || null, idRespons || null ];
 
-    pool.query(sql, values, (error, results) => {
-        if (error) {
-            console.error('Error al registrar la cita:', error);
-            return res.status(500).json({ error: 'Error al registrar la cita' });
-        }
-
-        res.status(201).json({ message: 'Cita registrada exitosamente', id: results.insertId });
-    });
+    try {
+        const [results] = await pool.query(sql, values);
+        res.status(201).json({
+            message: 'Cita registrada exitosamente',
+            id: results.insertId
+        });
+    } catch (error) {
+        console.error('Error al registrar la cita:', error);
+        res.status(500).json({
+            error: 'Error al registrar la cita',
+            details: error.message
+        });
+    }
 });
 
 // Ruta para obtner las citas segun fecha, especialidad
@@ -977,8 +994,66 @@ app.get('/api/citas-ninhos', async (req, res) => {
     }
 });
 
-// Route to get all appointments within the next three days
-app.get('/api/filtrar-ninho-citas', async (req, res) => {
+//ruta para editar las citas de los niños
+app.put('/api/edit-citas-ninio/:id', async (req, res) => {
+    const { id } = req.params; // ID de la cita a actualizar
+    const { fecha, hora, consultorio, especialidad } = req.body; // Datos enviados desde el cliente
+
+    try {
+        // Consulta SQL para actualizar la cita en la base de datos
+        const query = `UPDATE cita_ninhos SET fecha = ?, hora = ?, consultorio = ? WHERE id = ?;`;
+        const values = [fecha, hora, consultorio, id];
+
+        // Ejecutar la consulta
+        const [result] = await pool.execute(query, values);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Cita no encontrada.' });
+        }
+
+        res.status(200).json({ message: 'Cita actualizada correctamente.' });
+    } catch (error) {
+        console.error('Error al actualizar la cita:', error);
+        res.status(500).json({ error: 'Error al actualizar la cita.' });
+    }
+});
+
+//ruta para borrar cita de un nino
+app.delete('/api/delete-citas-ninio/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const query = 'DELETE FROM cita_ninhos WHERE id = ?';
+        const [result] = await pool.execute(query, [id]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Cita no encontrada.' });
+        }
+
+        res.status(200).json({ message: 'Cita eliminada correctamente.' });
+    } catch (error) {
+        console.error('Error al borrar la cita:', error);
+        res.status(500).json({ error: 'Error al borrar la cita.' });
+    }
+});
+
+
+
+// Route para obtener todas las citas de los niños
+app.get('/api/filtrar-todas-citas-ninho', async (req, res) => {
+    const query = 'SELECT * FROM cita_ninhos'; // Trae todas las citas
+
+    try {
+        const [results] = await pool.query(query);
+        res.json(results);
+    } catch (error) {
+        console.error('Error fetching appointments:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+//ruta  para filtrar citas de un rango de 3 dias
+app.get('/api/filtrar-cita-ninho-3', async (req, res) => {
     const query = 'SELECT * FROM cita_ninhos WHERE fecha >= CURDATE() AND fecha <= DATE_ADD(CURDATE(), INTERVAL 3 DAY)';
 
     try {
@@ -989,6 +1064,89 @@ app.get('/api/filtrar-ninho-citas', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+//ruta para obtner horarios de cita de niños
+app.get('/api/horarios-cita-nino', async (req, res) => {
+    const { especialidad } = req.query;
+
+    try {
+        const [horarios] = await pool.execute(
+            'SELECT * FROM horario_cita_nino WHERE especialidad = ? ORDER BY turno, hora_inicio',
+            [especialidad]
+        );
+        res.json(horarios);
+    } catch (error) {
+        console.error('Error al obtener los horarios:', error);
+        res.status(500).json({ error: 'Error al obtener los horarios' });
+    }
+});
+
+
+// Ruta para bloquear horas de las citas de los niños
+app.post('/api/nino/bloquear-hora-cita', async (req, res) => {
+    const { fecha, hora_inicio, hora_fin, consultorio, especialidad } = req.body;
+
+    try {
+        await pool.query(
+            'INSERT INTO hora_cita_nino_bloqueada (fecha, hora_inicio, hora_fin, consultorio, especialidad) VALUES (?, ?, ?, ?, ?)',
+            [fecha, hora_inicio, hora_fin, consultorio, especialidad]
+        );
+        res.status(200).json({ message: 'Hora bloqueada exitosamente' });
+    } catch (error) {
+        if (error.code === 'ER_DUP_ENTRY') {
+            res.status(400).json({ message: 'Ya existe un bloqueo para esta hora' });
+        } else {
+            res.status(500).json({ message: 'Error al bloquear la hora', error });
+        }
+    }
+});
+
+// Ruta para desbloquear horas de las citas de los niños
+app.delete('/api/nino/desbloquear-hora-cita', async (req, res) => {
+    const { fecha, hora_inicio, hora_fin, consultorio, especialidad } = req.body;
+
+    try {
+        const result = await pool.query(
+            'DELETE FROM hora_cita_nino_bloqueada WHERE fecha = ? AND hora_inicio = ? AND hora_fin = ? AND consultorio = ? AND especialidad = ?',
+            [fecha, hora_inicio, hora_fin, consultorio, especialidad]
+        );
+
+        // Verificar si se eliminó alguna fila
+        if (result.affectedRows === 0) {
+            return res.status(400).json({ message: 'No se encontró un bloqueo para esta hora' });
+        }
+
+        res.status(200).json({ message: 'Hora desbloqueada exitosamente' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al desbloquear la hora', error });
+    }
+});
+
+
+//api para consultar si el horario (hora) es bloqueda en cita niño
+app.get('/api/nino/verificar-bloqueos-cita', async (req, res) => {
+    try {
+        const bloqueos = await pool.query('SELECT * FROM hora_cita_nino_bloqueada');
+        // Ejemplo de una respuesta corregida
+        res.json(bloqueos[0]);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener bloqueos', error });
+    }
+});
+
+
+// Ruta para obtener especialidades únicas
+app.get('/api/especialidad-unico-nino', async (req, res) => {
+    try {
+        const query = 'SELECT DISTINCT especialidad FROM horario_cita_nino'
+        const [results] = await pool.query(query);
+        res.json(results);
+    } catch (error) {
+        console.error('Error al obtener especialidades:', error);
+        res.status(500).json({ error: 'Error al obtener especialidades' });
+    }
+});
+
 
 
 // ENDPOINTS PARA CONSULTAR DE LA BASE DE DATOS LOS DATOS DE BD,//NACIMIENTO
@@ -1024,6 +1182,7 @@ app.get('/api/etnias', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
+
 
 // Iniciar el servidor
 app.listen(PORT, async () => {

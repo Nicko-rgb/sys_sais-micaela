@@ -1,0 +1,234 @@
+.opciones-cita {
+  position: relative;
+  padding-bottom: 70px;
+  overflow-y: auto;
+  height: auto;
+}
+
+.opciones-cita  .volver_link {
+  position: absolute;
+  cursor: pointer;
+  color: green;
+  text-decoration: underline;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  font-family: 'poppins';
+  font-size: 14px;
+  top: -40px;
+  padding:10;
+  height: 30px;
+  width: 100px;
+  left: -20px;
+  border: none;
+}
+.opciones-cita .volver_link:hover {
+  background: rgb(238, 238, 238);
+}
+.opciones-cita h5 {
+  text-align: center;
+  font-size: large;
+  font-family: 'poppins';
+  margin: 0;
+  margin-top: 50px;
+}
+
+
+
+.opciones-cita main section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  padding-bottom: 0;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.opciones-cita section .box-citas {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 700px;
+  gap: 20px;
+}
+
+.opciones-cita section div .box {
+  font-family: 'poppins';
+  padding: 5px;
+  width: 145px;
+  height: 65px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background-color: white;
+  border: none;
+  box-shadow: 0 0 5px black;
+  border-radius: 2px;
+  font-size: 16px;
+  transition: 0.3s ease;
+}
+
+.opciones-cita section div .box:hover {
+  transform: scale(1.05);
+  color: white;
+  background-color: #00796b;
+  box-shadow: 0 0 3px #00796b;
+}
+
+.opciones-cita div .icon {
+  font-size: 20px;
+  margin: 0;
+}
+
+.opciones-cita .container-tabla {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 20px;
+  gap: 10px;
+
+ }
+.opciones-cita .container-tabla hr{
+  width: 90%;
+}
+.opciones-cita .container-tabla p{
+  font-family: 'poppins';
+  font-weight: bold;
+  font-size: 15px;
+  margin: 0;
+}
+.opciones-cita .sub-contend{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  min-width: 700px;
+  padding: 4px;
+ }
+.opciones-cita .box_buscar {
+  max-width: 706px;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  gap: 20px;
+}
+.opciones-cita .box_buscar .ico_buscar{
+  position: absolute;
+  font-size: 23px;
+  top: 5px;
+  left: 5px;
+}
+.opciones-cita .box_buscar .ico-info {
+  position: absolute;
+  right: 0px;
+  top: -20px;
+  color: gray;
+  cursor: pointer;
+}
+.opciones-cita .box_buscar .msg-ico{
+  position: absolute;
+  font-weight: 200;
+  font-family: Comic Sans MS;
+  font-family: 'Roboto', sans-serif;
+  left: calc(100% + 5px);
+  top: -15px;
+  padding: 5px;
+  font-size: 12px;
+  background-color: #373636;
+  color: white;
+  display: none;
+}
+.opciones-cita .box_buscar .ico-info:hover ~ .msg-ico {
+  display: block;
+}
+.opciones-cita .box_buscar input {
+  padding: 4px;
+  font-size: 15px;
+  outline: none;
+  color: rgb(96, 93, 93);
+  border: gray solid 1px;
+  width: auto;
+}
+.opciones-cita .box_buscar .txt-buscar {
+  width: 85%;
+  padding-left: 33px;
+
+  text-transform: capitalize;
+}
+.opciones-cita .box_buscar .txt-buscar::placeholder{
+  font-style: italic;
+  text-transform: capitalize;
+  font-size: .9em;
+}
+.opciones-cita .box_buscar .txt-buscar:focus{
+  border: #00796b solid 1px;
+}
+.opciones-cita .txt-buscar:focus ~ .ico_buscar {
+  color: #00796b;
+}
+.opciones-cita table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.opciones-cita table th {
+  font-size: 14px;
+  font-family: calibri;
+  background-color: #f5ce71;
+}
+
+.opciones-cita table td {
+  font-family: 'poppins';
+  font-size: 12px;
+  border: gray solid 1px;
+}
+
+.opciones-cita tbody button {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  cursor: pointer;
+}
+.opciones-cita .pagination{
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+.opciones-cita .pagination button{
+  width: 100px;
+  padding: 5px;
+  border: none;
+  background-color: #818786;
+  font-family: 'poppins';
+  cursor: no-drop;
+}
+.opciones-cita .pagination .btn-a {
+  background-color: #00796b;
+  cursor: pointer;
+}
+.opciones-cita th,
+td {
+  padding: 6px;
+  text-align: left;
+  border: 1px solid gray;
+}
+
+.opciones-cita tbody td {
+  font-family: 'poppins';
+  font-size: 12px;
+  text-transform: uppercase;
+  height: 5px;
+  padding: 5px;
+}
+.opciones-cita tbody tr:hover {
+  background-color: rgb(206, 216, 255);
+
+}

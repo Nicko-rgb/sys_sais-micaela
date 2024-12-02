@@ -4,14 +4,14 @@ import { PiNotePencil } from "react-icons/pi";
 import { TbMedicineSyrup } from "react-icons/tb";
 import { MdOutlineBloodtype, MdOutlineVaccines } from "react-icons/md";
 import { IoBody } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
 
 
 const OpcionesI = ({ paciente }) => {
   const navigate = useNavigate(); // Hook de navegación
 
   const handleNewVisitClick = () => {
-    navigate("/visita"); // Redirige a la ruta de "Nueva Visita"
+    navigate("/visita"); // Redirige a la ruta de "Nueva Visita" 
   };
   const iraHistorialVisita = () => {
     navigate("/historialvisita"); // Redirige a la ruta de "historialVisita"
@@ -26,13 +26,6 @@ const OpcionesI = ({ paciente }) => {
 
   const irAControl = () => {
     navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
-};
-const Entregasuplemento = () => {
-  navigate(`/Entregasuplemento/${paciente.hist_clinico}`, { state: { paciente } });
-};
-const Listasuplemento = () => {
-  navigate(`/Listasuplemento/${paciente.hist_clinico}`, { state: { paciente } });
-};
 
 const Actualizarsuplemento = () => {
   navigate(`/Actualizarsuplemento/${paciente.hist_clinico}`, { state: { paciente } });
@@ -42,6 +35,21 @@ const EvaluacionPsicomotor = () => {
   navigate(`/EvaluacionPsicomotor/${paciente.hist_clinico}`, { state: {paciente} });
 }
  
+  }
+  const IraTamizaje = () => {
+    navigate(`/tamizaje/${paciente.hist_clinico}`, { state: { paciente } });
+  }
+
+  const iraHistorialTamizaje = () => {
+    navigate(`/historialtamizaje/${paciente.hist_clinico}`, { state: { paciente } });
+  }
+
+ const EntregaSuplementos = () => {
+  navigate(`/Entregasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar suplementos
+ }
+ const ListaSuplemento = () => {
+  navigate(`/Listasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
+ }
 
 
   return (
@@ -72,7 +80,7 @@ const EvaluacionPsicomotor = () => {
             </button>
           </div>
           <div className="submenu-historial-controles">
-            <button onClick="">
+            <button >
               HIST DE CONTROLES
             </button>
           </div>
@@ -90,17 +98,18 @@ const EvaluacionPsicomotor = () => {
             <TbMedicineSyrup className="icon" />
             SUPLEMENTOS
           </summary>
-          <button onClick={Entregasuplemento}>Entrega Suplemento</button>
-          <button onClick={Listasuplemento}> Historial Suplemento</button>
+          <button onClick={EntregaSuplementos}>Entrega Suplemento</button>
+          <button onClick={ListaSuplemento}> Historial Suplemento</button>
           <button onClick={Actualizarsuplemento}>Actualizar Suplementos</button>
+
         </details>
         <details name="opcion" className="opcion-item">
           <summary>
             <MdOutlineBloodtype className="icon" />
-            TAMISAJE
+            TAMIZAJE
           </summary>
-          <button>Tamizaje-Dozaje</button>
-          <button> Historial Tamizaje</button>
+          <button onClick={IraTamizaje}>Tamizaje-Dozaje</button>
+          <button onClick={iraHistorialTamizaje}> Historial Tamizaje</button>
         </details>
         <details name="opcion" className="opcion-item">
           <summary>

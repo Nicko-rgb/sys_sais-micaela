@@ -1,6 +1,6 @@
 /* buscar.css */
 .buscar {
-  margin-left: 200px;
+  margin-left: 180px;
   height: calc(100% - 90px);
   box-sizing: border-box;
 }
@@ -139,7 +139,6 @@
   margin: 0;
 }
 .buscar tbody tr{
-  height: 5px;
   margin: 0;
   padding: 0;
 }
@@ -148,7 +147,7 @@
   font-size: 12px;
   text-transform: uppercase;
   margin: 0;
-  padding: 3px 5px;
+  padding: 1px 5px;
 }
 
 .buscar tr:hover {

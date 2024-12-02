@@ -240,8 +240,9 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
                 return (
                     <NacimientoPaciente
                         pacienteId={paciente.id_paciente}
-                        paciente={paciente}
+                        pacienteDni={paciente.dni}
                         onClose={onCloseEdit}
+                        
                     />
                 );
             case "responsable":

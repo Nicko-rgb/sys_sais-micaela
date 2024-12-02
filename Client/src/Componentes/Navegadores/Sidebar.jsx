@@ -28,11 +28,9 @@ const Sidebar = ({ tipoUser }) => {
       case 'Jefe':
         return (
           <>
-            <li><Link to="/jefe/equipo"><RiTeamLine /> Ver Equipo</Link></li>
-            <li><Link to="/jefe/asignar-tareas"><RiTaskLine /> Asignar Tareas</Link></li>
+            <li><Link to="/personal-salud"><RiTeamLine /> Ver Equipo</Link></li>
             <li><Link to="/personal-salud"><FaUserPlus /> Asignar Turnos</Link></li>
-            <li><Link to="/admin/gestion-usuarios"><MdManageAccounts /> Gestión de Usuarios</Link></li>
-            <li><Link to="/jefe/rendimiento"><GiProgression /> Rendimiento del Equipo</Link></li>
+QH            <li><Link to="/jefe/rendimiento"><GiProgression /> Rendimiento del Equipo</Link></li>
             <li><Link to="/jefe/estadisticas"><IoStatsChartOutline /> Estadísticas de Equipo</Link></li>
             <li><Link to="/jefe/historial-tareas"><MdHistory /> Historial de Tareas</Link></li>
             <li><Link to="/jefe/informes"><BsClipboardData /> Informes</Link></li>
@@ -41,7 +39,7 @@ const Sidebar = ({ tipoUser }) => {
       case 'Responsable':
         return (
           <>
-            <li><Link to="/personal/tareas"><BsListTask />Tareas XXX</Link></li>
+            <li><Link to="/personal/tareas"><BsListTask />Tareas</Link></li>
             <li><Link to="/personal/solicitudes"><AiOutlineForm /> Solicitudes</Link></li>
             <li><Link to="/personal/horario"><BsCalendarCheck /> Mi Horario</Link></li>
             <li><Link to="/personal/historial-clinico"><GiHealthNormal /> Historial Clínico</Link></li>

@@ -37,21 +37,25 @@ const NacimientoPaciente = ({ pacienteId, onClose,pacienteDni }) => {
     const [isEditing, setIsEditing] = useState(false); // Controlar si se está editando
     // EFECTO PARA LISTAR LOS DATOS DEL PACIENTE 
     // Generate the code automaticamente
-    const generateCodigoSis = () => {
+     // Modified generateCodigoSis to use state values directly
+     const generateCodigoSis = () => {
         if (birthData.id_financiamiento && birthData.dni) {
-            const generatedCode = `340-${birthData.id_financiamiento}-${birthData.dni}`;
+            const generatedCode = `340-${birthData.id_financiamiento-1}-${birthData.dni}`;
             setCodigoSis(generatedCode);
+            // Also update the birthData state with the generated code
+            setBirthData(prev => ({
+                ...prev,
+                codigo_sis: generatedCode
+            }));
         } else {
             alert("Debe seleccionar un financiamiento y asegurarse de que el DNI esté presente.");
         }
     }
     useEffect(() => {
-        console.log("Financiamiento:", birthData.id_financiamiento);
-        console.log("DNI:", birthData.dni);
+        console.log("Dni",birthData.dni);
+        
         if (birthData.id_financiamiento && birthData.dni) {
-            const generatedCode = generateCodigoSis(birthData.id_financiamiento, birthData.dni);
-            console.log("Código generado:");
-            setCodigoSis(generatedCode);
+            generateCodigoSis();
         }
     }, [birthData.id_financiamiento, birthData.dni]);
 
@@ -85,9 +89,10 @@ const NacimientoPaciente = ({ pacienteId, onClose,pacienteDni }) => {
             const response = await axios.get(
                 `http://localhost:5000/api/nacimiento/${pacienteId}`
             );
-            console.log(response.data); // Verifica la respuesta aquí
+            console.log(response.data);
             if (response.data) {
-                setBirthData({
+                setBirthData(prevData => ({
+                    ...prevData,  // This preserves the existing dni
                     id_paciente: response.data.ID_PACIENTE,
                     edad_gestacional: response.data.EDAD_GESTACIONAL,
                     peso: response.data.PESO,
@@ -97,8 +102,8 @@ const NacimientoPaciente = ({ pacienteId, onClose,pacienteDni }) => {
                     id_financiamiento: response.data.ID_FINANCIAMENTO,
                     codigo_sis: response.data.codigo_sis,
                     id_programa: response.data.ID_PROGRAMA
-                });
-                setIsEditing(true); // Si ya hay datos, es una edición
+                }));
+                setIsEditing(true);
                 setCodigoSis(response.data.codigo_sis || "");
             }
         } catch (error) {
@@ -124,6 +129,7 @@ const NacimientoPaciente = ({ pacienteId, onClose,pacienteDni }) => {
             const finalData = {
                 ...birthData,
                 codigo_sis: codigoSis,
+                dni: pacienteDni // Ensure DNI is always included
             };
             if (isEditing) {
                 await axios.put(
@@ -303,13 +309,7 @@ const NacimientoPaciente = ({ pacienteId, onClose,pacienteDni }) => {
                             onChange={handleCodigoSisChange}
                         />
                     </label>
-                    <button
-                        type="button"
-                        onClick={generateCodigoSis}
-                        className="generate-button"
-                    >
-                        Generar Código SIS
-                    </button>
+                
                 </div>
 
                 <div>

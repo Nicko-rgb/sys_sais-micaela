@@ -1,0 +1,130 @@
+/* FormularioPsicomotor.css */
+.formulariocontainer {
+    font-family: Arial, sans-serif;
+    margin: 10px auto;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    max-width: 400px; /* Tamaño reducido */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    margin: 0 0 10px;
+    font-size: 16px;
+    color: #333;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 8px;
+    text-align: center;
+  }
+  
+  .formularioinstruccion {
+    font-size: 12px;
+    color: #fff;
+    background-color: #6ab5d4;
+    padding: 8px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .checkboxgroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+  .checkboxgroup label {
+    font-size: 12px;
+    flex: 1 1 calc(50% - 10px); /* Distribuye en dos columnas */
+  }
+  
+  .formgroup {
+    margin-bottom: 10px;
+  }
+  
+  label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 3px;
+  }
+  
+  textarea, input[type="date"] {
+    width: 100%;
+    padding: 6px;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  textarea {
+    height: 50px;
+    resize: none;
+  }
+  
+  .btnguardar {
+    display: inline-block;
+    width: 100%; /* Botón ancho para móviles */
+    padding: 8px;
+    font-size: 12px;
+    color: #fff;
+    background-color: #5cb85c;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 5px;
+  }
+  
+  .btnguardar:hover {
+    background-color: #4cae4c;
+  }
+  
+  .notas {
+    margin-top: 15px;
+    padding: 8px;
+    background-color: #ffeebb;
+    border: 1px solid #ffdd88;
+    border-radius: 3px;
+    font-size: 12px;
+  }
+  
+  .notas p {
+    margin: 3px 0;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  
+  /* Responsivo */
+  @media (max-width: 480px) {
+    .formulario-container {
+      padding: 10px;
+    }
+  
+    .checkbox-group label {
+      font-size: 11px;
+      flex: 1 1 100%; /* Cambia a una columna en pantallas pequeñas */
+    }
+  
+    h2 {
+      font-size: 14px;
+    }
+  
+    .formularioinstruccion {
+      font-size: 11px;
+      padding: 6px;
+    }
+  
+    textarea, input[type="date"], .btn-guardar {
+      font-size: 11px;
+      padding: 5px;
+    }
+  
+    .notas {
+      font-size: 11px;
+      padding: 6px;
+    }
+  }
+  

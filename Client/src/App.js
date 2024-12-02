@@ -20,6 +20,11 @@ import ListarControles from './Componentes/Her_Pacien_Ninho/Control/listarcontro
 import ActualizarControles from './Componentes/Her_Pacien_Ninho/Control/actualizarControles';
 import ExportExcel from './Componentes/Personales/Turnos/Excel';
 
+import Entregasuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Entregasuplemento';
+import Listasumplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Listasumplemento';
+import Actualizarsuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/actualizarsuplemento';
+import EvaluacionPsicomotor from './Componentes/Her_Pacien_Ninho/Psicomotor/EvaluacionPsicomotor'
+
 import TamizajeDozaje from './Componentes/Her_Pacien_Ninho/Tamizaje/TamizajeDozaje';
 import HistorialTamizaje from './Componentes/Her_Pacien_Ninho/Tamizaje/HistorialTamizaje';
 import Entregasuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Entregasuplemento';

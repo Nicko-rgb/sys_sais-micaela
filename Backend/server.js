@@ -488,41 +488,42 @@ app.put('/api/personal/actualizar-estado/:id', async (req, res) => {
         if (connection) connection.release(); // Liberar la conexión en lugar de cerrarla
     }
 });
-
 // Ruta para guardar la profesión y el servicio del personal de salud
 app.post('/api/personal/guardar-profes-servi', async (req, res) => {
-    const { profesion, servicio } = req.body;
-
-    if (!profesion || !servicio) {
-        return res.status(400).json({ message: 'La profesión y el servicio son obligatorios.' });
-    }
+    const { profesion, servicio } = req.body; // Desestructuramos los valores del cuerpo de la solicitud
 
     const connection = await pool.getConnection(); // Obtener conexión
     try {
         await connection.beginTransaction(); // Iniciar transacción
 
-        // Verificar si la profesión ya existe
-        const checkProfQuery = 'SELECT COUNT(*) AS count FROM profesiones WHERE nombre_profesion = ?';
-        const [checkProfResult] = await connection.query(checkProfQuery, [profesion]);
+        // Si se proporciona una profesión
+        if (profesion) {
+            // Verificar si la profesión ya existe
+            const checkProfQuery = 'SELECT COUNT(*) AS count FROM profesiones WHERE nombre_profesion = ?';
+            const [checkProfResult] = await connection.query(checkProfQuery, [profesion]);
 
-        if (checkProfResult[0].count === 0) {
-            // Insertar nueva profesión solo si no existe
-            const insertProfQuery = 'INSERT INTO profesiones (nombre_profesion) VALUES (?)';
-            await connection.query(insertProfQuery, [profesion]);
+            if (checkProfResult[0].count === 0) {
+                // Insertar nueva profesión solo si no existe
+                const insertProfQuery = 'INSERT INTO profesiones (nombre_profesion) VALUES (?)';
+                await connection.query(insertProfQuery, [profesion]);
+            }
         }
 
-        // Verificar si el servicio ya existe
-        const checkServQuery = 'SELECT COUNT(*) AS count FROM servicios WHERE nombre_servicio = ?';
-        const [checkServResult] = await connection.query(checkServQuery, [servicio]);
+        // Si se proporciona un servicio
+        if (servicio) {
+            // Verificar si el servicio ya existe
+            const checkServQuery = 'SELECT COUNT(*) AS count FROM servicios WHERE nombre_servicio = ?';
+            const [checkServResult] = await connection.query(checkServQuery, [servicio]);
 
-        if (checkServResult[0].count === 0) {
-            // Insertar nuevo servicio solo si no existe
-            const insertServQuery = 'INSERT INTO servicios (nombre_servicio) VALUES (?)';
-            await connection.query(insertServQuery, [servicio]);
+            if (checkServResult[0].count === 0) {
+                // Insertar nuevo servicio solo si no existe
+                const insertServQuery = 'INSERT INTO servicios (nombre_servicio) VALUES (?)';
+                await connection.query(insertServQuery, [servicio]);
+            }
         }
 
         await connection.commit(); // Confirmar transacción
-        res.status(200).json({ message: 'Profesión y servicio añadidos (si no existían).' });
+        res.status(200).json({ message: 'Profesión y/o servicio añadidos (si no existían).' });
     } catch (error) {
         console.error('Error al añadir profesión o servicio', error);
         await connection.rollback(); // Revertir transacción en caso de error
@@ -956,40 +957,29 @@ app.get('/api/reset-password/:token', async (req, res) => {
 });
 
 //ruta para registrar las citas para el niño
-app.post('/api/registrar/cita-nino', (req, res) => {
+app.post('/api/registrar/cita-nino', async (req, res) => {
     const { especialidad, fecha, hora, consultorio, hisClinico, dni, apellidos, nombres, fechaNacimiento, edad, telefono, motivoConsulta, direccion, metodo, semEmbarazo, idRespons } = req.body;
 
     const sql = `
         INSERT INTO cita_ninhos (
-            especialidad, fecha, hora, consultorio, hisClinico, dni, apellidos, nombres, fechaNacimiento, edad, telefono, motivoConsulta, direccion, metodo, semEmbarazo, id_responsable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            especialidad, fecha, hora, consultorio, hisClinico, dni, apellidos, nombres, fechaNacimiento, edad, telefono, motivoConsulta, direccion, metodo, semEmbarazo, id_responsable
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-    const values = [
-        especialidad,
-        fecha,
-        hora,
-        consultorio,
-        hisClinico,
-        dni,
-        apellidos,
-        nombres,
-        fechaNacimiento,
-        edad,
-        telefono,
-        motivoConsulta,
-        direccion || null,
-        metodo || null,
-        semEmbarazo || null,
-        idRespons || null
-    ];
+    const values = [ especialidad, fecha, hora, consultorio, hisClinico, dni, apellidos, nombres, fechaNacimiento, edad, telefono, motivoConsulta, direccion || null, metodo || null, semEmbarazo || null, idRespons || null ];
 
-    pool.query(sql, values, (error, results) => {
-        if (error) {
-            console.error('Error al registrar la cita:', error);
-            return res.status(500).json({ error: 'Error al registrar la cita' });
-        }
-
-        res.status(201).json({ message: 'Cita registrada exitosamente', id: results.insertId });
-    });
+    try {
+        const [results] = await pool.query(sql, values);
+        res.status(201).json({
+            message: 'Cita registrada exitosamente',
+            id: results.insertId
+        });
+    } catch (error) {
+        console.error('Error al registrar la cita:', error);
+        res.status(500).json({
+            error: 'Error al registrar la cita',
+            details: error.message
+        });
+    }
 });
 
 // Ruta para obtner las citas segun fecha, especialidad
@@ -1003,15 +993,16 @@ app.get('/api/citas-ninhos', async (req, res) => {
         res.status(500).json({ message: 'Error al obtener citas.' });
     }
 });
+
 //ruta para editar las citas de los niños
 app.put('/api/edit-citas-ninio/:id', async (req, res) => {
     const { id } = req.params; // ID de la cita a actualizar
-    const { fecha, hora } = req.body; // Datos enviados desde el cliente
+    const { fecha, hora, consultorio, especialidad } = req.body; // Datos enviados desde el cliente
 
     try {
         // Consulta SQL para actualizar la cita en la base de datos
-        const query = `UPDATE cita_ninhos SET fecha = ?, hora = ? WHERE id = ?;`;
-        const values = [fecha, hora, id];
+        const query = `UPDATE cita_ninhos SET fecha = ?, hora = ?, consultorio = ? WHERE id = ?;`;
+        const values = [fecha, hora, consultorio, id];
 
         // Ejecutar la consulta
         const [result] = await pool.execute(query, values);

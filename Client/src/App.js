@@ -63,9 +63,9 @@ function App() {
                         <Route path="/historialtamizaje/:historialClinico" element={<HistorialTamizaje />} />
                         <Route path="/Entregasuplementos/:historialClinico" element={<Entregasuplemento />} />
                         <Route path="/Listasuplementos/:historialClinico" element={<ListaSuplemento />} />
-                        <Route path="Actualizarsuplemento/:historialClinico" element={<Actualizarsuplemento />} />
-                        <Route path="EvaluacionPsicomotor/:historialClinico" element={<EvaluacionPsicomotor />} />
-                        <Route path="HistorialPsicomotor/:historialClinico" element={<HistorialPsicomotor />} />
+                        <Route path="/Actualizarsuplemento/:historialClinico" element={<Actualizarsuplemento />} />
+                        <Route path="/EvaluacionPsicomotor/:historialClinico" element={<EvaluacionPsicomotor />} />
+                        <Route path="/HistorialPsicomotor/:historialClinico" element={<HistorialPsicomotor />} />
 
                     </Routes>
                 </AuthProvider>

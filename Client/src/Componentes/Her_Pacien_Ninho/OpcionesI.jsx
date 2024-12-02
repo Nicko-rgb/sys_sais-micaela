@@ -34,6 +34,9 @@ const OpcionesI = ({ paciente }) => {
   const EvaluacionPsicomotor = () => {
     navigate(`/EvaluacionPsicomotor/${paciente.hist_clinico}`, { state: { paciente } });
   }
+  const HisotiriaPsicomotor = ()=> {
+    navigate(`/HistorialPsicomotor/${paciente.hist_clinico}`, { state: { paciente } });
+  }
 
   const IraTamizaje = () => {
     navigate(`/tamizaje/${paciente.hist_clinico}`, { state: { paciente } });
@@ -117,7 +120,7 @@ const OpcionesI = ({ paciente }) => {
             PSICOMOTOR
           </summary>
           <button onClick={EvaluacionPsicomotor}>Evaluacion Psicomotor</button>
-          <button> Historial Psicomotor</button>
+          <button onClick={HisotiriaPsicomotor} > Historial Psicomotor</button>
         </details>
         <details name="opcion" className="opcion-item">
           <summary>

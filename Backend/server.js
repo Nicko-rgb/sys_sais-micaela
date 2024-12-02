@@ -1110,8 +1110,6 @@ app.post('/api/nino/bloquear-hora-cita', async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
-=======
 // Ruta para desbloquear horas de las citas de los niños
 app.delete('/api/nino/desbloquear-hora-cita', async (req, res) => {
     const { fecha, hora_inicio, hora_fin, consultorio, especialidad } = req.body;
@@ -1134,7 +1132,6 @@ app.delete('/api/nino/desbloquear-hora-cita', async (req, res) => {
 });
 
 
->>>>>>> main
 //api para consultar si el horario (hora) es bloqueda en cita niño
 app.get('/api/nino/verificar-bloqueos-cita', async (req, res) => {
     try {

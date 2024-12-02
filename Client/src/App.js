@@ -24,6 +24,7 @@ import TamizajeDozaje from './Componentes/Her_Pacien_Ninho/Tamizaje/TamizajeDoza
 import HistorialTamizaje from './Componentes/Her_Pacien_Ninho/Tamizaje/HistorialTamizaje';
 import Entregasuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Entregasuplemento';
 import ListaSuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Listasumplemento';
+import VacunarNino from './Componentes/Her_Pacien_Ninho/vacuna/VacunarNino';
 import Cita1 from './Componentes/CitaNiño/Citas1';
 
 
@@ -48,20 +49,21 @@ function App() {
                         <Route path="/perfil/:name/:id" element={<Perfil />} />
                         <Route path="/visita" element={<Visitadomiciliaria />} />
                         <Route path="/historialvisita" element={<HistorialVisitas />} />
-                        <Route path="/control/:historialClinico" element={<Control/>} />
-                        <Route path="/seguimiento" element={<Seguimientonutricional/>} />
-                        <Route path="/listarcontroles" element={<ListarControles/>} />
-                        <Route path="/actualizarcontroles" element={<ActualizarControles/>} />
+                        <Route path="/control/:historialClinico" element={<Control />} />
+                        <Route path="/seguimiento" element={<Seguimientonutricional />} />
+                        <Route path="/listarcontroles" element={<ListarControles />} />
+                        <Route path="/actualizarcontroles" element={<ActualizarControles />} />
                         {/* <Route path="/historialControles" element={<HistorialControles />} /> */}
                         {/* <Route path="/modal-salida" element={<Modalnavtop />} /> */}
                         <Route path="/exportar-turno" element={<ExportExcel />} />
                         <Route path="/tamizaje/:historialClinico" element={<TamizajeDozaje />} />
-                        <Route path="/historialtamizaje/:historialClinico" element={<HistorialTamizaje/>}/>
-                        <Route path="/Entregasuplementos/:historialClinico" element={<Entregasuplemento/>}/>
-                        <Route path="/Listasuplementos/:historialClinico" element={<ListaSuplemento/>}/>
-    
+                        <Route path="/historialtamizaje/:historialClinico" element={<HistorialTamizaje />} />
+                        <Route path="/Entregasuplementos/:historialClinico" element={<Entregasuplemento />} />
+                        <Route path="/Listasuplementos/:historialClinico" element={<ListaSuplemento />} />
+                        <Route path="/VacunarNino/:historialClinico" element={<VacunarNino />} />
+
                     </Routes>
-                </AuthProvider> 
+                </AuthProvider>
             </BrowserRouter>
         </div>
     );

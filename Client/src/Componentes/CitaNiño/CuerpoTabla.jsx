@@ -4,10 +4,7 @@ import { BiPlusCircle } from "react-icons/bi";
 import { PiPencilLineBold } from "react-icons/pi";
 import { RxValueNone } from "react-icons/rx";
 import { PiLockKeyOpenFill } from "react-icons/pi";
-<<<<<<< HEAD
-=======
 import { RiDeleteBin6Line } from "react-icons/ri";
->>>>>>> main
 import FormCitas from './FormCitas';
 import axios from 'axios';
 import EditCita from './EditCita';
@@ -145,12 +142,6 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
         fetchCitas();
     }, []);
 
-<<<<<<< HEAD
-    //creamos una funcion para recortar un texto
-    const recortarTexto = (texto) => {
-        if (texto.length > 20) {
-            return texto.substring(0, 20) + '...';
-=======
     useEffect(() => {
         fetchCitas();
         const intervalId = setInterval(() => {
@@ -164,7 +155,6 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
     const recortarTexto = (texto) => {
         if (texto.length > 30) {
             return texto.substring(0, 30) + '...';
->>>>>>> main
         }
         return texto
     }
@@ -216,11 +206,7 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                             {especialidad === 'Medicina' && <td>{cita ? cita.direccion : '---'}</td>}
                             {especialidad === 'Obstetricia_CPN' && <td>{cita ? cita.semEmbarazo : '---'}</td>}
                             {especialidad === 'Planificación' && <td>{cita ? cita.metodo : '---'}</td>}
-<<<<<<< HEAD
-                            <td>{recortarTexto(cita ? cita.motivoConsulta : '---' )}</td>
-=======
                             <td>{recortarTexto(cita ? cita.motivoConsulta : '---')}</td>
->>>>>>> main
                             <td>Responsable </td>
                             <td className="box-ac" style={{ padding: '0' }}>
                                 <div className="accion">
@@ -248,11 +234,7 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
 
                                         </>
                                     ) : (
-<<<<<<< HEAD
-                                        <PiLockKeyOpenFill className="ico ico-abi" />
-=======
                                         <PiLockKeyOpenFill className="ico ico-abi" onClick={() => handleUnblockRow(horario)} />
->>>>>>> main
                                     )}
                                 </div>
                             </td>

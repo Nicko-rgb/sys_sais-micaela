@@ -36,12 +36,15 @@ const OpcionesI = ({ paciente }) => {
     navigate(`/historialtamizaje/${paciente.hist_clinico}`, { state: { paciente } });
   }
 
- const EntregaSuplementos = () => {
-  navigate(`/Entregasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar suplementos
- }
- const ListaSuplemento = () => {
-  navigate(`/Listasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
- }
+  const EntregaSuplementos = () => {
+    navigate(`/Entregasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar suplementos
+  }
+  const ListaSuplemento = () => {
+    navigate(`/Listasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
+  }
+  const VacunarNino = () => {
+    navigate(`/VacunarNino/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar VacunarNino
+  }
 
 
   return (
@@ -116,7 +119,7 @@ const OpcionesI = ({ paciente }) => {
             <MdOutlineVaccines className="icon" />
             VACUNA
           </summary>
-          <button>Vacunar Niño</button>
+          <button onClick={VacunarNino}>Vacunar Niño</button>
           <button> Historial Vacunas</button>
           <button> Vacunas Faltantes</button>
         </details>

@@ -1,0 +1,109 @@
+
+/* Contenedor Principal */
+.contPrincipal {
+  width: 100%;
+  min-height: 100vh; /* Asegura que ocupe al menos toda la pantalla */
+  /* border: green solid 3px; */
+  padding: 10px;
+  overflow: hidden; /* Evita desbordamiento */
+}
+
+.btn .volver_link {
+  position: absolute;
+  top: 75px;
+  left: 80px;
+  cursor: pointer;
+  color: green;
+  /* padding: 5px 15px; */
+  display: flex;
+  align-items: center;
+  gap: 5PX;
+  font-family: 'poppins';
+  font-size: 14px;
+}
+
+.volver_link:hover {
+  background: rgb(209, 209, 209);
+}
+
+
+/* Título Principal */
+.titulo {
+  font-size: 30px;
+  /* border: green solid 2px; */
+  margin-top: 50px;
+  width: 40%;
+  padding: 1px;
+  margin-bottom: 2px;
+  margin-left: 200px;
+}
+
+/* Contenedor de Tarjetas */
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Tres columnas iguales */
+  gap: 16px 0px;
+  padding: 10px;
+  padding-bottom: 80px;
+  justify-items: center;
+  /* border: red solid 2px; */
+  margin: 10px 0;
+}
+
+/* Tarjeta Individual */
+.card {
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  padding: 12px;
+  background-color: #f9f9f9;
+  width: 450px; /* Ajusta el ancho */
+}
+
+/* Encabezado de la Tarjeta */
+.header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f1c40f;
+  padding: 6px 8px;
+  border-radius: 5px 5px 0 0;
+}
+
+/* Cuerpo de la Tarjeta */
+.bodyx {
+  padding: 6px 0;
+}
+
+/* Campo de Entrada de Fecha e Input */
+.inputDate,
+.inputField {
+  width: calc(100% - 10px);
+  padding: 4px;
+  margin: 4px 0;
+}
+
+/* Contenedor de Inputs Adicionales */
+.inputs {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+/* Botón de Guardar */
+.saveButton {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 5px;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* Botón de Cerrar (X) */
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #e74c3c;
+}

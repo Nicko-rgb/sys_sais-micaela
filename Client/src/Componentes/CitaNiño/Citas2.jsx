@@ -51,4 +51,4 @@ const Citas2 = ({ especialidad, fecha, fechaT, horarios,  consultorio }) => {
     );
 };
 
-export default Citas2;
+export default Citas2;  

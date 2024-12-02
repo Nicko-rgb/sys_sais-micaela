@@ -1,10 +1,36 @@
+.contGeneral{
+  width: 100%;
+  height: 100vh;
+  background-color: #ffffff;
+  padding: 20px;
+}
 
+.contGeneral .btnVolver{
+  position: fixed;
+  top: 95px;
+  color: green;
+  /* background-color: #e4ffe5; */
+  margin-left: 230px;
+  /* border: green solid 3px; */
+  }
 
-.titHist {
+.btnVolver:hover{
+  background: rgb(209, 209, 209);
+
+}
+
+.contGeneral .titHist {
   display: flex;
-  justify-content: space-between;
+  margin-top: 100px;
+  width: 60%;
+  justify-content: center;
   align-items: center; /* Centra los elementos verticalmente */
+  gap: 100px;
+  left: 400px;
   margin: 5px;
+  /* border: red solid 1px; */
+  position: relative;
+  top: 50px;
 }
 
 .titHist button {
@@ -21,7 +47,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  /* align-self: center; */
+  align-self: center;
 }
 
 
@@ -29,26 +55,29 @@
   background-color: #555; /* Cambio de color al pasar el mouse */
 }
 
-.contGeneral {
-  margin-top: 5px; /* Reducido margen superior */
+.contCartas {
+  margin-top: 20px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px; /* Reducido el espacio entre columnas */
-  padding: 5px; /* Reducido el padding */
+  gap: 10px 0px; /* Reduce el espacio vertical (primer valor) */
+  padding: 20px; /* Reduce el padding interno */
   justify-items: center;
-  /* border: #069a89 solid 1px; */
+  /* border: red solid 2px; */
 }
 
-.container {
-  width: 100%;
-  max-width: 500px; /* Reducido el ancho máximo */
-  padding: 15px; /* Reducido el padding */
+.cartas {
+  width: 900px;
+  height: 250px;
+  max-width: 600px; /*Mantén este ajuste según tu diseño*/
+  padding: 10px;
   background-color: #f9f9f9;
-  border-radius: 6px; /* Esquinas más pequeñas */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra más suave */
+  border-radius: 6px;
+  box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.2);
+  margin: 30px; /* Asegúrate de eliminar márgenes externos */
 }
 
-.header {
+
+.cartas .header {
   font-size: 1.2em; /* Reducido tamaño de fuente */
   font-weight: bold;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;

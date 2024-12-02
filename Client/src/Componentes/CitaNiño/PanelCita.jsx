@@ -153,7 +153,7 @@ const OpcionesCita = () => {
                                 </button>
                             );
                         })}
-                    </div>
+                    </div> 
                 </section>
                 <div className="container-tabla">
                     <hr />

@@ -52,7 +52,7 @@ function Entregasuplemento() {
     setShowModal(false);
     if (isRedirecting) {
 
-      navigate(`/Listasuplemento/${paciente.hist_clinico}`, { state: { paciente, entregas } });
+      navigate(`/Listasuplementos/${paciente.hist_clinico}`, { state: { paciente, entregas } });
     }
   };
 

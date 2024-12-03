@@ -58,6 +58,10 @@ function App() {
                         <Route path="/seguimiento" element={<Seguimientonutricional />} />
                         <Route path="/listarcontroles" element={<ListarControles />} />
                         <Route path="/actualizarcontroles" element={<ActualizarControles />} />
+                        <Route path="/control/:historialClinico" element={<Control />} />
+                        <Route path="/seguimiento" element={<Seguimientonutricional />} />
+                        <Route path="/listarcontroles" element={<ListarControles />} />
+                        <Route path="/actualizarcontroles" element={<ActualizarControles />} />
                         {/* <Route path="/historialControles" element={<HistorialControles />} /> */}
                         {/* <Route path="/modal-salida" element={<Modalnavtop />} /> */}
                         <Route path="/exportar-turno" element={<ExportExcel />} />
@@ -68,10 +72,10 @@ function App() {
                         <Route path="/Actualizarsuplemento/:historialClinico" element={<Actualizarsuplemento />} />
                         <Route path="/EvaluacionPsicomotor/:historialClinico" element={<EvaluacionPsicomotor />} />
                         <Route path="/HistorialPsicomotor/:historialClinico" element={<HistorialPsicomotor />} />
-                        <Route path="/VacunarNino/:historialClinico" element={<VacunarNino/>} />
+                        <Route path="/VacunarNino/:historialClinico" element={<VacunarNino />} />
 
                     </Routes>
-                </AuthProvider>
+                </AuthProvider> 
             </BrowserRouter>
         </div>
     );

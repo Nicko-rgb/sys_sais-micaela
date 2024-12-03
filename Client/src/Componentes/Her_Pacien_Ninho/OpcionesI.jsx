@@ -26,18 +26,18 @@ const OpcionesI = ({ paciente }) => {
 
   const irAControl = () => {
     navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
+  }
+  const Actualizarsuplemento = () => {
+    navigate(`/Actualizarsuplemento/${paciente.hist_clinico}`, { state: { paciente } });
+  };
 
-    };
+  const EvaluacionPsicomotor = () => {
+    navigate(`/EvaluacionPsicomotor/${paciente.hist_clinico}`, { state: { paciente } });
+  }
+  const HisotiriaPsicomotor = ()=> {
+    navigate(`/HistorialPsicomotor/${paciente.hist_clinico}`, { state: { paciente } });
+  }
 
-    const Actualizarsuplemento = () => {
-      navigate(`/Actualizarsuplemento/${paciente.hist_clinico}`, { state: { paciente } });
-    };
-
-    const EvaluacionPsicomotor = () => {
-      navigate(`/EvaluacionPsicomotor/${paciente.hist_clinico}`, { state: { paciente } });
-    }
-
-  
   const IraTamizaje = () => {
     navigate(`/tamizaje/${paciente.hist_clinico}`, { state: { paciente } });
   }
@@ -53,7 +53,7 @@ const OpcionesI = ({ paciente }) => {
     navigate(`/Listasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
   }
   const VacunarNino = () => {
-    navigate(`/VacunarNino/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar VacunarNino
+    navigate(`/VacunarNino/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
   }
 
 
@@ -123,7 +123,7 @@ const OpcionesI = ({ paciente }) => {
             PSICOMOTOR
           </summary>
           <button onClick={EvaluacionPsicomotor}>Evaluacion Psicomotor</button>
-          <button> Historial Psicomotor</button>
+          <button onClick={HisotiriaPsicomotor} > Historial Psicomotor</button>
         </details>
         <details name="opcion" className="opcion-item">
           <summary>

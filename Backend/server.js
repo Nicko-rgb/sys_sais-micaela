@@ -1122,7 +1122,6 @@ app.delete('/api/nino/desbloquear-hora-cita', async (req, res) => {
     }
 });
 
-
 //api para consultar si el horario (hora) es bloqueda en cita niño
 app.get('/api/nino/verificar-bloqueos-cita', async (req, res) => {
     try {

@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styles from './VacunarNino.module.css'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import NavLogin from '../../Navegadores/NavLogin';
 import NavPie from '../../Navegadores/NavPie';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
-
+ 
 const listaVacunas = [
   { nombreVacuna: 'Vacuna HVA (Hep)', codigo: '90633.01' },
   { nombreVacuna: 'Influenza con Comorbilidad', codigo: '90657' },
@@ -31,7 +31,7 @@ const VacunarNino = () => {
       <NavLogin />
 
       <div className={styles.contPrincipal}>
-        <div className={styles.btn}>
+        <div className={styles.btn}> 
           <Link to={`/panel/${paciente?.hist_clinico || ''}`} className={styles.volver_link}>
           <RiPlayReverseLargeFill /> VOLVER
           </Link>
@@ -74,6 +74,5 @@ const VacunarNino = () => {
 
   );
 };
-
 
 export default VacunarNino;

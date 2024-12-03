@@ -101,7 +101,7 @@ function Listasumplemento() {
               <button
                 className={style.newsupplementbutton}
                 onClick={() =>
-                  navigate(`/Entregasuplemento/${paciente.hist_clinico}`, {
+                  navigate(`/Entregasuplementos/${paciente.hist_clinico}`, {
                     state: { paciente },
                   })
                 }

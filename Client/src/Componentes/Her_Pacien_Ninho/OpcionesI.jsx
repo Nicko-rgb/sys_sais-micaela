@@ -27,7 +27,17 @@ const OpcionesI = ({ paciente }) => {
   const irAControl = () => {
     navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
 
-  }
+    };
+
+    const Actualizarsuplemento = () => {
+      navigate(`/Actualizarsuplemento/${paciente.hist_clinico}`, { state: { paciente } });
+    };
+
+    const EvaluacionPsicomotor = () => {
+      navigate(`/EvaluacionPsicomotor/${paciente.hist_clinico}`, { state: { paciente } });
+    }
+
+  
   const IraTamizaje = () => {
     navigate(`/tamizaje/${paciente.hist_clinico}`, { state: { paciente } });
   }
@@ -95,7 +105,8 @@ const OpcionesI = ({ paciente }) => {
           </summary>
           <button onClick={EntregaSuplementos}>Entrega Suplemento</button>
           <button onClick={ListaSuplemento}> Historial Suplemento</button>
-          <button>Actualizar Suplementos</button>
+          <button onClick={Actualizarsuplemento}>Actualizar Suplementos</button>
+
         </details>
         <details name="opcion" className="opcion-item">
           <summary>
@@ -111,7 +122,7 @@ const OpcionesI = ({ paciente }) => {
             <IoBody className="icon" />
             PSICOMOTOR
           </summary>
-          <button>Evaluacion Psicomotor</button>
+          <button onClick={EvaluacionPsicomotor}>Evaluacion Psicomotor</button>
           <button> Historial Psicomotor</button>
         </details>
         <details name="opcion" className="opcion-item">

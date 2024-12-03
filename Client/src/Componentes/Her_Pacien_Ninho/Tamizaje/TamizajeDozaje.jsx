@@ -40,7 +40,7 @@ const TamizajeDozaje = () => {
         navigate(`/historialtamizaje/${paciente.hist_clinico}`, { state: { paciente } })
     }
 
-    return (
+    return ( 
         <div>
             <NavLogin />
             <div className={styles.contGeneral}>

@@ -102,122 +102,121 @@ const RegPersonal = ({ handleForm }) => {
 
     return (
         <div className="reg-personal">
-            <div className="sub-reg">
-                <form onSubmit={handleFormData} className='form-personal'>
-                    <AiOutlineClose className='close-personal-form' onClick={handleForm} title='CERRAR' />
-                    <h3>REGISTRAR NUEVO PERSONAL DE SALUD</h3>
-
+            <form onSubmit={handleFormData} className='form-personal'>
+                <AiOutlineClose className='close-personal-form' onClick={handleForm} title='CERRAR' />
+                <h3 style={{ fontSize: '25px' }} >Registrar Nuevo Personal de Salud</h3>
+                <div>
                     <label>DNI:
                         <input type="tel" value={dni} onChange={(e) => setDni(e.target.value)} maxLength={8} onKeyPress={handleKeyPress} />
                     </label>
 
-                    <div>
-                        <label>Paterno:
-                            <input type="text" value={paterno} onChange={(e) => setPaterno(e.target.value)} />
-                        </label>
-                        <label>Materno:
-                            <input type="text" value={materno} onChange={(e) => setMaterno(e.target.value)} />
-                        </label>
-                    </div>
-
                     <label>Nombre:
                         <input type="text" value={nombres} onChange={(e) => setNombres(e.target.value)} />
                     </label>
+                </div>
 
-                    <div>
-                        <label>Tipo Usuario:
-                            <select value={tipoUser} onChange={(e) => setTipoUser(e.target.value)}>
-                                <option value="">Seleccione una opción</option>
-                                <option value="Jefe">Jefe</option>
-                                <option value="Admin">Admin</option>
-                                <option value="Responsable">Responsable</option>
-                            </select>
-                        </label>
-                    </div>
-                    
-                    <Selected 
-                        onProfesionChange={handleProfesionChange}
-                        onServicioChange={handleServicioChange}
-                    />
-                    
-                    <div className='especialidad'>
-                        <label className='label-especialidad'>
-                            <input type="checkbox" checked={tieneEspecialidad} onChange={handleCheckboxChange} />
-                            Tiene Especialidad en Citas?
-                        </label>
+                <div>
+                    <label>Paterno:
+                        <input type="text" value={paterno} onChange={(e) => setPaterno(e.target.value)} />
+                    </label>
+                    <label>Materno:
+                        <input type="text" value={materno} onChange={(e) => setMaterno(e.target.value)} />
+                    </label>
+                </div>
 
-                        {tieneEspecialidad && (
-                            <>
-                                <label>
-                                    Seleccione Especialidad:
-                                    <select value={especialidad} onChange={handleEspecialidadChange}>
-                                        <option value="">Seleccione una opción</option>
-                                        <option value="Enfermería">Enfermería</option>
-                                        <option value="Medicina">Medicina</option>
-                                        <option value="Psicología">Psicología</option>
-                                        <option value="Nutrición">Nutrición</option>
-                                        <option value="Odontología">Odontología</option>
-                                        <option value="Planificación">Planificación</option>
-                                        <option value="Obstetricia_CPN">Obstetricia_CPN</option>
-                                    </select>
-                                </label>
+                <div>
+                    <label>Tipo Usuario:
+                        <select value={tipoUser} onChange={(e) => setTipoUser(e.target.value)}>
+                            <option value="">Seleccione una opción</option>
+                            <option value="Jefe">Jefe</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Responsable">Responsable</option>
+                        </select>
+                    </label>
+                </div>
 
-                                {mostrarConsultorio && (
-                                    <label>
-                                        N° Consultorio:
-                                        <select value={consultorio} onChange={(e) => setConsultorio(e.target.value)}>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                        </select>
-                                    </label>
-                                )}
-                            </>
-                        )}
-                    </div>
+                <Selected
+                    onProfesionChange={handleProfesionChange}
+                    onServicioChange={handleServicioChange}
+                />
 
-                    <div>
-                        <label>Condición:
-                            <select value={condicion} onChange={(e) => setCondicion(e.target.value)}>
-                                <option value="">Seleccione una opción</option>
-                                <option value="Nombrado">Nombrado</option>
-                                <option value="Contratado">Contratado</option>
-                                <option value="Tercero">Tercero</option>
-                                <option value="CAS">CAS</option>
-                                <option value="CLAS">CLAS</option>
-                                <option value="Serums">Serums</option>
-                            </select>
-                        </label>
-                        <label>Celular:
-                            <input type="text" value={celular} onChange={(e) => setCelular(e.target.value)} maxLength={9} onKeyPress={handleKeyPress} />
-                        </label>
-                    </div>
-
-                    <label>Correo:
-                        <input type="email" value={correo} onChange={(e) => setCorreo(e.target.value)} />
+                <div className='especialidad'>
+                    <label className='label-especialidad'>
+                        <input type="checkbox" checked={tieneEspecialidad} onChange={handleCheckboxChange} />
+                        Tiene Especialidad en Citas?
                     </label>
 
-                    <div className="credencialesAcceso">
-                        <fieldset>
-                            <legend>credenciales de acceso</legend>
-                            <label>Usuario(DNI):
-                                <input type="text" value={dni} onChange={(e) => setNameUser(e.target.value)} style={{ cursor: 'no-drop' }} readOnly />
+                    {tieneEspecialidad && (
+                        <>
+                            <label>
+                                Seleccione Especialidad:
+                                <select value={especialidad} onChange={handleEspecialidadChange}>
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="Enfermería">Enfermería</option>
+                                    <option value="Medicina">Medicina</option>
+                                    <option value="Psicología">Psicología</option>
+                                    <option value="Nutrición">Nutrición</option>
+                                    <option value="Odontología">Odontología</option>
+                                    <option value="Planificación">Planificación</option>
+                                    <option value="Obstetricia_CPN">Obstetricia_CPN</option>
+                                </select>
                             </label>
-                            <label>Contraseña:
-                                <input type="text" value={contrasena} onChange={(e) => setContrasena(e.target.value)} />
-                            </label>
-                            <label>Repetir contraseña:
-                                <input type="text" value={repitContra} onChange={(e) => setRepitContra(e.target.value)} />
-                            </label>
-                        </fieldset>
-                    </div>
 
-                    {msg && (<p className='msg-personal'> {msg} </p>)}
+                            {mostrarConsultorio && (
+                                <label>
+                                    N° Consultorio:
+                                    <select value={consultorio} onChange={(e) => setConsultorio(e.target.value)}>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                    </select>
+                                </label>
+                            )}
+                        </>
+                    )}
+                </div>
 
-                    <button type='submit' disabled={loading} className='btn-personal'>
-                        {loading ? 'Guardando...' : 'Registrar'}
-                    </button>
-                </form>
-            </div>
+                <div>
+                    <label>Condición:
+                        <select value={condicion} onChange={(e) => setCondicion(e.target.value)}>
+                            <option value="">Seleccione una opción</option>
+                            <option value="Nombrado">Nombrado</option>
+                            <option value="Contratado">Contratado</option>
+                            <option value="Tercero">Tercero</option>
+                            <option value="CAS">CAS</option>
+                            <option value="CLAS">CLAS</option>
+                            <option value="Serums">Serums</option>
+                        </select>
+                    </label>
+                    <label>Celular:
+                        <input type="text" value={celular} onChange={(e) => setCelular(e.target.value)} maxLength={9} onKeyPress={handleKeyPress} />
+                    </label>
+                </div>
+
+                <label>Correo:
+                    <input type="email" value={correo} onChange={(e) => setCorreo(e.target.value)} />
+                </label>
+
+                <div className="credencialesAcceso">
+                    <fieldset>
+                        <legend>credenciales de acceso</legend>
+                        <label>Usuario(DNI):
+                            <input type="text" value={dni} onChange={(e) => setNameUser(e.target.value)} style={{ cursor: 'no-drop' }} readOnly />
+                        </label>
+                        <label>Contraseña:
+                            <input type="text" value={contrasena} onChange={(e) => setContrasena(e.target.value)} />
+                        </label>
+                        <label>Repetir contraseña:
+                            <input type="text" value={repitContra} onChange={(e) => setRepitContra(e.target.value)} />
+                        </label>
+                    </fieldset>
+                </div>
+
+                {msg && (<p className='msg-personal'> {msg} </p>)}
+
+                <button type='submit' disabled={loading} className='btn-personal'>
+                    {loading ? 'Guardando...' : 'Registrar'}
+                </button>
+            </form>
         </div>
     );
 };

@@ -41,15 +41,19 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    padding-left: 350px;
-    padding-right: 510px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 220px;
+    width: 70%;
+    text-align: center;
 }
 
 .titHist h3 {
     font-size: 1.2rem;
     font-weight: bold;
     color: #333;
+    padding-top: 10px;
 }
 
 .titHist button {

@@ -1,15 +1,21 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Evita doble barra de scroll en caso de conflictos */
+}
 
-/* Contenedor Principal */
 .contPrincipal {
   width: 100%;
-  min-height: 100vh; /* Asegura que ocupe al menos toda la pantalla */
+  min-height: 100vh; 
   /* border: green solid 3px; */
   padding: 10px;
-  overflow: hidden; /* Evita desbordamiento */
+  overflow-y: auto; /* Desplazamiento vertical */
+  overflow-x: hidden; /* Ocultar horizontal */
 }
 
 .btn .volver_link {
-  position: absolute;
+  position: fixed;
   top: 75px;
   left: 80px;
   cursor: pointer;
@@ -42,6 +48,8 @@
 .container {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* Tres columnas iguales */
+  max-height: 100%; /* Restringe el desbordamiento si es necesario */
+  overflow-y: auto;
   gap: 16px 0px;
   padding: 10px;
   padding-bottom: 80px;
@@ -79,13 +87,15 @@
   width: calc(100% - 10px);
   padding: 4px;
   margin: 4px 0;
+  width: 50px;
 }
 
 /* Contenedor de Inputs Adicionales */
 .inputs {
   display: flex;
-  justify-content: space-between;
+  justify-content: left;
   gap: 4px;
+  
 }
 
 /* Botón de Guardar */

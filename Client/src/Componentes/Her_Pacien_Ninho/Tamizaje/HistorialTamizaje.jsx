@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styles from './HistorialTamizaje.module.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { RiPlayReverseLargeFill } from "react-icons/ri";
@@ -30,7 +30,7 @@ const HistorialTamizaje = () => {
 
     return (
         <div>
-            <NavLogin />
+            <NavLogin /> 
             <div className={styles.contGeneral}>
 
                 {paciente ? (
@@ -44,7 +44,7 @@ const HistorialTamizaje = () => {
                         {/* {paciente.nombres} {paciente.ape_paterno} { paciente.ape_materno} */}
                         <div className={styles.container}>
                             <div className={styles.titHist}>
-                                <h3>control {paciente.hist_clinico} - {paciente.nombres} {paciente.ape_paterno} {paciente.ape_materno}</h3>
+                                <h3>{paciente.hist_clinico} - {paciente.nombres} {paciente.ape_paterno} {paciente.ape_materno}</h3>
                                 <button onClick={NuevoTamizaje}><MdOutlineManageHistory />Nuevo Tamizaje</button>
                             </div>
 

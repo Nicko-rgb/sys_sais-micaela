@@ -6,6 +6,7 @@ import PanelNiño from './Componentes/PanelPaciente/PanelNiño';
 import DatosPaciente from './Componentes/PanelPaciente/DatosPaciente';
 import Listas from './Componentes/Lista Paciente/Listas';
 import PanelCita from './Componentes/CitaNiño/PanelCita';
+import Cita1 from './Componentes/CitaNiño/Citas1';
 import Personal from './Componentes/Personales/Personal';
 import ResetPassword from "./Componentes/Login/ResetPassword/ResetPasssord"
 import { AuthProvider } from './Componentes/Complementos/AuthContext';
@@ -20,12 +21,16 @@ import ListarControles from './Componentes/Her_Pacien_Ninho/Control/listarcontro
 import ActualizarControles from './Componentes/Her_Pacien_Ninho/Control/actualizarControles';
 import ExportExcel from './Componentes/Personales/Turnos/Excel';
 
+import Actualizarsuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/actualizarsuplemento';
+import EvaluacionPsicomotor from './Componentes/Her_Pacien_Ninho/Psicomotor/EvaluacionPsicomotor'
+import HistorialPsicomotor from './Componentes/Her_Pacien_Ninho/Psicomotor/HistorialPsicomotor';
+
 import TamizajeDozaje from './Componentes/Her_Pacien_Ninho/Tamizaje/TamizajeDozaje';
 import HistorialTamizaje from './Componentes/Her_Pacien_Ninho/Tamizaje/HistorialTamizaje';
 import Entregasuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Entregasuplemento';
 import ListaSuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Listasumplemento';
-import VacunarNino from './Componentes/Her_Pacien_Ninho/vacuna/VacunarNino';
-import Cita1 from './Componentes/CitaNiño/Citas1';
+
+import VacunarNino from './Componentes/Her_Pacien_Ninho/vacuna/VacunarNino'
 
 
 function App() {
@@ -60,7 +65,10 @@ function App() {
                         <Route path="/historialtamizaje/:historialClinico" element={<HistorialTamizaje />} />
                         <Route path="/Entregasuplementos/:historialClinico" element={<Entregasuplemento />} />
                         <Route path="/Listasuplementos/:historialClinico" element={<ListaSuplemento />} />
-                        <Route path="/VacunarNino/:historialClinico" element={<VacunarNino />} />
+                        <Route path="/Actualizarsuplemento/:historialClinico" element={<Actualizarsuplemento />} />
+                        <Route path="/EvaluacionPsicomotor/:historialClinico" element={<EvaluacionPsicomotor />} />
+                        <Route path="/HistorialPsicomotor/:historialClinico" element={<HistorialPsicomotor />} />
+                        <Route path="/VacunarNino/:historialClinico" element={<VacunarNino/>} />
 
                     </Routes>
                 </AuthProvider>

@@ -7,7 +7,7 @@ import { IoBody } from "react-icons/io5";
 import { useNavigate } from "react-router-dom"
 
 
-const OpcionesI = ({ paciente }) => {
+const OpcionesI = ({ paciente = {}}) => {
   const navigate = useNavigate(); // Hook de navegación
 
   const handleNewVisitClick = () => {
@@ -17,7 +17,11 @@ const OpcionesI = ({ paciente }) => {
     navigate("/historialvisita"); // Redirige a la ruta de "historialVisita"
   };
   const seguimientoNutricional = () => {
-    navigate("/seguimiento"); // Redirige a la ruta de "historialVisita"
+    if (paciente && paciente.hist_clinico) {
+      navigate(`/seguimiento/${paciente.hist_clinico}`, { state: { paciente } });
+    } else {
+      console.error("Paciente no definido.");
+    } // Redirige a la ruta de "historialVisita"
   };
 
   const actualizarControles = () => {
@@ -25,8 +29,13 @@ const OpcionesI = ({ paciente }) => {
   };
 
   const irAControl = () => {
-    navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
-  }
+    if (paciente && paciente.hist_clinico) {
+      navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
+    } else {
+      console.error("Paciente no definido.");
+    }
+  };
+
   const Actualizarsuplemento = () => {
     navigate(`/Actualizarsuplemento/${paciente.hist_clinico}`, { state: { paciente } });
   };

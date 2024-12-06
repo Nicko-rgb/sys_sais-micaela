@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./estilosGeneralControl.css";
 import { Link } from "react-router-dom";
 import { RiPlayReverseLargeFill } from "react-icons/ri";
+import NavLogin from '../../Navegadores/NavLogin'
+import NavPie from '../../Navegadores/NavPie'
+import OpcionesI from "../OpcionesI";
 import { useLocation } from 'react-router-dom';
 
 const Control = () => {
@@ -38,10 +41,12 @@ const Control = () => {
         });
     };
 
-
     return (
         <div className="ControlPrincipal">
+            <NavLogin />
+            <OpcionesI paciente={paciente}/>
             {paciente ? (
+                
                 <form className="control-form" onSubmit={handleSubmit}> 
                     <h3>{paciente.hist_clinico} {paciente.nombres} </h3>
                     <div>
@@ -204,7 +209,7 @@ const Control = () => {
             ) : (
                 <p>No hay datos..</p>
             )}
-
+            <NavPie/>
         </div>
     );
 };

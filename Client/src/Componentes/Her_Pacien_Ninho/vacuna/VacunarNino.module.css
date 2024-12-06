@@ -2,29 +2,26 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Evita doble barra de scroll en caso de conflictos */
+  overflow: auto;
 }
 
 .contPrincipal {
   width: 100%;
-  min-height: 100vh; 
-  /* border: green solid 3px; */
+  min-height: 100vh;
   padding: 10px;
-  overflow-y: auto; /* Desplazamiento vertical */
-  overflow-x: hidden; /* Ocultar horizontal */
+  overflow-y: auto;
 }
 
 .btn .volver_link {
-  position: fixed;
+  position: absolute;
   top: 75px;
   left: 80px;
   cursor: pointer;
   color: green;
-  /* padding: 5px 15px; */
   display: flex;
   align-items: center;
-  gap: 5PX;
-  font-family: 'poppins';
+  gap: 5px;
+  font-family: 'Poppins', sans-serif;
   font-size: 14px;
 }
 
@@ -32,42 +29,29 @@ html, body {
   background: rgb(209, 209, 209);
 }
 
-
-/* Título Principal */
 .titulo {
   font-size: 30px;
-  /* border: green solid 2px; */
-  margin-top: 50px;
+  margin: 50px 0 2px 200px;
   width: 40%;
   padding: 1px;
-  margin-bottom: 2px;
-  margin-left: 200px;
 }
 
-/* Contenedor de Tarjetas */
 .container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Tres columnas iguales */
-  max-height: 100%; /* Restringe el desbordamiento si es necesario */
-  overflow-y: auto;
-  gap: 16px 0px;
-  padding: 10px;
-  padding-bottom: 80px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px 0;
+  padding: 10px 10px 80px;
   justify-items: center;
-  /* border: red solid 2px; */
-  margin: 10px 0;
 }
 
-/* Tarjeta Individual */
 .card {
   border: 1px solid #ccc;
   border-radius: 2px;
   padding: 12px;
   background-color: #f9f9f9;
-  width: 450px; /* Ajusta el ancho */
+  width: 450px;
 }
 
-/* Encabezado de la Tarjeta */
 .header {
   display: flex;
   justify-content: space-between;
@@ -76,40 +60,58 @@ html, body {
   border-radius: 5px 5px 0 0;
 }
 
-/* Cuerpo de la Tarjeta */
-.bodyx {
-  padding: 6px 0;
+/* .bodyx{
+  border: rgb(4, 23, 4) solid 2px;
+} */
+
+.contFecha{
+  display: flex;
+  /* border: blue solid 2px; */
+  margin-top: 5px;
 }
 
-/* Campo de Entrada de Fecha e Input */
-.inputDate,
-.inputField {
-  width: calc(100% - 10px);
-  padding: 4px;
-  margin: 4px 0;
-  width: 50px;
+.contFecha label{
+  /* border: red solid 2px; */
+  width: 20%;
 }
 
-/* Contenedor de Inputs Adicionales */
+.contFecha .inputDate{
+  width: 50%;
+}
+
 .inputs {
   display: flex;
-  justify-content: left;
-  gap: 4px;
-  
+  /* justify-content: space-evenly; */
+  gap: 10px;
+  width: 100%;
+  margin-top: 5px;
+  /* border: #27ae60 solid 2px; */
 }
 
-/* Botón de Guardar */
+.inputs label {
+  width: 10%;
+  text-align: left;
+  /* border: red solid 1px; */
+}
+
+.inputs .inputField {
+  width: 20%;
+  padding: 2px;
+  margin-left: -10px;
+  gap: 20px;
+}
+
 .saveButton {
   background-color: #27ae60;
   color: white;
   border: none;
   padding: 8px;
   border-radius: 5px;
-  width: 100%;
   cursor: pointer;
+  margin-left: auto;
+  margin-top: 5px;
 }
 
-/* Botón de Cerrar (X) */
 .closeButton {
   background: none;
   border: none;

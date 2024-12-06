@@ -8,7 +8,7 @@
   height: 100vh; /* Ocupa toda la altura de la ventana */
   padding: 0; /* Quitar padding global para evitar desplazamiento */
   box-sizing: border-box; /* Incluye padding y borde en las dimensiones */
-  overflow: hidden; /* Oculta el scroll */
+  overflow-y: auto;
 }
 
 /* Estilos del formulario */
@@ -19,6 +19,7 @@
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18); /* Sombra más pronunciada */
   width: 100%;
   max-width: 600px; /* Máximo ancho del formulario */
+  margin-top: 50px;
 }
 
 /* Título del formulario */
@@ -184,7 +185,7 @@
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  overflow: auto; /* Scroll solo si el contenido excede el área visible */
+  overflow-y: auto; /* Scroll solo si el contenido excede el área visible */
 }
 
 .HistorialVisitas__header {
@@ -323,10 +324,10 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #7295bd;
+  background-color: #ffffff;
 }
 
-.control-form {
+.ControlPrincipal .control-form {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
@@ -337,21 +338,21 @@
   font-family: "Arial", sans-serif;
 }
 
-.control-form h2 {
+.ControlPrincipal .control-form h2 {
   text-align: center;
   color: #2c3e50;
   margin-bottom: 20px;
 }
 
 /* Estilos para los grupos de formulario */
-.control-form .form-group {
+.ControlPrincipal .control-form .form-group {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
 }
 
-.control-form .measurements-group,
+.ControlPrincipal .control-form .measurements-group,
 .control-form .care-group {
   background-color: #ffffff;
   padding: 15px;
@@ -361,7 +362,7 @@
 }
 
 /* Estilos para etiquetas */
-.control-form label {
+.ControlPrincipal .control-form label {
   flex: 1;
   font-weight: bold;
   color: #34495e;
@@ -493,124 +494,137 @@
 /* estilosGeneralControl.css */
 
 .seguimiento-Nutricional {
-  max-width: 600px; /* Ancho máximo del contenedor */
-  margin: 20px auto; /* Centrar el contenedor horizontalmente */
-  padding: 20px; /* Espaciado interno */
-  background-color: #ffffff; /* Fondo blanco para un aspecto limpio */
-  border-radius: 8px; /* Bordes redondeados */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra más suave */
-  font-family: "Arial", sans-serif; /* Tipografía clara */
+  max-width: 500px;
+  margin: 10px auto;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: "Arial", sans-serif;
+  margin-bottom: 80px;
+  margin-top: 50px;
 }
 
-.seguimiento-form {
+.seguimiento-Nutricional .seguimiento-form {
   display: flex;
-  flex-direction: column; /* Disposición en columna */
+  flex-direction: column;
 }
 
-.seguimiento-titulo {
+.seguimiento-Nutricional .seguimiento-titulo {
   display: flex;
-  justify-content: space-between; /* Espacio entre el título y el botón */
-  align-items: center; /* Alinear verticalmente */
-  margin-bottom: 20px; /* Espacio debajo del título */
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.seguimiento-Nutricional .seguimiento-titulo h3{
+  font-size: 16px;
+}
+
+.seguimiento-Nutricional .seguimiento-titulo button{
+  margin-top: -10px;
+  width: auto;
+  padding: 5px;
 }
 
 .seguimiento-botonconfiguracion button {
-  background-color: #007bff; /* Color de fondo */
-  color: white; /* Color del texto */
-  border: none; /* Sin borde */
-  border-radius: 5px; /* Bordes redondeados */
-  padding: 10px 15px; /* Espaciado interno */
-  cursor: pointer; /* Cambia el cursor al pasar por encima */
-  transition: background-color 0.3s; /* Efecto de transición */
-  font-size: 14px; /* Tamaño de fuente */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 12px;
 }
 
 .seguimiento-botonconfiguracion button:hover {
-  background-color: #0056b3; /* Color de fondo al pasar el cursor */
+  background-color: #0056b3;
 }
 
 fieldset {
-  border: 1px solid #ccc; /* Borde sutil alrededor del fieldset */
-  border-radius: 5px; /* Bordes redondeados */
-  padding: 15px; /* Espaciado interno del fieldset */
-  margin-bottom: 20px; /* Espacio entre fieldsets */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 15px;
 }
 
 legend {
-  font-weight: bold; /* Texto en negrita para el título del fieldset */
-  font-size: 16px; /* Tamaño de fuente para el título */
-  margin-bottom: 10px; /* Espacio debajo del legend */
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 5px;
 }
 
 .seguimiento-control {
-  display: flex; /* Disposición en fila */
-  align-items: center; /* Alinear verticalmente */
-  margin-bottom: 10px; /* Espacio entre controles */
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
 }
 
 .label {
-  font-weight: bold; /* Texto en negrita */
-  margin-right: 10px; /* Espacio a la derecha */
+  font-weight: bold;
+  margin-right: 8px;
 }
 
 .seguimiento-control label {
-  flex: 0 0 120px; /* Ancho fijo para las etiquetas */
+  flex: 0 0 100px;
 }
 
 .seguimiento-control input {
-  flex: 1; /* Tomar el resto del espacio */
-  padding: 10px; /* Espaciado interno */
-  border: 1px solid #ccc; /* Borde sutil */
-  border-radius: 4px; /* Bordes redondeados */
-  font-size: 14px; /* Tamaño de fuente */
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 12px;
 }
 
 .seguimiento-tercerbloque {
-  display: flex; /* Disposición en fila */
-  align-items: center; /* Alinear verticalmente */
-  gap: 15px; /* Espacio entre los checkboxes */
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .seguimiento-tercerbloque input[type="checkbox"] {
-  margin: 0 5px; /* Espacio alrededor del checkbox */
+  margin: 0 3px;
 }
 
 .seguimiento-botones {
-  display: flex; /* Disposición en fila */
-  justify-content: space-between; /* Espacio entre botones */
-  margin-top: 20px; /* Espacio arriba de los botones */
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
 }
 
 .seguimiento-botones button {
-  background-color: #28a745; /* Color de fondo */
-  color: white; /* Color del texto */
-  border: none; /* Sin borde */
-  border-radius: 5px; /* Bordes redondeados */
-  padding: 10px 15px; /* Espaciado interno */
-  cursor: pointer; /* Cambia el cursor al pasar por encima */
-  transition: background-color 0.3s; /* Efecto de transición */
-  font-size: 14px; /* Tamaño de fuente */
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 12px;
 }
 
 .seguimiento-botones button:hover {
-  background-color: #218838; /* Color de fondo al pasar el cursor */
+  background-color: #218838;
 }
 
 .seguimiento-botones button[type="reset"] {
-  background-color: #ffc107; /* Color de fondo para el botón de reset */
+  background-color: #ffc107;
 }
 
 .seguimiento-botones button[type="reset"]:hover {
-  background-color: #e0a800; /* Color de fondo al pasar el cursor */
+  background-color: #e0a800;
 }
-
+ 
 .seguimiento-botones button[type="button"] {
-  background-color: #dc3545; /* Color de fondo para el botón de cancelar */
+  background-color: #dc3545;
 }
 
 .seguimiento-botones button[type="button"]:hover {
-  background-color: #c82333; /* Color de fondo al pasar el cursor */
+  background-color: #c82333;
 }
+
 /* ***********************************************CSS LISTA DE CONTROLES***************************************/
 /* estilosGeneralControl.css */
 

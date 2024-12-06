@@ -73,7 +73,7 @@
 
 .table_responsive {
     width: 70%;
-    /* overflow-x: auto; */
+    overflow-x: auto;
     border: rgb(255, 196, 0) solid 2px;
     /* justify-content:center; */
     /* text-align: center; */

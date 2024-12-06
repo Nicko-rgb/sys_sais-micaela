@@ -6,7 +6,7 @@
 }
 
 .contGeneral .btnVolver{
-  position: fixed;
+  position: absolute;
   top: 75px;
   color: green;
   /* background-color: #e4ffe5; */
@@ -16,7 +16,6 @@
 
 .btnVolver:hover{
   background: rgb(209, 209, 209);
-
 }
 
 .contGeneral .titHist {

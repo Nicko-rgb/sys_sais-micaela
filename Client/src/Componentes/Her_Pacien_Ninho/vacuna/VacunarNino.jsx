@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 import NavLogin from '../../Navegadores/NavLogin';
 import NavPie from '../../Navegadores/NavPie';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
- 
+
 const listaVacunas = [
   { nombreVacuna: 'Vacuna HVA (Hep)', codigo: '90633.01' },
   { nombreVacuna: 'Influenza con Comorbilidad', codigo: '90657' },
@@ -31,9 +31,9 @@ const VacunarNino = () => {
       <NavLogin />
 
       <div className={styles.contPrincipal}>
-        <div className={styles.btn}> 
+        <div className={styles.btn}>
           <Link to={`/panel/${paciente?.hist_clinico || ''}`} className={styles.volver_link}>
-          <RiPlayReverseLargeFill /> VOLVER
+            <RiPlayReverseLargeFill /> VOLVER
           </Link>
         </div>
         <h1 className={styles.titulo}>VACUNAR NIÑO - {paciente.hist_clinico}</h1>
@@ -45,21 +45,20 @@ const VacunarNino = () => {
                 <button className={styles.closeButton}>X</button>
               </div>
               <div className={styles.bodyx}>
-                <label>Fecha:</label>
-                <input
-                  type="date"
-                  defaultValue={new Date().toISOString().split('T')[0]}
-                  className={styles.inputDate}
-                />
+                <div className={styles.contFecha}>
+                  <label>Fecha:</label>
+                  <input
+                    type="date"
+                    defaultValue={new Date().toISOString().split('T')[0]}
+                    className={styles.inputDate}
+                  />
+                </div>
+
                 <div className={styles.inputs}>
-                  <div>
-                    <label>Dx02</label>
-                    <input type="text" className={styles.inputField} />
-                  </div>
-                  <div>
-                    <label>Lab2</label>
-                    <input type="text" className={styles.inputField} />
-                  </div>
+                  <label>Dx02</label>
+                  <input type="text" className={styles.inputField} />
+                  <label>Lab2</label>
+                  <input type="text" className={styles.inputField} />
                 </div>
               </div>
               <button onClick={() => handleGuardar(vacuna)} className={styles.saveButton}>

@@ -11,10 +11,10 @@ const OpcionesI = ({ paciente }) => {
   const navigate = useNavigate(); // Hook de navegación
 
   const handleNewVisitClick = () => {
-    navigate("/visita"); // Redirige a la ruta de "Nueva Visita" 
+    navigate(`/visita/${paciente.id_paciente}`, { state: { paciente } });
   };
   const iraHistorialVisita = () => {
-    navigate("/historialvisita"); // Redirige a la ruta de "historialVisita"
+    navigate(`/historialvisita/${paciente.id_paciente}`, { state: { paciente } }); // Redirige a la ruta de "historialVisita"
   };
   const seguimientoNutricional = () => {
     navigate("/seguimiento"); // Redirige a la ruta de "historialVisita"
@@ -26,16 +26,15 @@ const OpcionesI = ({ paciente }) => {
 
   const irAControl = () => {
     navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
-
-const Actualizarsuplemento = () => {
-  navigate(`/Actualizarsuplemento/${paciente.hist_clinico}`, { state: { paciente } });
-};
-
-const EvaluacionPsicomotor = () => {
-  navigate(`/EvaluacionPsicomotor/${paciente.hist_clinico}`, { state: {paciente} });
-}
- 
   }
+  const Actualizarsuplemento = () => {
+    navigate(`/Actualizarsuplemento/${paciente.hist_clinico}`, { state: { paciente } });
+  };
+
+  const EvaluacionPsicomotor = () => {
+    navigate(`/EvaluacionPsicomotor/${paciente.hist_clinico}`, { state: { paciente } });
+  }
+
   const IraTamizaje = () => {
     navigate(`/tamizaje/${paciente.hist_clinico}`, { state: { paciente } });
   }
@@ -44,12 +43,12 @@ const EvaluacionPsicomotor = () => {
     navigate(`/historialtamizaje/${paciente.hist_clinico}`, { state: { paciente } });
   }
 
- const EntregaSuplementos = () => {
-  navigate(`/Entregasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar suplementos
- }
- const ListaSuplemento = () => {
-  navigate(`/Listasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
- }
+  const EntregaSuplementos = () => {
+    navigate(`/Entregasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar suplementos
+  }
+  const ListaSuplemento = () => {
+    navigate(`/Listasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
+  }
 
 
   return (

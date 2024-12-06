@@ -25,7 +25,7 @@ const OpcionesI = ({ paciente = {}}) => {
   };
 
   const actualizarControles = () => {
-    navigate("/actualizarcontroles"); // Redirige a la ruta de "Actualizar controles"
+    navigate(`/actualizarcontroles/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta de "Actualizar controles"
   };
 
   const irAControl = () => {

@@ -57,7 +57,7 @@ function App() {
                         <Route path="/control/:historialClinico" element={<Control />} />
                         <Route path="/seguimiento" element={<Seguimientonutricional />} />
                         <Route path="/listarcontroles" element={<ListarControles />} />
-                        <Route path="/actualizarcontroles" element={<ActualizarControles />} />
+                        <Route path="/actualizarcontroles/:historialClinico" element={<ActualizarControles />} />
                         <Route path="/control/:historialClinico" element={<Control />} />
                         <Route path="/seguimiento/:historialClinico" element={<Seguimientonutricional />} />
                         <Route path="/listarcontroles" element={<ListarControles />} />

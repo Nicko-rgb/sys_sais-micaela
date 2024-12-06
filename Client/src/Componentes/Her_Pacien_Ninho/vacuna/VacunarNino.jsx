@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 import NavLogin from '../../Navegadores/NavLogin';
 import NavPie from '../../Navegadores/NavPie';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
+import OpcionesI from "../OpcionesI";
 
 const listaVacunas = [
   { nombreVacuna: 'Vacuna HVA (Hep)', codigo: '90633.01' },
@@ -28,6 +29,7 @@ const VacunarNino = () => {
 
   return (
     <div>
+      <OpcionesI paciente={paciente}/>
       <NavLogin />
 
       <div className={styles.contPrincipal}>
@@ -60,10 +62,11 @@ const VacunarNino = () => {
                   <label>Lab2</label>
                   <input type="text" className={styles.inputField} />
                 </div>
-              </div>
-              <button onClick={() => handleGuardar(vacuna)} className={styles.saveButton}>
+                <button onClick={() => handleGuardar(vacuna)} className={styles.saveButton}>
                 Guardar
               </button>
+              </div>
+              
             </div>
           ))}
         </div>

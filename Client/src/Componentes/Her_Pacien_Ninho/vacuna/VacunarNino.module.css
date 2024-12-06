@@ -8,13 +8,15 @@ html, body {
 .contPrincipal {
   width: 100%;
   min-height: 100vh;
+  margin-top: 40px;
   padding: 10px;
   overflow-y: auto;
+  padding-bottom: 25px;
 }
 
 .btn .volver_link {
   position: absolute;
-  top: 75px;
+  top: 30px;
   left: 80px;
   cursor: pointer;
   color: green;
@@ -22,26 +24,29 @@ html, body {
   align-items: center;
   gap: 5px;
   font-family: 'Poppins', sans-serif;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .volver_link:hover {
   background: rgb(209, 209, 209);
 }
 
-.titulo {
-  font-size: 30px;
-  margin: 50px 0 2px 200px;
+.contPrincipal .titulo {
+  font-size: 25px;
+  margin: 10px 0 2px 400px;
   width: 40%;
   padding: 1px;
+  /* font-weight: bold; */
 }
 
 .container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px 0;
-  padding: 10px 10px 80px;
   justify-items: center;
+  padding: 5px 10px 60px;
+  padding-bottom: 20px;
+  width: 1100px;
 }
 
 .card {
@@ -49,15 +54,21 @@ html, body {
   border-radius: 2px;
   padding: 12px;
   background-color: #f9f9f9;
-  width: 450px;
+  width: 350px;
 }
 
-.header {
+.contPrincipal .header {
   display: flex;
   justify-content: space-between;
   background-color: #f1c40f;
-  padding: 6px 8px;
+  padding: 1px 5px;
   border-radius: 5px 5px 0 0;
+}
+
+.contPrincipal .header span{
+  font-size: 15px;
+  font-weight: bold;
+  bottom: 0;
 }
 
 /* .bodyx{
@@ -76,7 +87,9 @@ html, body {
 }
 
 .contFecha .inputDate{
-  width: 50%;
+  width: 42%;
+  padding: 5px;
+  outline: none;
 }
 
 .inputs {
@@ -96,20 +109,23 @@ html, body {
 
 .inputs .inputField {
   width: 20%;
-  padding: 2px;
-  margin-left: -10px;
-  gap: 20px;
+  font-size: 12px;
+  padding: 0;
+  margin-left: -5px;
+  gap: 10px;
+  outline: none;
 }
 
 .saveButton {
   background-color: #27ae60;
   color: white;
   border: none;
-  padding: 8px;
-  border-radius: 5px;
+  padding: 4px;
+  border-radius: 3px;
   cursor: pointer;
   margin-left: auto;
-  margin-top: 5px;
+  margin-top: -5px;
+  /* margin-bottom: 5px; */
 }
 
 .closeButton {

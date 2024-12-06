@@ -3,23 +3,33 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw; /* Ocupa todo el ancho de la ventana */
-  background-color: #d0e0e8; /* Azul pálido */
-  height: 100vh; /* Ocupa toda la altura de la ventana */
-  padding: 0; /* Quitar padding global para evitar desplazamiento */
-  box-sizing: border-box; /* Incluye padding y borde en las dimensiones */
+  width: 100vw;
+  /* Ocupa todo el ancho de la ventana */
+  background-color: #ffffff;
+  /* Azul pálido */
+  height: 100vh;
+  /* Ocupa toda la altura de la ventana */
+  padding: 0;
+  /* Quitar padding global para evitar desplazamiento */
+  box-sizing: border-box;
+  /* Incluye padding y borde en las dimensiones */
   overflow-y: auto;
+  border: red solid 2px;
 }
 
 /* Estilos del formulario */
 .visitadomiciliaria-formulario {
-  background-color: #ffffff; /* Fondo blanco para el formulario */
-  padding: 40px;
+  background-color: #ffffff;
+  /* Fondo blanco para el formulario */
+  padding-top: 0px;
   border-radius: 10px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18); /* Sombra más pronunciada */
+  /* box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18); */
+  /* Sombra más pronunciada */
   width: 100%;
-  max-width: 600px; /* Máximo ancho del formulario */
+  max-width: 600px;
+  /* Máximo ancho del formulario */
   margin-top: 50px;
+  border: red solid 2px;
 }
 
 /* Título del formulario */
@@ -56,12 +66,15 @@
 .visitadomiciliaria-input:focus,
 .visitadomiciliaria-select:focus,
 .visitadomiciliaria-textarea:focus {
-  border-color: #007bff; /* Color de borde al enfocar */
+  border-color: #007bff;
+  /* Color de borde al enfocar */
 }
 
 .visitadomiciliaria-textarea {
-  resize: vertical; /* Permite redimensionar verticalmente */
-  min-height: 100px; /* Altura mínima del textarea */
+  resize: vertical;
+  /* Permite redimensionar verticalmente */
+  min-height: 100px;
+  /* Altura mínima del textarea */
 }
 
 /* Estilos de los radio buttons en cajitas */
@@ -85,7 +98,8 @@
 }
 
 .visitadomiciliaria-radio-box input[type="radio"] {
-  display: none; /* Oculta el radio button */
+  display: none;
+  /* Oculta el radio button */
 }
 
 .visitadomiciliaria-radio-box span {
@@ -94,10 +108,11 @@
 }
 
 .visitadomiciliaria-radio-box:hover {
-  border-color: #007bff; /* Color de borde al pasar el mouse */
+  border-color: #007bff;
+  /* Color de borde al pasar el mouse */
 }
 
-.visitadomiciliaria-radio-box input[type="radio"]:checked + span {
+.visitadomiciliaria-radio-box input[type="radio"]:checked+span {
   color: #007bff;
   font-weight: bold;
   padding: 5px 10px;
@@ -124,37 +139,44 @@
 .visitadomiciliaria-guardar {
   background-color: #007bff;
   color: #fff;
+  padding: 6px;
 }
 
 .visitadomiciliaria-guardar:hover {
-  background-color: #0056b3; /* Color al pasar el mouse */
+  background-color: #0056b3;
+  /* Color al pasar el mouse */
   transform: translateY(-2px);
 }
 
 .visitadomiciliaria-cancelar {
   background-color: #f44336;
   color: #fff;
+  padding: 5px;
 }
 
 .visitadomiciliaria-cancelar:hover {
-  background-color: #d32f2f; /* Color al pasar el mouse */
+  background-color: #d32f2f;
+  /* Color al pasar el mouse */
   transform: translateY(-2px);
 }
 
 /* Estilos responsive */
 @media (max-width: 768px) {
   .visitadomiciliaria-formulario {
-    padding: 20px; /* Menos padding en dispositivos pequeños */
+    padding: 20px;
+    /* Menos padding en dispositivos pequeños */
   }
 
   .visitadomiciliaria-botones {
     flex-direction: column;
-    gap: 10px; /* Espacio entre botones */
+    gap: 10px;
+    /* Espacio entre botones */
   }
 
   .visitadomiciliaria-guardar,
   .visitadomiciliaria-cancelar {
-    width: 100%; /* Botones ocupan el 100% del ancho */
+    width: 100%;
+    /* Botones ocupan el 100% del ancho */
   }
 }
 
@@ -166,11 +188,13 @@
 .HistorialVisitas-container {
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Empuja el contenido hacia la parte superior */
+  align-items: flex-start;
+  /* Empuja el contenido hacia la parte superior */
   height: 100vh;
   width: 100vw;
   background-color: #f0f4f8;
-  padding-top: 50px; /* Ajusta la separación desde el borde superior */
+  padding-top: 50px;
+  /* Ajusta la separación desde el borde superior */
   box-sizing: border-box;
 }
 
@@ -185,7 +209,8 @@
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  overflow-y: auto; /* Scroll solo si el contenido excede el área visible */
+  overflow-y: auto;
+  /* Scroll solo si el contenido excede el área visible */
 }
 
 .HistorialVisitas__header {
@@ -214,6 +239,7 @@
 .HistorialVisitas__new-visit:hover {
   background-color: #0056b3;
 }
+
 /* HistorialVisitas.css */
 
 .HistorialVisitas__search {
@@ -317,179 +343,255 @@
 }
 
 /* ESTILOS DE LOS PANELES DE CONTROL */
-/* Estilos generales */
-/* Estilos específicos para el componente Control */
+/* /Estilo Principal */
+
 .ControlPrincipal {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #ffffff;
+  height: auto;
+  min-height: 100vh;
+  background-color: #f9fafb;
+  padding: 20px;
 }
 
 .ControlPrincipal .control-form {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  /* margin-top: 50px; */
-  background-color: #f0f4f8;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   font-family: "Arial", sans-serif;
+}
+
+.ControlPrincipal .control-form .compact-inputs {
+  display: flex;
+  gap: 15px;
+  /* Espaciado entre los inputs */
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 10px;
+  margin-left: 165px;
+}
+
+.ControlPrincipal .compact-inputs label {
+  min-width: 100px;
+  /* Ancho mínimo para las etiquetas */
+  font-size: 12px;
+}
+
+.ControlPrincipal .compact-inputs input[type="number"],
+.ControlPrincipal .compact-inputs input[type="date"] {
+  width: 150px;
+  /* Ancho reducido */
+  padding: 6px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 12px;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease;
+}
+
+.ControlPrincipal .compact-inputs input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 4px rgba(52, 152, 219, 0.3);
 }
 
 .ControlPrincipal .control-form h2 {
   text-align: center;
-  color: #2c3e50;
+  color: #34495e;
+  font-size: 24px;
   margin-bottom: 20px;
 }
 
-/* Estilos para los grupos de formulario */
-.ControlPrincipal .control-form .form-group {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
+/* Grupos de formulario */
+.ControlPrincipal .control-form .form-group,
+.ControlPrincipal .control-form .measurements-group,
+.ControlPrincipal .control-form .care-group {
+  margin-bottom: 20px;
+}
+
+.ControlPrincipal .control-form .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
 }
 
 .ControlPrincipal .control-form .measurements-group,
-.control-form .care-group {
-  background-color: #ffffff;
+.ControlPrincipal .control-form .care-group {
   padding: 15px;
-  border-radius: 6px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  background-color: #f1f5f9;
+  border: 1px solid #d1d5db;
 }
 
-/* Estilos para etiquetas */
-.ControlPrincipal .control-form label {
-  flex: 1;
-  font-weight: bold;
-  color: #34495e;
-}
-.control-form .care-row {
+/* Fila para los checkboxes LME, AC Inadecuada y AC Adecuada */
+.care-row-horizontal {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-/* Estilos para inputs y selects */
-.control-form input[type="number"],
-.control-form input[type="date"],
-.control-form select {
-  flex: 2;
-  padding: 8px;
-  border: 1px solid #bdc3c7;
-  border-radius: 4px;
-  font-size: 14px;
-}
-.fondo {
-  /* border:  2px solid green;  */
-  display: flex;
-  gap: 40px;
-  justify-content: space-evenly;
+  gap: 20px;
+  /* Espaciado entre los elementos */
   align-items: center;
 }
-.control-form input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
+
+.care-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  /* Espaciado entre el label y el input */
 }
 
-.control-form .input-select-group {
+.care-item label {
+  font-size: 14px;
+  color: #34495e;
+  /* Color del texto */
+}
+
+/* Inputs y Selects */
+.ControlPrincipal .control-form input,
+.ControlPrincipal .control-form select {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease;
+}
+
+.ControlPrincipal .control-form input:focus,
+.ControlPrincipal .control-form select:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+.ControlPrincipal .input-select-group {
   display: flex;
   gap: 10px;
-  flex: 2;
 }
 
-.control-form .input-select-group input {
+/* Fila para Sesión y Próxima Cita */
+.fondo-row {
+  display: flex;
+  gap: 20px;
+  /* Espaciado entre los elementos */
+  align-items: center;
+  /* Alinea los inputs con los labels */
+}
+
+.ControlPrincipal .fondo-item {
+  display: flex;
+  flex-direction: column;
+  /* Para que el label quede encima del input */
   flex: 1;
+  /* Ajusta el ancho de los elementos para que sean proporcionales */
 }
 
-.control-form .input-select-group select {
-  flex: 1;
+.ControlPrincipal .fondo-item label {
+  font-size: 14px;
+  color: #34495e;
+  /* Color del texto */
+  margin-bottom: 5px;
+  /* Espacio entre el label y el input */
 }
 
-/* Ajustes específicos para LME, AC, Consejería Nutricional, Estimulación Temprana */
-.control-form .care-group .form-group {
-  justify-content: flex-start;
-  gap: 10px;
+.control-session,
+.control-nextAppointment {
+  padding: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #ffffff;
+  transition: border-color 0.2s ease;
 }
 
-.control-form .care-group label {
-  flex: 0 0 auto;
-  min-width: 200px; /* Ajusta este valor según sea necesario */
+.control-session:focus,
+.control-nextAppointment:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 4px rgba(52, 152, 219, 0.3);
 }
 
-.control-form .care-group input[type="checkbox"] {
-  margin-left: 0;
-}
-
-/* Ajuste para el input de sesión */
-.control-form .control-session {
-  width: 60px;
-  flex: 0 0 auto;
-}
-
-/* Estilos para los botones */
-.control-form .form-actions {
+/* Botones */
+.ControlPrincipal .form-actions {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   margin-top: 20px;
 }
 
-.control-form button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
+.ControlPrincipal .form-actions button,
+.ControlPrincipal .form-actions .control-cancel {
+  width: 100%;
+  padding: 10px;
   font-size: 16px;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.control-form .control-save {
+.ControlPrincipal .control-save {
   background-color: #2ecc71;
-  color: white;
 }
 
-.control-form .control-save:hover {
+.ControlPrincipal .control-save:hover {
   background-color: #27ae60;
+  transform: scale(1.05);
 }
 
-.control-form .control-reset {
+.ControlPrincipal .control-reset {
   background-color: #3498db;
-  color: white;
 }
 
-.control-form .control-reset:hover {
+.ControlPrincipal .control-reset:hover {
   background-color: #2980b9;
+  transform: scale(1.05);
 }
 
-.control-form .control-cancel {
+.ControlPrincipal .control-cancel {
   background-color: #e74c3c;
-  color: white;
+  text-align: center;
+  display: block;
 }
 
-.control-form .control-cancel:hover {
+.ControlPrincipal .control-cancel:hover {
   background-color: #c0392b;
+  transform: scale(1.05);
 }
 
 /* Responsividad */
-@media (max-width: 600px) {
-  .control-form .form-group,
-  .control-form .input-select-group {
-    flex-direction: column;
-    align-items: stretch;
+@media (max-width: 768px) {
+  .ControlPrincipal .control-form {
+    padding: 15px;
   }
 
-  .control-form .input-select-group input,
-  .control-form .input-select-group select {
+  .ControlPrincipal .input-select-group {
+    flex-direction: column;
+  }
+
+  .ControlPrincipal .form-actions {
+    flex-direction: column;
+  }
+
+  .ControlPrincipal button,
+  .ControlPrincipal .control-cancel {
     width: 100%;
   }
 
-  .control-form label {
-    margin-bottom: 5px;
+  .care-row-horizontal,
+  .fondo-row {
+    flex-direction: column;
+    gap: 10px;
   }
 }
+
 /* ************SEGUIMIENTO NUTRICIONAL****************************** */
 /* estilosGeneralControl.css */
 
@@ -517,11 +619,11 @@
   margin-bottom: 10px;
 }
 
-.seguimiento-Nutricional .seguimiento-titulo h3{
+.seguimiento-Nutricional .seguimiento-titulo h3 {
   font-size: 16px;
 }
 
-.seguimiento-Nutricional .seguimiento-titulo button{
+.seguimiento-Nutricional .seguimiento-titulo button {
   margin-top: -10px;
   width: auto;
   padding: 5px;
@@ -616,7 +718,7 @@ legend {
 .seguimiento-botones button[type="reset"]:hover {
   background-color: #e0a800;
 }
- 
+
 .seguimiento-botones button[type="button"] {
   background-color: #dc3545;
 }
@@ -728,11 +830,15 @@ legend {
     margin-top: 5px;
   }
 }
+
 /* estilo de ACTUALIZAR CONTROLES *********************************** */
 /* Contenedor de la tabla */
 
 /* Contenedor de la tabla */
 .tabla-container {
+  /* top: 50px; */
+  padding-top: 50px;
+  width: 86%;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -741,12 +847,15 @@ legend {
 
 /* Contenedor del título y la tabla */
 .tabla-container .table-wrapper {
-  width: 70%; /* Limitar el ancho del contenedor */
-  max-width: 50%; /* Máximo ancho de la tabla */
+  width: 70%;
+  /* Limitar el ancho del contenedor */
+  max-width: 50%;
+  /* Máximo ancho de la tabla */
   padding: 10px;
   border: rgb(230, 228, 228) solid 2px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
-  background-color: #eaeaea; /* Fondo blanco */
+  background-color: #eaeaea;
+  /* Fondo blanco */
   text-align: center;
   margin-top: -70px;
 }
@@ -842,7 +951,8 @@ legend {
 
 /* Estilo de la tabla */
 .tabla-container .custom-table {
-  width: 100%; /* La tabla ocupa el 100% del contenedor */
+  width: 100%;
+  /* La tabla ocupa el 100% del contenedor */
   border-collapse: collapse;
   font-size: 14px;
 }

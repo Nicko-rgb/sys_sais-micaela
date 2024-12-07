@@ -125,6 +125,15 @@
   justify-content: space-between;
   margin-top: 20px;
 }
+.visitadomiciliaria-mensaje-exito {
+  color: #fff;
+  background-color: #4caf50;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
 
 .visitadomiciliaria-guardar,
 .visitadomiciliaria-cancelar {

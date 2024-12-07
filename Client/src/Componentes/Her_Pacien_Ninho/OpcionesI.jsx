@@ -11,10 +11,10 @@ const OpcionesI = ({ paciente = {}}) => {
   const navigate = useNavigate(); // Hook de navegación
 
   const handleNewVisitClick = () => {
-    navigate("/visita"); // Redirige a la ruta de "Nueva Visita" 
+    navigate(`/visita/${paciente.id_paciente}`, { state: { paciente } });
   };
   const iraHistorialVisita = () => {
-    navigate("/historialvisita"); // Redirige a la ruta de "historialVisita"
+    navigate(`/historialvisita/${paciente.id_paciente}`, { state: { paciente } }); // Redirige a la ruta de "historialVisita"
   };
   const seguimientoNutricional = () => {
     if (paciente && paciente.hist_clinico) {

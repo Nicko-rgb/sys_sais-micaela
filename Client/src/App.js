@@ -13,7 +13,7 @@ import { AuthProvider } from './Componentes/Complementos/AuthContext';
 import ContactAdmi from './Componentes/ContactAdministrador/contactAdmi';
 import Restablecer from "./Componentes/Login/ResetPassword/Verificacion_Restablecer/Restablecer"
 import Perfil from './Componentes/Perfil User/Perfil';
-import Visitadomiciliaria from './Componentes/Her_Pacien_Ninho/Control/visitadomiciliaria';
+import VisitaDomiciliaria from './Componentes/Her_Pacien_Ninho/Control/visitadomiciliaria';
 import HistorialVisitas from './Componentes/Her_Pacien_Ninho/Control/historialvisitas';
 import Control from './Componentes/Her_Pacien_Ninho/Control/control';
 import Seguimientonutricional from './Componentes/Her_Pacien_Ninho/Control/seguimientonutricional';
@@ -52,8 +52,8 @@ function App() {
                         <Route path="/contact-administrador" element={<ContactAdmi />} />
                         <Route path="/new-password/:token" element={<Restablecer />} />
                         <Route path="/perfil/:name/:id" element={<Perfil />} />
-                        <Route path="/visita" element={<Visitadomiciliaria />} />
-                        <Route path="/historialvisita" element={<HistorialVisitas />} />
+                        <Route path="/visita/:id" element={<VisitaDomiciliaria />} />
+                        <Route path="/historialvisita/:id_paciente" element={<HistorialVisitas />} />
                         <Route path="/control/:historialClinico" element={<Control />} />
                         <Route path="/seguimiento" element={<Seguimientonutricional />} />
                         <Route path="/listarcontroles" element={<ListarControles />} />

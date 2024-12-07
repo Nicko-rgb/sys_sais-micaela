@@ -17,7 +17,12 @@ const pool = mysql.createPool({
 });
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(bodyParser.json());
 
 // Verificar conexión a la base de datos
@@ -1115,6 +1120,7 @@ app.delete('/api/nino/desbloquear-hora-cita', async (req, res) => {
     }
 });
 
+
 //api para consultar si el horario (hora) es bloqueda en cita niño
 app.get('/api/nino/verificar-bloqueos-cita', async (req, res) => {
     try {
@@ -1175,6 +1181,126 @@ app.get('/api/etnias', async (req, res) => {
     }
 });
 
+
+// RUTA PARA LAS VISITAS DOMICILIARIAS 
+// Ruta para registrar visitas domiciliarias
+app.post("/api/visita-domiciliaria", (req, res) => {
+    const { 
+        tipo, 
+        numero_visita, 
+        fecha_atencion, 
+        opcional, 
+        observaciones, 
+        id_paciente 
+    } = req.body;
+
+    // Validaciones mejoradas
+    if (!tipo || !numero_visita || !fecha_atencion || !id_paciente) {
+        return res.status(400).json({
+            error: "Los campos 'tipo', 'número de visita', 'fecha de atención' e 'id_paciente' son obligatorios.",
+        });
+    }
+
+    // Validaciones adicionales
+    if (typeof id_paciente !== 'number') {
+        return res.status(400).json({
+            error: "El ID del paciente debe ser un número válido."
+        });
+    }
+
+    const query = `
+        INSERT INTO visita_domiciliaria (
+            tipo, 
+            numero_visita, 
+            fecha_atencion, 
+            opcional, 
+            observaciones, 
+            id_paciente
+        ) VALUES (?, ?, ?, ?, ?, ?)
+    `;
+
+    const values = [
+        tipo,
+        numero_visita,
+        fecha_atencion,
+        opcional || null,
+        observaciones || null,
+        id_paciente
+    ];
+
+    // Usar promesas o async/await para manejo de errores más limpio
+    pool.query(query, values)
+        .then((result) => {
+            res.status(201).json({
+                message: "Visita domiciliaria registrada con éxito.",
+                visitaId: result.insertId || null
+            });
+        })
+        .catch((err) => {
+            console.error("Error al insertar datos:", err);
+            
+            // Manejo de errores más específico
+            if (err.code === 'ER_DUP_ENTRY') {
+                return res.status(409).json({
+                    error: "Ya existe una visita con estos datos."
+                });
+            }
+
+            res.status(500).json({
+                error: "Error al guardar la visita domiciliaria en la base de datos.",
+                details: err.message
+            });
+        });
+});
+
+app.get("/api/visita-domiciliaria/:id_paciente", (req, res) => {
+    const id_paciente = parseInt(req.params.id_paciente);
+
+    // Validate patient ID
+    if (isNaN(id_paciente)) {
+        return res.status(400).json({
+            error: "ID de paciente inválido. Debe ser un número."
+        });
+    }
+
+    const query = `
+        SELECT 
+            visita_domiciliaria.id_visita,
+            visita_domiciliaria.tipo,
+            visita_domiciliaria.numero_visita,
+            visita_domiciliaria.fecha_atencion,
+            visita_domiciliaria.opcional,
+            visita_domiciliaria.observaciones,
+            pacientes.edad AS edad_paciente
+        FROM visita_domiciliaria
+        JOIN pacientes ON visita_domiciliaria.id_paciente = pacientes.id_paciente
+        WHERE visita_domiciliaria.id_paciente = ?
+        ORDER BY visita_domiciliaria.fecha_atencion DESC
+    `;
+
+    pool.query(query, [id_paciente])
+        .then((results) => {
+            if (results.length === 0) {
+                return res.status(404).json({
+                    message: "No se encontraron visitas para este paciente.",
+                    visitas: []
+                });
+            }
+
+            res.status(200).json({
+                message: "Visitas recuperadas exitosamente.",
+                total_visitas: results.length,
+                visitas: results
+            });
+        })
+        .catch((err) => {
+            console.error("Error al recuperar visitas:", err);
+            res.status(500).json({
+                error: "Error al recuperar visitas domiciliarias.",
+                details: err.message
+            });
+        });
+});
 
 // Iniciar el servidor
 app.listen(PORT, async () => {

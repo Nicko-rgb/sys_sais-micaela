@@ -3,6 +3,9 @@ import style from './Entregasuplemento.module.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import NavLogin from "../../Navegadores/NavLogin";
+import NavPie from "../../Navegadores/NavPie";
+
 
 function Entregasuplemento() {
   const [fechaAtencion, setFechaAtencion] = useState('');
@@ -52,12 +55,14 @@ function Entregasuplemento() {
     setShowModal(false);
     if (isRedirecting) {
 
-      navigate(`/Listasuplemento/${paciente.hist_clinico}`, { state: { paciente, entregas } });
+      navigate(`/Listasuplementos/${paciente.hist_clinico}`, { state: { paciente, entregas } });
     }
   };
 
 
   return (
+    <div>
+      <NavLogin/>
     <div className={style.entregacontainer}>
       {paciente ? (
         <>
@@ -252,6 +257,9 @@ function Entregasuplemento() {
         <p>No hay datos..</p>
       )}
     </div>
+    <NavPie/>
+    </div>
+    
   );
 }
 

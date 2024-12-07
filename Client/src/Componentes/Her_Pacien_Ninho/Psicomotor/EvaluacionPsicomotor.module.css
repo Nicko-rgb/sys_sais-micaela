@@ -1,130 +1,168 @@
-/* FormularioPsicomotor.css */
+
+.bodyformulario {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  min-height: 100vh; /* Ocupa toda la altura de la ventana */
+  margin: 0;
+  padding: 60px 20px; /* Espacio para el nav en la parte superior */
+  box-sizing: border-box;
+}
+
 .formulariocontainer {
-    font-family: Arial, sans-serif;
-    margin: 10px auto;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    max-width: 400px; /* Tamaño reducido */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
+  font-family: Arial, sans-serif;
+  margin: 0 auto;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  max-width: 600px; /* Ancho máximo del formulario */
+  width: 100%; /* Se ajusta en pantallas pequeñas */
+  box-sizing: border-box;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.headerContainer {
+  display: flex;
+  align-items: center; /* Alinea verticalmente */
+  gap: 10px; /* Espacio entre el botón y el título */
+  margin-bottom: 15px;
+}
+
+h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+  flex-grow: 1; /* Permite que el título ocupe el espacio restante */
+}
+
+.volverbutton {
+  .contGeneral .btnVolver{
+    position: absolute;
+    top: 75px;
+    color: green;
+    /* background-color: #e4ffe5; */
+    margin-left: 130px;
+    /* border: green solid 3px; */
+    }
   
+  .btnVolver:hover{
+    background: rgb(209, 209, 209);
+  }
+}
+
+
+.formularioinstruccion {
+  font-size: 12px;
+  color: #fff;
+  background-color: #6ab5d4;
+  padding: 8px;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.checkboxgroup {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Tres columnas de igual tamaño */
+  gap: 10px; /* Espacio entre filas y columnas */
+  margin-bottom: 15px;
+}
+
+.checkboxgroup label {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Espacio entre la etiqueta y el checkbox */
+}
+
+.checkboxgroup input[type="checkbox"] {
+  margin: 0;
+}
+
+.formgroup {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+
+textarea, input[type="date"] {
+  width: 100%;
+  padding: 6px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+textarea {
+  height: 50px;
+  resize: none;
+}
+
+.btnguardar {
+  display: block;
+  width: 100px; /* Ancho fijo del botón */
+  padding: 8px;
+  font-size: 12px;
+  color: #fff;
+  background-color: #5cb85c;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 5px auto; /* Centra el botón horizontalmente */
+}
+
+.btnguardar:hover {
+  background-color: #4cae4c;
+}
+
+.notas {
+  margin-top: 15px;
+  padding: 8px;
+  background-color: #ffeebb;
+  border: 1px solid #ffdd88;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.notas p {
+  margin: 3px 0;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+  .formulariocontainer {
+    padding: 10px;
+  }
+
+  .headerContainer {
+    flex-direction: column; /* Coloca el título y el botón en línea vertical */
+    align-items: flex-start;
+    gap: 10px; /* Espacio entre el título y el botón */
+  }
+
   h2 {
-    margin: 0 0 10px;
-    font-size: 16px;
-    color: #333;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 8px;
-    text-align: center;
+    font-size: 14px;
   }
-  
+
   .formularioinstruccion {
-    font-size: 12px;
-    color: #fff;
-    background-color: #6ab5d4;
-    padding: 8px;
-    border-radius: 3px;
-    margin-bottom: 10px;
-    text-align: center;
-  }
-  
-  .checkboxgroup {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    justify-content: space-between;
-    margin-bottom: 15px;
-  }
-  
-  .checkboxgroup label {
-    font-size: 12px;
-    flex: 1 1 calc(50% - 10px); /* Distribuye en dos columnas */
-  }
-  
-  .formgroup {
-    margin-bottom: 10px;
-  }
-  
-  label {
-    display: block;
-    font-size: 12px;
-    margin-bottom: 3px;
-  }
-  
-  textarea, input[type="date"] {
-    width: 100%;
+    font-size: 11px;
     padding: 6px;
-    font-size: 12px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
   }
-  
-  textarea {
-    height: 50px;
-    resize: none;
+
+  textarea, input[type="date"], .btnguardar, .volverbutton {
+    font-size: 11px;
+    padding: 5px;
   }
-  
-  .btnguardar {
-    display: inline-block;
-    width: 100%; /* Botón ancho para móviles */
-    padding: 8px;
-    font-size: 12px;
-    color: #fff;
-    background-color: #5cb85c;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    margin-top: 5px;
-  }
-  
-  .btnguardar:hover {
-    background-color: #4cae4c;
-  }
-  
+
   .notas {
-    margin-top: 15px;
-    padding: 8px;
-    background-color: #ffeebb;
-    border: 1px solid #ffdd88;
-    border-radius: 3px;
-    font-size: 12px;
+    font-size: 11px;
+    padding: 6px;
   }
-  
-  .notas p {
-    margin: 3px 0;
-    font-size: 12px;
-    line-height: 1.4;
-  }
-  
-  /* Responsivo */
-  @media (max-width: 480px) {
-    .formulario-container {
-      padding: 10px;
-    }
-  
-    .checkbox-group label {
-      font-size: 11px;
-      flex: 1 1 100%; /* Cambia a una columna en pantallas pequeñas */
-    }
-  
-    h2 {
-      font-size: 14px;
-    }
-  
-    .formularioinstruccion {
-      font-size: 11px;
-      padding: 6px;
-    }
-  
-    textarea, input[type="date"], .btn-guardar {
-      font-size: 11px;
-      padding: 5px;
-    }
-  
-    .notas {
-      font-size: 11px;
-      padding: 6px;
-    }
-  }
-  
+} 

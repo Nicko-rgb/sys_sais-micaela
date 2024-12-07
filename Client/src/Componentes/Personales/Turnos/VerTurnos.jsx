@@ -5,23 +5,23 @@ import { Link } from "react-router-dom";
 import { MdMenuOpen, MdPersonSearch, MdNavigateNext, MdNavigateBefore } from "react-icons/md";
 import Informacion from '../infoTurno/Informacion';
 import { AiOutlineExport } from "react-icons/ai";
+import Store from "../../Store/Store_Cita_Turno";
+import CuerpoTabla from "./CuerpoTabla";
 
 const AsignaTurno = ({ closeTurnos }) => {
+    const {tiposDeTurno, obtenerDescripcionTurno} = Store()
     const [personales, setPersonales] = useState([]);
     const [mesActual, setMesActual] = useState(new Date());
     const [cargando, setCargando] = useState(true);
-    const [paginaActual, setPaginaActual] = useState(1);
     const [filtroCondicion, setFiltroCondicion] = useState('Todos');
     const [profesionFiltro, setProfesionFiltro] = useState([])
     const [condicionFiltro, setCondiconFiltro] = useState([])
     const [busqueda, setBusqueda] = useState('');
     const [personalSeleccionado, setPersonalSeleccionado] = useState(null);
     const [modalAbierto, setModalAbierto] = useState(false);
-    const [tiposDeTurno, setTiposDeTurno] = useState([]);
     const [columnasBloqueadas, setColumnasBloqueadas] = useState([]); // Cambiar a un arreglo de fechas bloqueadas
     const [columnaSeleccionada, setColumnaSeleccionada] = useState(null);
-    const [turnos, setTurnos] = useState([]); //Para guardar los turnos
-    const filasPorPagina = 10;
+    const [turnos, setTurnos] = useState([]); 
 
     useEffect(() => {
         const fetchPersonales = async () => {
@@ -46,18 +46,6 @@ const AsignaTurno = ({ closeTurnos }) => {
         fetchPersonales();
     }, [mesActual]);
 
-    useEffect(() => {
-        const fetchTiposDeTurno = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/api/tipos-turno');
-                const data = await response.json();
-                setTiposDeTurno(data);
-            } catch (error) {
-                console.error('Error al obtener los tipos de turnos:', error);
-            }
-        };
-        fetchTiposDeTurno();
-    }, []);
 
     useEffect(() => {
         const fetchTurnosPersonal = async () => {
@@ -127,22 +115,6 @@ const AsignaTurno = ({ closeTurnos }) => {
 
     const activosFiltrados = personalesFiltrados.filter(personal => personal.estado === 'activo');
 
-    const indiceFinal = paginaActual * filasPorPagina;
-    const indiceInicial = indiceFinal - filasPorPagina;
-    const personalesPaginados = activosFiltrados.slice(indiceInicial, indiceFinal);
-
-    const manejarVerMas = () => {
-        if (indiceFinal < activosFiltrados.length) {
-            setPaginaActual(prev => prev + 1);
-        }
-    };
-
-    const manejarVerMenos = () => {
-        if (paginaActual > 1) {
-            setPaginaActual(prev => prev - 1);
-        }
-    };
-
     const manejarClickPersonal = (personal, event) => {
         const { top, right } = event.currentTarget.getBoundingClientRect();
         setPersonalSeleccionado(personal);
@@ -209,7 +181,7 @@ const AsignaTurno = ({ closeTurnos }) => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id_personal, id_turno_tipo, fecha })
             });
-            const data = await response.json();
+            await response.json();
 
         } catch (error) {
             console.error('Error al guardar el turno:', error);
@@ -238,33 +210,6 @@ const AsignaTurno = ({ closeTurnos }) => {
         return turno ? turno.clave_turno : '';
     };
 
-    const obtenerDescripcionTurno = (clave_turno) => {
-        switch (clave_turno) {
-            case 'M':
-                return 'Mañana';
-            case 'T':
-                return 'Tarde';
-            case 'MT':
-                return 'Mañana y Tarde';
-            case 'GD':
-                return 'Guardia Diurna';
-            case 'GDD':
-                return 'Guardia Devolución';
-            case 'MVD':
-                return 'Mañana Variable';
-            case 'TVD':
-                return 'Tarde Variable';
-            case 'MVSF':
-                return 'Mañana Variable Sin Fines de Semana';
-            case 'TVSL':
-                return 'Tarde Variable Sin Lunes';
-            case 'L':
-                return 'Libre';
-            default:
-                return 'Desconocido';
-        }
-    };
-
     return (
         <div className="turnos-personal">
             <main>
@@ -274,15 +219,15 @@ const AsignaTurno = ({ closeTurnos }) => {
                         <Link onClick={closeTurnos} className='volver_link'>
                             <RiPlayReverseLargeFill /> VOLVER
                         </Link>
-                        <MdPersonSearch className='ico_buscar' />
                         <input
                             className='buscar-personal'
                             placeholder="Buscar por nombre, apellidos o DNI"
                             value={busqueda}
                             onChange={(e) => setBusqueda(e.target.value)}
                         />
+                        <MdPersonSearch className='ico_buscar' />
                         <div className="filtros">
-                            <button className="btn-filtro"><MdMenuOpen className='ico' />CONDICION</button>
+                            <button className="btn-filtro" style={{width: '120px'}}><MdMenuOpen className='ico' />Condición</button>
                             <div className="filtro">
                                 <span onClick={() => setFiltroCondicion('Todos')}>TODOS</span>
                                 {condicionFiltro.map((condicion, index) => (
@@ -291,7 +236,7 @@ const AsignaTurno = ({ closeTurnos }) => {
                             </div>
                         </div>
                         <div className="filtros">
-                            <button className="btn-filtro"><MdMenuOpen className='ico' />PROFESION</button>
+                            <button className="btn-filtro" style={{width: '120px'}}><MdMenuOpen className='ico' />Profesión</button>
                             <div className="filtro">
                                 <span onClick={() => setFiltroCondicion('Todos')}>TODOS</span>
                                 {profesionFiltro.map((tipo, index) => (
@@ -299,13 +244,14 @@ const AsignaTurno = ({ closeTurnos }) => {
                                 ))}
                             </div>
                         </div>
-                        <span className="contador">{filtroCondicion}: {activosFiltrados.length}</span>
                         <div className="fecha-cambiar">
                             <h4>{mesActual.toLocaleString('es-ES', { month: 'long', year: 'numeric' })}</h4>
                             <button type="button" onClick={manejarMesAnterior}><MdNavigateBefore className="ico-cambiar" />Mes Anterior</button>
                             <button type="button" onClick={manejarMesSiguiente}>Mes Siguiente <MdNavigateNext className="ico-cambiar" /></button>
                         </div>
+                        <Link className="btn-export" to='/exportar-turno'><AiOutlineExport className="icoExport"/>Exportar</Link>
                     </div>
+                    <p className="contador"> {filtroCondicion}: {activosFiltrados.length} de {personales.length} </p>
                     {cargando ? (
                         <p>Cargando datos...</p>
                     ) : (
@@ -344,66 +290,23 @@ const AsignaTurno = ({ closeTurnos }) => {
                                     })}
                                 </tr>
                             </thead>
-                            <tbody>
-                                {personalesPaginados.map((personal, index) => (
-                                    <tr key={personal.id_personal}>
-                                        <td style={{ textAlign: 'center' }}>{(paginaActual - 1) * filasPorPagina + index + 1}</td>
-                                        <td className="names" onClick={(event) => manejarClickPersonal(personal, event)}>
-                                            {`${personal.paterno} ${personal.materno}, ${personal.nombres}`}
-                                        </td>
-                                        {fechasDelMes.map((fecha, fechaIndex) => {
-                                            const esDomingo = fecha.getDay() === 0; // Verifica si es domingo
-                                            const columnaBloqueada = columnasBloqueadas.includes(fecha.toDateString()); // Verifica si está bloqueada
+                            <CuerpoTabla 
+                                activosFiltrados = {activosFiltrados}
+                                fechasDelMes = {fechasDelMes}
+                                tiposDeTurno = {tiposDeTurno}
+                                obtenerClaveTurno = {obtenerClaveTurno}
+                                turnos = {turnos}
+                                manejarClickPersonal = {manejarClickPersonal}
+                                columnasBloqueadas = {columnasBloqueadas}
+                                manejarGuardarTurno = {manejarGuardarTurno}
+                            />
 
-                                            return (
-                                                <td
-                                                    key={fechaIndex}
-                                                    className={`${columnaBloqueada ? 'bloqueada' : ''} ${esDomingo ? 'domingo' : ''}`.trim()}
-                                                >
-                                                    {!esDomingo && !columnaBloqueada && (
-                                                        <select
-                                                            className={
-                                                                obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'M' ? 'mm' :
-                                                                    obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'T' ? 'tt' :
-                                                                        obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'GD' ? 'gd' :
-                                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'GDD' ? 'gdd' :
-                                                                                obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'MT' ? 'mt' :
-                                                                                    obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'MVD' ? 'mvd' :
-                                                                                        obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'TVD' ? 'tvd' :
-                                                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'MVSF' ? 'mvsf' :
-                                                                                                obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'TVSL' ? 'tvsl' :
-                                                                                                    obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'L' ? 'll' : ''
-                                                            }
-                                                            value={turnos[`${personal.id_personal}_${fecha.toDateString()}`] || ""}
-                                                            onChange={(e) => manejarGuardarTurno(personal.id_personal, fecha, e.target.value)}
-                                                        >
-                                                            <option value=""></option>
-                                                            {tiposDeTurno.map(turno => (
-                                                                <option key={turno.id_turno_tipo} value={turno.id_turno_tipo}>
-                                                                    {turno.clave_turno}
-                                                                </option>
-                                                            ))}
-                                                        </select>
-                                                    )}
-                                                </td>
-                                            );
-                                        })}
-                                    </tr>
-                                ))}
-                            </tbody>
                         </table>
                     )}
                     <div className="leyenda-turno">
                         {tiposDeTurno.map(tipo => (
                             <p> {tipo.clave_turno}: {obtenerDescripcionTurno(tipo.clave_turno)}</p>
                         ))}
-                    </div>
-                    <div className="buttons-turno">
-                        <div className="paginacion">
-                            <button onClick={manejarVerMenos} disabled={paginaActual === 1}><MdNavigateBefore className="ico-cambiar" />Ver menos</button>
-                            <button onClick={manejarVerMas} disabled={indiceFinal >= activosFiltrados.length}>Ver más <MdNavigateNext className="ico-cambiar" /></button>
-                        </div>
-                        <Link className="btn-export" to='/exportar-turno'>IR A EXPORTAR A EXCEL <AiOutlineExport className="icoExport"/></Link>
                     </div>
                 </section>
             </main>

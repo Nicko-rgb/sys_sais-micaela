@@ -1,3 +1,104 @@
+
+.bodyformularios {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: flex-start; /* Alinea verticalmente al inicio */
+  min-height: 100vh; /* Ocupa toda la altura de la ventana */
+  margin: 0;
+  padding: 60px 20px; /* Espacio para el nav en la parte superior */
+  box-sizing: border-box;
+  background-color: #f1f1f1; /* Fondo más claro para contraste */
+}
+
+.historialcontainer {
+    font-family: Arial, sans-serif;
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  h3 {
+    margin: 0 0 20px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .searchinput {
+    padding: 5px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .newbutton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .newbutton:hover {
+    background-color: #0056b3;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+  }
+  
+  .table th,
+  .table td {
+    text-align: left;
+    padding: 8px;
+    border: 1px solid #ddd;
+  }
+  
+  .table th {
+    background-color: #f2f2f2;
+    color: #333;
+  }
+  
+  .no-data {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .pagination div button {
+    margin-left: 5px;
+    padding: 3px 8px;
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: not-allowed;
+  }
+  
+  .pagination div button:disabled {
+    color: #aaa;
+    cursor: not-allowed;
+  }
 .historialcontainer {
     font-family: Arial, sans-serif;
     width: 100%;
@@ -10,80 +111,135 @@
 }
 
 h3 {
-    margin: 0 0 20px;
-    font-size: 18px;
-    color: #333;
+  margin: 0 0 20px;
+  font-size: 22px;
+  color: #333;
+  text-align: center;
 }
 
 .controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px; /* Espaciado uniforme entre elementos */
 }
 
 .searchinput {
-    padding: 5px;
-    width: 200px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  padding: 10px;
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
-.newbutton {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 5px 10px;
-    cursor: pointer;
+.dropdown {
+  position: relative; /* Necesario para posicionar el botón emergente */
+  display: inline-block;
 }
 
-.newbutton:hover {
-    background-color: #0056b3;
+.dropdownbutton {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.3s ease;
+}
+
+.dropdownbutton:hover {
+  color: #007bff; /* Resalta el ícono al pasar el cursor */
+}
+
+.dropdownmenu {
+  position: absolute;
+  top: calc(100% + 5px); /* Asegura espacio entre ícono y menú */
+  left: 50%;
+  transform: translateX(-50%);
+  visibility: hidden; /* Oculta inicialmente */
+  opacity: 0; /* Hace que desaparezca visualmente */
+  transition: visibility 0.3s, opacity 0.3s ease;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  min-width: 180px;
+}
+
+.dropdownmenu button {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 10px 15px;
+  text-align: left;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+.dropdownmenu button:hover {
+  background-color: #f0f0f0;
+}
+
+.dropdown:hover .dropdownmenu {
+  visibility: visible; /* Muestra el menú al pasar el cursor */
+  opacity: 1; /* Hace que sea visible */
 }
 
 .table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 10px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
 }
 
 .table th,
 .table td {
-    text-align: left;
-    padding: 8px;
-    border: 1px solid #ddd;
+
+  text-align: left;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
 }
 
 .table th {
-    background-color: #f2f2f2;
-    color: #333;
+  background-color: #f8f9fa;
+  color: #333;
+  font-weight: bold;
 }
 
-.no-data {
-    text-align: center;
-    color: #666;
-    font-style: italic;
+.table .nodata {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  padding: 20px 0;
 }
 
 .pagination {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 12px;
-    color: #666;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #666;
+  margin-top: 15px;
 }
 
 .pagination div button {
-    margin-left: 5px;
-    padding: 3px 8px;
-    background-color: #e0e0e0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: not-allowed;
+  margin-left: 5px;
+  padding: 6px 12px;
+  background-color: #e9ecef;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: not-allowed;
 }
 
 .pagination div button:disabled {
-    color: #aaa;
-    cursor: not-allowed;
+  color: #aaa;
+  cursor: not-allowed;
 }
+
+.pagination span {
+  font-size: 14px;
+  color: #555;
+}
+

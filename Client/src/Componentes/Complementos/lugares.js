@@ -229,7 +229,7 @@ const lugares = [
           },
           {
             nombre: "Cutervo",
-            distritos: ["Callayuc","Choros","Cujillo","Cutervo","La Ramda","Pimpingos","Querocotillo","San Andrés de Cutervo","San Juan de Cutervo","San Luis de Lucma","Santa Cruz","Santo Domingo de la Capilla","Santo Tomás","Socota","Toribio Casanova"]
+            distritos: ["Callayuc","Choros","Cujillo","Cutervo","La Ramda","Pimpingos","Querocotillo","San Andrés de Cutervo","San Juan de Cutervo","San Luis de Lucma","Santa Cruz","Sto D. de la Capilla","Santo Tomás","Socota","Toribio Casanova"]
           },
           {
             nombre: "Chota",
@@ -519,7 +519,7 @@ const lugares = [
             },
             {
                 nombre: 'Padre Abad',
-                distritos: ['Padre Abad', 'Curimaná', 'Alexander Von Humboldt', 'Irazola', 'Neshuya']
+                distritos: ['Padre Abad', 'Curimaná', 'A. Von Humboldt', 'Irazola', 'Neshuya']
             },
             {
                 nombre: 'Purús',

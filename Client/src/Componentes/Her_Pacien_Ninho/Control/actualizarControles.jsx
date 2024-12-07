@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import "./estilosGeneralControl.css";
 import { useNavigate } from "react-router-dom";
+import NavLogin from '../../Navegadores/NavLogin'
+import NavPie from '../../Navegadores/NavPie'
+import OpcionesI from "../OpcionesI";
+import { useLocation } from 'react-router-dom';
 
 const ActualizarControles = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate(); // Hook de navegación
+  const location = useLocation();
+  const { paciente } = location.state || {};// Evita errores si no hay datos
 
   const initialData = [
     {
@@ -57,6 +63,8 @@ const ActualizarControles = () => {
 
   return (
     <div className="tabla-container">
+      <NavLogin/>
+      <OpcionesI paciente={paciente} />
       <div className="table-wrapper">
         <div className="titulo">
           <h2>Actualizar Controles Niños</h2>
@@ -126,6 +134,7 @@ const ActualizarControles = () => {
         )}
 
       </div>
+      <NavPie/>
     </div>
   );
 };

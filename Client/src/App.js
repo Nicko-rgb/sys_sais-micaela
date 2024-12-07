@@ -30,6 +30,8 @@ import HistorialTamizaje from './Componentes/Her_Pacien_Ninho/Tamizaje/Historial
 import Entregasuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Entregasuplemento';
 import ListaSuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Listasumplemento';
 
+import VacunarNino from './Componentes/Her_Pacien_Ninho/vacuna/VacunarNino'
+
 
 function App() {
 
@@ -55,6 +57,10 @@ function App() {
                         <Route path="/control/:historialClinico" element={<Control />} />
                         <Route path="/seguimiento" element={<Seguimientonutricional />} />
                         <Route path="/listarcontroles" element={<ListarControles />} />
+                        <Route path="/actualizarcontroles/:historialClinico" element={<ActualizarControles />} />
+                        <Route path="/control/:historialClinico" element={<Control />} />
+                        <Route path="/seguimiento/:historialClinico" element={<Seguimientonutricional />} />
+                        <Route path="/listarcontroles" element={<ListarControles />} />
                         <Route path="/actualizarcontroles" element={<ActualizarControles />} />
                         {/* <Route path="/historialControles" element={<HistorialControles />} /> */}
                         {/* <Route path="/modal-salida" element={<Modalnavtop />} /> */}
@@ -66,9 +72,10 @@ function App() {
                         <Route path="/Actualizarsuplemento/:historialClinico" element={<Actualizarsuplemento />} />
                         <Route path="/EvaluacionPsicomotor/:historialClinico" element={<EvaluacionPsicomotor />} />
                         <Route path="/HistorialPsicomotor/:historialClinico" element={<HistorialPsicomotor />} />
+                        <Route path="/VacunarNino/:historialClinico" element={<VacunarNino />} />
 
                     </Routes>
-                </AuthProvider>
+                </AuthProvider> 
             </BrowserRouter>
         </div>
     );

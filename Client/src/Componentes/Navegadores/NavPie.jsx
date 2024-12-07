@@ -13,7 +13,13 @@ const NavPie = () => {
       </div>
       <div className='btns'>
         <button href="www.hola.com"><IoDocumentText /> Documentación</button>
-        <Link to="/contact-administrador" className='button'> <MdPermContactCalendar />Contact Admin</Link>
+        <Link
+          to="/contact-administrador"
+          className='button'
+          style={{ color: 'white', textDecoration: 'none' }}
+        >
+          <MdPermContactCalendar /> Contact Admin
+        </Link>
       </div>
     </div>
   )

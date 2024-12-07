@@ -144,55 +144,48 @@ app.post('/api/registrar/pacientes', async (req, res) => {
     }
 });
 
+// Función para obtener datos del paciente según un parámetro único (Hist. Clínico o DNI)
+const obtenerPaciente = async (paramName, paramValue, connection) => {
+    const query = `
+        SELECT p.*, r.*
+        FROM pacientes p
+        LEFT JOIN responsable_de_paciente r ON p.id_responsable = r.id_responsable
+        WHERE p.${paramName} = ?`;
+
+    const [rows] = await connection.execute(query, [paramValue]);
+    return rows[0];
+};
 
 // Endpoint para obtener datos del paciente según su historial clínico
 app.get('/api/obtener-pacientes/hist-clinico/:historialClinico', async (req, res) => {
     const { historialClinico } = req.params;
-
     const connection = await pool.getConnection();
     try {
-        const [rows] = await connection.execute(
-            `SELECT p.*, r.*
-             FROM pacientes p
-             LEFT JOIN responsable_de_paciente r ON p.id_responsable = r.id_responsable
-             WHERE p.hist_clinico = ?`,
-            [historialClinico]
-        );
-        if (rows.length === 0) {
-            return res.status(404).json({ message: 'Paciente no encontrado' });
-        }
-
-        res.json(rows[0]);
+        const paciente = await obtenerPaciente('hist_clinico', historialClinico, connection);
+        res.json(paciente);
     } catch (error) {
         console.error(error);
+        res.status(404).json({ message: error.message });
     } finally {
         connection.release();
     }
 });
 
-//ruta optener datos de paciente segun dni
+// Endpoint para obtener datos del paciente según su DNI
 app.get('/api/obtener-pacientes/dni/:dni', async (req, res) => {
-    const { dni } = req.params; // Obtener el DNI de los parámetros
+    const { dni } = req.params;
     const connection = await pool.getConnection();
     try {
-        const [rows] = await connection.execute(
-            `SELECT p.*, r.*
-             FROM pacientes p
-             LEFT JOIN responsable_de_paciente r ON p.id_responsable = r.id_responsable
-             WHERE p.dni = ?`,
-            [dni]
-        )
-        if (rows.length === 0) {
-            return res.status(404).json({ message: 'Paciente no encontrado' });
-        }
-        res.json(rows[0]); // Devolver el primer paciente encontrado
-    }
-    catch (err) {
-        console.error(err);
+        const paciente = await obtenerPaciente('dni', dni, connection);
+        res.json(paciente);
+    } catch (error) {
+        console.error(error);
+        res.status(404).json({ message: error.message });
     } finally {
         connection.release();
     }
-})
+});
+
 
 
 //ruta para filtrar pacientes segun tipo de paciente

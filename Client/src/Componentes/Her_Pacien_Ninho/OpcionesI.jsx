@@ -26,6 +26,9 @@ const OpcionesI = ({ paciente }) => {
 
   const irAControl = () => {
     navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
+
+  };
+
   }
   const Actualizarsuplemento = () => {
     navigate(`/Actualizarsuplemento/${paciente.hist_clinico}`, { state: { paciente } });

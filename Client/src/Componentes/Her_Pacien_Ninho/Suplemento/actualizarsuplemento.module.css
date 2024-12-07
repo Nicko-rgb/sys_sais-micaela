@@ -6,10 +6,8 @@
   border-radius: 8px;
   background-color: #f9f9f9;
   position: relative;
-
-  /* Ajuste para evitar superposición con los navegadores */
-  margin-top: 60px; /* Ajusta este valor según la altura del navegador superior */
-  margin-bottom: 60px; /* Ajusta este valor según la altura del navegador inferior */
+  margin-top: 60px;
+  margin-bottom: 60px;
 }
 
 .suplementoscontainer h3 {
@@ -18,9 +16,6 @@
   font-weight: bold;
 }
 
-/* Resto del diseño permanece igual */
-
-/* Dropdown */
 .dropdown {
   position: absolute;
   top: 20px;
@@ -62,6 +57,15 @@
 .dropdownmenu button:hover {
   background-color: #f1f1f1;
 }
+
+
+  .volverbutton {
+    display: flex;
+    align-items: center;    
+    color: green;
+    font-size: 16px;
+  }
+
 
 .suplementostable {
   width: 100%;

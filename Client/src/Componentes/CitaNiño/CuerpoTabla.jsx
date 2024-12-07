@@ -5,20 +5,21 @@ import { PiPencilLineBold } from "react-icons/pi";
 import { RxValueNone } from "react-icons/rx";
 import { PiLockKeyOpenFill } from "react-icons/pi";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { CiLock } from "react-icons/ci";
 import FormCitas from './FormCitas';
 import axios from 'axios';
 import EditCita from './EditCita';
 import BorrarCita from './BorrarCita';
+import Store from '../Store/Store_Cita_Turno';
 
 const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
+    const {citas , personalSalud} = Store()
     const [openForm, setOpenForm] = useState(false);
     const [openEdit, setOpenEdit] = useState(false)
     const [openDelete, setOpenDelete] = useState(false)
     const [citaSelect, setCitaSelect] = useState(null)
     const [formData, setFormData] = useState(null);
     const [blockedRows, setBlockedRows] = useState([]);
-    const [citas, setCitas] = useState([]);
-    const [personal, setPersonal] = useState([])
 
     // Obtener filas bloqueadas desde el servidor
     const fetchBlockedRows = async () => {
@@ -27,26 +28,6 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
             setBlockedRows(response.data);
         } catch (error) {
             console.error('Error al obtener filas bloqueadas:', error);
-        }
-    };
-
-    const fetchCitas = async () => {
-        try {
-            const response = await axios.get('http://localhost:5000/api/filtrar-todas-citas-ninho')
-            setCitas(response.data);
-        } catch (error) {
-            console.error('Error al obtener citas:', error);
-        }
-    }
-
-    // Obtener la lista de personal desde el backend
-    const fetchPersonal = async () => {
-        try {
-            const response = await fetch('http://localhost:5000/api/obtener/personal-salud');
-            const data = await response.json();
-            setPersonal(data);
-        } catch (error) {
-            console.error('Error al obtener el personal:', error);
         }
     };
 
@@ -151,17 +132,7 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
     // Cargar datos al cargar componente
     useEffect(() => {
         fetchBlockedRows();
-        fetchPersonal();
     },  []);
-
-    useEffect(() => {
-        fetchCitas();
-        const intervalId = setInterval(() => {
-            fetchCitas();
-        }, 1000);
-
-        return () => clearInterval(intervalId);
-    }, []);
 
     //creamos una funcion para recortar un texto
     const recortarTexto = (texto) => {
@@ -187,13 +158,11 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                     );
 
                     // Encuentra al profesional responsable para atención para este horario
-                    const responsable = personal.find(
+                    const responsable = personalSalud.find(
                         (res) =>
                             res.especial_cita.toLowerCase() === especialidad.toLowerCase() &&
                             Number(res.num_consultorio) === Number(consultorio)
-                    );
-                    console.log(responsable);
-                    
+                    );                    
 
                     if (horario.tipo_atencion === 'receso') {
                         return (
@@ -232,31 +201,45 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                             
                             <td className="box-ac" style={{ padding: '0' }}>
                                 <div className="accion">
-                                    {!rowBlocked ? (
+                                    {/* Compara la fecha pasada con la fecha actual */}
+                                    {new Date(fecha) < new Date() ? (
+                                        <CiLock style={{color: 'red'}} className="ico ico-abi" title="Fecha pasada, no editable" />
+                                    ) : (
                                         <>
-                                            {cita ? (
+                                            {!rowBlocked ? (
                                                 <>
-                                                    <PiPencilLineBold title='EDITAR CITA' className="ico ico-edit" onClick={() => handleEditForm(cita)} />
-                                                    <RiDeleteBin6Line title='BORRAR CITA' className='ico ico-delete' onClick={() => handleDelete(cita)} />
+                                                    {cita ? (
+                                                        <>
+                                                            <PiPencilLineBold
+                                                                title='EDITAR CITA'
+                                                                className="ico ico-edit"
+                                                                onClick={() => handleEditForm(cita)}
+                                                            />
+                                                            <RiDeleteBin6Line
+                                                                title='BORRAR CITA'
+                                                                className='ico ico-delete'
+                                                                onClick={() => handleDelete(cita)}
+                                                            />
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <BiPlusCircle
+                                                                title='AGREGAR CITA'
+                                                                className="ico ico-mas"
+                                                                onClick={() => handleOpenForm(horario.hora_inicio, horario.hora_fin)}
+                                                            />
+                                                            <RxValueNone
+                                                                title='BLOQUEAR HORA'
+                                                                className="ico ico-bloq"
+                                                                onClick={() => handleBlockRow(horario)}
+                                                            />
+                                                        </>
+                                                    )}
                                                 </>
                                             ) : (
-                                                <>
-                                                    <BiPlusCircle
-                                                        title='AGREGAR CITA'
-                                                        className="ico ico-mas"
-                                                        onClick={() => handleOpenForm(horario.hora_inicio, horario.hora_fin)}
-                                                    />
-                                                    <RxValueNone
-                                                        title='BLOQUEAR HORA'
-                                                        className="ico ico-bloq"
-                                                        onClick={() => handleBlockRow(horario)}
-                                                    />
-                                                </>
+                                                <PiLockKeyOpenFill className="ico ico-abi" onClick={() => handleUnblockRow(horario)} />
                                             )}
-
                                         </>
-                                    ) : (
-                                        <PiLockKeyOpenFill className="ico ico-abi" onClick={() => handleUnblockRow(horario)} />
                                     )}
                                 </div>
                             </td>

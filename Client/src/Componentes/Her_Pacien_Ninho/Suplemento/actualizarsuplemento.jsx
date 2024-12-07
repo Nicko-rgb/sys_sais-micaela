@@ -28,13 +28,15 @@ const Actualizarsuplementos = () => {
         {paciente ? (
           <>
             <h3>Actualizar Suplementos Niño</h3>
+            {/* Botón Volver alineado a la izquierda */}
+            <Link
+              to={`/panel/${paciente.hist_clinico}`}
+              className={style.volverbutton}
+            >
+              <RiPlayReverseLargeFill /> VOLVER
+            </Link>
+            {/* Dropdown en la esquina superior derecha */}
             <div className={style.dropdown}>
-              <div>
-              <Link to={`/panel/${paciente.hist_clinico}`}>
-                <RiPlayReverseLargeFill /> VOLVER
-              </Link>
-              </div>
-          
               <button className={style.dropdownbutton}>⚙</button>
               <div className={style.dropdownmenu}>
                 <button
@@ -57,6 +59,7 @@ const Actualizarsuplementos = () => {
                 </button>
               </div>
             </div>
+            {/* Tabla de suplementos */}
             <table className={style.suplementostable}>
               <thead>
                 <tr>

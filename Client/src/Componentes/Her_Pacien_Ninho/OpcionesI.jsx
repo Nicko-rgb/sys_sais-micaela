@@ -29,6 +29,7 @@ const OpcionesI = ({ paciente = {}}) => {
   };
 
   const irAControl = () => {
+
     if (paciente && paciente.hist_clinico) {
       navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
     } else {

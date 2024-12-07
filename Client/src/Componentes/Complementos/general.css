@@ -7,6 +7,7 @@ button {
     align-items: center;
     justify-content: center;
     gap: 5px;
+    margin: 0;
 }
 
 button:hover {
@@ -99,4 +100,7 @@ button:hover {
 
 .volver_link:hover {
     background: rgb(216, 216, 216);
+}
+#email {
+    text-transform: lowercase;
 }

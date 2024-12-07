@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaUserPlus, FaUserMinus, FaChartBar } from "react-icons/fa";
+import { FaUserPlus, FaChartBar } from "react-icons/fa";
 import { MdManageAccounts, MdHistory, MdNotifications } from "react-icons/md";
-import { RiTeamLine, RiTaskLine } from "react-icons/ri";
+import { RiTeamLine } from "react-icons/ri";
 import { GiProgression, GiHealthNormal } from "react-icons/gi";
 import { BsListTask, BsCalendarCheck, BsClipboardData } from "react-icons/bs";
 import { AiOutlineForm, AiOutlineSetting } from "react-icons/ai";
@@ -30,7 +30,7 @@ const Sidebar = ({ tipoUser }) => {
           <>
             <li><Link to="/personal-salud"><RiTeamLine /> Ver Equipo</Link></li>
             <li><Link to="/personal-salud"><FaUserPlus /> Asignar Turnos</Link></li>
-QH            <li><Link to="/jefe/rendimiento"><GiProgression /> Rendimiento del Equipo</Link></li>
+            <li><Link to="/jefe/rendimiento"><GiProgression /> Rendimiento del Equipo</Link></li>
             <li><Link to="/jefe/estadisticas"><IoStatsChartOutline /> Estadísticas de Equipo</Link></li>
             <li><Link to="/jefe/historial-tareas"><MdHistory /> Historial de Tareas</Link></li>
             <li><Link to="/jefe/informes"><BsClipboardData /> Informes</Link></li>

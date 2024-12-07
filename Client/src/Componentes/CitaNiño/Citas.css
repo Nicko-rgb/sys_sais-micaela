@@ -1,8 +1,8 @@
 .cita-nino {
     position: relative;
     padding-bottom: 200px;
-    overflow-y: auto;
     height: auto;
+    overflow-y: auto;
 }
 .cita-nino main {
     margin-top: 60px;

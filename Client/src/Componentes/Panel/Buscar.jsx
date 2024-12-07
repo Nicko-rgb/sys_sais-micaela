@@ -103,7 +103,7 @@ const Buscar = () => {
     return (
         <div className="buscar">
             <div className="sub_buscar">
-                <h3>LISTADO DE TODO LOS PACIENTES REGISTRADOS</h3>
+                <h3>LISTADO DE TODOS LOS PACIENTES REGISTRADOS</h3>
                 <main>
                     <div className="box_buscar">
                         <MdPersonSearch className="ico_buscar" />

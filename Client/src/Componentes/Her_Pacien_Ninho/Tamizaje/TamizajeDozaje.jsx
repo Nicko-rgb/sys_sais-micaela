@@ -6,7 +6,7 @@ import { MdOutlineManageHistory } from "react-icons/md";
 import NavLogin from '../../Navegadores/NavLogin';
 import NavPie from '../../Navegadores/NavPie';
 
-
+ 
 const TamizajeDozaje = () => {
     const [fechaResultado1, setFechaResultado1] = useState('');
     const [resultado1, setResultado1] = useState('');
@@ -40,7 +40,7 @@ const TamizajeDozaje = () => {
         navigate(`/historialtamizaje/${paciente.hist_clinico}`, { state: { paciente } })
     }
 
-    return (
+    return ( 
         <div>
             <NavLogin />
             <div className={styles.contGeneral}>

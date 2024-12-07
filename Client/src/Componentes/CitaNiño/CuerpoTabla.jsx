@@ -137,7 +137,7 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
     //creamos una funcion para recortar un texto
     const recortarTexto = (texto) => {
         if (texto.length > 30) {
-            return texto.substring(0, 20) + '...';
+            return texto.substring(0, 30) + '...';
         }
         return texto
     }
@@ -198,6 +198,7 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                             {especialidad === 'Planificación' && <td>{cita ? cita.metodo : '---'}</td>}
                             <td>{recortarTexto(cita ? cita.motivoConsulta : '---')}</td>
                             <td>{responsable ? `${responsable.paterno} ${responsable.nombres}` : '---'}  </td>
+                            
                             <td className="box-ac" style={{ padding: '0' }}>
                                 <div className="accion">
                                     {/* Compara la fecha pasada con la fecha actual */}

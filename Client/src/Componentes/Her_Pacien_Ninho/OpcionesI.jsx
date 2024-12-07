@@ -7,7 +7,7 @@ import { IoBody } from "react-icons/io5";
 import { useNavigate } from "react-router-dom"
 
 
-const OpcionesI = ({ paciente }) => {
+const OpcionesI = ({ paciente = {}}) => {
   const navigate = useNavigate(); // Hook de navegación
 
   const handleNewVisitClick = () => {
@@ -17,19 +17,26 @@ const OpcionesI = ({ paciente }) => {
     navigate("/historialvisita"); // Redirige a la ruta de "historialVisita"
   };
   const seguimientoNutricional = () => {
-    navigate("/seguimiento"); // Redirige a la ruta de "historialVisita"
+    if (paciente && paciente.hist_clinico) {
+      navigate(`/seguimiento/${paciente.hist_clinico}`, { state: { paciente } });
+    } else {
+      console.error("Paciente no definido.");
+    } // Redirige a la ruta de "historialVisita"
   };
 
   const actualizarControles = () => {
-    navigate("/actualizarcontroles"); // Redirige a la ruta de "Actualizar controles"
+    navigate(`/actualizarcontroles/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta de "Actualizar controles"
   };
 
   const irAControl = () => {
-    navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
 
+    if (paciente && paciente.hist_clinico) {
+      navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
+    } else {
+      console.error("Paciente no definido.");
+    }
   };
 
-  }
   const Actualizarsuplemento = () => {
     navigate(`/Actualizarsuplemento/${paciente.hist_clinico}`, { state: { paciente } });
   };
@@ -54,6 +61,9 @@ const OpcionesI = ({ paciente }) => {
   }
   const ListaSuplemento = () => {
     navigate(`/Listasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
+  }
+  const VacunarNino = () => {
+    navigate(`/VacunarNino/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
   }
 
 
@@ -130,7 +140,7 @@ const OpcionesI = ({ paciente }) => {
             <MdOutlineVaccines className="icon" />
             VACUNA
           </summary>
-          <button>Vacunar Niño</button>
+          <button onClick={VacunarNino}>Vacunar Niño</button>
           <button> Historial Vacunas</button>
           <button> Vacunas Faltantes</button>
         </details>

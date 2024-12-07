@@ -66,12 +66,23 @@ const Store = () => {
         }
     }
 
+    const [turnosPersonal, setTurnosPersonal] = useState([])
+    const fetchTurnosPersonal = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/obtener-turnos/personal');
+            setTurnosPersonal(response.data);
+        } catch (error) {
+            console.error('Error al obtener turnos de personal:', error);
+        }
+    }
+
     // Carga de datos 
     useEffect(() => {
         fetchPersonalSalud();
         const intervalId = setInterval(fetchPersonalSalud, 5000);
         fetchTiposDeTurno()
         fetchBlockedRows()
+        fetchTurnosPersonal()
         return () => clearInterval(intervalId);
     }, []);
 
@@ -120,6 +131,7 @@ const Store = () => {
         obtenerDescripcionTurno,
         blockedRows,
         citas,
+        turnosPersonal,
     }
 }
 

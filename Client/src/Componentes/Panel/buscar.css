@@ -114,35 +114,35 @@
   padding-bottom: 60px;
 }
 
-.buscar table {
+.buscar .sub_buscar table {
   border-collapse: collapse;
   /* width: 80%; */
   margin-top: -5px;
 }
-.buscar table button{
+.buscar .sub_buscar table button{
   margin: 0;
 }
 
-.buscar table th {
+.buscar .sub_buscar table th {
   font-size: 14px;
   font-family: calibri;
 }
 
-.buscar th{
+.buscar .sub_buscar th{
   padding: 6px;
   text-align: left;
   border: 1px solid gray;
   background: rgb(245,206,113);
 }
-.buscar tbody{
+.buscar .sub_buscar tbody{
   height: auto;
   margin: 0;
 }
-.buscar tbody tr{
+.buscar .sub_buscar tbody tr{
   margin: 0;
   padding: 0;
 }
-.buscar tbody td {
+.buscar .sub_buscar tbody td {
   font-family: 'poppins';
   font-size: 12px;
   text-transform: uppercase;
@@ -150,6 +150,6 @@
   padding: 1px 5px;
 }
 
-.buscar tr:hover {
+.buscar .sub_buscar tr:hover {
   background-color: #e7e7e7;
 }

@@ -632,13 +632,16 @@ app.get('/api/obtener-turnos/personal', async (req, res) => {
                 ps.servicio,
                 ps.especial_cita,
                 ps.num_consultorio,
-                ps.condicion
+                ps.condicion,
+                ps.estado
             FROM 
                 turnos_personal tp
             INNER JOIN 
                 personal_salud ps ON tp.id_personal = ps.id_personal
             INNER JOIN 
                 tipos_turno_personal ttp ON tp.id_turno_tipo = ttp.id_turno_tipo
+            WHERE 
+                ps.estado = 'activo'; 
         `;
         const [data] = await pool.query(query);
         res.json(data);
@@ -956,14 +959,14 @@ app.get('/api/reset-password/:token', async (req, res) => {
 
 //ruta para registrar las citas para el niño
 app.post('/api/registrar/cita-nino', async (req, res) => {
-    const { especialidad, fecha, hora, consultorio, hisClinico, dni, apellidos, nombres, fechaNacimiento, edad, telefono, motivoConsulta, direccion, metodo, semEmbarazo, idRespons } = req.body;
+    const { id_paciente, especialidad, fecha, hora, consultorio, telefono, direccion, motivoConsulta, metodo, semEmbarazo, profesional, idRespons } = req.body;
 
     const sql = `
         INSERT INTO cita_ninhos (
-            especialidad, fecha, hora, consultorio, hisClinico, dni, apellidos, nombres, fechaNacimiento, edad, telefono, motivoConsulta, direccion, metodo, semEmbarazo, id_responsable
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            id_paciente, especialidad, fecha, hora, consultorio, telefono, direccion_c, motivoConsulta, metodo, semEmbarazo, profesional_cita, id_responsable
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-    const values = [ especialidad, fecha, hora, consultorio, hisClinico, dni, apellidos, nombres, fechaNacimiento, edad, telefono, motivoConsulta, direccion || null, metodo || null, semEmbarazo || null, idRespons || null ];
+    const values = [ id_paciente, especialidad, fecha, hora, consultorio, telefono, direccion || null, motivoConsulta, metodo || null, semEmbarazo || null, profesional, idRespons || null ];
 
     try {
         const [results] = await pool.query(sql, values);
@@ -995,7 +998,7 @@ app.get('/api/citas-ninhos', async (req, res) => {
 //ruta para editar las citas de los niños
 app.put('/api/edit-citas-ninio/:id', async (req, res) => {
     const { id } = req.params; // ID de la cita a actualizar
-    const { fecha, hora, consultorio, especialidad } = req.body; // Datos enviados desde el cliente
+    const { fecha, hora, consultorio } = req.body; // Datos enviados desde el cliente
 
     try {
         // Consulta SQL para actualizar la cita en la base de datos
@@ -1035,11 +1038,12 @@ app.delete('/api/delete-citas-ninio/:id', async (req, res) => {
     }
 });
 
-
-
-// Route para obtener todas las citas de los niños
+// Route para obtener todas las citas de los niños con datos del paciente
 app.get('/api/filtrar-todas-citas-ninho', async (req, res) => {
-    const query = 'SELECT * FROM cita_ninhos'; // Trae todas las citas
+    const query = `
+        SELECT  cn.*, p.* FROM  cita_ninhos cn
+        JOIN pacientes p ON cn.id_paciente = p.id_paciente;
+    `;
 
     try {
         const [results] = await pool.query(query);
@@ -1050,9 +1054,13 @@ app.get('/api/filtrar-todas-citas-ninho', async (req, res) => {
     }
 });
 
-//ruta  para filtrar citas de un rango de 3 dias
+// Ruta para filtrar citas de un rango de 3 días con datos del paciente
 app.get('/api/filtrar-cita-ninho-3', async (req, res) => {
-    const query = 'SELECT * FROM cita_ninhos WHERE fecha >= CURDATE() AND fecha <= DATE_ADD(CURDATE(), INTERVAL 3 DAY)';
+    const query = `
+        SELECT cn.*, p.* FROM cita_ninhos cn
+        JOIN pacientes p ON cn.id_paciente = p.id_paciente
+        WHERE cn.fecha >= CURDATE() AND cn.fecha <= DATE_ADD(CURDATE(), INTERVAL 3 DAY);
+    `;
 
     try {
         const [results] = await pool.query(query);
@@ -1185,14 +1193,7 @@ app.get('/api/etnias', async (req, res) => {
 // RUTA PARA LAS VISITAS DOMICILIARIAS 
 // Ruta para registrar visitas domiciliarias
 app.post("/api/visita-domiciliaria", (req, res) => {
-    const { 
-        tipo, 
-        numero_visita, 
-        fecha_atencion, 
-        opcional, 
-        observaciones, 
-        id_paciente 
-    } = req.body;
+    const { tipo, numero_visita, fecha_atencion, opcional, observaciones, id_paciente } = req.body;
 
     // Validaciones mejoradas
     if (!tipo || !numero_visita || !fecha_atencion || !id_paciente) {
@@ -1201,32 +1202,10 @@ app.post("/api/visita-domiciliaria", (req, res) => {
         });
     }
 
-    // Validaciones adicionales
-    if (typeof id_paciente !== 'number') {
-        return res.status(400).json({
-            error: "El ID del paciente debe ser un número válido."
-        });
-    }
-
     const query = `
-        INSERT INTO visita_domiciliaria (
-            tipo, 
-            numero_visita, 
-            fecha_atencion, 
-            opcional, 
-            observaciones, 
-            id_paciente
-        ) VALUES (?, ?, ?, ?, ?, ?)
-    `;
+        INSERT INTO visita_domiciliaria (tipo, numero_visita, fecha_atencion, opcional, observaciones, id_paciente) VALUES (?, ?, ?, ?, ?, ?)`;
 
-    const values = [
-        tipo,
-        numero_visita,
-        fecha_atencion,
-        opcional || null,
-        observaciones || null,
-        id_paciente
-    ];
+    const values = [ tipo, numero_visita, fecha_atencion, opcional || null, observaciones || null, id_paciente];
 
     // Usar promesas o async/await para manejo de errores más limpio
     pool.query(query, values)

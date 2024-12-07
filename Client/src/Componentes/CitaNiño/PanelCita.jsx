@@ -66,8 +66,8 @@ const OpcionesCita = () => {
         const search = searchTerm.trim().toLowerCase();
 
         return citasData.filter(cita => {
-            const fullName = `${cita.nombres} ${cita.apellidos}`.toLowerCase();
-            const reverseName = `${cita.apellidos} ${cita.nombres}`.toLowerCase();
+            const fullName = `${cita.nombres} ${cita.ape_paterno} ${cita.ape_materno}`.toLowerCase();
+            const reverseName = `${cita.ape_paterno} ${cita.ape_materno} ${cita.nombres}`.toLowerCase();
             const normalizedSearchTerm = searchTerm.trim().toLowerCase().replace(/\s+/g, ' ');
             
             
@@ -188,7 +188,7 @@ const OpcionesCita = () => {
                                     <th>Fecha</th>
                                     <th>Hora</th>
                                     <th>Nombre Paciente</th>
-                                    <th>Nombre Médico</th>
+                                    <th>Profesional</th>
                                     <th>Estado</th>
                                     <th>Motivo Cita</th>
                                     <th>Especialidad</th>
@@ -206,8 +206,8 @@ const OpcionesCita = () => {
                                             <td>{startIndex + index + 1}</td>
                                             <td>{new Date(cita.fecha).toLocaleDateString()}</td>
                                             <td>{cita.hora}</td>
-                                            <td>{cita.apellidos}, {cita.nombres}</td>
-                                            <td>{cita.nombreMedico || 'Nombre Médico'}</td>
+                                            <td>{cita.ape_paterno} {cita.ape_materno} , {cita.nombres}</td>
+                                            <td>{cita.profesional_cita || 'Nombre Médico'}</td>
                                             <td>{cita.estado || 'Estado'}</td>
                                             <td>{recortarTexto(cita.motivoConsulta)}</td>
                                             <td>{cita.especialidad}</td>

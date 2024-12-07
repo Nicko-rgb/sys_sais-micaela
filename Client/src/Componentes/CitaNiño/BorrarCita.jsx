@@ -19,8 +19,10 @@ const BorrarCita = ({ citaData, close }) => {
     return (
         <div className="borrar-cita">
             <div className="contend">
-                <h2>Borrar cita</h2>
-                <p style={{textAlign: 'center'}}>¿Estás seguro de que deseas borrar esta cita para <span>{citaData.nombres} {citaData.apellidos}</span>  ?</p>
+                <h2 className='title-page'>Borrar cita</h2>
+                <p style={{textAlign: 'center'}}>¿Estás seguro de que deseas borrar esta cita para 
+                    <span> {citaData.nombres} {citaData.ape_paterno} {citaData.ape_materno} - {citaData.dni} </span>  ?
+                </p>
                 <div className="btns">
                     <button onClick={close} className="btn btn-cancel">Cancelar</button>
                     <button onClick={handleDelete} className="btn btn-delete">Borrar</button>

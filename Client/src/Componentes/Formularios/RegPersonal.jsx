@@ -157,8 +157,6 @@ const RegPersonal = ({ handleForm }) => {
                         </div>
                     </div>
                     <div className="fi">
-                        
-
                         <Selected
                             onProfesionChange={handleProfesionChange}
                             onServicioChange={handleServicioChange}

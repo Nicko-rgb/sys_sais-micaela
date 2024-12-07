@@ -111,7 +111,7 @@ const Cita1 = () => {
                                 {especialidad === 'Obstetricia_CPN' && <th>Sem. de Embarazo</th>}
                                 {especialidad === 'Planificación' && <th>Método Planificación</th>}
                                 <th>Motivo Consulta</th>
-                                <th>Responsable</th>
+                                <th>Profesional Responsable</th>
                                 <th>Acción</th>
                             </tr>
                         </thead>

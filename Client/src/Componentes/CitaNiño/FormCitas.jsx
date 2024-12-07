@@ -5,8 +5,9 @@ import { TfiWrite } from "react-icons/tfi";
 import { MdOpenInNew } from "react-icons/md";
 
 // Componente de formulario para agregar una cita
-const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio }) => {
+const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio, profesional }) => {
     const navigate = useNavigate();
+    const [idPaciente, setIdPaciente] = useState('')
     const [hisClinico, setHisClinico] = useState('');
     const [dni, setDni] = useState('');
     const [apellidos, setApellidos] = useState('');
@@ -31,6 +32,7 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio }) => {
                 const data = await response.json();
 
                 // Completar los campos con la información del paciente
+                setIdPaciente(data.id_paciente);
                 setIdRespons(data.id_responsable);
                 setDni(data.dni);
                 setApellidos(`${data.ape_paterno} ${data.ape_materno}`);
@@ -41,14 +43,12 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio }) => {
 
                 setEdad(data.edad);
                 setTelefono(data.celular1 || data.celular2 || data.celular1_res);
-                if (especialidad === 'Medicina') {
-                    setDireccion(data.direccion || data.direccion_res);
-                }
+                setDireccion(data.direccion || data.direccion_res);
             } catch (error) {
                 console.error('Error al buscar paciente:', error);
                 clearFields();
                 setDni('')
-            } 
+            }
         }
     };
 
@@ -63,6 +63,7 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio }) => {
                 const data = await response.json();
 
                 // Completar los campos con la información del paciente
+                setIdPaciente(data.id_paciente);
                 setIdRespons(data.id_responsable);
                 setHisClinico(data.hist_clinico);
                 setApellidos(`${data.ape_paterno} ${data.ape_materno}`);
@@ -73,9 +74,8 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio }) => {
 
                 setEdad(data.edad);
                 setTelefono(data.celular1 || data.celular2 || data.celular1_res);
-                if (especialidad === 'Medicina') {
-                    setDireccion(data.direccion || data.direccion_res);
-                }
+
+                setDireccion(data.direccion || data.direccion_res);
             } catch (error) {
                 console.error('Error al buscar paciente:', error);
                 clearFields();
@@ -86,37 +86,33 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio }) => {
 
     // Función para limpiar campos
     const clearFields = () => {
+        setIdPaciente('');
         setApellidos('');
         setNombres('');
         setFechaNacimiento('');
         setEdad('');
         setTelefono('');
-        if (especialidad === 'Medicina') setDireccion('');
-        if (especialidad === 'Planificación') setMetodo('');
-        if (especialidad === 'Obstetricia_CPN') setSemEmbarazo('');
+        setDireccion('');
+        setMetodo('');
+        setSemEmbarazo('');
     };
-
 
     // Función para enviar los datos del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const citaData = {
+            id_paciente: idPaciente,
             especialidad,
             fecha,
             hora,
             consultorio,
-            hisClinico,
-            dni,
-            apellidos,
-            nombres,
-            fechaNacimiento,
-            edad,
             telefono,
             motivoConsulta,
-            direccion: especialidad === 'Medicina' ? direccion : undefined,
-            metodo: especialidad === 'Planificación' ? metodo : undefined,
-            semEmbarazo: especialidad === 'Obstetricia_CPN' ? semEmbarazo : undefined,
+            direccion,
+            metodo,
+            semEmbarazo,
+            profesional: `${profesional.paterno} ${profesional.materno} ${profesional.nombres}`,
             idRespons,
         };
 

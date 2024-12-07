@@ -13,7 +13,7 @@ import BorrarCita from './BorrarCita';
 import Store from '../Store/Store_Cita_Turno';
 
 const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
-    const {citas , personalSalud} = Store()
+    const { citas, personalSalud, turnosPersonal } = Store()
     const [openForm, setOpenForm] = useState(false);
     const [openEdit, setOpenEdit] = useState(false)
     const [openDelete, setOpenDelete] = useState(false)
@@ -88,12 +88,13 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
 
 
     // Abrir el formulario para registrar citas
-    const handleOpenForm = (hora_inicio, hora_fin) => {
+    const handleOpenForm = (hora_inicio, hora_fin, profesional) => {
         setFormData({
             fecha,
             especialidad,
             hora: `${formatTime(hora_inicio)} - ${formatTime(hora_fin)}`,
             consultorio,
+            profesional,
         });
         setOpenForm(true);
     };
@@ -132,7 +133,7 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
     // Cargar datos al cargar componente
     useEffect(() => {
         fetchBlockedRows();
-    },  []);
+    }, []);
 
     //creamos una funcion para recortar un texto
     const recortarTexto = (texto) => {
@@ -158,11 +159,22 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                     );
 
                     // Encuentra al profesional responsable para atención para este horario
-                    const responsable = personalSalud.find(
-                        (res) =>
-                            res.especial_cita.toLowerCase() === especialidad.toLowerCase() &&
-                            Number(res.num_consultorio) === Number(consultorio)
-                    );                    
+                    const responsable = turnosPersonal.find((res) => {
+                        const isGuardiaDiurna = res.turno === 'Guardia Diurna';
+
+                        // Común a ambas condiciones
+                        const isMatchingSpecialty = res.especial_cita.toLowerCase() === especialidad.toLowerCase();
+                        const isMatchingConsultorio = Number(res.num_consultorio) === Number(consultorio);
+                        const isMatchingFecha = new Date(res.fecha).toISOString().split('T')[0] === fecha;
+
+                        // Retorna true si se cumple la condición correspondiente
+                        return (
+                            isMatchingSpecialty &&
+                            isMatchingConsultorio &&
+                            isMatchingFecha &&
+                            (isGuardiaDiurna || res.turno.toLowerCase() === horario.turno.toLowerCase())
+                        );
+                    });
 
                     if (horario.tipo_atencion === 'receso') {
                         return (
@@ -191,19 +203,19 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                             <td>{cita ? cita.dni : '---'}</td>
                             <td>{cita ? cita.nombres : '---'} {cita ? cita.apellidos : '---'} </td>
                             <td>{cita ? cita.edad : '---'}</td>
-                            <td>{cita ? new Date(cita.fechaNacimiento).toLocaleDateString() : '---'}</td>
+                            <td>{cita ? new Date(cita.fecha_nacimiento).toLocaleDateString() : '---'}</td>
                             <td>{cita ? cita.telefono : '---'}</td>
-                            {especialidad === 'Medicina' && <td>{cita ? cita.direccion : '---'}</td>}
+                            {especialidad === 'Medicina' && <td>{cita ? cita.direccion_c : '---'}</td>}
                             {especialidad === 'Obstetricia_CPN' && <td>{cita ? cita.semEmbarazo : '---'}</td>}
                             {especialidad === 'Planificación' && <td>{cita ? cita.metodo : '---'}</td>}
                             <td>{recortarTexto(cita ? cita.motivoConsulta : '---')}</td>
-                            <td>{responsable ? `${responsable.paterno} ${responsable.nombres}` : '---'}  </td>
-                            
+                            <td>{responsable ? `${responsable.paterno} ${responsable.materno} ${responsable.nombres}` : 'Ninguno, asignar en turnos.'}  </td>
+
                             <td className="box-ac" style={{ padding: '0' }}>
                                 <div className="accion">
                                     {/* Compara la fecha pasada con la fecha actual */}
-                                    {new Date(fecha) < new Date() ? (
-                                        <CiLock style={{color: 'red'}} className="ico ico-abi" title="Fecha pasada, no editable" />
+                                    {new Date(fecha) < new Date() && !responsable ? (
+                                        <CiLock style={{ color: 'red', cursor: 'initial' }} className="ico ico-" title="Fecha pasada, no editable" />
                                     ) : (
                                         <>
                                             {!rowBlocked ? (
@@ -222,18 +234,24 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                                                             />
                                                         </>
                                                     ) : (
-                                                        <>
-                                                            <BiPlusCircle
-                                                                title='AGREGAR CITA'
-                                                                className="ico ico-mas"
-                                                                onClick={() => handleOpenForm(horario.hora_inicio, horario.hora_fin)}
-                                                            />
-                                                            <RxValueNone
+                                                        responsable ?
+                                                            <>
+                                                                <BiPlusCircle
+                                                                    title='AGREGAR CITA'
+                                                                    className="ico ico-mas"
+                                                                    onClick={() => handleOpenForm(horario.hora_inicio, horario.hora_fin, responsable)}
+                                                                />
+                                                                <RxValueNone
+                                                                    title='BLOQUEAR HORA'
+                                                                    className="ico ico-bloq"
+                                                                    onClick={() => handleBlockRow(horario)}
+                                                                />
+                                                            </>
+                                                            : <RxValueNone
                                                                 title='BLOQUEAR HORA'
                                                                 className="ico ico-bloq"
                                                                 onClick={() => handleBlockRow(horario)}
                                                             />
-                                                        </>
                                                     )}
                                                 </>
                                             ) : (
@@ -248,6 +266,7 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                 })}
             </tbody>
 
+
             {openForm && (
                 <FormCitas
                     closeForm={closeForm}
@@ -255,6 +274,7 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                     hora={formData.hora}
                     especialidad={formData.especialidad}
                     consultorio={formData.consultorio}
+                    profesional = {formData.profesional}
                 />
             )}
             {openEdit && (

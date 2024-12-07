@@ -1,29 +1,29 @@
 
 .content-info {
     position: relative;
-    background-color:  #2cc1af;
-    border-radius: 7px;
+    background-color:  white;
+    border-radius: 10px;
     padding: 15px;
     animation: fadeIn 0.3s ease;
-    box-shadow: 0 0 5px rgb(245,206,113);
+    box-shadow: 0 0 8px #00796bb4, 0 0 8px #00796bb4;
     margin-right: 20px;
     z-index: 2;
-    color: white;
+    color: black;
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 15px;
 }
 .content-info .flecha{
-    z-index: -1;
     position: absolute;
     top: 5px;
-    left: -18px;
+    left: -22px;
     width: 0;
     height: 0;
     transform: rotate(-90deg);
     border-left: 15px solid transparent; /* Ajusta el tamaño */
     border-right: 15px solid transparent; /* Ajusta el tamaño */
-    border-bottom: 20px solid #2cc1af; /* Color del triángulo */
+    border-bottom: 20px solid #00796bb4; /* Color del triángulo */
 
 }
 .content-info .datos{
@@ -32,38 +32,48 @@
 }
 .content-info h3{
     font-size: 19px;
-    text-transform: uppercase;
-    text-align: center;
+    margin: auto;
+    padding: 0 10px;
+    border-bottom: 1px solid rgba(188, 186, 186, 0.451);
 }
 .content-info b{
-    font-size: 14px;
+    font-size: 13px;
     font-family: 'poppins';
+    text-transform: uppercase;
+    color: rgb(90, 90, 90);
 }
 .content-info p{
     border: none;
     font-family: 'poppins';
-    font-size: 14px;
+    font-size: 13px;
     background-color: transparent;
     margin: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
     text-transform: uppercase;
+    color: black;
+    /* border-bottom: rgba(156, 156, 156, 0.316) solid 1px; */
+    margin-top: 10px;
 }
 .content-info .box-btn{
     display: flex;
     justify-content: center;
+    margin-top: 20px;
 }
 .content-info .btn-save{
     transition: .3s ease all;
-    background: rgb(245,206,113);
+    background: #00796bb4;
 }
 .content-info .btn-save:hover{
     box-shadow: none;
-    background: rgb(190, 160, 89);
+    background: #0eaf9cb4;
     ;
 }
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: scale(0.95);
+        transform: scale(0.5);
     }
 
     to {

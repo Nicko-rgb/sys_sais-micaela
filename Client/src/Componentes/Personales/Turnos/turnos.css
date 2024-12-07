@@ -1,79 +1,3 @@
-.turnos .btn-nav {
-  display: flex;
-  justify-content: center;
-}
-
-.turnos .datos {
-  display: flex;
-  justify-content: space-between;
-}
-
-.turnos .datos p {
-  font-family: 'poppins';
-  font-size: 14px;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-.turnos .btn-nav button {
-  background-color: #1c7f73;
-  border: none;
-  padding: 6px;
-  border-radius: 3px;
-  color: white;
-  font-family: 'poppins';
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.turnos .ico {
-  font-size: 16px;
-}
-
-.turnos .btn-turno-action {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.turnos .btn-turno-action .btn-guardar {
-  background-color: #069a89;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.turnos .btn-turno button:hover {
-  background-color: #1c7f73;
-}
-
-.turnos table .turno-colum {
-  width: 180px;
-  font-size: 12px;
-}
-
-.turnos table thead th {
-  font-family: 'poppins';
-  font-size: 12px;
-  text-align: center;
-  font-weight: lighter;
-}
-
-.turnos .checkbox-inactivo {
-  opacity: 0.4;
-}
-
-.turnos table tbody input {
-  cursor: pointer;
-}
-
-.turnos .css {
-  background-color: #069a8943;
-}
 
 
 /**********************************************/
@@ -87,17 +11,17 @@
   padding: 20px;
   background-color: white;
   padding: 35px;
-  padding-top: 37px;
+  padding: 37px 20px 50px 20px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   overflow-y: auto;
 }
 .turnos-personal main {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
 }
 .turnos-personal main>h3 {
   font-size: large;
@@ -106,18 +30,18 @@
 .turnos-personal main section {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  margin: auto;
 }
 .turnos-personal .acciones {
   display: flex;
   align-items: center;
   flex-direction: row;
-  justify-content: center;
   position: relative;
   gap: 10px;
-  margin-top: 20px;
   /* border: black solid 1px; */
   height: 30px;
+  margin: auto;
+  margin-top: 20px;
 }
 .turnos-personal .volver_link{
   position: absolute;
@@ -130,11 +54,15 @@
   border: none;
   box-shadow: 0 0 3px black;
   outline: none;
-  font-weight: 500;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 .turnos-personal .acciones input:focus {
   outline: #00796b solid 2px;
   box-shadow: none;
+}
+.turnos-personal .acciones input:focus ~ .ico_buscar{
+  color: #00796b;
 }
 .turnos-personal .acciones .ico_buscar {
   position: absolute;
@@ -178,12 +106,12 @@
 }
 .turnos-personal .contador{
   font-family: 'poppins';
-  font-size: 14px;
+  font-size: 12px;
   display: flex;
-  align-items: center;
   margin: 0;
-  margin-top: 10px;
+  margin: auto;
   margin-bottom: 5px;
+  margin-top: 10px;
 }
 
 .turnos-personal .acciones .fecha-cambiar{
@@ -234,6 +162,7 @@
 .turnos-personal main table {
   margin-top: -5px;
 }
+
 .turnos-personal main table thead th{
   font-family: 'poppins';
   font-size: 12px;
@@ -244,9 +173,11 @@
   position: relative;
   cursor: pointer;
   transition: all .2s;
+  background-color: #00796bb4;
+  border: rgb(11, 116, 112) solid 1px;
 }
 .turnos-personal main table thead th:hover{
-  background-color: #51b7ab; 
+  background-color: #51b7aba9; 
 }
 .turnos-personal main table thead th .accion-cabeza{
   position: absolute;
@@ -264,6 +195,8 @@
   font-family: 'poppins';
   font-size: 13px;
   font-weight: 400;
+}.turnos-personal .leyenda-turno p {
+  font-size: 12px;
 }
 
 
@@ -280,12 +213,20 @@
 }
 .balloon {
   position: relative; 
-  background-color: #51b7ab;
+  background-color: rgb(11, 156, 156);
   color: floralwhite;
   padding: 10px;
   border-radius: 5px;
   width: 150px; 
-  box-shadow: 0 0 8px #ffffff;
+  cursor: initial;
+  box-shadow: 0 0 8px pink, 0 0 8px pink;
+}
+.balloon button{
+  margin: auto;
+  background-color: rgb(249, 99, 99);
+  color: white;
+  padding: 5px 20px;
+  border-radius: 5px;
 }
 
 .balloon::before {
@@ -297,14 +238,16 @@
   height: 0; 
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
-  border-bottom: 15px solid #51b7ab;
+  border-bottom: 15px solid rgb(11, 156, 156);
 }
 .turnos-personal table .accion-cabeza p{
   background: none;
   border: none;
   padding: 0;
   cursor: initial;
+  margin: auto;
 }
+
 .turnos-personal table tbody .names{
   cursor: pointer;
   position: relative;
@@ -313,16 +256,18 @@
   width: auto;
   font-size: 11px;
 }
+
 .turnos-personal table .names:hover{
   text-decoration: underline;
 }
 .turnos-personal main table tbody tr{
   transition: .2s ease;
 }
-.turnos-personal main table tbody tr:hover{
+.turnos-personal table tbody tr:hover{
   background-color: rgb(206, 216, 255);
 }
-.turnos-personal main table tbody td{
+
+.turnos-personal table tbody td{
   padding: 0;
 }
 .turnos-personal table tbody td select{
@@ -342,6 +287,9 @@
 .turnos-personal table tbody td select:hover{
   background-color: rgb(206, 216, 255);
 }
+.turnos-personal table tbody td select:focus{
+  background-color: rgb(206, 216, 255);
+}
 .turnos-personal table tbody td select option{
   color: black;
   background-color: white;
@@ -352,6 +300,7 @@
   background-color: rgb(97, 208, 97);
   color: white;
   font-weight: bold;
+  pointer-events: none;
 }
 
 .turnos-personal table .domingo{
@@ -360,7 +309,8 @@
 }
 
 .turnos-personal table .bloqueada {
-  background-color: rgba(255, 36, 36, 0.518);
+  background-color: rgba(255, 117, 117, 0.689);
+  border: rgb(249, 92, 92) solid 1px;
   pointer-events: none;
 } 
 .turnos-personal table thead tr .bloqueada{

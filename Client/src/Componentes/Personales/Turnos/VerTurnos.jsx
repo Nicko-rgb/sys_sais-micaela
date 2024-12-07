@@ -257,7 +257,7 @@ const AsignaTurno = ({ closeTurnos }) => {
                     ) : (
                         <table>
                             <thead>
-                                <tr style={{ backgroundColor: '#f5ce71', fontFamily: 'calibri' }}>
+                                <tr>
                                     <th>N°</th>
                                     <th className="cab">Personal</th>
                                     {fechasDelMes.map((fecha, index) => {

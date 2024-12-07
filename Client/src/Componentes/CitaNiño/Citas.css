@@ -189,7 +189,7 @@
     font-size: 13px;
     padding: 4px 6px;
     font-weight: 540;
-    background-color: #07c5af;
+    background-color: rgb(49, 162, 124);
 }
 .cita-nino table td {
     margin: 0;
@@ -316,8 +316,10 @@
     animation: fadeIn .5s ease;
     background-color: rgb(255, 255, 255);
 }
-.borrar-cita h2 {
+.borrar-cita .contend h2 {
     margin: 0;
+    margin-bottom: -20px;
+    text-shadow: 0 0 1px rgb(252, 74, 74);
 }
 .borrar-cita .contend span {
     font-weight: bold;
@@ -332,4 +334,11 @@
     width: 120px;
     height: 40px;
     border-radius: 6px;
+}
+.borrar-cita .btn-cancel {
+    background-color: #6c757d;
+    color: #FFFFFF;
+}
+.borrar-cita .btn-cancel:hover {
+    background-color: #455a64;
 }

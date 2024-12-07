@@ -19,33 +19,37 @@
         transform: scale(0);
         opacity: 0;
     }
+
     to {
         transform: scale(1);
         opacity: 1;
     }
 }
-.reg-personal form{
+
+.reg-personal form {
     animation: scaleIn 0.3s forwards;
     position: relative;
     padding: 20px 30px;
     padding-bottom: 100px;
     background-color: white;
-    box-shadow: 0 0 7px  dodgerblue;
+    box-shadow: 0 0 7px dodgerblue;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    font-family:'poppins';
+    font-family: 'poppins';
     max-width: 1200px;
 }
-.reg-personal form h3{
+
+.reg-personal form h3 {
     margin: 0;
     text-align: center;
     font-size: 25px;
     color: black;
     padding-bottom: 20px;
 }
-.reg-personal .close-personal-form{
+
+.reg-personal .close-personal-form {
     position: absolute;
     top: -40px;
     right: 10px;
@@ -54,39 +58,51 @@
     color: #333;
     cursor: pointer;
     transition: 0.3s ease;
-} 
-.reg-personal .close-personal-form:hover{
+}
+
+.reg-personal .close-personal-form:hover {
     transform: scale(1.05);
 }
+
 .reg-personal form .fc {
     display: flex;
     flex-direction: row;
     gap: 20px;
 }
-.reg-personal form .fd, .reg-personal form .fi {
+
+.reg-personal form .fd,
+.reg-personal form .fi {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
-.reg-personal form .fc .fd, .reg-personal form .fc .fi {
+
+.reg-personal form .fc .fd,
+.reg-personal form .fc .fi {
     display: flex;
     flex-direction: column;
 }
-.reg-personal form .fc .fd div, .reg-personal form .fc .fi div{
+
+.reg-personal form .fc .fd div,
+.reg-personal form .fc .fi div {
     display: flex;
     flex-direction: row;
     gap: 20px;
 }
-.reg-personal form div label{
+
+.reg-personal form div label {
     width: 100%;
     display: flex;
     font-size: 16px;
     flex-direction: column;
 }
-.reg-personal form .combos{
+
+.reg-personal form .combos {
     width: 102%;
 }
-.reg-personal form input, .reg-personal form select{
+
+.reg-personal form input,
+.reg-personal form select {
     font-family: 'poppins';
     border: rgba(96, 164, 216, 0.335) solid 2px;
     border-radius: 6px;
@@ -95,20 +111,25 @@
     text-transform: uppercase;
     font-weight: bold;
 }
-.reg-personal form input:focus, .reg-personal form select:focus {
+
+.reg-personal form input:focus,
+.reg-personal form select:focus {
     border: none;
-    outline: rgba(30, 143, 255, 0.833) 2px solid ;
+    outline: rgba(30, 143, 255, 0.833) 2px solid;
 }
-.reg-personal form input{
+
+.reg-personal form input {
     width: initial;
     width: 100%;
     font-weight: bold;
     color: #413f3f;
 }
-.reg-personal .especialidad{
+
+.reg-personal .especialidad {
     height: 60px;
     margin-top: 10px;
 }
+
 .reg-personal .label-especialidad {
     display: flex;
     flex-direction: row;
@@ -116,21 +137,24 @@
     align-items: center;
     cursor: pointer;
 }
-.reg-personal .label-especialidad input{
+
+.reg-personal .label-especialidad input {
     width: auto;
     padding: 0;
     box-shadow: none;
-    height:15px;
+    height: 15px;
     cursor: pointer;
     width: 15px;
 }
+
 .reg-personal form .btns {
     display: flex;
     justify-content: space-evenly;
 }
-.reg-personal form .btns button{
+
+.reg-personal form .btns button {
     padding: 9px 40px;
-    margin: auto; 
+    margin: auto;
     margin-top: 10px;
     font-family: 'poppins';
     font-weight: bold;
@@ -142,32 +166,37 @@
     width: 130px;
 }
 
-.reg-personal form .ico{
+.reg-personal form .ico {
     font-size: 22px;
 }
-.reg-personal form .flotar{
+
+.reg-personal form .flotar {
     animation: flotar .5s;
     transition: 4s ease;
 }
+
 @keyframes flotar {
     0% {
         transform: translateY(0);
     }
-    50%{
+
+    50% {
         transform: translateY(-4px);
     }
+
     100% {
         transform: scaleY(0);
     }
 }
 
-.reg-personal .box-msg{
+.reg-personal .box-msg {
     height: 20px;
     display: flex;
     justify-content: center;
     margin-top: 10px;
 }
-.reg-personal .msg-personal{
+
+.reg-personal .msg-personal {
     color: rgb(246, 58, 89);
     font-size: 14px;
     text-align: center;
@@ -178,16 +207,25 @@
 .reg-personal .credencialesAcceso {
     margin-top: 20px;
 }
+
 .reg-personal .credencialesAcceso fieldset {
     display: flex;
-    border: 1px solid rgba(0, 0, 0, 0.5); /* Color negro más suave */
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    /* Color negro más suave */
     padding: 15px;
-    border-radius: 10px; /* Aumento del radio de las esquinas */
+    border-radius: 10px;
+    /* Aumento del radio de las esquinas */
     gap: 18px;
-  }
+}
 
 .reg-personal .credencialesAcceso legend {
     /* font-weight: bold; */
     padding: 0 5px;
     color: #000;
-  }
+}
+@media (max-width: 1100px) {
+    .reg-personal form .fc {
+        display: flex;
+        flex-direction: column;
+    }
+}

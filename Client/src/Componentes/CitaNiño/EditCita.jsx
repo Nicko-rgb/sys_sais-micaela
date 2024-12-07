@@ -45,7 +45,7 @@ const EditCita = ({ closeForm, citaData, horarios, formatTime, especialidad }) =
                 <div>
                     <label>
                         Apellidos
-                        <input className='no-edit' type="text" value={citaData.apellidos} disabled />
+                        <input className='no-edit' type="text" value={`${citaData.ape_paterno} ${citaData.ape_materno} `} disabled />
                     </label>
                     <label>
                         Nombres
@@ -59,7 +59,7 @@ const EditCita = ({ closeForm, citaData, horarios, formatTime, especialidad }) =
                     </label>
                     <label>
                         Fecha de Nacimiento
-                        <input className='no-edit' type="date" value={fFecha(citaData.fechaNacimiento)} disabled />
+                        <input className='no-edit' type="date" value={fFecha(citaData.fecha_nacimiento)} disabled />
                     </label>
                 </div>
                 <div className="box-filtra">

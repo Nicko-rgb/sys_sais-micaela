@@ -125,13 +125,13 @@ const Personal = () => {
                         <Link to='/panel-niño' className='volver_link'>
                             <RiPlayReverseLargeFill /> VOLVER
                         </Link>
-                        <MdPersonSearch className='ico_buscar' />
                         <input
                             className='buscar-personal'
                             placeholder="Buscar por nombre, apellidos o DNI"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
+                        <MdPersonSearch className='ico_buscar' />
                         <button onClick={handleVerTurnos}>VER TURNOS <AiFillSchedule className="ico-verturnos" /></button>
                         <button className='btn-filtro' onClick={handleOpenFilter}>< MdMenuOpen className='ico' />Filtrar Datos</button>
                         {openFiltro && (
@@ -142,79 +142,72 @@ const Personal = () => {
                             </div>
                         )}
                     </div>
-                    {filteredPersonal.length > 0 ? (
-                        <>
-                            <p className='contador'> {filterStatus}: {filteredPersonal.length} de {personalSalud.length} </p>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>N°</th>
-                                        <th>DNI</th>
-                                        <th>Apellidos y Nombres</th>
-                                        <th>Tipo</th>
-                                        <th>Profesión</th>
-                                        <th>Servicio</th>
-                                        <th>Especialidad en Citas</th>
-                                        <th>Condición</th>
-                                        <th>Celular</th>
-                                        <th style={{ textAlign: "center" }}>Acción</th>
+                    <p className='contador'> {filterStatus}: {filteredPersonal.length} de {personalSalud.length} </p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>N°</th>
+                                <th>DNI</th>
+                                <th>Apellidos y Nombres</th>
+                                <th>Tipo</th>
+                                <th>Profesión</th>
+                                <th>Servicio</th>
+                                <th>Especialidad en Citas</th>
+                                <th>Condición</th>
+                                <th>Celular</th>
+                                <th style={{ textAlign: "center" }}>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredPersonal.length > 0 ? (
+                                displayedPersonal.map((personal, index) => (
+                                    <tr key={personal.id} className={personal.estado === 'inactivo' ? 'inactivo-row' : ''} >
+                                        <td style={{ textAlign: 'center' }}>{index + indexOfFirstItem + 1}</td>
+                                        <td>{personal.dni}</td>
+                                        <td>{personal.paterno} {personal.materno}, {personal.nombres} </td>
+                                        <td>{personal.tipo_user}</td>
+                                        <td>{personal.profesion}</td>
+                                        <td>{personal.servicio}</td>
+                                        <td>{personal.especial_cita || '----'}</td>
+                                        <td>{personal.condicion}</td>
+                                        <td>{personal.celular}</td>
+                                        <td className='accion'>
+                                            <div>
+                                                <button className={personal.estado === 'activo' ? 'activo' : 'inactivo'} onClick={() => handleToggleClick(personal)}>
+                                                    {personal.estado === 'activo' ? 'Inactivar' : 'Activar'}
+                                                    {personal.estado === 'activo' ? <FaXmark /> : <FaCheck />}
+                                                </button>
+                                                <button className='btn-edit' onClick={() => handleEditClick(personal)}>
+                                                    <FaUserEdit />Editar
+                                                </button>
+                                            </div>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {displayedPersonal.map((personal, index) => (
-                                        <tr key={personal.id} className={personal.estado === 'inactivo' ? 'inactivo-row' : ''} >
-                                            <td style={{ textAlign: 'center' }}>{index + indexOfFirstItem + 1}</td>
-                                            <td>{personal.dni}</td>
-                                            <td>{personal.paterno} {personal.materno}, {personal.nombres} </td>
-                                            <td>{personal.tipo_user}</td>
-                                            <td>{personal.profesion}</td>
-                                            <td>{personal.servicio}</td>
-                                            <td>{personal.especial_cita || '----'}</td>
-                                            <td>{personal.condicion}</td>
-                                            <td>{personal.celular}</td>
-                                            <td className='accion'>
-                                                <div>
-                                                    <button className={personal.estado === 'activo' ? 'activo' : 'inactivo'} onClick={() => handleToggleClick(personal)}>
-                                                        {personal.estado === 'activo' ? 'Inactivar' : 'Activar'}
-                                                        {personal.estado === 'activo' ? <FaXmark /> : <FaCheck />}
-                                                    </button>
-                                                    <button className='btn-edit' onClick={() => handleEditClick(personal)}>
-                                                        <FaUserEdit />Editar
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td style={{textAlign: 'center'}} colSpan="11">No hay resultados</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
 
-                            <div className="btns-pagina">
-                                <button
-                                    onClick={() => setCurrentPage(currentPage - 1)}
-                                    disabled={currentPage === 1} // Deshabilitar si está en la primera página
-                                >
-                                    <IoIosArrowBack />
-                                    Ver Menos
-                                </button>
-                                <button
-                                    onClick={() => setCurrentPage(currentPage + 1)}
-                                    disabled={indexOfLastItem >= reversedPersonal.length} // Deshabilitar si ya no hay más elementos
-                                >
-                                    Ver Más
-                                    <IoIosArrowForward />
-                                </button>
-                            </div>
-                            {/* import {MdNavigateNext, MdNavigateBefore} from "react-icons/md";
-                            import {IoIosArrowBack} from "react-icons/io";
-                            import {IoIosArrowForward} from "react-icons/io"; */}
-
-
-                        </>
-                    ) : (
-                        <p style={{ textAlign: 'center', marginTop: '20px', width: '93vw' }}>
-                            No se encontraron resultados.
-                        </p>
-                    )}
+                    <div className="btns-pagina">
+                        <button
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                            disabled={currentPage === 1} // Deshabilitar si está en la primera página
+                        >
+                            <IoIosArrowBack />
+                            Ver Menos
+                        </button>
+                        <button
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                            disabled={indexOfLastItem >= reversedPersonal.length} // Deshabilitar si ya no hay más elementos
+                        >
+                            Ver Más
+                            <IoIosArrowForward />
+                        </button>
+                    </div>
                 </section>
 
                 {verForm && (

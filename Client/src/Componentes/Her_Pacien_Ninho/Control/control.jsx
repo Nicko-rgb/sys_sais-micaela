@@ -42,7 +42,7 @@ const Control = () => {
     return (
         <div className="ControlPrincipal">
             {paciente ? (
-                <form className="control-form" onSubmit={handleSubmit}>
+                <form className="control-form" onSubmit={handleSubmit}> 
                     <h3>{paciente.hist_clinico} {paciente.nombres} </h3>
                     <div>
                         <Link to={`/panel/${paciente.hist_clinico}`} className=''>

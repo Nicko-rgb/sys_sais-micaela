@@ -29,7 +29,7 @@ const Panel = () => {
     };
 
     return (
-        <div className="panel">
+        <div className="panel"> 
             <NavLogin />
             <div className="sub_panel">
                 <h5>Panel de Servicios Para el Niño</h5>

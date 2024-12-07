@@ -104,3 +104,13 @@
 .checkbutton:hover {
   background-color: #45a049;
 }
+
+.volverbutton {
+  margin: 10px 0;
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Select from 'react-select';
 import './select.css'; // Asegúrate de que tu archivo CSS esté importado
 import { IoAddCircle } from "react-icons/io5";
 
 const Selected = ({ onProfesionChange, onServicioChange }) => {
     const [profesiones, setProfesiones] = useState([]);
     const [servicios, setServicios] = useState([]);
-    const [selectedProfesion, setSelectedProfesion] = useState(null);
-    const [selectedServicio, setSelectedServicio] = useState(null);
+    const [selectedProfesion, setSelectedProfesion] = useState('');
+    const [selectedServicio, setSelectedServicio] = useState('');
 
     useEffect(() => {
         // Cargar profesiones y servicios desde la API
@@ -19,8 +18,8 @@ const Selected = ({ onProfesionChange, onServicioChange }) => {
                 if (profesionResponse.ok && servicioResponse.ok) {
                     const profesionesData = await profesionResponse.json();
                     const serviciosData = await servicioResponse.json();
-                    setProfesiones(profesionesData.map(prof => ({ value: prof.id_profesion, label: prof.nombre_profesion })));
-                    setServicios(serviciosData.map(serv => ({ value: serv.id_servicio, label: serv.nombre_servicio })));
+                    setProfesiones(profesionesData);
+                    setServicios(serviciosData);
                 } else {
                     console.error("Error al cargar profesiones o servicios.");
                 }
@@ -32,14 +31,18 @@ const Selected = ({ onProfesionChange, onServicioChange }) => {
         fetchOptions();
     }, []);
 
-    const handleProfesionChange = (selectedOption) => {
+    const handleProfesionChange = (event) => {
+        const selectedOption = event.target.value;
         setSelectedProfesion(selectedOption);
-        onProfesionChange(selectedOption); // Llama al callback para pasar el valor seleccionado al componente padre
+        const profesionObj = profesiones.find((prof) => prof.id_profesion === parseInt(selectedOption));
+        if (profesionObj) onProfesionChange(profesionObj);
     };
 
-    const handleServicioChange = (selectedOption) => {
+    const handleServicioChange = (event) => {
+        const selectedOption = event.target.value;
         setSelectedServicio(selectedOption);
-        onServicioChange(selectedOption); // Llama al callback para pasar el valor seleccionado al componente padre
+        const servicioObj = servicios.find((serv) => serv.id_servicio === parseInt(selectedOption));
+        if (servicioObj) onServicioChange(servicioObj);
     };
 
     const handleAddProfesion = async () => {
@@ -49,14 +52,14 @@ const Selected = ({ onProfesionChange, onServicioChange }) => {
                 const response = await fetch('http://localhost:5000/api/personal/guardar-profes-servi', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ profesion: nuevaProfesion }) // Cambié 'nombre_profesion' a 'profesion'
+                    body: JSON.stringify({ profesion: nuevaProfesion })
                 });
 
                 if (response.ok) {
                     const nuevaProfesionData = await response.json();
-                    setProfesiones([...profesiones, { value: nuevaProfesionData.id_profesion, label: nuevaProfesionData.nombre_profesion }]);
-                    setSelectedProfesion({ label: nuevaProfesionData.nombre_profesion, value: nuevaProfesionData.id_profesion });
-                    onProfesionChange({ label: nuevaProfesionData.nombre_profesion, value: nuevaProfesionData.id_profesion });
+                    setProfesiones([...profesiones, nuevaProfesionData]);
+                    setSelectedProfesion(nuevaProfesionData.id_profesion);
+                    onProfesionChange(nuevaProfesionData);
                 } else {
                     alert("Error al agregar la profesión.");
                 }
@@ -74,14 +77,14 @@ const Selected = ({ onProfesionChange, onServicioChange }) => {
                 const response = await fetch('http://localhost:5000/api/personal/guardar-profes-servi', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ servicio: nuevoServicio }) // Cambié 'nombre_servicio' a 'servicio'
+                    body: JSON.stringify({ servicio: nuevoServicio })
                 });
 
                 if (response.ok) {
                     const nuevoServicioData = await response.json();
-                    setServicios([...servicios, { value: nuevoServicioData.id_servicio, label: nuevoServicioData.nombre_servicio }]);
-                    setSelectedServicio({ label: nuevoServicioData.nombre_servicio, value: nuevoServicioData.id_servicio });
-                    onServicioChange({ label: nuevoServicioData.nombre_servicio, value: nuevoServicioData.id_servicio });
+                    setServicios([...servicios, nuevoServicioData]);
+                    setSelectedServicio(nuevoServicioData.id_servicio);
+                    onServicioChange(nuevoServicioData);
                 } else {
                     alert("Error al agregar el servicio.");
                 }
@@ -97,25 +100,27 @@ const Selected = ({ onProfesionChange, onServicioChange }) => {
             <label>
                 Profesión:
                 <IoAddCircle className='ico-mas' onClick={handleAddProfesion} />
-                <Select
-                    options={profesiones}
-                    value={selectedProfesion}
-                    onChange={handleProfesionChange}
-                    placeholder="Seleccione una profesión" // Placeholder más descriptivo
-                    isClearable // Permite limpiar la selección
-                />
+                <select value={selectedProfesion} onChange={handleProfesionChange}>
+                    <option value="">Seleccione una profesión</option>
+                    {profesiones.map((prof) => (
+                        <option key={prof.id_profesion} value={prof.id_profesion}>
+                            {prof.nombre_profesion}
+                        </option>
+                    ))}
+                </select>
             </label>
 
             <label>
                 Servicio:
                 <IoAddCircle className='ico-mas' onClick={handleAddServicio} />
-                <Select
-                    options={servicios}
-                    value={selectedServicio}
-                    onChange={handleServicioChange}
-                    placeholder="Seleccione un servicio" // Placeholder más descriptivo
-                    isClearable // Permite limpiar la selección
-                />
+                <select value={selectedServicio} onChange={handleServicioChange}>
+                    <option value="">Seleccione un servicio</option>
+                    {servicios.map((serv) => (
+                        <option key={serv.id_servicio} value={serv.id_servicio}>
+                            {serv.nombre_servicio}
+                        </option>
+                    ))}
+                </select>
             </label>
         </div>
     );

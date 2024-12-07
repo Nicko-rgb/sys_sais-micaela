@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './personal.css';
 import { Link } from 'react-router-dom';
 import NavLogin from '../Navegadores/NavLogin';
@@ -8,25 +8,26 @@ import EditPersonales from './EditPersonales/EditPersonales';
 import VerTurnos from './Turnos/VerTurnos';
 import { IoPersonAddSharp } from 'react-icons/io5';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
-import { MdPersonSearch, MdMenuOpen  } from 'react-icons/md';
+import { MdPersonSearch, MdMenuOpen } from 'react-icons/md';
 import { FaUserEdit } from 'react-icons/fa';
 import { AiFillSchedule } from "react-icons/ai";
 import { FaXmark, FaCheck } from "react-icons/fa6";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import Store from '../Store/Store_Cita_Turno';
 
- 
 const Personal = () => {
     const [verForm, setVerForm] = useState(false);
-    const [personalList, setPersonalList] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [isModalOpen, setIsModalOpen] = useState(false);  // Estado para controlar el modal de edición
-    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false); // Modal de confirmación
-    const [personalToEdit, setPersonalToEdit] = useState(null); // Estado para almacenar el personal seleccionado
-    const [personalToToggle, setPersonalToToggle] = useState(null); // Estado para el personal a activar/inactivar
-    const [currentPage, setCurrentPage] = useState(1); // Estado para la página actual
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+    const [personalToEdit, setPersonalToEdit] = useState(null);
+    const [personalToToggle, setPersonalToToggle] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10; // Número de registros por página
-    const [openFiltro, setOpenFiltro] = useState(false); // Estado para controlar el filtro desplegable
-    const [filterStatus, setFilterStatus] = useState('activo'); // Estado para filtrar por activo/inactivo/todos
+    const [openFiltro, setOpenFiltro] = useState(false);
+    const [filterStatus, setFilterStatus] = useState('activo');
     const [verTurnos, setVerTurnos] = useState(false)
+    const { personalSalud } = Store()
 
     const handleForm = () => {
         setVerForm(!verForm);
@@ -34,25 +35,9 @@ const Personal = () => {
     const handleVerTurnos = () => {
         setVerTurnos(!verTurnos)
     }
-    // Obtener la lista de personal desde el backend
-    const fetchPersonal = async () => {
-        try {
-            const response = await fetch('http://localhost:5000/api/obtener/personal-salud');
-            const data = await response.json();
-            setPersonalList(data);
-        } catch (error) {
-            console.error('Error al obtener el personal:', error);
-        }
-    };
-
-    useEffect(() => {
-        fetchPersonal(); // Carga inicial de datos
-        const intervalId = setInterval(fetchPersonal, 5000); // Polling cada 5 segundos
-        return () => clearInterval(intervalId); // Limpiar el intervalo al desmontar el componente
-    }, []);
 
     // Filtrar la lista de personal según el término de búsqueda y el estado (activo/inactivo)
-    const filteredPersonal = personalList.filter(personal => {
+    const filteredPersonal = personalSalud.filter(personal => {
         const fullName = `${personal.paterno} ${personal.materno} ${personal.nombres}`.toLowerCase();
         const searchTerms = searchTerm.toLowerCase().split(" "); // Dividir términos de búsqueda
         const matchSearch = searchTerms.every(term =>
@@ -104,7 +89,6 @@ const Personal = () => {
                 throw new Error('Error al actualizar el estado');
             }
 
-            fetchPersonal(); // Refrescar la lista
             setIsConfirmModalOpen(false);  // Cerrar el modal
         } catch (error) {
             console.error('Error al actualizar el estado:', error);
@@ -132,12 +116,10 @@ const Personal = () => {
         <div className="personal-salud">
             <NavLogin />
             <div className='sub-personal'>
-                <h3>LISTA DE PERSONAL DE SALUD ACTUAL</h3>
-                <div className='div-btn'>
-                    <button className='open-form' onClick={handleForm}>
-                        <IoPersonAddSharp /> REGISTRAR NUEVO
-                    </button>
-                </div> 
+                <h3 className='title-page'>LISTA DE PERSONAL DE SALUD ACTUAL</h3>
+                <button className='open-form' onClick={handleForm}>
+                    <IoPersonAddSharp /> Registrar Nuevo
+                </button>
                 <section>
                     <div className="box-buscar">
                         <Link to='/panel-niño' className='volver_link'>
@@ -162,6 +144,7 @@ const Personal = () => {
                     </div>
                     {filteredPersonal.length > 0 ? (
                         <>
+                            <p className='contador'> {filterStatus}: {filteredPersonal.length} de {personalSalud.length} </p>
                             <table>
                                 <thead>
                                     <tr>
@@ -189,13 +172,13 @@ const Personal = () => {
                                             <td>{personal.especial_cita || '----'}</td>
                                             <td>{personal.condicion}</td>
                                             <td>{personal.celular}</td>
-                                            <td className='btns'>
+                                            <td className='accion'>
                                                 <div>
                                                     <button className={personal.estado === 'activo' ? 'activo' : 'inactivo'} onClick={() => handleToggleClick(personal)}>
                                                         {personal.estado === 'activo' ? 'Inactivar' : 'Activar'}
-                                                        {personal.estado === 'activo' ? <FaXmark /> : <FaCheck /> }
+                                                        {personal.estado === 'activo' ? <FaXmark /> : <FaCheck />}
                                                     </button>
-                                                    <button onClick={() => handleEditClick(personal)}>
+                                                    <button className='btn-edit' onClick={() => handleEditClick(personal)}>
                                                         <FaUserEdit />Editar
                                                     </button>
                                                 </div>
@@ -205,22 +188,25 @@ const Personal = () => {
                                 </tbody>
                             </table>
 
-                            <div className="pagination">
-                                <div className="pagination-buttons">
-                                    {currentPage > 1 && (
-                                        <>
-                                            <button onClick={() => setCurrentPage(currentPage - 1)}>Ver Menos</button>
-                                            <button onClick={() => setCurrentPage(currentPage + 1)}>Ver Más</button>
-                                        </>
-                                    )}
-                                    {indexOfLastItem < reversedPersonal.length && (
-                                        <>
-                                            <button onClick={() => setCurrentPage(currentPage - 1)}>Ver Menos</button>
-                                            <button onClick={() => setCurrentPage(currentPage + 1)}>Ver Más</button>
-                                        </>
-                                    )}
-                                </div>
+                            <div className="btns-pagina">
+                                <button
+                                    onClick={() => setCurrentPage(currentPage - 1)}
+                                    disabled={currentPage === 1} // Deshabilitar si está en la primera página
+                                >
+                                    <IoIosArrowBack />
+                                    Ver Menos
+                                </button>
+                                <button
+                                    onClick={() => setCurrentPage(currentPage + 1)}
+                                    disabled={indexOfLastItem >= reversedPersonal.length} // Deshabilitar si ya no hay más elementos
+                                >
+                                    Ver Más
+                                    <IoIosArrowForward />
+                                </button>
                             </div>
+                            {/* import {MdNavigateNext, MdNavigateBefore} from "react-icons/md";
+                            import {IoIosArrowBack} from "react-icons/io";
+                            import {IoIosArrowForward} from "react-icons/io"; */}
 
 
                         </>

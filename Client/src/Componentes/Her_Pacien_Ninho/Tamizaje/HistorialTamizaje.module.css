@@ -1,11 +1,40 @@
+.contGeneral {
+    width: 100%;
+    height: 100vh;
+    /* background-color: #f0f0f0; */
+    padding: 20px;
+    /* border: red solid 2px; */
+}
+
+.contGeneral .volver_link {
+    position: absolute;
+    top: 100px;
+    left: 230px;
+    cursor: pointer;
+    color: green;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    gap: 5PX;
+    font-family: 'poppins';
+    font-size: 14px;
+}
+
+.contGeneral .volver_link:hover {
+    background: rgb(209, 209, 209);
+}
+
 
 /* TamizajeDozaje.module.css */
-
 .container {
+
+    
     padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
+    /* background-color: #f9f9f9;
+    border: 1px solid #ce2a2a;   */
+    margin-top: 100px;
     border-radius: 5px;
+    /* width: 80%; */
 }
 
 .titHist {
@@ -13,6 +42,8 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    padding-left: 350px;
+    padding-right: 510px;
 }
 
 .titHist h3 {
@@ -36,14 +67,20 @@
     background-color: #45a049;
 }
 
-.table-responsive {
-    overflow-x: auto;
+.table_responsive {
+    width: 70%;
+    /* overflow-x: auto; */
+    border: rgb(255, 196, 0) solid 2px;
+    /* justify-content:center; */
+    /* text-align: center; */
+    /* padding-left: 350px; */
+    margin-left: 220px;
 }
 
 .table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 15px;
+    /* margin-bottom: 15px; */
 }
 
 .table th,
@@ -72,12 +109,22 @@
     border: none;
     font-size: 1.2rem;
     cursor: pointer;
-    margin: 0 5px;
+    margin: 0 2px;
+    /* border: red solid 2px;   */
+    gap: 15px;
 }
 
-.actionButton:hover {
-    color: #007bff;
+.table .button {
+    display: flex;
+    justify-content: center;
 }
+
+
+.table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
 
 .pagination {
     display: flex;

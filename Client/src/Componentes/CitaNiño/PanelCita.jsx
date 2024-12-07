@@ -11,6 +11,7 @@ import { FaUserDoctor } from "react-icons/fa6";
 import { MdPsychology } from "react-icons/md";
 import { FaTooth, FaCalendarAlt, FaBaby } from 'react-icons/fa';
 import { LiaNutritionix } from "react-icons/lia";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 const OpcionesCita = () => {
     const [citasData, setCitasData] = useState([]);
@@ -68,8 +69,9 @@ const OpcionesCita = () => {
             const fullName = `${cita.nombres} ${cita.apellidos}`.toLowerCase();
             const reverseName = `${cita.apellidos} ${cita.nombres}`.toLowerCase();
             const normalizedSearchTerm = searchTerm.trim().toLowerCase().replace(/\s+/g, ' ');
-
-            const matchDate = !searchDate || cita.fecha === searchDate;
+            
+            
+            const matchDate = !searchDate || new Date(cita.fecha).toISOString().split('T')[0] === new Date(searchDate).toISOString().split('T')[0];
             const matchSearch = !search ||
                 fullName.includes(normalizedSearchTerm) ||
                 reverseName.includes(normalizedSearchTerm) ||
@@ -131,6 +133,8 @@ const OpcionesCita = () => {
         return texto
     }
 
+    const fActual = new Date()        
+
     return (
         <div className="opciones-cita">
             <NavLogin />
@@ -153,11 +157,11 @@ const OpcionesCita = () => {
                                 </button>
                             );
                         })}
-                    </div>
+                    </div> 
                 </section>
                 <div className="container-tabla">
                     <hr />
-                    <p>CITAS PENDIENTES CERCANAS {searchDate}</p>
+                    <p>CITAS PENDIENTES CERCANAS - {new Date(fActual).toLocaleDateString()}</p>
                     <div className="sub-contend">
                         <div className="box_buscar">
                             <input
@@ -175,7 +179,7 @@ const OpcionesCita = () => {
                                 onChange={handleDateChange}
                             />
                             <MdOutlineInfo className='ico-info' />
-                            <p className="msg-ico">Escriba una fecha</p>
+                            <p className="msg-ico">Selecione una fecha.</p>
                         </div>
                         <table>
                             <thead>
@@ -220,12 +224,14 @@ const OpcionesCita = () => {
                     </div>
 
                     {/* Botones de paginación */}
-                    <div className="pagination">
-                        <button onClick={prevPage} className={currentPage === 1 ? '' : 'btn-a'} disabled={currentPage === 1}>
+                    <div className="btns-pagina">
+                        <button onClick={prevPage} disabled={currentPage === 1}>
+                            <IoIosArrowBack />
                             Ver menos
                         </button>
-                        <button onClick={nextPage} className={endIndex >= filteredCitas.length ? '' : 'btn-a'}>
+                        <button onClick={nextPage} disabled={endIndex >= filteredCitas.length} >
                             Ver más
+                            <IoIosArrowForward />
                         </button>
                     </div>
                 </div>

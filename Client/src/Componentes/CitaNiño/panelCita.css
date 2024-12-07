@@ -113,18 +113,12 @@
   padding: 4px;
  }
 .opciones-cita .box_buscar {
-  max-width: 706px;
+  max-width: 700px;
   width: 100%;
   box-sizing: border-box;
   position: relative;
   display: flex;
   gap: 20px;
-}
-.opciones-cita .box_buscar .ico_buscar{
-  position: absolute;
-  font-size: 23px;
-  top: 5px;
-  left: 5px;
 }
 .opciones-cita .box_buscar .ico-info {
   position: absolute;
@@ -153,14 +147,21 @@
   padding: 4px;
   font-size: 15px;
   outline: none;
-  color: rgb(96, 93, 93);
   border: gray solid 1px;
   width: auto;
+}
+.opciones-cita .box_buscar .ico_buscar{
+  position: absolute;
+  font-size: 23px;
+  top: 5px;
+  left: 5px;
+  color: gray;
 }
 .opciones-cita .box_buscar .txt-buscar {
   width: 85%;
   padding-left: 33px;
-
+  font-weight: 600;
+  color: black;
   text-transform: capitalize;
 }
 .opciones-cita .box_buscar .txt-buscar::placeholder{
@@ -168,8 +169,9 @@
   text-transform: capitalize;
   font-size: .9em;
 }
-.opciones-cita .box_buscar .txt-buscar:focus{
-  border: #00796b solid 1px;
+.opciones-cita .box_buscar input:focus{
+  outline: #00796b solid 2px;
+  border: none;
 }
 .opciones-cita .txt-buscar:focus ~ .ico_buscar {
   color: #00796b;
@@ -197,25 +199,8 @@
   align-items: center;
   cursor: pointer;
 }
-.opciones-cita .pagination{
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
-.opciones-cita .pagination button{
-  width: 100px;
-  padding: 5px;
-  border: none;
-  background-color: #818786;
-  font-family: 'poppins';
-  cursor: no-drop;
-}
-.opciones-cita .pagination .btn-a {
-  background-color: #00796b;
-  cursor: pointer;
-}
 .opciones-cita th,
-td {
+.opciones-cita td {
   padding: 6px;
   text-align: left;
   border: 1px solid gray;
@@ -231,4 +216,9 @@ td {
 .opciones-cita tbody tr:hover {
   background-color: rgb(206, 216, 255);
 
+}
+
+.opciones-cita .btns-pagina{
+  display: flex;
+  gap: 20px;
 }

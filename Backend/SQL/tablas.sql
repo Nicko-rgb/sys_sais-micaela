@@ -55,7 +55,8 @@ CREATE TABLE pacientes (
     distrito VARCHAR(50),
     tipo_paciente VARCHAR(50) NOT NULL,
     id_responsable INT,
-    FOREIGN KEY (id_responsable) REFERENCES responsable_de_paciente (id_responsable) ON DELETE SET NULL
+    FOREIGN KEY (id_responsable) REFERENCES responsable_de_paciente (id_responsable) ON DELETE SET NULL,
+    fechaRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 --CREAR UNA TABLA PARA LA CITAS PARA EL PACIENTE DE TIPO NIÑO

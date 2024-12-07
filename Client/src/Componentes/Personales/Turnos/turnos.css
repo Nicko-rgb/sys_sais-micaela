@@ -92,63 +92,72 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: auto;
 }
-
+.turnos-personal main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .turnos-personal main>h3 {
   font-size: large;
   font-family: 'poppins';
 }
-
+.turnos-personal main section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .turnos-personal .acciones {
   display: flex;
   align-items: center;
   flex-direction: row;
+  justify-content: center;
   position: relative;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 20px;
+  /* border: black solid 1px; */
+  height: 30px;
 }
 .turnos-personal .volver_link{
   position: absolute;
-  top: -17px;
+  top: -35px;
 }
 .turnos-personal .acciones input {
-  width: 25%;
-  padding: 7px;
+  width: 380px;
+  height: 100%;
   padding-left: 35px;
   border: none;
   box-shadow: 0 0 3px black;
   outline: none;
+  font-weight: 500;
 }
-
+.turnos-personal .acciones input:focus {
+  outline: #00796b solid 2px;
+  box-shadow: none;
+}
 .turnos-personal .acciones .ico_buscar {
   position: absolute;
-  top: 20px;
-  /* outline: none; */
+  font-size: 20px;
+  top: 5px;
+  left: 10px;
 }
 
 .turnos-personal .acciones .filtros{
   position: relative;
   z-index: 10;
+  height: 100%;
 }
 .turnos-personal .filtros .filtro span{
-  text-transform: uppercase;
+  text-transform: capitalize;
+  font-weight: 400;
+  font-size: 13px;
 }
-.turnos-personal .acciones div .btn-filtro {
-  width: 120px;
-  background-color: rgb(97, 208, 97);
-  color: white;
-  font-weight: bold;
-  font-size: 12px;
-  font-family: 'poppins';
-  border: none;
-  cursor: pointer;
-  display: flex;
-  justify-content: left;
-  gap: 3px;
-}
+
 .turnos-personal .acciones .filtro{
   position: absolute;
-  width: 116px;
+  left: 0;
+  width: 120px;
   background-color: rgb(46, 42, 42);
   display: flex;
   flex-direction: column;
@@ -165,37 +174,57 @@
 }
 .turnos-personal .acciones .ico{
   transform: rotate(-180deg);
-  font-size: 20px;
+  font-size: 18px;
 }
-.turnos-personal .acciones .contador{
+.turnos-personal .contador{
   font-family: 'poppins';
-  font-weight: bold;
-  font-size: 12px;
+  font-size: 14px;
   display: flex;
   align-items: center;
-  text-transform: uppercase;
+  margin: 0;
+  margin-top: 10px;
+  margin-bottom: 5px;
 }
 
 .turnos-personal .acciones .fecha-cambiar{
   display: flex;
-  flex: 1;
   align-items: center;
-  justify-content: end;
   gap: 10px;
-  
+  height: 100%;
 }
-
+.turnos-personal .fecha-cambiar h4{
+  margin: 0;
+  white-space: nowrap;
+  font-weight: 550;
+  font-size: 15px;
+}
 .turnos-personal .acciones button {
-  background-color: #00796b;
-  border: none;
+  background-color: #00796bb4;
+  height: 100%;
   padding: 5px 10px;
   display: flex;
-  gap: 5px;
+  font-size: 13px;
+  gap: 3px;
   color: white;
   font-family: 'poppins';
   display: flex;
   align-items: center;
-  cursor: pointer;
+  white-space: nowrap;
+}
+.turnos-personal .acciones .btn-export {
+  white-space: nowrap;
+  height: 100%;
+  margin: 0;
+  border: none;
+  display: flex;
+  align-items: center;
+  background-color: #00796bb4;
+  color: white;
+  gap: 3px;
+  text-transform: capitalize;
+}
+.turnos-personal .acciones .icoExport {
+  font-size: 16px;
 }
 
 .turnos-personal .acciones .ico-cambiar {
@@ -237,31 +266,6 @@
   font-weight: 400;
 }
 
-.turnos-personal .buttons-turno{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.turnos-personal .buttons-turno .paginacion{
-  display: flex;
-  gap: 20px;
-}
-.turnos-personal .buttons-turno .paginacion button{
-  height: 25px;
-  border-radius: 0;
-  border: none;
-  box-shadow: 0 0 1px black;
-}
-.turnos-personal .buttons-turno .btn-export{
-  background-color: #51b7ab;
-  height: 10px;
-  color: white;
-  font-weight: bold;
-}
-
-.turnos-personal .buttons-turno .btn-export .icoExport{
-  font-size: 18px;
-}
 
 @keyframes fadeIn {
   from {

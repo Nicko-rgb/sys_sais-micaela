@@ -26,19 +26,21 @@ const OpcionesI = ({ paciente }) => {
 
   const irAControl = () => {
     navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
-    };
 
-const Actualizarsuplemento = () => {
-  navigate(`/Actualizarsuplemento/${paciente.hist_clinico}`, { state: { paciente } });
-};
+  };
 
-const EvaluacionPsicomotor = () => {
-  navigate(`/EvaluacionPsicomotor/${paciente.hist_clinico}`, { state: {paciente} });
-}
- 
-const HistorialPsicomotor = () => {
-  navigate(`/HistorialPsicomotor/${paciente.hist_clinico}`, { state: {paciente} });
-}
+  }
+  const Actualizarsuplemento = () => {
+    navigate(`/Actualizarsuplemento/${paciente.hist_clinico}`, { state: { paciente } });
+  };
+
+  const EvaluacionPsicomotor = () => {
+    navigate(`/EvaluacionPsicomotor/${paciente.hist_clinico}`, { state: { paciente } });
+  }
+  const HisotiriaPsicomotor = ()=> {
+    navigate(`/HistorialPsicomotor/${paciente.hist_clinico}`, { state: { paciente } });
+  }
+
   const IraTamizaje = () => {
     navigate(`/tamizaje/${paciente.hist_clinico}`, { state: { paciente } });
   }
@@ -47,12 +49,12 @@ const HistorialPsicomotor = () => {
     navigate(`/historialtamizaje/${paciente.hist_clinico}`, { state: { paciente } });
   }
 
- const EntregaSuplementos = () => {
-  navigate(`/Entregasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar suplementos
- }
- const ListaSuplemento = () => {
-  navigate(`/Listasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
- }
+  const EntregaSuplementos = () => {
+    navigate(`/Entregasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar suplementos
+  }
+  const ListaSuplemento = () => {
+    navigate(`/Listasuplementos/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
+  }
 
 
   return (
@@ -121,7 +123,7 @@ const HistorialPsicomotor = () => {
             PSICOMOTOR
           </summary>
           <button onClick={EvaluacionPsicomotor}>Evaluacion Psicomotor</button>
-          <button on onClick={HistorialPsicomotor}> Historial Psicomotor</button>
+          <button onClick={HisotiriaPsicomotor} > Historial Psicomotor</button>
         </details>
         <details name="opcion" className="opcion-item">
           <summary>

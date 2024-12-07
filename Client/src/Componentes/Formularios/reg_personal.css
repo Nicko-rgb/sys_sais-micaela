@@ -27,38 +27,52 @@
 .reg-personal form{
     animation: scaleIn 0.3s forwards;
     position: relative;
-    max-width: 620px;
     padding: 20px 30px;
+    padding-bottom: 100px;
     background-color: white;
-    box-shadow: 0 0 7px  #00796b;
+    box-shadow: 0 0 7px  dodgerblue;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     gap: 12px;
     font-family:'poppins';
+    max-width: 1200px;
 }
 .reg-personal form h3{
     margin: 0;
     text-align: center;
     font-size: 25px;
+    color: black;
+    padding-bottom: 20px;
 }
 .reg-personal .close-personal-form{
     position: absolute;
-    top: 10px;
+    top: -40px;
     right: 10px;
-    font-size: 20px;
-    padding: 5px;
+    font-size: 40px;
     font-weight: bold;
-    border: red solid 1px;
-    border-radius: 50%;
-    color: red;
+    color: #333;
     cursor: pointer;
     transition: 0.3s ease;
 } 
 .reg-personal .close-personal-form:hover{
     transform: scale(1.05);
 }
-.reg-personal form div{
+.reg-personal form .fc {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.reg-personal form .fd, .reg-personal form .fi {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.reg-personal form .fc .fd, .reg-personal form .fc .fi {
+    display: flex;
+    flex-direction: column;
+}
+.reg-personal form .fc .fd div, .reg-personal form .fc .fi div{
     display: flex;
     flex-direction: row;
     gap: 20px;
@@ -78,6 +92,8 @@
     border-radius: 6px;
     font-size: 16px;
     padding: 8px;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 .reg-personal form input:focus, .reg-personal form select:focus {
     border: none;
@@ -90,7 +106,8 @@
     color: #413f3f;
 }
 .reg-personal .especialidad{
-    height: 50px;
+    height: 60px;
+    margin-top: 10px;
 }
 .reg-personal .label-especialidad {
     display: flex;
@@ -107,27 +124,24 @@
     cursor: pointer;
     width: 15px;
 }
-
-.reg-personal form .btn-personal{
+.reg-personal form .btns {
+    display: flex;
+    justify-content: space-evenly;
+}
+.reg-personal form .btns button{
     padding: 9px 40px;
     margin: auto; 
     margin-top: 10px;
-    cursor: pointer;
     font-family: 'poppins';
     font-weight: bold;
     border-radius: 5px;
-    border: none;
-    background-color: #069a89;
     color: white;
     display: flex;
     gap: 5px;
     align-items: center;
-    transition: .3s ease;
+    width: 130px;
 }
-.reg-personal form .btn-personal:hover{
-    background-color: #176b61;
-    box-shadow: 0 0 4px aqua;
-}
+
 .reg-personal form .ico{
     font-size: 22px;
 }
@@ -161,7 +175,10 @@
 }
 
 /* CREDENCIALES DE ACCESO */
-.credencialesAcceso fieldset {
+.reg-personal .credencialesAcceso {
+    margin-top: 20px;
+}
+.reg-personal .credencialesAcceso fieldset {
     display: flex;
     border: 1px solid rgba(0, 0, 0, 0.5); /* Color negro más suave */
     padding: 15px;
@@ -169,7 +186,7 @@
     gap: 18px;
   }
 
-.credencialesAcceso legend {
+.reg-personal .credencialesAcceso legend {
     /* font-weight: bold; */
     padding: 0 5px;
     color: #000;

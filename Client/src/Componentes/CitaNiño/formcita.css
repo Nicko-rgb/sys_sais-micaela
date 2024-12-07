@@ -60,6 +60,7 @@
     font-family: 'poppins';
     color: dodgerblue;
     margin: 0;
+    border: none;
 }
 .form-cita form .fechas {
     display: flex;
@@ -159,9 +160,7 @@
 }
 .form-cita form textarea {
     padding: 5px;
-    min-width: 100%;
-    max-width: 100%;
-    min-height: 70px;
+    min-height: 80px;
     outline: none;
     background-color: white;
 }

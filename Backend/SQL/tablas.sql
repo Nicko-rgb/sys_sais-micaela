@@ -93,13 +93,12 @@ CREATE TABLE horario_cita_nino (
     id INT AUTO_INCREMENT PRIMARY KEY,
     especialidad VARCHAR(50),
     icono VARCHAR(50),
-    turno VARCHAR(10), -- 'mañana' o 'tarde' receso
-    tipo_atencion VARCHAR(20), -- 'normal' o 'AtencionEspecial'
+    turno VARCHAR(10),
+    tipo_atencion VARCHAR(20),
     hora_inicio TIME,
     hora_fin TIME
 );
 
-USE db_sais;
 --CREAR UNA TABLA PARA MANEJAR LOS HORARIOS BLOQUEADOS
 CREATE TABLE hora_cita_nino_bloqueada (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -126,8 +125,8 @@ CREATE TABLE personal_salud (
     tipo_user VARCHAR(30) NOT NULL,
     profesion VARCHAR(40) NOT NULL,
     servicio VARCHAR(40) NOT NULL,
-    especial_cita VARCHAR(40) NOT NULL,
-    num_consultorio VARCHAR(1) NULL,
+    especial_cita VARCHAR(50),
+    num_consultorio VARCHAR(1),
     condicion VARCHAR(30) NOT NULL,
     celular VARCHAR(20) NOT NULL,
     correo VARCHAR(100) NOT NULL,
@@ -137,6 +136,8 @@ CREATE TABLE personal_salud (
     reset_token VARCHAR(255) DEFAULT NULL,
     fechaRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+ALTER TABLE personal_salud 
+    MODIFY COLUMN especial_cita VARCHAR(50)
 
 -- CREAMOS UNA TABLA PARA REGISTRAR TURNOS DE PERSONALES
 CREATE TABLE turnos_personal (

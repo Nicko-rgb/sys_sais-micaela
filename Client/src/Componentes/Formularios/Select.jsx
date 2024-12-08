@@ -9,12 +9,12 @@ const Selected = ({ onProfesionChange, onServicioChange }) => {
     const [selectedServicio, setSelectedServicio] = useState('');
 
     useEffect(() => {
-        // Cargar profesiones y servicios desde la API
+        // Función para cargar profesiones y servicios
         const fetchOptions = async () => {
             try {
                 const profesionResponse = await fetch('http://localhost:5000/api/obtener/profesiones');
                 const servicioResponse = await fetch('http://localhost:5000/api/obtener/servicios');
-
+    
                 if (profesionResponse.ok && servicioResponse.ok) {
                     const profesionesData = await profesionResponse.json();
                     const serviciosData = await servicioResponse.json();
@@ -27,9 +27,17 @@ const Selected = ({ onProfesionChange, onServicioChange }) => {
                 console.error("Error de red:", error);
             }
         };
-
+    
+        // Intervalo para ejecutar el polling
+        const intervalId = setInterval(fetchOptions, 1000);
+    
+        // Llama una vez al montar el componente
         fetchOptions();
+    
+        // Limpia el intervalo al desmontar el componente
+        return () => clearInterval(intervalId);
     }, []);
+    
 
     const handleProfesionChange = (event) => {
         const selectedOption = event.target.value;
@@ -48,11 +56,12 @@ const Selected = ({ onProfesionChange, onServicioChange }) => {
     const handleAddProfesion = async () => {
         const nuevaProfesion = prompt("Ingrese la nueva profesión:");
         if (nuevaProfesion) {
+            const profesionMayus = nuevaProfesion.toUpperCase();
             try {
                 const response = await fetch('http://localhost:5000/api/personal/guardar-profes-servi', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ profesion: nuevaProfesion })
+                    body: JSON.stringify({ profesion: profesionMayus })
                 });
 
                 if (response.ok) {
@@ -73,11 +82,12 @@ const Selected = ({ onProfesionChange, onServicioChange }) => {
     const handleAddServicio = async () => {
         const nuevoServicio = prompt("Ingrese el nuevo servicio:");
         if (nuevoServicio) {
+            const servicioEnMayusculas = nuevoServicio.toUpperCase();
             try {
                 const response = await fetch('http://localhost:5000/api/personal/guardar-profes-servi', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ servicio: nuevoServicio })
+                    body: JSON.stringify({ servicio: servicioEnMayusculas })
                 });
 
                 if (response.ok) {

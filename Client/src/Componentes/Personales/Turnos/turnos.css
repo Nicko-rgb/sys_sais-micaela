@@ -77,9 +77,9 @@
   height: 100%;
 }
 .turnos-personal .filtros .filtro span{
-  text-transform: capitalize;
+  text-transform: uppercase;
   font-weight: 400;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .turnos-personal .acciones .filtro{
@@ -301,11 +301,13 @@
   color: white;
   font-weight: bold;
   pointer-events: none;
+  z-index: 10;
 }
 
 .turnos-personal table .domingo{
   background: rgba(128, 128, 128, 0.534);
   pointer-events: none;
+  z-index: 9;
 }
 
 .turnos-personal table .bloqueada {

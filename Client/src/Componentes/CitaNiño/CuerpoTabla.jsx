@@ -213,51 +213,50 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
 
                             <td className="box-ac" style={{ padding: '0' }}>
                                 <div className="accion">
-                                    {/* Compara la fecha pasada con la fecha actual */}
-                                    {new Date(fecha) < new Date() && !responsable ? (
+                                    {new Date(fecha) < new Date() ? (
                                         <CiLock style={{ color: 'red', cursor: 'initial' }} className="ico ico-" title="Fecha pasada, no editable" />
                                     ) : (
-                                        <>
-                                            {!rowBlocked ? (
+                                        !rowBlocked ? (
+                                            cita ? (
                                                 <>
-                                                    {cita ? (
-                                                        <>
-                                                            <PiPencilLineBold
-                                                                title='EDITAR CITA'
-                                                                className="ico ico-edit"
-                                                                onClick={() => handleEditForm(cita)}
-                                                            />
-                                                            <RiDeleteBin6Line
-                                                                title='BORRAR CITA'
-                                                                className='ico ico-delete'
-                                                                onClick={() => handleDelete(cita)}
-                                                            />
-                                                        </>
-                                                    ) : (
-                                                        responsable ?
-                                                            <>
-                                                                <BiPlusCircle
-                                                                    title='AGREGAR CITA'
-                                                                    className="ico ico-mas"
-                                                                    onClick={() => handleOpenForm(horario.hora_inicio, horario.hora_fin, responsable)}
-                                                                />
-                                                                <RxValueNone
-                                                                    title='BLOQUEAR HORA'
-                                                                    className="ico ico-bloq"
-                                                                    onClick={() => handleBlockRow(horario)}
-                                                                />
-                                                            </>
-                                                            : <RxValueNone
-                                                                title='BLOQUEAR HORA'
-                                                                className="ico ico-bloq"
-                                                                onClick={() => handleBlockRow(horario)}
-                                                            />
-                                                    )}
+                                                    <PiPencilLineBold
+                                                        title='EDITAR CITA'
+                                                        className="ico ico-edit"
+                                                        onClick={() => handleEditForm(cita)}
+                                                    />
+                                                    <RiDeleteBin6Line
+                                                        title='BORRAR CITA'
+                                                        className='ico ico-delete'
+                                                        onClick={() => handleDelete(cita)}
+                                                    />
                                                 </>
                                             ) : (
-                                                <PiLockKeyOpenFill className="ico ico-abi" onClick={() => handleUnblockRow(horario)} />
-                                            )}
-                                        </>
+                                                responsable ?
+                                                    <>
+                                                        <BiPlusCircle
+                                                            title='AGREGAR CITA'
+                                                            className="ico ico-mas"
+                                                            onClick={() => handleOpenForm(horario.hora_inicio, horario.hora_fin, responsable)}
+                                                        />
+                                                        <RxValueNone
+                                                            title='BLOQUEAR HORA'
+                                                            className="ico ico-bloq"
+                                                            onClick={() => handleBlockRow(horario)}
+                                                        />
+                                                    </>
+                                                    : <RxValueNone
+                                                        title='BLOQUEAR HORA'
+                                                        className="ico ico-bloq"
+                                                        onClick={() => handleBlockRow(horario)}
+                                                    />
+                                            )
+                                        ) : (
+                                            <PiLockKeyOpenFill 
+                                                title='DESBLOQUEAR HORA'
+                                                className="ico ico-abi" 
+                                                onClick={() => handleUnblockRow(horario)} 
+                                            />
+                                        )
                                     )}
                                 </div>
                             </td>
@@ -274,7 +273,7 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                     hora={formData.hora}
                     especialidad={formData.especialidad}
                     consultorio={formData.consultorio}
-                    profesional = {formData.profesional}
+                    profesional={formData.profesional}
                 />
             )}
             {openEdit && (

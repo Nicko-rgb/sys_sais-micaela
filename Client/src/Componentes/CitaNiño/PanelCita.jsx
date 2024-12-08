@@ -11,7 +11,8 @@ import { FaUserDoctor } from "react-icons/fa6";
 import { MdPsychology } from "react-icons/md";
 import { FaTooth, FaCalendarAlt, FaBaby } from 'react-icons/fa';
 import { LiaNutritionix } from "react-icons/lia";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowForward, IoMdFemale, IoMdMale } from "react-icons/io";
+
 
 const OpcionesCita = () => {
     const [citasData, setCitasData] = useState([]);
@@ -69,8 +70,8 @@ const OpcionesCita = () => {
             const fullName = `${cita.nombres} ${cita.ape_paterno} ${cita.ape_materno}`.toLowerCase();
             const reverseName = `${cita.ape_paterno} ${cita.ape_materno} ${cita.nombres}`.toLowerCase();
             const normalizedSearchTerm = searchTerm.trim().toLowerCase().replace(/\s+/g, ' ');
-            
-            
+
+
             const matchDate = !searchDate || new Date(cita.fecha).toISOString().split('T')[0] === new Date(searchDate).toISOString().split('T')[0];
             const matchSearch = !search ||
                 fullName.includes(normalizedSearchTerm) ||
@@ -133,7 +134,7 @@ const OpcionesCita = () => {
         return texto
     }
 
-    const fActual = new Date()        
+    const fActual = new Date()
 
     return (
         <div className="opciones-cita">
@@ -157,7 +158,7 @@ const OpcionesCita = () => {
                                 </button>
                             );
                         })}
-                    </div> 
+                    </div>
                 </section>
                 <div className="container-tabla">
                     <hr />
@@ -206,7 +207,13 @@ const OpcionesCita = () => {
                                             <td>{startIndex + index + 1}</td>
                                             <td>{new Date(cita.fecha).toLocaleDateString()}</td>
                                             <td>{cita.hora}</td>
-                                            <td>{cita.ape_paterno} {cita.ape_materno} , {cita.nombres}</td>
+                                            <td>
+                                                {cita.sexo === 'Femenino' ? (
+                                                    <IoMdFemale style={{ color: 'hotpink', marginRight: '5px', fontSize: '15px' }} />
+                                                ) : (
+                                                    <IoMdMale style={{ color: 'blue', marginRight: '5px', fontSize: '15px' }} />
+                                                )}
+                                                {cita.ape_paterno} {cita.ape_materno} , {cita.nombres}</td>
                                             <td>{cita.profesional_cita || 'Nombre Médico'}</td>
                                             <td>{cita.estado || 'Estado'}</td>
                                             <td>{recortarTexto(cita.motivoConsulta)}</td>

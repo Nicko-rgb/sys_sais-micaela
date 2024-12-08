@@ -76,6 +76,27 @@ const Store = () => {
         }
     }
 
+    //para obtener profesion y servicio de personal de salud
+    const [profesiones, setProfesiones] = useState([]);
+    const [servicios, setServicios] = useState([]);
+    const fetchOptionsProfesServi = async () => {
+        try {
+            const profesionResponse = await fetch('http://localhost:5000/api/obtener/profesiones');
+            const servicioResponse = await fetch('http://localhost:5000/api/obtener/servicios');
+
+            if (profesionResponse.ok && servicioResponse.ok) {
+                const profesionesData = await profesionResponse.json();
+                const serviciosData = await servicioResponse.json();
+                setProfesiones(profesionesData);
+                setServicios(serviciosData);
+            } else {
+                console.error("Error al cargar profesiones o servicios.");
+            }
+        } catch (error) {
+            console.error("Error de red:", error);
+        }
+    };
+
     // Carga de datos 
     useEffect(() => {
         fetchPersonalSalud();
@@ -83,6 +104,7 @@ const Store = () => {
         fetchTiposDeTurno()
         fetchBlockedRows()
         fetchTurnosPersonal()
+        fetchOptionsProfesServi()
         return () => clearInterval(intervalId);
     }, []);
 
@@ -132,6 +154,8 @@ const Store = () => {
         blockedRows,
         citas,
         turnosPersonal,
+        profesiones,
+        servicios,
     }
 }
 

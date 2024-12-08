@@ -56,7 +56,7 @@ const RegPersonal = ({ handleForm }) => {
 
         const dataPersonal = {
             dni, paterno, materno, nombres, tipoUser, profesion: profesion.nombre_profesion, servicio: servicio.nombre_servicio,
-            especialidad, consultorio: tieneEspecialidad ? consultorio : '',
+            especialidad: tieneEspecialidad ? especialidad : null, consultorio: tieneEspecialidad ? consultorio : null,
             condicion, celular, correo, nameUser, contrasena
         };        
 
@@ -87,10 +87,6 @@ const RegPersonal = ({ handleForm }) => {
 
     const handleCheckboxChange = () => {
         setTieneEspecialidad(!tieneEspecialidad);
-        if (!tieneEspecialidad) {
-            setConsultorio('')
-            setEspecialidad('');
-        }
     };
 
     const handleProfesionChange = (selectedOption) => {
@@ -213,7 +209,7 @@ const RegPersonal = ({ handleForm }) => {
                         {msg && (<p className='msg-personal'> {msg} </p>)}
 
                 <div className="btns">
-                    <button className="btn-cancel" onClick={handleForm}>Cancelar</button>
+                    <button type='button' className="btn-cancel" onClick={handleForm}>Cancelar</button>
                     <button type='submit' disabled={loading} className='btn-submit'>
                         {loading ? 'Guardando...' : 'Registrar'}
                     </button>

@@ -9,12 +9,11 @@ import Store from "../../Store/Store_Cita_Turno";
 import CuerpoTabla from "./CuerpoTabla";
 
 const AsignaTurno = ({ closeTurnos }) => {
-    const {tiposDeTurno, obtenerDescripcionTurno} = Store()
+    const {tiposDeTurno, obtenerDescripcionTurno, profesiones} = Store()
     const [personales, setPersonales] = useState([]);
     const [mesActual, setMesActual] = useState(new Date());
     const [cargando, setCargando] = useState(true);
     const [filtroCondicion, setFiltroCondicion] = useState('Todos');
-    const [profesionFiltro, setProfesionFiltro] = useState([])
     const [condicionFiltro, setCondiconFiltro] = useState([])
     const [busqueda, setBusqueda] = useState('');
     const [personalSeleccionado, setPersonalSeleccionado] = useState(null);
@@ -30,10 +29,6 @@ const AsignaTurno = ({ closeTurnos }) => {
                 const response = await fetch('http://localhost:5000/api/obtener/personal-salud');
                 const data = await response.json();
                 setPersonales(data);
-
-                // Filtrar tipos de profesion unicos
-                const preofesionUnicos = Array.from(new Set(data.map(personal => personal.profesion)));
-                setProfesionFiltro(preofesionUnicos);
                 //filtrar tipo e condicion unicos
                 const condicionUnicos = Array.from(new Set(data.map(personal => personal.condicion)));
                 setCondiconFiltro(condicionUnicos);
@@ -239,8 +234,8 @@ const AsignaTurno = ({ closeTurnos }) => {
                             <button className="btn-filtro" style={{width: '120px'}}><MdMenuOpen className='ico' />Profesión</button>
                             <div className="filtro">
                                 <span onClick={() => setFiltroCondicion('Todos')}>TODOS</span>
-                                {profesionFiltro.map((tipo, index) => (
-                                    <span key={index} onClick={() => setFiltroCondicion(tipo)} >{tipo}</span>
+                                {profesiones.map((profesion, index) => (
+                                    <span key={index} onClick={() => setFiltroCondicion(profesion.nombre_profesion)} >{profesion.nombre_profesion}</span>
                                 ))}
                             </div>
                         </div>

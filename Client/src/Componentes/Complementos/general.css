@@ -102,5 +102,5 @@ button:hover {
     background: rgb(216, 216, 216);
 }
 #email {
-    text-transform: lowercase;
+    text-transform: none;
 }

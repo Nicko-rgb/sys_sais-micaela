@@ -14,6 +14,7 @@ import { AiFillSchedule } from "react-icons/ai";
 import { FaXmark, FaCheck } from "react-icons/fa6";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Store from '../Store/Store_Cita_Turno';
+import { BiLoader } from 'react-icons/bi';
 
 const Personal = () => {
     const [verForm, setVerForm] = useState(false);

@@ -17,3 +17,9 @@
     color: rgb(24, 164, 85);
     font-size: 20px;
 }
+.selected select {
+    text-transform: uppercase;
+}
+.selected option {
+    text-transform: uppercase;
+}

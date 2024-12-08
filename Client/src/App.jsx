@@ -1,3 +1,4 @@
+import './main.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './Componentes/Login/Login';
 import Panel from './Componentes/Panel/Panel'

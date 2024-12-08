@@ -24,15 +24,6 @@ button:hover {
     background-color: #218838;
 }
 
-/* Botón Cancelar */
-.btn-cancel {
-    background-color: #6c757d;
-    color: #FFFFFF;
-}
-
-.btn-cancel:hover {
-    background-color: #5a6268;
-}
 
 /* Botón Borrar */
 .btn-delete {
@@ -51,9 +42,18 @@ button:hover {
 }
 
 .btn-submit:hover {
-    background-color: #0056b3;
+    background-color: #0b66c6;
 }
 
+/* Botón Cancelar */
+.btn-cancela {
+    background-color: #6c757d;
+    color: #FFFFFF;
+}
+
+.btn-cancela:hover {
+    background-color: #5a6268;
+}
 .msg-error {
     color: rgb(255, 59, 59);
     font-size: 14px;

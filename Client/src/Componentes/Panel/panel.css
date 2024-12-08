@@ -2,6 +2,7 @@
     height: 100vh;
     width: 100%;
     position: relative;
+    z-index: 5;
     box-sizing: border-box; /* Incluye el padding en el tamaño total */
 } 
 .panel .opciones{
@@ -43,12 +44,11 @@
     flex-direction: column;
     align-items: center;
     border-top: gray solid 1px;
-    z-index: 1;
 }
 
 .panel .opciones .box:hover{
     transform: scale(1.01);
-    background-color: #29f1c94e;
+    background-color: #8db8b0;
 }
 .panel .opciones .box p{
     color: black;

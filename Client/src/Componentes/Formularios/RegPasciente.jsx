@@ -1,7 +1,7 @@
 import './reg_paciente.css';
 import React, { useState } from 'react';
 import { IoCloudUploadOutline } from "react-icons/io5";
-import { IoMdClose } from "react-icons/io";
+import icoClose from '../Ico/ico-close.png'
 import lugares from '../Complementos/lugares.js';
 import { useNavigate } from 'react-router-dom';
 
@@ -231,395 +231,365 @@ const RegistrarPas = ({ onClose }) => {
 
     return (
         <div className="registrar">
-            <div className="content-registrar scale-in-center">
-                <main className="sub_reg">
-                    <form onSubmit={handleSubmit}>
-                        <IoMdClose className='close_reg' onClick={onClose} title='Cerrar Modal' />
-                        <div>
-                            <div className="form_paciente">
-                                <h3>Datos del Nuevo Paciente</h3>
-                                <div className='datos_cortos'>
-                                    <div>
-                                        <label>DNI del Paciente</label>
-                                        <input
-                                            type="text"
-                                            onChange={(handleDniChange)}
-                                            value={dni}
-                                            required
-                                            maxLength={"8"}
-                                            pattern='\d{8}'
-                                            title='INGRESE DNI VALIDO DE 8 DIGITOS '
-                                        />
-                                    </div>
-                                    <div>
-                                        <label>CNV en línea</label>
-                                        <input
-                                            type="text"
-                                            value={cnvLinea}
-                                            onChange={(e) => setCnvLinea(e.target.value)}
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <label>Hist. clínico</label>
-                                        <input
-                                            type="text"
-                                            value={historiaClinico}
-                                            onChange={(e) => setHistoriaClinico(e.target.value)}
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="box_datos">
-                                    <div>
-                                        <label>Apellido Paterno</label>
-                                        <input
-                                            type="text"
-                                            value={paterno}
-                                            onChange={(e) => setPaterno(e.target.value)}
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <label>Apellido Materno</label>
-                                        <input
-                                            type="text"
-                                            value={materno}
-                                            onChange={(e) => setMaterno(e.target.value)}
-                                            required
-                                        />
-                                    </div>
-                                </div>
+            <form onSubmit={handleSubmit}>
+                <img src={icoClose} alt='' className='close_reg' onClick={onClose} title='CERRAR REGISTRO'/>
+                <div className='center'>
+                    <div className="form_paciente">
+                        <h3>Datos del Nuevo Paciente</h3>
+                        <div className='form-group group'>
+                            <label>DNI del Paciente
+                                <input
+                                    type="text"
+                                    onChange={(handleDniChange)}
+                                    value={dni}
+                                    required
+                                    maxLength={"8"}
+                                    pattern='\d{8}'
+                                    title='INGRESE DNI VALIDO DE 8 DIGITOS '
+                                />
+                            </label>
+                            <label>CNV en línea
+                                <input
+                                    type="text"
+                                    value={cnvLinea}
+                                    onChange={(e) => setCnvLinea(e.target.value)}
+                                    required
+                                />
+                            </label>
+                            <label>Hist. clínico
+                                <input
+                                    type="text"
+                                    value={historiaClinico}
+                                    onChange={(e) => setHistoriaClinico(e.target.value)}
+                                    required
+                                />
+                            </label>
+                        </div>
+                        <div className="form-group">
+                            <label>Apellido Paterno
+                                <input
+                                    type="text"
+                                    value={paterno}
+                                    onChange={(e) => setPaterno(e.target.value)}
+                                    required
+                                />
+                            </label>
+                            <label>Apellido Materno
+                                <input
+                                    type="text"
+                                    value={materno}
+                                    onChange={(e) => setMaterno(e.target.value)}
+                                    required
+                                />
+                            </label>
+
+                        </div>
+                        <label>Nombres
+                            <input
+                                type="text"
+                                value={nombre}
+                                onChange={(e) => setNombre(e.target.value)}
+                                required
+                            />
+                        </label>
+                        <div className='form-group'>
+                            <label>Fecha Nacimiento
+                                <input
+                                    type="date"
+                                    value={fechaNacimiento}
+                                    onChange={handleFechaChange}
+                                    required
+                                />
+                            </label>
+                            <label>Su Edad
+                                <input
+                                    style={{ cursor: 'no-drop', textAlign: 'center' }}
+                                    type="text"
+                                    value={edad}
+                                    disabled
+                                />
+                            </label>
+                            <div className="sexos">
+                                <p>Sexo</p>
                                 <div>
-                                    <label>Nombres</label>
-                                    <input
-                                        type="text"
-                                        value={nombre}
-                                        onChange={(e) => setNombre(e.target.value)}
-                                        required
-                                    />
-                                </div>
-                                <div className='box_datos' id='fechas'>
-                                    <div>
-                                        <label>Fecha Nacimiento</label>
+                                    <label className='label_sexo'>
                                         <input
-                                            type="date"
-                                            value={fechaNacimiento}
-                                            onChange={handleFechaChange}
+                                            type="radio"
+                                            name="sexo"
+                                            value="Masculino"
+                                            checked={sexo === 'Masculino'}
+                                            onChange={handleSexoChange}
+                                            className='sexo'
                                             required
                                         />
-                                    </div>
-                                    <div className='box_edad' style={{ width: 'auto' }}>
-                                        <label>Su Edad</label>
+                                        Masculino
+                                    </label>
+                                    <label className='label_sexo'>
                                         <input
-                                            style={{ cursor: 'no-drop', textAlign: 'center' }}
-                                            type="text"
-                                            value={edad}
-                                            readOnly // Deshabilitar la edición
+                                            type="radio"
+                                            name="sexo"
+                                            value="Femenino"
+                                            checked={sexo === 'Femenino'}
+                                            onChange={handleSexoChange}
+                                            className='sexo'
+                                            required
                                         />
-                                    </div>
-                                    <div className='box_sex'>
-                                        <p>Sexo</p>
-                                        <div>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    name="sexo"
-                                                    value="Masculino"
-                                                    checked={sexo === 'Masculino'}
-                                                    onChange={handleSexoChange}
-                                                    className='sexo'
-                                                />
-                                                Masculino
-                                            </label>
-                                            <label>
-                                                <input
-                                                    type="radio"
-                                                    name="sexo"
-                                                    value="Femenino"
-                                                    checked={sexo === 'Femenino'}
-                                                    onChange={handleSexoChange}
-                                                    className='sexo'
-                                                />
-                                                Femenino
-                                            </label>
-                                        </div>
-                                    </div>
+                                        Femenino
+                                    </label>
                                 </div>
-                                <div className='box_datos' id='discapacidad'>
-                                    <p onClick={checkDiscapacidadPas} className='check_disca'>
-                                        <input
-                                            type="checkbox"
-                                            checked={checkDiscapsidad}
-                                            readOnly
-                                        />
-                                        Tiene Discapacidad?
-                                    </p>
-                                    {checkDiscapsidad && (
-                                        <div>
-                                            <label>¿Cuál es la discapacidad?</label>
-                                            <input
-                                                type="text"
-                                                value={discapacidad}
-                                                onChange={(e) => setDiscapacidad(e.target.value)}
-                                            />
-                                        </div>
-                                    )}
-                                </div>
-                                {esMayor && (
-                                    <>
-                                        <div className="box_datos">
-                                            <div>
-                                                <label>Celular 1</label>
-                                                <input
-                                                    type="text"
-                                                    value={celular1}
-                                                    onChange={(e) => setCelular1Paciente(e.target.value)}
-                                                />
-                                            </div>
-                                            <div>
-                                                <label>Celular 2</label>
-                                                <input
-                                                    type="text"
-                                                    value={celular2}
-                                                    onChange={(e) => setCelular2Paciente(e.target.value)}
-                                                    placeholder='Opcional...'
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className='box_datos'>
-                                            <div className='localidad'>
-                                                <label>Localidad</label>
-                                                <input
-                                                    type="text"
-                                                    value={localidad}
-                                                    onChange={(e) => setLocalidadPaciente(e.target.value)}
-                                                    required
-                                                />
-                                            </div>
-                                            <div className='combo'>
-                                                <label>Sector</label>
-                                                <select value={sector} onChange={handleSelect}>
-                                                    <option value="">Sin sector</option>
-                                                    <option value="Sector 1">Sector 1</option>
-                                                    <option value="Sector 2">Sector 2</option>
-                                                    <option value="Sector 3">Sector 3</option>
-                                                    <option value="Sector 4">Sector 4</option>
-                                                    <option value="Sector 5">Sector 5</option>
-                                                    <option value="Sector 6">Sector 6</option>
-                                                    <option value="Sector 7">Sector 7</option>
-                                                    <option value="Sector 8">Sector 8</option>
-                                                    <option value="Sector 9">Sector 9</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className='box_datos'>
-                                            <div classname='direccion'>
-                                                <label>Direccion</label>
-                                                <input
-                                                    type="text"
-                                                    value={direccion}
-                                                    onChange={(e) => setDireccionPaciente(e.target.value)}
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className='box_datos'>
-                                            <div>
-                                                <label>Departamento</label>
-                                                <select value={departamento} onChange={handleDepartmentChange}>
-                                                    <option value="">Seleccionar Departamento</option>
-                                                    {lugares.map((dept) => (
-                                                        <option key={dept.departamento} value={dept.departamento}>{dept.departamento}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <label>Provincia</label>
-                                                <select value={provincia} onChange={handleProvinceChange} disabled={!selectedDepartment}>
-                                                    <option value="">Seleccionar Provincia</option>
-                                                    {provinces.map((province) => (
-                                                        <option key={province.nombre} value={province.nombre}>{province.nombre}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <label>Distrito</label>
-                                                <select value={distrito} disabled={!selectedProvince} onChange={handleDistritoChange}>
-                                                    <option value="">Seleccionar Distrito</option>
-                                                    {districts.map((district) => (
-                                                        <option key={district} value={district}>{district}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </>
-                                )}
 
                             </div>
 
-                            {camposResponsable && (
-                                <div className='form_responsable'>
-                                    <h3>Datos del Responsable</h3>
-                                    <div className='box_datos'>
-                                        <div className='dni'>
-                                            <label>DNI del Responsable</label>
-                                            <input
-                                                    onChange={(handleDniChanger)}
-                                                    value={dniResponsable}
-                                                    required
-                                                    maxLength={"8"}
-                                                    pattern='\d{8}'
-                                                    title='INGRESE DNI VALIDO DE 8 DIGITOS '
-                                            />
-                                        </div>
-                                        <div className='tipo_respons combo'>
-                                            <label>Tipo Responsable</label>
-                                            <select value={tipoResponsable} onChange={handleSelectResponsable}>
-                                                <option value="Padre">Padre</option>
-                                                <option value="Madre">Madre</option>
-                                                <option value="Hijo">Hijo</option>
-                                                <option value="Otros">Otros</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="box_datos">
-                                        <div>
-                                            <label >Apellido Paterno</label>
-                                            <input
-                                                type="text"
-                                                value={paternoResponsable}
-                                                onChange={(e) => setPaternoResponsable(e.target.value)}
-                                                required
-                                            />
-                                        </div>
-                                        <div>
-                                            <label>Apellido Materno</label>
-                                            <input
-                                                type="text"
-                                                value={maternoResponsable}
-                                                onChange={(e) => setMaternoResponsable(e.target.value)}
-                                                required
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className='box_datos'>
-                                        <div>
-                                            <label>Nombre</label>
-                                            <input
-                                                type="text"
-                                                value={nombreResponsable}
-                                                onChange={(e) => setNombreResponsable(e.target.value)}
-                                                required
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className='box_datos'>
-                                        <div>
-                                            <label>Celular 1</label>
-                                            <input
-                                                type="text"
-                                                value={celular1Responsable}
-                                                onChange={(e) => setCelular1(e.target.value)}
-                                                required
-                                            />
-                                        </div>
-                                        <div>
-                                            <label>Celular 2</label>
-                                            <input
-                                                type="text"
-                                                value={celular2Responsable}
-                                                onChange={(e) => setCelular2(e.target.value)}
-                                                placeholder='Opcional...'
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className='box_datos'>
-                                        <div className='localidad'>
-                                            <label>Localidad</label>
-                                            <input
-                                                type="text"
-                                                value={localidadResponsable}
-                                                onChange={(e) => setLocalidad(e.target.value)}
-                                                required
-                                            />
-                                        </div>
-                                        <div className='combo'>
-                                            <label>Sector</label>
-                                            <select value={sectorResponsable} onChange={handleSelect}>
-                                                <option value="">Sin sector</option>
-                                                <option value="Sector 1">Sector 1</option>
-                                                <option value="Sector 2">Sector 2</option>
-                                                <option value="Sector 3">Sector 3</option>
-                                                <option value="Sector 4">Sector 4</option>
-                                                <option value="Sector 5">Sector 5</option>
-                                                <option value="Sector 6">Sector 6</option>
-                                                <option value="Sector 7">Sector 7</option>
-                                                <option value="Sector 8">Sector 8</option>
-                                                <option value="Sector 9">Sector 9</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className='box_datos'>
-                                        <div classname='direccion'>
-                                            <label>Direccion</label>
-                                            <input
-                                                type="text"
-                                                value={direccionResponsable}
-                                                onChange={(e) => setDireccion(e.target.value)}
-                                                required
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className='box_datos'>
-                                        <div>
-                                            <label>Departamento</label>
-                                            <select value={departamentoResponsable} onChange={handleDepartmentChange}>
-                                                <option value="">Seleccionar Departamento</option>
-                                                {lugares.map((dept) => (
-                                                    <option key={dept.departamento} value={dept.departamento}>{dept.departamento}</option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <label>Provincia</label>
-                                            <select value={provinciaResponsable} onChange={handleProvinceChange} disabled={!selectedDepartment}>
-                                                <option value="">Seleccionar Provincia</option>
-                                                {provinces.map((province) => (
-                                                    <option key={province.nombre} value={province.nombre}>{province.nombre}</option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <label>Distrito</label>
-                                            <select value={distritoResponsable} disabled={!selectedProvince} onChange={handleDistritoChange}>
-                                                <option value="">Seleccionar Distrito</option>
-                                                {districts.map((district) => (
-                                                    <option key={district} value={district}>{district}</option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            )}
                         </div>
-                        <div className="tiene_respons">
-                            <p onClick={checkFormRespons}>
+                        <div className='form-group' id='discapacidad'>
+                            <label htmlFor='discapacidad' onClick={checkDiscapacidadPas} className='check_disca'>
                                 <input
                                     type="checkbox"
-                                    checked={camposResponsable}
+                                    checked={checkDiscapsidad}
                                     readOnly
+                                    name='discapacidad'
                                 />
-                                ¿Tiene Responsable?
-                            </p>
+                                Tiene Discapacidad?
+                            </label>
+                            {checkDiscapsidad && (
+                                <label>¿Cuál es la discapacidad?
+                                    <input
+                                        type="text"
+                                        value={discapacidad}
+                                        onChange={(e) => setDiscapacidad(e.target.value)}
+                                    />
+                                </label>
+                            )}
                         </div>
-                        <div className="buton_enviar">
-                            <button type="submit">Guardar<IoCloudUploadOutline className='ico_guardar' /></button>
+                        {esMayor && (
+                            <>
+                                <div className="form-group">
+                                    <label>Celular 1<input
+                                        type="text"
+                                        value={celular1}
+                                        onChange={(e) => setCelular1Paciente(e.target.value)}
+                                    />
+                                    </label>
+                                    <label>Celular 2
+                                        <input
+                                            type="text"
+                                            value={celular2}
+                                            onChange={(e) => setCelular2Paciente(e.target.value)}
+                                            placeholder='Opcional...'
+                                        />
+                                    </label>
+                                </div>
+                                <div className='form-group'>
+                                    <label>Localidad
+                                        <input
+                                            type="text"
+                                            value={localidad}
+                                            onChange={(e) => setLocalidadPaciente(e.target.value)}
+                                            required
+                                        />
+                                    </label>
+                                    <label>Sector
+                                        <select value={sector} onChange={handleSelect}>
+                                            <option value="">Sin sector</option>
+                                            <option value="Sector 1">Sector 1</option>
+                                            <option value="Sector 2">Sector 2</option>
+                                            <option value="Sector 3">Sector 3</option>
+                                            <option value="Sector 4">Sector 4</option>
+                                            <option value="Sector 5">Sector 5</option>
+                                            <option value="Sector 6">Sector 6</option>
+                                            <option value="Sector 7">Sector 7</option>
+                                            <option value="Sector 8">Sector 8</option>
+                                            <option value="Sector 9">Sector 9</option>
+                                        </select>
+                                    </label>
+                                </div>
+                                <label>Direccion
+                                    <input
+                                        type="text"
+                                        value={direccion}
+                                        onChange={(e) => setDireccionPaciente(e.target.value)}
+                                        required
+                                    />
+                                </label>
+                                <div className='form-group'>
+                                    <label>Departamento
+                                        <select value={departamento} onChange={handleDepartmentChange} required>
+                                            <option value="">Seleccionar Departamento</option>
+                                            {lugares.map((dept) => (
+                                                <option key={dept.departamento} value={dept.departamento}>{dept.departamento}</option>
+                                            ))}
+                                        </select>
+                                    </label>
+
+                                    <label>Provincia
+                                        <select value={provincia} onChange={handleProvinceChange} disabled={!selectedDepartment} required>
+                                            <option value="">Seleccionar Provincia</option>
+                                            {provinces.map((province) => (
+                                                <option key={province.nombre} value={province.nombre}>{province.nombre}</option>
+                                            ))}
+                                        </select>
+                                    </label>
+
+                                    <label>Distrito
+                                        <select value={distrito} disabled={!selectedProvince} onChange={handleDistritoChange} required>
+                                            <option value="">Seleccionar Distrito</option>
+                                            {districts.map((district) => (
+                                                <option key={district} value={district}>{district}</option>
+                                            ))}
+                                        </select>
+                                    </label>
+
+                                </div>
+                            </>
+                        )}
+                    </div>
+
+                    {camposResponsable && (
+                        <div className='form_responsable'>
+                            <h3>Datos del Responsable</h3>
+                            <div className='form-group'>
+                                <label>DNI del Responsable
+                                    <input
+                                        onChange={(handleDniChanger)}
+                                        value={dniResponsable}
+                                        required
+                                        maxLength={"8"}
+                                        pattern='\d{8}'
+                                        title='INGRESE DNI VALIDO DE 8 DIGITOS '
+                                    />
+                                </label>
+                                <label>Tipo Responsable
+                                    <select value={tipoResponsable} onChange={handleSelectResponsable} required>
+                                        <option value="Padre">Padre</option>
+                                        <option value="Madre">Madre</option>
+                                        <option value="Hijo">Hijo</option>
+                                        <option value="Otros">Otros</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div className="form-group">
+                                <label >Apellido Paterno
+                                    <input
+                                        type="text"
+                                        value={paternoResponsable}
+                                        onChange={(e) => setPaternoResponsable(e.target.value)}
+                                        required
+                                    />
+                                </label>
+                                <label>Apellido Materno
+                                    <input
+                                        type="text"
+                                        value={maternoResponsable}
+                                        onChange={(e) => setMaternoResponsable(e.target.value)}
+                                        required
+                                    />
+                                </label>
+                            </div>
+                            <label>Nombre
+                                <input
+                                    type="text"
+                                    value={nombreResponsable}
+                                    onChange={(e) => setNombreResponsable(e.target.value)}
+                                    required
+                                />
+                            </label>
+
+                            <div className='form-group'>
+                                <label>Celular 1
+                                    <input
+                                        type="text"
+                                        value={celular1Responsable}
+                                        onChange={(e) => setCelular1(e.target.value)}
+                                        required
+                                    />
+                                </label>
+
+                                <label>Celular 2
+                                    <input
+                                        type="text"
+                                        value={celular2Responsable}
+                                        onChange={(e) => setCelular2(e.target.value)}
+                                        placeholder='Opcional...'
+                                    />
+                                </label>
+                            </div>
+                            <div className='form-group'>
+                                <label>Localidad
+                                    <input
+                                        type="text"
+                                        value={localidadResponsable}
+                                        onChange={(e) => setLocalidad(e.target.value)}
+                                        required
+                                    />
+                                </label>
+                                <label>Sector
+                                    <select value={sectorResponsable} onChange={handleSelect}>
+                                        <option value="">Sin sector</option>
+                                        <option value="Sector 1">Sector 1</option>
+                                        <option value="Sector 2">Sector 2</option>
+                                        <option value="Sector 3">Sector 3</option>
+                                        <option value="Sector 4">Sector 4</option>
+                                        <option value="Sector 5">Sector 5</option>
+                                        <option value="Sector 6">Sector 6</option>
+                                        <option value="Sector 7">Sector 7</option>
+                                        <option value="Sector 8">Sector 8</option>
+                                        <option value="Sector 9">Sector 9</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <label>Direccion
+                                <input
+                                    type="text"
+                                    value={direccionResponsable}
+                                    onChange={(e) => setDireccion(e.target.value)}
+                                    required
+                                />
+                            </label>
+                            <div className='form-group'>
+                                <label>Departamento
+                                    <select value={departamentoResponsable} onChange={handleDepartmentChange} required>
+                                        <option value="">Seleccionar Departamento</option>
+                                        {lugares.map((dept) => (
+                                            <option key={dept.departamento} value={dept.departamento}>{dept.departamento}</option>
+                                        ))}
+                                    </select>
+                                </label>
+
+                                <label>Provincia
+                                    <select value={provinciaResponsable} onChange={handleProvinceChange} disabled={!selectedDepartment} required>
+                                        <option value="">Seleccionar Provincia</option>
+                                        {provinces.map((province) => (
+                                            <option key={province.nombre} value={province.nombre}>{province.nombre}</option>
+                                        ))}
+                                    </select>
+                                </label>
+
+                                <label>Distrito
+                                    <select value={distritoResponsable} disabled={!selectedProvince} onChange={handleDistritoChange} required>
+                                        <option value="">Seleccionar Distrito</option>
+                                        {districts.map((district) => (
+                                            <option key={district} value={district}>{district}</option>
+                                        ))}
+                                    </select>
+                                </label>
+                            </div>
                         </div>
-                    </form>
-                </main>
-            </div>
+                    )}
+                </div>
+                <label className='respons' htmlFor='respons' onClick={checkFormRespons}>
+                    <input
+                        type="checkbox"
+                        checked={camposResponsable}
+                        readOnly
+                        name='respons'
+                    />
+                    ¿Tiene Responsable?
+                </label>
+                <div className="btns">
+                    <button className='btn-submit' type="submit">Guardar<IoCloudUploadOutline className='ico_guardar' /></button>
+                    <button className='btn-cancela' onClick={onClose}>Cancelar</button>
+                </div>
+            </form>
         </div>
     );
 }

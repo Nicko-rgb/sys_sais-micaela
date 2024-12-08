@@ -8,325 +8,135 @@
   z-index: 999;
   background: rgba(0, 0, 0, 0.585);
   overflow-y: auto;
-  box-sizing: border-box;
-  padding: 0;
-}
- 
-.scale-in-center {
-  -webkit-animation: scale-in-center 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-  animation: scale-in-center 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-  height: auto;
-  margin: auto;
-  border-radius: 10px;
-  transition: .3s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
 }
 
-.registrar .sub_reg {
-  padding: 30px 0;
+.registrar form {
+  animation: scaleIn 0.3s forwards;
+  background-color: white;
+  padding: 30px;
+  margin: 0 auto;
+  position: relative;
+  border-radius: 20px;
+  box-shadow: 0 0 10px dodgerblue, 0 0 10px dodgerblue;
+}
+
+.registrar form h3 {
+  margin: 0;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: dodgerblue;
 }
 
 .registrar .close_reg {
   position: absolute;
-  top: 10px;
-  right: 18px;
-  font-size: 40px;
+  top: 20px;
+  right: 20px;
   cursor: pointer;
-  background: rgb(222, 221, 221);
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  display: grid;
-  color: rgb(132, 132, 132);
   transition: .3s ease;
+  box-shadow: 0 0 1px dodgerblue;
+  height: 35px;
+  padding: 5px;
+  border-radius: 50%;
 }
-
 .registrar .close_reg:hover {
-  background: white;
-  box-shadow: 0 0 1px gray;
-
+  transform: rotate(180deg);
+  background-color: rgb(243, 138, 138);
 }
 
-.registrar .sub_reg h3 {
-  font-size: 23px;
-  text-align: center;
-}
-
-.registrar form {
-  position: relative;
+.registrar form .center {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 0 4px #00796b;
-  background-color: white;
-  transition: .5s ease;
-  width: auto;
-}
-
-.registrar form>div {
-  display: flex;
-  gap: 40px;
-  width: auto;
-  transition: .5s ease;
-  margin-top: -30px;
-}
-
-.registrar form .form_paciente {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  font-family: 'poppins';
-  width: auto;
-  max-width: 540px;
-  width: 100%;
-}
-
-.registrar form .form_responsable {
-  max-width: 520px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.registrar form .form_paciente>div {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
-.registrar form .form_paciente .datos_cortos {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  justify-content: center;
-  gap: 20px;
-  width: 100%;
-}
-
-.registrar form .form_paciente .datos_cortos label {
-  font-size: 15px;
-}
-
-.registrar form .datos_cortos>div {
-  display: flex;
-  flex-direction: column;
-}
-
-.registrar form .form_paciente .box_datos {
-  display: flex;
-  flex-direction: row;
   gap: 30px;
 }
-
-.registrar form .form_paciente .box_datos>div,
-input {
+.registrar form .form_paciente, .registrar form .form_responsable {
+  display: flex;
+  flex-direction: column;
+  max-width: 550px;
   width: 100%;
 }
 
-.registrar form input {
-  outline: none;
-  padding: 5px;
-  font-size: 16px;
-  border-radius: 3px;
-  border: none;
-  box-shadow: 0 0 1px gray, 0 0 1px gray,
-   0 0 1px gray,
-   0 0 1px gray,
-   0 0 1px gray,
-   0 0 1px gray,
-   0 0 1px gray,
-   0 0 1px gray;
+.registrar form .form-group {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
-.registrar form input:focus{
-  border: solid 1px #00796b;
-  box-shadow: none;
-  /* padding: 4.8px; */
+.registrar form input{
+  text-transform: uppercase;
+}
+.registrar form .group input{
+  text-align: center;
+}
+.registrar form label {
+  margin-top: 10px;
 }
 
-.registrar form .form_paciente #fechas {
+.registrar form #discapacidad .check_disca, .registrar form .respons {
   display: flex;
   flex-direction: row;
+  cursor: pointer;
+  transition: .3s ease;
+}
+.registrar form #discapacidad .check_disca:hover, .registrar form .respons:hover {
+  font-weight: 600;
+}
+.registrar form #discapacidad input{
+  width: auto;
+}
+.registrar form input, .registrar form select {
+  padding: 5px;
+  font-size: 16px;
+  border: rgba(30, 143, 255, 0.256) solid 2px;
+  outline: none;
+  font-weight: 600;
+  border-radius: 5px;
+  width: 100%;
 }
 
-.registrar #fechas label {
-  font-size: 15px;
+.registrar form input:focus, .registrar form select:focus {
+  border: 2px solid dodgerblue;
 }
 
-.registrar form .box_edad label {
-  width: 70px;
-}
-
-.registrar .box_edad input {
-  width: 60px;
-}
-
-.registrar form .fechas>div {
+.registrar form .sexos {
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.registrar .box_sex {
-  display: flex;
-  flex-direction: column;
-}
-
-.registrar .box_sex p {
+.registrar form .sexos p {
   margin: 0;
 }
 
-.registrar .box_sex>div {
+.registrar form .sexos div {
   display: flex;
+  gap: 10px;
+  margin-top: -6px;
 }
 
-.registrar form .box_sex .sexo {
-  border: none;
-  box-shadow: none;
-}
-
-.registrar .box_sex label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.registrar form .form_paciente #discapacidad {
-  width: 100%;
-  height: auto;
-  display: flex;
-  align-items: center;
-}
-
-.registrar form .form_paciente #discapacidad p {
-  width: 100%;
-  cursor: pointer;
-}
-
-.registrar form .check_disca input {
-  width: 15px;
-  box-shadow: none;
-}
-
-.registrar form #discapacidad>div {
-  max-width: 318px;
-}
-
-.registrar .box_datos .check_disca {
+.registrar form .label_sexo {
   display: flex;
   flex-direction: row;
-}
-
-.registrar form button {
-  margin: auto;
-  background-color: #00796b;
-  color: white;
-  border: none;
-  padding: 12px 35px;
-  margin-top: 55px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-family: 'poppins';
-  transition: .2s ease;
-  display: flex;
   align-items: center;
-  gap: 5px;
+  cursor: pointer;
 }
 
-.registrar form button:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 3px;
-  box-shadow: 0 0 3px #00796b;
-  background: #026c60;
-}
-
-.registrar form .ico_guardar {
-  font-size: 20px;
-}
-
-.registrar form .form_responsable {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
-.registrar form .box_datos {
-  display: flex;
-  gap: 20px;
-}
-
-.registrar form .box_datos>div {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.registrar form .box_datos select {
-  padding: 5px;
-  outline: none;
-  border-radius: 5px;
-  box-shadow: 0 0 2px gray;
-  border: none;
-  width: 100%;
-}
-
-.registrar form .form_responsable label {
-  font-family: 'poppins';
-}
-
-.registrar form .tiene_respons {
+.registrar form .respons {
   display: flex;
   flex-direction: row;
-  position: absolute;
-  bottom: 60px;
-  left: 30px;
-  cursor: pointer;
+  margin: 20px 0;
 }
-
-.registrar form .tiene_respons p {
+.registrar form .respons input{
+  width: auto;
+}
+.registrar form .btns {
   display: flex;
-  align-items: center;
   justify-content: center;
-  cursor: pointer;
+  gap: 80px;
+  margin: 30px 0;
 }
-
-.registrar form .tiene_respons input {
-  width: 15px;
-  box-shadow: none;
-  cursor: pointer;
-}
-
-@-webkit-keyframes scale-in-center {
-  0% {
-    -webkit-transform: scale(0);
-    transform: scale(0);
-    opacity: 1;
-  }
-
-  100% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes scale-in-center {
-  0% {
-    -webkit-transform: scale(0);
-    transform: scale(0);
-    opacity: 1;
-  }
-
-  100% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@media (max-width: 900px) {
-  .registrar form>div {
-    display: flex;
-    flex-direction: column;
-  }
+.registrar form .btns button {
+  width: 180px;
+  height: 40px;
+  border-radius: 7px;
 }

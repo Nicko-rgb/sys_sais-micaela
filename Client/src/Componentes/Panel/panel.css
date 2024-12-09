@@ -3,7 +3,7 @@
     width: 100%;
     position: relative;
     z-index: 5;
-    box-sizing: border-box; /* Incluye el padding en el tamaño total */
+    box-sizing: border-box;
 } 
 .panel .opciones{
     padding-bottom: 80px;

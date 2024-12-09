@@ -29,63 +29,113 @@
     justify-content: center;
     align-items: center;
     padding: 20px;
-    background-image: url("../../Componentes/IMG/iconosmedicina.svg");
+    position: relative; /* Necesario para posicionar el pseudo-elemento */
+    z-index: 1; /* Asegura que el contenido esté por encima */
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    /* border: 2; px solid gray; */
-    
-
-
 }
 
-.datosentidad{
+/* Pseudo-elemento para la opacidad del fondo */
+.caja-formulario::before {
+    content: ""; /* Requerido para pseudo-elemento */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../../Componentes/IMG/iconosmedicina.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.6; /* Ajusta el nivel de opacidad (0.1 a 1) */
+    z-index: -1; /* Coloca el pseudo-elemento detrás del contenido */
+}
+
+
+.datosentidad {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
-    /* border: 2px solid gray; */
     background-color: #256860;
     position: relative;
-    
-    .titleentidad{
-        position: absolute;
-        width: 70%;
-        margin-top: -70%;
-        color: white;
-        text-align: center;
-        /* border:solid 2px green; */
-        font-family: "Poppins", sans-serif;
-
-        h3{
-            font-size: 1.9em;
-        }
-
-        h5{
-            text-align: center;
-
-        }
-
-    }
-
-    .imagenDoctores img{
-        width: 400px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* X Y Blur Color */
-        
-
-    }
-    .minsa{
-        position: absolute;
-        margin-top: 60%;
-        width: 200px;
-    }
-
-
+    border-radius: 10px; /* Bordes redondeados para un diseño más suave */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Sombra suave para profundidad */
+    overflow: hidden; /* Evita que los elementos se salgan */
 }
+
+.titleentidad {
+    position: absolute;
+    width: 80%; /* Aumenté el ancho para mejor visibilidad */
+    margin-top: -80%; /* Ajuste para centrar el título */
+    text-align: center;
+    color: white;
+    font-family: "Poppins", sans-serif;
+    z-index: 1; /* Para asegurar que el título esté por encima de otros elementos */
+
+    h3 {
+        font-size: 2.2em; /* Aumenté el tamaño para mayor impacto */
+        font-weight: 600; /* Negrita para resaltar el título */
+        margin-bottom: 10px;
+        color: white;
+    }
+
+    h5 {
+        font-size: 1.2em; /* Ajuste de tamaño para subtítulo */
+        font-weight: 300; /* Menos peso para el subtítulo */
+        text-align: center;
+        margin-top: 10px;
+    }
+}
+
+.imagenDoctores img {
+    width: 100%; /* Adaptar al contenedor */
+    max-width: 700px; /* Limitar el tamaño máximo */
+    border-radius: 0; /* Elimina cualquier redondeo en los bordes si es necesario */
+    object-fit: contain; /* Asegura que la imagen conserve sus proporciones */
+    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.6)); /* Sombra basada en el contorno opaco */
+    transition: transform 0.3s ease, filter 0.3s ease; /* Suavizar efectos */
+}
+
+/* Efecto hover exclusivo para la imagen */
+.datosentidad .imagenDoctores img:hover {
+    transform: scale(1.01); /* Aumenta ligeramente el tamaño al pasar el mouse */
+    filter: drop-shadow(0 15px 20px rgba(0, 0, 0, 0.9)); /* Sombra más intensa en hover */
+}
+
+
+.datosentidad .minsa {
+    position: absolute;
+    margin-top: 60%;
+    width: 150px; /* Reduje el tamaño para no competir con el contenido */
+    opacity: 0.9; /* Agregué un poco de transparencia */
+    z-index: 1; /* Asegura que se muestre correctamente por encima de la imagen */
+}
+
+@media (max-width: 768px) {
+    .datosentidad {
+        padding: 10px;
+    }
+
+    .titleentidad {
+        width: 90%; /* Aumentar el tamaño en pantallas pequeñas */
+        margin-top: -60%; /* Ajuste para que no se vea cortado */
+    }
+
+    .imagenDoctores img {
+        max-width: 300px;
+    }
+
+    .minsa {
+        width: 270px;
+    }
+}
+
 .login form {
-    box-shadow: 0 0 5px #00796b75;
+    box-shadow: 0 0 10px #00796b75;
     border-radius: 8px;
     margin: auto;
     padding: 30px;
@@ -95,16 +145,23 @@
     font-family: 'Segoe UI', sans-serif;
     max-width: 350px;
     width: 100%;
-    background-color: #ffffff;
+    background-color: #ffffffec;
     font-family: 'poppins';
 }
 
 .login form h2 {
     margin: 0;
     text-align: center;
-    font-size: 24px;
+    font-size: 25px;
     color: #00796b;
     font-weight: bold;
+}
+
+.login form p{
+    margin: 0;
+    text-align: center;
+    font-weight: bold;
+    color: #00796b;
 }
 
 .login form div {
@@ -115,8 +172,10 @@
 
 .login div label {
     text-align: left;
-    font-size: 14px;
+    font-size: 16px;
     color: #333;
+    /* font-weight: bold; */
+    /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
 }
 
 .login form div input {
@@ -162,8 +221,8 @@
 
 .login .ico_form_login {
     position: absolute;
-    right: 7px;
-    top: 30px;
+    right: 2px;
+    top: 40px;
 }
 
 .login form .link_reset {
@@ -497,3 +556,69 @@
       margin-left: 0;
     }
   }
+
+.login .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.login .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Animación del círculo pulsante */
+.login .pulse-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #3498db;
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+    animation: pulse 1.5s infinite;
+    margin: 0 auto 15px;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 8;
+    }
+}
+
+.login .modal p {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    margin-top: 10px;
+}

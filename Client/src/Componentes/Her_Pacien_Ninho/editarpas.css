@@ -136,12 +136,14 @@
     gap: 20px;
     width: 100%;
 }
+
 .editar-paciente form label{
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 .editar-paciente form input{
+    width: 100%;
     border: #a7c3d7 solid;
     border-width: 3px;
     padding: 5px;

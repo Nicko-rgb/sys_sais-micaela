@@ -7,6 +7,7 @@ import EstadoSesion from '../Complementos/EstadoSesion';
 import Sidebar from './Sidebar';
 import '../Login/login.css';
 import Modalnavtop from './modalnavtop';
+
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -91,9 +92,9 @@ const Layout = ({ children }) => {
       </div>
       {/* Modal de cierre de sesión */}
       {modalOpen && (
-        <Modalnavtop 
-          onClose={closeModal} 
-          onConfirm={closeSesion} 
+        <Modalnavtop
+          onClose={closeModal}
+          onConfirm={closeSesion}
         />
       )}
     </div>

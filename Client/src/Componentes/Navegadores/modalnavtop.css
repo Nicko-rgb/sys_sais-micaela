@@ -1,79 +1,82 @@
 .modal-cerrarsesion {
-    position: fixed; /* Fija el modal en la pantalla */
+    position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente más oscuro */
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     z-index: 1000;
-    transition: opacity 0.4s ease; /* Efecto de transición al aparecer/desaparecer */
 }
 
-.modal-cerrarsesion .modal-hijo {
-    background-color: #f8f9fa; /* Color de fondo más suave */
-    border-radius: 12px; /* Bordes más redondeados */
+.modal-hijo {
+    background: rgb(255, 255, 255);
     padding: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
-    width: 320px;
+    border-radius: 8px;
     text-align: center;
-    animation: slideIn 0.3s ease; /* Animación de entrada */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.3s ease-in-out;
 }
 
-@keyframes slideIn {
+.cerrando-sesion {background: rgba(255, 255, 255, 0.459);
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+@keyframes fadeIn {
     from {
-        transform: translateY(-20px);
         opacity: 0;
+        transform: scale(0.9);
     }
     to {
-        transform: translateY(0);
         opacity: 1;
+        transform: scale(1);
     }
-} 
-
-.modal-cerrarsesion .titulo {
-    font-size: 15px;
-    font-weight: bold; /* Texto más destacado */
-    padding-top: 2px;
-    color: #343a40; /* Texto más oscuro */
-    margin-bottom: 10px;
 }
 
-.modal-cerrarsesion .modal-botones {
+.modal-botones {
     display: flex;
     justify-content: space-around;
-    gap: 15px; /* Espaciado entre los botones */
+    margin-top: 20px;
 }
 
-.modal-cerrarsesion .btn-confirmar, .btn-cancelar {
-    padding: 12px 20px; /* Botones más grandes */
+.btn-confirmar {
+    background: #3498db;
+    color: white;
     border: none;
-    border-radius: 8px;
+    padding: 10px 20px;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 1em; /* Fuente más grande */
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Efecto de transición */
+    transition: background 0.3s ease;
 }
 
-.modal-cerrarsesion .btn-confirmar {
-    background-color: #28a745;
-    color: #fff;
+.btn-confirmar:hover {
+    background: #2874a6;
 }
 
-.modal-cerrarsesion .btn-cancelar {
-    background-color: #dc3545;
-    color: #fff;
+.btn-cancelar {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
 }
 
-.modal-cerrarsesion .btn-confirmar:hover, .btn-cancelar:hover {
-    transform: scale(1.05); /* Efecto de ampliación al pasar el ratón */
-    opacity: 0.9;
+.btn-cancelar:hover {
+    background: #c0392b;
 }
 
-@media (max-width: 400px) {
-    .modal-hijo {
-        width: 90%; /* Ajusta el ancho para pantallas pequeñas */
+.icon-loading {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
     }
 }

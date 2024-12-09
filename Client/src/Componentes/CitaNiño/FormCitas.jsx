@@ -21,6 +21,10 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio, profesio
     const [metodo, setMetodo] = useState('');
     const [idRespons, setIdRespons] = useState('');
 
+    // Estados para los modales
+    const [isLoading, setIsLoading] = useState(false); // Modal de carga
+    const [modalMessage, setModalMessage] = useState(null); // Modal de resultado
+
     // Función para buscar paciente por Hist. Clínico
     const handleHisClinicoChange = async (e) => {
         const value = e.target.value.trim();
@@ -57,30 +61,30 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio, profesio
         const value = e.target.value.trim();
         setDni(value);
 
-        if (value) {
-            try {
-                const response = await fetch(`http://localhost:5000/api/obtener-pacientes/dni/${value}`);
-                const data = await response.json();
+        try {
+            setIsLoading(true); // Mostrar modal de carga
+            const response = await fetch('http://localhost:5000/api/registrar/cita-nino', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(citaData),
+            });
 
-                // Completar los campos con la información del paciente
-                setIdPaciente(data.id_paciente);
-                setIdRespons(data.id_responsable);
-                setHisClinico(data.hist_clinico);
-                setApellidos(`${data.ape_paterno} ${data.ape_materno}`);
-                setNombres(data.nombres);
+            const result = await response.json();
 
-                const formattedDate = new Date(data.fecha_nacimiento).toISOString().split('T')[0];
-                setFechaNacimiento(formattedDate);
-
-                setEdad(data.edad);
-                setTelefono(data.celular1 || data.celular2 || data.celular1_res);
-
-                setDireccion(data.direccion || data.direccion_res);
-            } catch (error) {
-                console.error('Error al buscar paciente:', error);
-                clearFields();
-                setHisClinico('')
+            if (!response.ok) {
+                throw new Error(result.error || 'Error al registrar la cita');
             }
+
+            // Mostrar modal de éxito
+            setModalMessage(result.message || 'Cita registrada con éxito');
+            closeForm(); // Opcional: cerrar el formulario principal
+        } catch (error) {
+            // Mostrar modal de error
+            setModalMessage(`Error: ${error.message}`);
+        } finally {
+            setIsLoading(false); // Ocultar modal de carga
         }
     };
 
@@ -101,6 +105,7 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio, profesio
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Datos del formulario
         const citaData = {
             id_paciente: idPaciente,
             especialidad,
@@ -117,6 +122,7 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio, profesio
         };
 
         try {
+            setIsLoading(true); // Mostrar modal de carga
             const response = await fetch('http://localhost:5000/api/registrar/cita-nino', {
                 method: 'POST',
                 headers: {
@@ -130,14 +136,28 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio, profesio
             if (!response.ok) {
                 throw new Error(result.error || 'Error al registrar la cita');
             }
-            alert(result.message || 'Cita registrada con éxito');
-            closeForm()
+
+            // Mostrar modal de éxito
+            setModalMessage('Cita registrada con éxito');
         } catch (error) {
-            alert(`Error: ${error.message}`);
-            console.error('Error al registrar la cita:', error);
+            // Mostrar modal de error si ocurre un problema
+            setModalMessage(`Error: ${error.message}`);
+        } finally {
+            setIsLoading(false); // Ocultar modal de carga después de completar la operación
+
+            // Opcional: Cerrar el formulario después de mostrar el modal de éxito
+            setTimeout(() => {
+                if (modalMessage === "Cita registrada con éxito") {
+                    closeForm();
+                }
+            }, 2000); // Cerrar el formulario después de 2 segundos
         }
     };
 
+    const handleModalClose = () => {
+        setModalMessage(null); // Limpiar el mensaje del modal
+        closeForm(); // Cerrar el formulario directamente si se hace clic en "Cerrar"
+    };
 
     // Navegar para editar paciente
     const handleIrEdit = () => {
@@ -146,6 +166,24 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio, profesio
 
     return (
         <div className="form-cita">
+            {/* Modal de carga */}
+            {isLoading && (
+                <div className="modal-loading">
+                    <div className="loader"></div>
+                    <p>Registrando la cita...</p>
+                </div>
+            )}
+
+            {/* Modal de resultado */}
+            {modalMessage && (
+                <div className="modal-message">
+                    <div className="modal-content">
+                        <p>{modalMessage}</p>
+                        <button onClick={handleModalClose}>✅</button>
+                    </div>
+                </div>
+            )}
+
             <form onSubmit={handleSubmit}>
                 <p className="ico-close" onClick={closeForm}>×</p>
                 <h2>Agendar cita para <span style={{ textDecoration: 'underline' }}>{especialidad}</span> - Niño</h2>

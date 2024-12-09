@@ -342,3 +342,119 @@
 .borrar-cita .btn-cancel:hover {
     background-color: #455a64;
 }
+
+/* Estilos para el Modal de confirmación */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #333;
+}
+
+.modal-content p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-around;
+}
+
+.modal-actions button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-actions button:hover {
+    background-color: #0056b3;
+}
+
+.modal-actions button:focus {
+    outline: none;
+}
+
+.modal-actions button:last-child {
+    background-color: #dc3545;
+}
+
+.modal-actions button:last-child:hover {
+    background-color: #c82333;
+}
+
+/* Estilos generales para la tabla */
+.receso {
+    background-color: #f0f0f0;
+}
+
+.normal {
+    background-color: #ffffff;
+}
+
+.bloqueada {
+    background-color: #e7c7c7;
+}
+
+.accion {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.ico {
+    cursor: pointer;
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.ico:hover {
+    transform: scale(1.2);
+}
+
+.ico-edit {
+    color: #007bff;
+}
+
+.ico-delete {
+    color: #dc3545;
+}
+
+.ico-bloq {
+    color: #f39c12;
+}
+
+.ico-abi {
+    color: #28a745;
+}
+
+.ico- {
+    color: #6c757d;
+}

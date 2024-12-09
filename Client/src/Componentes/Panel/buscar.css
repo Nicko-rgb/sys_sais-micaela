@@ -1,7 +1,7 @@
 /* buscar.css */
 .buscar {
   margin-left: 180px;
-  height: calc(100vh - 50px);
+  height: 100vh;
 }
 
 .buscar h3 {
@@ -37,9 +37,9 @@
   border: none;
   box-shadow: 0 0 2px black;
   font-weight: 500;
-  max-width: 650px;
+  max-width: 600px;
   width: 100%;
-  height: 33px;
+  height: 32px;
   font-family: 'poppins';
   text-transform: uppercase;
 }
@@ -112,9 +112,9 @@
 }
 
 .buscar main table th {
-  font-size: 14px;
-  font-family: calibri;
+  font-size: 12px;
   text-wrap: nowrap;
+  text-align: center;
 }
 
 .buscar main th {
@@ -135,16 +135,19 @@
 }
 
 .buscar main tbody td {
-  font-family: 'poppins';
-  font-size: 12px;
+  font-size: 11.5px;
   text-transform: uppercase;
   margin: 0;
   padding: 1px 5px;
   text-wrap: nowrap;
+
+}
+.buscar main tr:hover {
+  background-color: #27c99830;
 }
 
-.buscar main tr:hover {
-  background-color: #e7e7e7;
+.buscar .graficos {
+  display: flex;
 }
 .buscar .paginacion {
   display: flex;
@@ -155,4 +158,5 @@
 }
 .buscar main .btn-actual{
   margin: auto;
+  margin-bottom: 200px;
 }

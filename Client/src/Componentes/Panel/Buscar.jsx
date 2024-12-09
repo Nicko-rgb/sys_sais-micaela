@@ -8,6 +8,7 @@ import './buscar.css';
 import { IoPersonAddSharp } from 'react-icons/io5';
 import { FaUserEdit } from 'react-icons/fa';
 import { IoIosArrowBack, IoIosArrowForward, IoMdFemale, IoMdMale } from "react-icons/io";
+import Registros from './GraficosRegistros/Registros';
 
 const Buscar = () => {
     const [showModal, setShowModal] = useState(false);
@@ -17,7 +18,7 @@ const Buscar = () => {
     const [openEdit, setEdit] = useState(false);
     const [selectedPaciente, setSelectedPaciente] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const [resultsPerPage] = useState(15); // Número de resultados por página
+    const [resultsPerPage] = useState(15);
 
     const toggleModal = () => {
         setShowModal(!showModal);
@@ -142,9 +143,9 @@ const Buscar = () => {
                                         </td>
                                         <td>
                                             {paciente.sexo === 'Femenino' ? (
-                                                <IoMdFemale style={{ color: 'hotpink', marginRight: '5px', fontSize: '15px' }} />
+                                                <IoMdFemale className='ico' style={{ color: 'hotpink', marginRight: '5px', fontSize: '15px' }} />
                                             ) : (
-                                                <IoMdMale style={{ color: 'blue', marginRight: '5px', fontSize: '15px' }} />
+                                                <IoMdMale className='ico' style={{ color: 'blue', marginRight: '5px', fontSize: '15px' }} />
                                             )}
                                             {paciente.ape_paterno} {paciente.ape_materno}, {paciente.nombres}
                                         </td>
@@ -180,6 +181,9 @@ const Buscar = () => {
                         Siguiente
                         <IoIosArrowForward />
                     </button>
+                </div>
+                <div className="graficos">
+                    <Registros/>
                 </div>
                 <button className='btn-actual' onClick={updateAllPatients}>Actualizar Todos los Pacientes</button>
                 {showModal && <RegistrarPas onClose={toggleModal} />}

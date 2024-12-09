@@ -17,6 +17,7 @@ const pool = mysql.createPool({
 });
 
 // Middleware
+app.use(cors());
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -320,6 +321,58 @@ app.put("/api/actualizar/responsable/:id_responsable", async (req, res) => {
         connection.release();
     }
 });
+/************************************************************************ */
+// Obtener pacientes registrados según el intervalo de tiempo especificado
+app.get('/api/pacientes/estadisticas', async (req, res) => {
+    const { intervalo, año, semana } = req.query; // 'dia', 'semana', 'mes'
+    let query;
+
+    try {
+        switch (intervalo) {
+            case 'dia':
+                query = `
+                    SELECT DATE(fechaRegistro) AS fecha, COUNT(*) AS total
+                    FROM pacientes
+                    WHERE DATE(fechaRegistro) BETWEEN 
+                        DATE_ADD(DATE(NOW()), INTERVAL -WEEKDAY(NOW()) DAY)
+                        AND DATE_ADD(DATE(NOW()), INTERVAL 6 - WEEKDAY(NOW()) DAY)
+                    GROUP BY DATE(fechaRegistro)
+                    ORDER BY fecha;
+                    `;
+                break;
+
+            case 'semana':
+                query = `
+                    SELECT DATE(fechaRegistro) AS fecha, COUNT(*) AS total 
+                    FROM pacientes 
+                    WHERE YEAR(fechaRegistro) = ${año || 'YEAR(CURDATE())'}
+                        AND WEEK(fechaRegistro, 1) = ${semana || 'WEEK(CURDATE(), 1)'}
+                    GROUP BY DATE(fechaRegistro)
+                    ORDER BY fecha;
+                `;
+                break;
+            case 'mes':
+                query = `
+                    SELECT MONTH(fechaRegistro) AS mes, COUNT(*) AS total 
+                    FROM pacientes 
+                    WHERE YEAR(fechaRegistro) = ${año || 'YEAR(CURDATE())'}
+                    GROUP BY mes 
+                    ORDER BY mes;
+                `;
+                break;
+            default:
+                return res.status(400).json({ error: "Intervalo no válido. Debe ser 'dia', 'semana' o 'mes'." });
+        }
+
+        const [results] = await pool.query(query);
+        res.json(results.length ? results : []);
+    } catch (err) {
+        console.error('Error en la consulta a la base de datos:', err);
+        res.status(500).json({ error: 'Error al obtener estadísticas.' });
+    }
+});
+
+
 
 //********************************************************************************************* */
 
@@ -966,7 +1019,7 @@ app.post('/api/registrar/cita-nino', async (req, res) => {
             id_paciente, especialidad, fecha, hora, consultorio, telefono, direccion_c, motivoConsulta, metodo, semEmbarazo, profesional_cita, id_responsable
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-    const values = [ id_paciente, especialidad, fecha, hora, consultorio, telefono, direccion || null, motivoConsulta, metodo || null, semEmbarazo || null, profesional, idRespons || null ];
+    const values = [id_paciente, especialidad, fecha, hora, consultorio, telefono, direccion || null, motivoConsulta, metodo || null, semEmbarazo || null, profesional, idRespons || null];
 
     try {
         const [results] = await pool.query(sql, values);
@@ -1205,7 +1258,7 @@ app.post("/api/visita-domiciliaria", (req, res) => {
     const query = `
         INSERT INTO visita_domiciliaria (tipo, numero_visita, fecha_atencion, opcional, observaciones, id_paciente) VALUES (?, ?, ?, ?, ?, ?)`;
 
-    const values = [ tipo, numero_visita, fecha_atencion, opcional || null, observaciones || null, id_paciente];
+    const values = [tipo, numero_visita, fecha_atencion, opcional || null, observaciones || null, id_paciente];
 
     // Usar promesas o async/await para manejo de errores más limpio
     pool.query(query, values)
@@ -1217,7 +1270,7 @@ app.post("/api/visita-domiciliaria", (req, res) => {
         })
         .catch((err) => {
             console.error("Error al insertar datos:", err);
-            
+
             // Manejo de errores más específico
             if (err.code === 'ER_DUP_ENTRY') {
                 return res.status(409).json({

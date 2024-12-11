@@ -1243,30 +1243,52 @@ app.get('/api/etnias', async (req, res) => {
 });
 
 
-// RUTA PARA LAS VISITAS DOMICILIARIAS 
+//*************************************************** */ RUTAS PARA LAS VISITAS DOMICILIARIAS ****************************************************
 // Ruta para registrar visitas domiciliarias
 app.post("/api/visita-domiciliaria", (req, res) => {
-    const { tipo, numero_visita, fecha_atencion, opcional, observaciones, id_paciente } = req.body;
+    const { tipo, fecha_atencion, opcional, observaciones, id_paciente } = req.body;
 
     // Validaciones mejoradas
-    if (!tipo || !numero_visita || !fecha_atencion || !id_paciente) {
+    if (!tipo || !fecha_atencion || !id_paciente) {
         return res.status(400).json({
-            error: "Los campos 'tipo', 'número de visita', 'fecha de atención' e 'id_paciente' son obligatorios.",
+            error: "Los campos 'tipo', 'fecha de atención' e 'id_paciente' son obligatorios.",
         });
     }
 
-    const query = `
-        INSERT INTO visita_domiciliaria (tipo, numero_visita, fecha_atencion, opcional, observaciones, id_paciente) VALUES (?, ?, ?, ?, ?, ?)`;
+    // Consulta para obtener el último número de visita para este paciente
+    const queryUltimoNumeroVisita = `
+        SELECT COALESCE(MAX(numero_visita), 0) + 1 AS nuevo_numero_visita 
+        FROM visita_domiciliaria 
+        WHERE id_paciente = ?
+    `;
 
-    const values = [tipo, numero_visita, fecha_atencion, opcional || null, observaciones || null, id_paciente];
+    pool.query(queryUltimoNumeroVisita, [id_paciente])
+        .then((resultado) => {
+            const nuevoNumeroVisita = resultado[0][0].nuevo_numero_visita;
 
-    // Usar promesas o async/await para manejo de errores más limpio
-    pool.query(query, values)
-        .then((result) => {
-            res.status(201).json({
-                message: "Visita domiciliaria registrada con éxito.",
-                visitaId: result.insertId || null
-            });
+            const queryInsercion = `
+                INSERT INTO visita_domiciliaria 
+                (tipo, numero_visita, fecha_atencion, opcional, observaciones, id_paciente) 
+                VALUES (?, ?, ?, ?, ?, ?)
+            `;
+
+            const values = [
+                tipo, 
+                nuevoNumeroVisita, 
+                fecha_atencion, 
+                opcional || null, 
+                observaciones || null, 
+                id_paciente
+            ];
+
+            return pool.query(queryInsercion, values)
+                .then((result) => {
+                    res.status(201).json({
+                        message: "Visita domiciliaria registrada con éxito.",
+                        visitaId: result[0].insertId,
+                        numeroVisita: nuevoNumeroVisita
+                    });
+                });
         })
         .catch((err) => {
             console.error("Error al insertar datos:", err);
@@ -1285,10 +1307,11 @@ app.post("/api/visita-domiciliaria", (req, res) => {
         });
 });
 
+
 app.get("/api/visita-domiciliaria/:id_paciente", (req, res) => {
     const id_paciente = parseInt(req.params.id_paciente);
 
-    // Validate patient ID
+    // Validación de ID
     if (isNaN(id_paciente)) {
         return res.status(400).json({
             error: "ID de paciente inválido. Debe ser un número."
@@ -1298,6 +1321,7 @@ app.get("/api/visita-domiciliaria/:id_paciente", (req, res) => {
     const query = `
         SELECT 
             visita_domiciliaria.id_visita,
+            visita_domiciliaria.id_paciente AS visita_id_paciente,
             visita_domiciliaria.tipo,
             visita_domiciliaria.numero_visita,
             visita_domiciliaria.fecha_atencion,
@@ -1312,28 +1336,164 @@ app.get("/api/visita-domiciliaria/:id_paciente", (req, res) => {
 
     pool.query(query, [id_paciente])
         .then((results) => {
-            if (results.length === 0) {
-                return res.status(404).json({
-                    message: "No se encontraron visitas para este paciente.",
-                    visitas: []
-                });
-            }
+            // Acceder solo al primer elemento del array de resultados
+            const visitas = results[0].map(visita => ({
+                id_visita: visita.id_visita,
+                id_paciente: visita.visita_id_paciente,
+                tipo: visita.tipo,
+                numero_visita: visita.numero_visita,
+                fecha_atencion: visita.fecha_atencion,
+                opcional: visita.opcional,
+                observaciones: visita.observaciones,
+                edad_paciente: visita.edad_paciente
+            }));
 
             res.status(200).json({
-                message: "Visitas recuperadas exitosamente.",
-                total_visitas: results.length,
-                visitas: results
+                total_visitas: visitas.length,
+                visitas
             });
         })
         .catch((err) => {
             console.error("Error al recuperar visitas:", err);
             res.status(500).json({
                 error: "Error al recuperar visitas domiciliarias.",
-                details: err.message
+                detalles: err.message
+            });
+        });
+});
+// ACTUALIZAR VISITAS 
+app.put("/api/visita-domiciliaria/:id_paciente", (req, res) => {
+    const { id_paciente } = req.params;
+    const { tipo, fecha_atencion, opcional, observaciones } = req.body;
+
+    // Validar que el id_paciente exista y haya al menos un dato a actualizar
+    if (!id_paciente) {
+        return res.status(400).json({
+            error: "El 'id_paciente' es obligatorio.",
+        });
+    }
+    if (!tipo && !fecha_atencion && !opcional && !observaciones) {
+        return res.status(400).json({
+            error: "Al menos un campo debe ser proporcionado para actualizar.",
+        });
+    }
+
+    // Construir la consulta dinámicamente según los campos proporcionados
+    let queryActualizacion = `UPDATE visita_domiciliaria SET `;
+    const valores = [];
+    if (tipo) {
+        queryActualizacion += `tipo = ?, `;
+        valores.push(tipo);
+    }
+    if (fecha_atencion) {
+        queryActualizacion += `fecha_atencion = ?, `;
+        valores.push(fecha_atencion);
+    }
+    if (opcional) {
+        queryActualizacion += `opcional = ?, `;
+        valores.push(opcional);
+    }
+    if (observaciones) {
+        queryActualizacion += `observaciones = ?, `;
+        valores.push(observaciones);
+    }
+
+    // Quitar la última coma y agregar la cláusula WHERE
+    queryActualizacion = queryActualizacion.slice(0, -2);
+    queryActualizacion += ` WHERE id_paciente = ?`;
+    valores.push(id_paciente);
+
+    // Ejecutar la consulta
+    pool.query(queryActualizacion, valores)
+        .then((result) => {
+            if (result[0].affectedRows === 0) {
+                return res.status(404).json({
+                    error: "No se encontró un paciente con el id proporcionado.",
+                });
+            }
+            res.status(200).json({
+                message: "Visita domiciliaria actualizada con éxito.",
+            });
+        })
+        .catch((err) => {
+            console.error("Error al actualizar datos:", err);
+            res.status(500).json({
+                error: "Error al actualizar la visita domiciliaria.",
+                details: err.message,
             });
         });
 });
 
+// NUMERO DE VISITAS 
+app.get("/api/visita-domiciliaria/numero-visita/:id_paciente", (req, res) => {
+    const id_paciente = parseInt(req.params.id_paciente);
+
+    const query = `
+        SELECT COALESCE(MAX(numero_visita), 0) + 1 AS proximoNumeroVisita 
+        FROM visita_domiciliaria 
+        WHERE id_paciente = ?
+    `;
+
+    pool.query(query, [id_paciente])
+        .then((resultado) => {
+            const proximoNumeroVisita = resultado[0][0].proximoNumeroVisita;
+            
+            res.status(200).json({
+                proximoNumeroVisita
+            });
+        })
+        .catch((err) => {
+            console.error("Error al obtener el número de visita:", err);
+            res.status(500).json({
+                error: "Error al obtener el número de visita.",
+                details: err.message
+            });
+        });
+});
+// OBTENER  DAYOS DEL PACIENTE MEDIANTE EL ID DE LA VISITA  DE TODOS LOS CAMPOS DE LA TABLA VISITAS DOMICILIARIAS
+app.get("/api/visita-general-domiciliaria/:id_visita", (req, res) => {
+    const { id_visita } = req.params;
+
+    if (!id_visita) {
+        return res.status(400).json({
+            error: "El 'id_visita' es obligatorio.",
+        });
+    }
+
+    const query = `
+        SELECT 
+            id_visita, tipo, numero_visita, fecha_atencion, opcional, observaciones,id_paciente 
+        FROM 
+            visita_domiciliaria 
+        WHERE 
+            id_visita = ?
+        ORDER BY 
+            fecha_atencion DESC
+    `;
+
+    pool.query(query, [id_visita])
+        .then((resultado) => {
+            if (resultado[0].length === 0) {
+                return res.status(404).json({
+                    message: "No se encontró ninguna visita domiciliaria con este ID.",
+                });
+            }
+
+            res.status(200).json({
+                visitas: resultado[0],
+            });
+        })
+        .catch((err) => {
+            console.error("Error al obtener la visita domiciliaria:", err);
+            res.status(500).json({
+                error: "Error al obtener la visita domiciliaria desde la base de datos.",
+                details: err.message,
+            });
+        });
+});
+
+
+// *********************************************************************************************************************************************************+
 // Iniciar el servidor
 app.listen(PORT, async () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);

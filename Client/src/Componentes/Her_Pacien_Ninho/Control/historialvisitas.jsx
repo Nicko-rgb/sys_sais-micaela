@@ -11,7 +11,7 @@ const HistorialVisitas = () => {
     const navigate = useNavigate();
 
     const handleNewVisitClick = () => {
-        navigate('/visita/');
+        navigate(`/visita/${id_paciente}`);
     };
 
     useEffect(() => {
@@ -37,6 +37,15 @@ const HistorialVisitas = () => {
     
         fetchVisitas();
     }, [id_paciente]);
+
+    const formatDate = (fechaISO) => {
+        const fecha = new Date(fechaISO);
+        const dia = fecha.getDate().toString().padStart(2, '0');
+        const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+        const anio = fecha.getFullYear();
+        return `${dia}/${mes}/${anio}`;
+    };
+
 
     return (
         <div className='HistorialVisitas-container'>
@@ -72,7 +81,7 @@ const HistorialVisitas = () => {
                             {visitas.length > 0 ? (
                                 visitas.map((visita) => (
                                     <tr key={visita.id_visita}>
-                                        <td>{visita.fecha_atencion}</td>
+                                       <td>{formatDate(visita.fecha_atencion)}</td>
                                         <td>{visita.edad_paciente}</td>
                                         <td>{visita.numero_visita}</td>
                                         <td>{visita.opcional || "N/A"}</td>
@@ -81,7 +90,7 @@ const HistorialVisitas = () => {
                                         <td>-</td>
                                         <td>-</td>
                                         <td>
-                                            <button>Editar</button>
+                                            <button onClick={handleNewVisitClick}>Editar</button>
                                             <button>Eliminar</button>
                                         </td>
                                     </tr>

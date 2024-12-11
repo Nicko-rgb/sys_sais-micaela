@@ -110,7 +110,7 @@ const Selected = ({ onProfesionChange, onServicioChange }) => {
             <label>
                 Profesión:
                 <IoAddCircle className='ico-mas' onClick={handleAddProfesion} />
-                <select value={selectedProfesion} onChange={handleProfesionChange}>
+                <select className={`${selectedProfesion ?'activo' : '' }`} value={selectedProfesion} onChange={handleProfesionChange}>
                     <option value="">Seleccione una profesión</option>
                     {profesiones.map((prof) => (
                         <option key={prof.id_profesion} value={prof.id_profesion}>
@@ -123,7 +123,7 @@ const Selected = ({ onProfesionChange, onServicioChange }) => {
             <label>
                 Servicio:
                 <IoAddCircle className='ico-mas' onClick={handleAddServicio} />
-                <select value={selectedServicio} onChange={handleServicioChange}>
+                <select className={`${selectedServicio ?'activo' : '' }`} value={selectedServicio} onChange={handleServicioChange}>
                     <option value="">Seleccione un servicio</option>
                     {servicios.map((serv) => (
                         <option key={serv.id_servicio} value={serv.id_servicio}>

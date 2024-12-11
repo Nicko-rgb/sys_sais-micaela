@@ -59,20 +59,20 @@ const Personal = () => {
 
     // Función para abrir el modal de edición
     const handleEditClick = (personal) => {
-        setPersonalToEdit(personal);  // Guardar el personal seleccionado
-        setIsModalOpen(true);  // Abrir el modal de edición
+        setPersonalToEdit(personal);
+        setIsModalOpen(true);
     };
 
     // Función para cerrar el modal de edición
     const handleCloseModal = () => {
-        setIsModalOpen(false);  // Cerrar el modal
-        setPersonalToEdit(null);  // Limpiar el estado del personal seleccionado
+        setIsModalOpen(false)
+        setPersonalToEdit(null);
     };
 
     // Función para abrir el modal de confirmación para activar/inactivar
     const handleToggleClick = (personal) => {
-        setPersonalToToggle(personal); // Guardar el personal a activar/inactivar
-        setIsConfirmModalOpen(true);  // Abrir el modal de confirmación
+        setPersonalToToggle(personal);
+        setIsConfirmModalOpen(true); 
     };
 
     // Función para confirmar el cambio de estado (activar/inactivar)
@@ -168,7 +168,7 @@ const Personal = () => {
                                         <td>{personal.tipo_user}</td>
                                         <td>{personal.profesion}</td>
                                         <td>{personal.servicio}</td>
-                                        <td>{personal.especial_cita || '----'}</td>
+                                        <td>{personal.especial_cita ? `${personal.especial_cita} - (${personal.num_consultorio})` : '-----'}</td>
                                         <td>{personal.condicion}</td>
                                         <td>{personal.celular}</td>
                                         <td className='accion'>

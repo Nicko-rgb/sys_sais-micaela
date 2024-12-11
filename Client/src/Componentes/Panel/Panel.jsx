@@ -56,7 +56,9 @@ const Panel = () => {
                             <p>Gestante</p>
                         </Link>
                     </div>
-                    <Buscar />
+                    <div className="panell">
+                        <Buscar />
+                    </div>
                     <NavPie />
                 </>
             ) : (

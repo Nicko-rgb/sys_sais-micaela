@@ -32,7 +32,7 @@
     padding: 20px 30px;
     padding-bottom: 100px;
     background-color: white;
-    box-shadow: 0 0 7px dodgerblue;
+    box-shadow: 0 0 7px rgb(15, 157, 145);
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -51,17 +51,21 @@
 
 .reg-personal .close-personal-form {
     position: absolute;
-    top: -40px;
-    right: 10px;
+    top: 20px;
+    width: 33px;
+    padding: 5px;
+    right: 20px;
     font-size: 40px;
     font-weight: bold;
     color: #333;
     cursor: pointer;
     transition: 0.3s ease;
+    box-shadow: 0 0 1px;
+    border-radius: 50%;
 }
 
 .reg-personal .close-personal-form:hover {
-    transform: scale(1.05);
+    transform: scale(1.05) rotate(180deg);
 }
 
 .reg-personal form .fc {
@@ -95,6 +99,7 @@
     display: flex;
     font-size: 16px;
     flex-direction: column;
+    color: #4a4a4a;
 }
 
 .reg-personal form .combos {
@@ -104,18 +109,21 @@
 .reg-personal form input,
 .reg-personal form select {
     font-family: 'poppins';
-    border: rgba(96, 164, 216, 0.335) solid 2px;
     border-radius: 6px;
     font-size: 16px;
     padding: 8px;
     text-transform: uppercase;
     font-weight: bold;
+    border: rgba(14, 171, 145, 0.242) solid ;
+    outline: none;
 }
 
+.reg-personal form .activo {
+    border: rgb(15, 157, 145) solid;
+}
 .reg-personal form input:focus,
 .reg-personal form select:focus {
-    border: none;
-    outline: rgba(30, 143, 255, 0.833) 2px solid;
+    border: rgb(15, 157, 145) solid;
 }
 
 .reg-personal form input {

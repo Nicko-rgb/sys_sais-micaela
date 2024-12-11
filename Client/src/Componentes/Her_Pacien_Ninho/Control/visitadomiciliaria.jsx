@@ -13,6 +13,38 @@ const VisitaDomiciliaria = () => {
         observaciones: "",
     });
     const [showModal, setShowModal] = useState(false); // Estado para mostrar el modal
+    // Efecto para obtener el próximo número de visita
+    useEffect(() => {
+        const fetchNumeroVisita = async () => {
+            try {
+                // Realizar una petición para obtener el próximo número de visita
+                const response = await fetch(`http://localhost:5000/api/visita-domiciliaria/numero-visita/${id}`);
+                
+                if (!response.ok) {
+                    throw new Error('Error al obtener el número de visita');
+                }
+
+                const data = await response.json();
+                
+                // Setear el número de visita en el estado del formulario
+                setFormData(prevState => ({
+                    ...prevState,
+                    numero_visita: data.proximoNumeroVisita
+                }));
+            } catch (error) {
+                console.error("Error:", error);
+                // En caso de error, establecer como 1
+                setFormData(prevState => ({
+                    ...prevState,
+                    numero_visita: 1
+                }));
+            }
+        };
+
+        // Llamar a la función para obtener el número de visita
+        fetchNumeroVisita();
+    }, [id]);
+
 
     useEffect(() => {
         console.log("ID del paciente:", id);
@@ -20,7 +52,10 @@ const VisitaDomiciliaria = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+       // Eliminar la capacidad de editar el número de visita
+       if (name !== 'numero_visita') {
         setFormData({ ...formData, [name]: value });
+    }
     };
 
     const handleSubmit = async (e) => {
@@ -128,6 +163,8 @@ const VisitaDomiciliaria = () => {
                             className="visitadomiciliaria-input"
                             value={formData.numero_visita}
                             onChange={handleChange}
+                            readOnly // Hace que el campo sea de solo lectura
+                            disabled 
                         />
                     </div>
 

@@ -97,6 +97,20 @@ const Store = () => {
         }
     };
 
+
+    //Obtner especialidades de citas
+    const [especialidades, setEspecialidades] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/api/especialidad-unico-nino')
+            .then(response => {
+                setEspecialidades(response.data);
+            })
+            .catch(error => {
+                console.error("Error al obtener los horarios:", error);
+            });
+    }, []);
+
     // Carga de datos 
     useEffect(() => {
         fetchPersonalSalud();
@@ -156,6 +170,7 @@ const Store = () => {
         turnosPersonal,
         profesiones,
         servicios,
+        especialidades
     }
 }
 

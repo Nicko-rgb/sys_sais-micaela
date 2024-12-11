@@ -66,8 +66,8 @@ const Buscar = () => {
     };
 
     useEffect(() => {
-        obtenerPacientes(); // Obtener pacientes al montar el componente
-    }, []);
+        obtenerPacientes();
+    }, [showModal]);
 
     const handleSearch = (e) => {
         setSearchTerm(e.target.value);

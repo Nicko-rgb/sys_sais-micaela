@@ -489,12 +489,17 @@ app.get('/api/obtener/personal-salud', async (req, res) => {
 app.put('/api/update-personal', async (req, res) => {
     const { id_personal, dni, paterno, materno, nombres, tipo_user, profesion, servicio, especial_cita, num_consultorio, condicion, celular, correo, usuario, contrasena, estado } = req.body;
 
+    // Establecer valores predeterminados si están vacíos
+    const especialidadCita = especial_cita || null;
+    const consultorio = especialidadCita === null ? null : num_consultorio;
+
+
     try {
         const [result] = await pool.query(`
             UPDATE personal_salud 
             SET dni = ?, paterno = ?, materno = ?, nombres = ?, tipo_user = ?, profesion = ?, servicio = ?, especial_cita = ?, num_consultorio = ?, condicion = ?, celular = ?, correo = ?, usuario = ?, contrasena = ?, estado = ?
             WHERE id_personal = ?
-        `, [dni, paterno, materno, nombres, tipo_user, profesion, servicio, especial_cita, num_consultorio, condicion, celular, correo, usuario, contrasena, estado, id_personal]);
+        `, [dni, paterno, materno, nombres, tipo_user, profesion, servicio, especialidadCita, consultorio, condicion, celular, correo, usuario, contrasena, estado, id_personal]);
 
         if (result.affectedRows > 0) {
             res.json({ message: 'Datos actualizados correctamente' });

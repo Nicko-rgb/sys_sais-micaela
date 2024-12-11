@@ -162,19 +162,18 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                     // Encuentra al profesional responsable para atención para este horario
                     const responsable = turnosPersonal.find((res) => {
                         const isGuardiaDiurna = res.turno === 'Guardia Diurna';
-
-                        // Común a ambas condiciones
-                        const isMatchingSpecialty = res.especial_cita.toLowerCase() === especialidad.toLowerCase();
-                        const isMatchingConsultorio = Number(res.num_consultorio) === Number(consultorio);
-                        const isMatchingFecha = new Date(res.fecha).toISOString().split('T')[0] === fecha;
-
-                        // Retorna true si se cumple la condición correspondiente
-                        return (
-                            isMatchingSpecialty &&
-                            isMatchingConsultorio &&
-                            isMatchingFecha &&
-                            (isGuardiaDiurna || res.turno.toLowerCase() === horario.turno.toLowerCase())
-                        );
+                        if (res.especial_cita) {
+                            // Común a ambas condiciones
+                            const isMatchingSpecialty = res.especial_cita.toLowerCase() === especialidad.toLowerCase();
+                            const isMatchingConsultorio = Number(res.num_consultorio) === Number(consultorio);
+                            const isMatchingFecha = new Date(res.fecha).toISOString().split('T')[0] === fecha;
+                            return (
+                                isMatchingSpecialty &&
+                                isMatchingConsultorio &&
+                                isMatchingFecha &&
+                                (isGuardiaDiurna || res.turno.toLowerCase() === horario.turno.toLowerCase())
+                            );
+                        }
                     });
 
                     if (horario.tipo_atencion === 'receso') {

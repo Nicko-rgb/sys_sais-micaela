@@ -5,17 +5,19 @@ import { BiLogOutCircle } from "react-icons/bi";
 import { IoPeopleSharp } from "react-icons/io5";
 import EstadoSesion from '../Complementos/EstadoSesion';
 import Sidebar from './Sidebar';
-import '../Login/login.css';
+import './nav.css'
 import Modalnavtop from './modalnavtop';
 
-const Layout = ({ children }) => {
+const NavTop = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [modalOpen, setModalOpen] = useState(false); // Estado para controlar el modal
   const { handleLogout, isLoggedIn, rutaPerfil, tipoUser } = EstadoSesion();
   const { userPersonal } = EstadoSesion();
 
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen)
+  }
 
   const RecargarPagina = () => {
     window.location.reload();
@@ -58,39 +60,26 @@ const Layout = ({ children }) => {
   };
 
   return (
-    <div className="app-layout">
-      <div className="nav_login" style={{ position: 'fixed' }}>
-        <div className='recargar' onClick={RecargarPagina}>
-          <FaUsersCog className='iconn icon1' />
-          <p>Sistema de Atención Integral de Salud - C.S. MICAELA BASTIDAS</p>
-        </div>
-        <div className="opcion-nav">
-          {isLoggedIn && (
-            <>
-              {userPersonal}
-              <div className="reloj" style={{ color: 'white', marginLeft: '10px', fontSize: "12px" }}>
-                {formatTime(currentTime)} {/* Muestra el reloj en tiempo real */}
-              </div>
-              <IoPeopleSharp className='iconn ico-people' onClick={openPersonal} title='USERS PERSONAL' />
-              <FaUser className='iconn ico-yo-user' onClick={RutaPerfil} title='PERFIL USUARIO' />
-              <BiLogOutCircle className='iconn ico-closse-sesion' onClick={openLogoutModal} title='CERRAR SESION' />
-              <FaBarsStaggered className='iconn icon_login_nav' onClick={toggleSidebar} />
-            </>
-          )}
-        </div>
+    <div className="nav-top">
+      <div className='recargar' onClick={RecargarPagina}>
+        <FaUsersCog className='iconn icon1' />
+        <p>Sistema de Atención Integral de Salud - C.S. MICAELA BASTIDAS</p>
       </div>
-      {isLoggedIn && (
-        <div className={`sidebarMenu ${sidebarOpen ? 'open' : ''}`} onClick={(e) => e.stopPropagation()}>
-          <FaTimes className="close-icon" onClick={toggleSidebar} />
-          <Sidebar tipoUser={tipoUser} />
-        </div>
-      )}
-      <div className="content-wrapper">
-        <main className="main-content">
-          {children}
-        </main>
+      <div className="menu-nav">
+        {isLoggedIn && (
+          <>
+            {userPersonal}
+            <div className="reloj" style={{ color: 'white', marginLeft: '10px', fontSize: "12px" }}>
+              {formatTime(currentTime)}
+            </div>
+            <IoPeopleSharp className='iconn ico-people' onClick={openPersonal} title='USERS PERSONAL' />
+            <FaUser className='iconn ico-yo-user' onClick={RutaPerfil} title='PERFIL USUARIO' />
+            <BiLogOutCircle className='iconn ico-closse-sesion' onClick={openLogoutModal} title='CERRAR SESION' />
+            <FaBarsStaggered className='iconn icon_login_nav' onClick={toggleSidebar} />
+          </>
+        )}
       </div>
-      {/* Modal de cierre de sesión */}
+      <Sidebar tipoUser={tipoUser} sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       {modalOpen && (
         <Modalnavtop
           onClose={closeModal}
@@ -101,4 +90,4 @@ const Layout = ({ children }) => {
   );
 };
 
-export default Layout;
+export default NavTop;

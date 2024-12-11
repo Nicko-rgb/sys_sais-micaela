@@ -1,0 +1,171 @@
+.nav-top,
+.nav-pie {
+    position: fixed;
+    height: 37px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgb(48, 48, 48);
+    color: rgb(97, 208, 97);
+    padding: 0 15px;
+    z-index: 10;
+    transition: .3s ease;
+}
+
+.nav-top {
+    top: 0;
+    left: 0;
+    border-bottom: solid 3px #00796b;
+
+}
+
+.nav-pie {
+    bottom: 0;
+    left: 0;
+    border-top: solid 3px #00796b;
+}
+
+.nav-top>div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-top .recargar {
+    cursor: pointer;
+    height: 100%;
+}
+
+.nav-top p {
+    font-weight: 550;
+    font-size: 14px;
+}
+
+.nav-top .iconn {
+    font-size: 20px;
+}
+
+.nav-top .iconn {
+    font-size: 32px;
+    padding: 5px;
+    border-radius: 50%;
+    transition: .3s ease;
+    box-shadow: 0 0 1px;
+    cursor: pointer;
+}
+
+.nav-top .icon1 {
+    box-shadow: none;
+}
+
+.nav-top .menu-nav .ico-closse-sesion {
+    color: rgb(238, 64, 64);
+}
+
+.nav-top .ico-people {
+    color: rgb(93, 64, 238);
+}
+
+.nav-top .ico-yo-user {
+    color: #00796b;
+}
+
+.nav-top .menu-nav .ico-people:hover,
+.ico-closse-sesion:hover,
+.ico-yo-user:hover,
+.icon_login_nav:hover {
+    background: rgb(78, 78, 78);
+    box-shadow: 0 0 3px;
+}
+
+.nav-pie p {
+    color: white;
+    font-size: 12px;
+}
+
+.nav-pie .btns {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    height: 100%;
+}
+
+.nav-pie .btns button,
+.nav-pie a {
+    background-color: azure;
+    color: black;
+    text-decoration: none;
+    height: 80%;
+}
+
+.sidebar {
+    position: fixed;
+    right: 0;
+    top: 37px;
+    right: -260px;
+    width: 250px;
+    height: calc(100vh - 74px);
+    background-color: rgb(48, 48, 48);
+    color: #ecf0f1;
+    z-index: 100;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    transition: .3s ease;
+}
+
+.nav-top .active {
+    transition: .3s ease;
+    right: 0;
+}
+
+.sidebar .close-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 35px;
+    transition: .3s ease;
+    cursor: pointer;
+}
+
+.sidebar .close-icon:hover {
+    transform: rotate(180deg);
+    background-color: rgb(67, 67, 67);
+}
+
+.sidebar h3 {
+    color: rgb(97, 208, 97);
+    margin-top: 40px;
+    border-bottom: rgba(65, 206, 157, 0.454) solid 1px;
+    width: 70%;
+}
+
+.sidebar nav li {
+    list-style: none;
+    padding-left: 25px;
+}
+
+.sidebar nav li a {
+    text-decoration: none;
+}
+
+.sidebar nav ul li a {
+    display: flex;
+    align-items: center;
+    color: #ecf0f1;
+    text-decoration: none;
+    padding: 10px;
+    gap: 5px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar nav ul li a:hover {
+    background-color: #34495e;
+}
+.sidebar nav svg {
+    font-size: 20px;
+}

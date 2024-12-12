@@ -37,7 +37,7 @@
 .personal-edit form {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 20px 30px;
   animation: fadeIn 0.3s ease;
   width: 100%;
 }

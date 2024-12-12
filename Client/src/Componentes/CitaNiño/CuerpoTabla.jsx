@@ -144,6 +144,13 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
         return texto
     }
 
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Establecer la hora a medianoche para comparar solo fechas
+
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1); // Restar un día
+
+
     return (
         <>
             <tbody>
@@ -213,7 +220,7 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
 
                             <td className="box-ac" style={{ padding: '0' }}>
                                 <div className="accion">
-                                    {new Date(fecha) < new Date() ? (
+                                    {new Date(fecha) < yesterday ? (
                                         <CiLock style={{ color: 'red', cursor: 'initial' }} className="ico ico-" title="Fecha pasada, no editable" />
                                     ) : (
                                         !rowBlocked ? (

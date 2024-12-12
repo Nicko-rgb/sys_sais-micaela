@@ -1,6 +1,10 @@
-import React from 'react'
+import React from 'react';
+import Store from '../../Store/Store_Cita_Turno';
+import EstadoSesion from '../../Complementos/EstadoSesion';
 
 const CuerpoTabla = ({ activosFiltrados, fechasDelMes, tiposDeTurno, obtenerClaveTurno, turnos, manejarClickPersonal, columnasBloqueadas, manejarGuardarTurno }) => {
+    const { coloresTurno } = Store();
+    const { tipoUser } = EstadoSesion()
     return (
         <tbody>
             {activosFiltrados.map((personal, index) => (
@@ -16,32 +20,37 @@ const CuerpoTabla = ({ activosFiltrados, fechasDelMes, tiposDeTurno, obtenerClav
                         return (
                             <td
                                 key={fechaIndex}
-                                className={`${columnaBloqueada ? 'bloqueada' : ''} ${esDomingo ? 'domingo' : ''}`.trim()}
+                                className={`claves ${columnaBloqueada ? 'bloqueada' : ''} ${esDomingo ? 'domingo' : ''}`.trim()}
                             >
                                 {!esDomingo && !columnaBloqueada && (
-                                    <select
-                                        className={
-                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'M' ? 'mm' :
-                                                obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'T' ? 'tt' :
-                                                    obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'GD' ? 'gd' :
-                                                        obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'GDD' ? 'gdd' :
-                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'MT' ? 'mt' :
-                                                                obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'MVD' ? 'mvd' :
-                                                                    obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'TVD' ? 'tvd' :
-                                                                        obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'MVSF' ? 'mvsf' :
-                                                                            obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'TVSL' ? 'tvsl' :
-                                                                                obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`]) === 'L' ? 'll' : ''
-                                        }
-                                        value={turnos[`${personal.id_personal}_${fecha.toDateString()}`] || ""}
-                                        onChange={(e) => manejarGuardarTurno(personal.id_personal, fecha, e.target.value)}
-                                    >
-                                        <option value=""></option>
-                                        {tiposDeTurno.map(turno => (
-                                            <option key={turno.id_turno_tipo} value={turno.id_turno_tipo}>
-                                                {turno.clave_turno}
-                                            </option>
-                                        ))}
-                                    </select>
+                                    tipoUser.toLowerCase() !== 'responsable' ? (
+                                        <select
+                                            value={turnos[`${personal.id_personal}_${fecha.toDateString()}`] || ""}
+                                            onChange={(e) => manejarGuardarTurno(personal.id_personal, fecha, e.target.value)}
+                                            style={{
+                                                backgroundColor: coloresTurno[obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`])] || '',
+                                            }}
+                                        >
+                                            <option value=""></option>
+                                            {tiposDeTurno.map(turno => (
+                                                <option key={turno.id_turno_tipo} value={turno.id_turno_tipo}>
+                                                    {turno.clave_turno}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    ) : (
+                                        <p
+                                            style={{
+                                                backgroundColor: coloresTurno[obtenerClaveTurno(turnos[`${personal.id_personal}_${fecha.toDateString()}`])] || '',
+                                            }}
+                                        >
+                                            {
+                                                tiposDeTurno.find(turno => turno.id_turno_tipo === turnos[`${personal.id_personal}_${fecha.toDateString()}`])
+                                                    ?.clave_turno || ""
+                                            }
+                                        </p>
+                                    )
+
                                 )}
                             </td>
                         );
@@ -49,7 +58,7 @@ const CuerpoTabla = ({ activosFiltrados, fechasDelMes, tiposDeTurno, obtenerClav
                 </tr>
             ))}
         </tbody>
-    )
+    );
 }
 
-export default CuerpoTabla
+export default CuerpoTabla;

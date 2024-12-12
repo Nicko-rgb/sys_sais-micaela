@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import "./EditPersonales.css";
 import Sector from '../Sectores/Sector';
 import Store from '../../Store/Store_Cita_Turno'
+import { CiEdit } from "react-icons/ci";
+import { LuMapPinPlus } from "react-icons/lu";
+import { IoCheckmarkDoneOutline } from "react-icons/io5";
 
 const EditPersonales = ({ personData, onSave, onClose }) => {
     const [formData, setFormData] = useState({ ...personData });
@@ -46,9 +49,8 @@ const EditPersonales = ({ personData, onSave, onClose }) => {
         <div className="personal-edit">
             <div className="edit-content">
                 <nav>
-                    <button className={activeModal === 'edit' ? 'active' : ''} onClick={() => handleOpenModal('edit')}>Editar Datos</button>
-                    {/* <button className={activeModal === 'turno' ? 'active' : ''} onClick={() => handleOpenModal('turno')}>Asignar Turno</button> */}
-                    <button className={activeModal === 'sector' ? 'active' : ''} onClick={() => handleOpenModal('sector')}>Asignar Sector</button>
+                    <button className={activeModal === 'edit' ? 'active' : ''} onClick={() => handleOpenModal('edit')}><CiEdit style={{fontSize: '18px'}}/>Editar Datos</button>
+                    <button className={activeModal === 'sector' ? 'active' : ''} onClick={() => handleOpenModal('sector')}><LuMapPinPlus style={{fontSize: '17'}}/>Asignar Sector</button>
                 </nav>
                 {activeModal === 'edit' && (
                     <form className="form-personal" onSubmit={handleSubmit}>
@@ -151,7 +153,7 @@ const EditPersonales = ({ personData, onSave, onClose }) => {
                             </div>
                         </div>
                         <div className="btns">
-                            <button type="submit" className="btn-save">Guardar</button>
+                            <button type="submit" className="btn-save"><IoCheckmarkDoneOutline style={{fontSize: '18px'}} />Guardar</button>
                             <button type="button" className="btn-cancela" onClick={onClose}>Cancelar</button>
                         </div>
                     </form>

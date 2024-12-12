@@ -144,27 +144,42 @@ const Store = () => {
             case 'GDD':
                 return 'Guardia Devolución';
             case 'MVD':
-                return 'Mañana Variable';
+                return 'Mañana Visita Domiciliaria';
             case 'TVD':
-                return 'Tarde Variable';
+                return 'Tarde Visita Domiciliaria';
             case 'MVSF':
-                return 'Mañana Variable Sin Fines de Semana';
-            case 'TVSL':
-                return 'Tarde Variable Sin Lunes';
+                return 'Mañana Visita Salud Familiar';
+            case 'TVSF':
+                return 'Tarde Visita Salud Familiar';
             case 'L':
                 return 'Libre';
             default:
-                return 'Desconocido';
+                return 'Indefinido';
         };
     };
+    // Definición de colores para cada tipo de turno
+    const coloresTurno = {
+        'M': 'pink', // Color para Mañana (Naranja)
+        'T': '#64B5F6', // Color para Tarde (Azul claro)
+        'MT': '#81C784', // Color para Mañana y Tarde (Verde)
+        'GD': '#FFD54F', // Guardia Diurna (Amarillo)
+        'GDD': '#BA68C8', // Guardia Devolución (Púrpura)
+        'MVD': '#FFAB91',
+        'TVD': '#4DB6AC', // Tarde Visita Domiciliaria (Verde agua)
+        'MVSF': 'gray', // Mañana Visita Salud Familiar (Melocotón)
+        'TVSF': '#FFF176', // Tarde Visita Salud Familiar (Amarillo claro)
+        'L': '#A1887F' // Libre (Marrón claro)
+    };
+    
 
     return {
-        personalSalud, 
+        personalSalud,
         profesionFiltro,
         condicionFiltro,
         tiposDeTurno,
         cargando,
         obtenerDescripcionTurno,
+        coloresTurno,
         blockedRows,
         citas,
         turnosPersonal,

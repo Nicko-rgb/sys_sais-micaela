@@ -1,52 +1,135 @@
-import React from 'react'
+import React, { useState } from "react";
+import { Stage, Layer, Rect, Line, Text } from "react-konva";
+import { FormSector } from '../infoTurno/MiniCompont'
 import './sector.css'
+import Coordenada from "./Coordenada";
 
-const Sector = () => {
+const MapaInteractivo = () => {
+    const [selectedManzana, setSelectedManzana] = useState(null);
+    const [scale, setScale] = useState({ x: 1, y: 1 });
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [formPosition, setFormPosition] = useState({ x: 0, y: 0 });
+    const [openForm, setOpenForm] = useState(false);
+    const {manzanas, viviendas, calles } = Coordenada
+    
+    const handleManzanaClick = (id, points) => {
+        setSelectedManzana(id);
+        const centerX = (points[0] + points[4]) / 2;
+        const centerY = (points[1] + points[5]) / 2;
+        setFormPosition({ x: centerX - (100 / scale.x) /2 , y: centerY - (100 / scale.y) /2 }); // Ajusta la posición del formulario
+        setOpenForm(true);
+    };
+
+    const closeForm = () => {
+        setSelectedManzana(null);
+        setOpenForm(false);
+    }
+
+    const handleWheel = (e) => {
+        e.evt.preventDefault();
+        const scaleBy = 1.02;
+        const stage = e.target.getStage();
+        const oldScale = stage.scaleX();
+        const mousePointTo = {
+            x: stage.getPointerPosition().x / oldScale - stage.x() / oldScale,
+            y: stage.getPointerPosition().y / oldScale - stage.y() / oldScale,
+        };
+        const newScale = e.evt.deltaY > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+        setScale({ x: newScale, y: newScale });
+        setPosition({
+            x: -(mousePointTo.x - stage.getPointerPosition().x / newScale) * newScale,
+            y: -(mousePointTo.y - stage.getPointerPosition().y / newScale) * newScale,
+        });
+    };
+
     return (
-        <div className="sector">
-            <h3>Asignar Sector</h3>
-            <main className="content-mapa">
-                <div className="map-container">
-                    <h1>Plano Jurisdiccional - Centro de Salud</h1>
-                    <svg viewBox="0 0 1200 1200" className="map-svg">
-                        {/* Manzanas verdes (viviendas) */}
-                        <rect className="vivienda" x="50" y="50" width="80" height="80" />
-                        <text x="70" y="90" className="map-label">MBA001</text>
+        <div className="sector" >
+            <h3>Sectores de SAIS</h3>
+            <Stage
+                width={window.innerWidth}
+                height={window.innerHeight}
+                scaleX={scale.x}
+                scaleY={scale.y}
+                x={position.x}
+                y={position.y}
+                draggable
+                onWheel={handleWheel}
+                className="stage"
+            >
+                <Layer>
+                    {/* Calles */}
+                    {calles.map((calle) => (
+                        <Line
+                            key={calle.points.join('-')}
+                            points={calle.points}
+                            stroke={calle.color}
+                            strokeWidth={10}
+                        />
+                    ))}
 
-                        <rect className="vivienda" x="150" y="50" width="80" height="80" />
-                        <text x="170" y="90" className="map-label">MBA002</text>
+                    {/* Manzanas */}
+                    {manzanas.map((manzana) => (
+                        <Line
+                            key={manzana.id}
+                            points={manzana.points}
+                            fill={manzana.color}
+                            closed
+                            stroke="black"
+                            strokeWidth={2}
+                            onClick={(e) => {
+                                e.cancelBubble = true; // Evita la propagación del evento
+                                handleManzanaClick(manzana.id, manzana.points);
+                            }}
+                        />
+                    ))}
 
-                        <rect className="vivienda" x="250" y="50" width="80" height="80" />
-                        <text x="270" y="90" className="map-label">MBA003</text>
+                    {/* Viviendas */}
+                    {viviendas.map((vivienda) => (
+                        <Line
+                            key={`${vivienda.manzanaId}-${Math.random()}`} 
+                            points={vivienda.points}
+                            fill='white'
+                            closed
+                            stroke="gray"
+                            className='vivi'
+                            strokeWidth={1}
+                        />
+                    ))}
 
-                        {/* Ejemplo de manzana roja (colegios) */}
-                        <rect className="colegio" x="350" y="50" width="100" height="80" />
-                        <text x="370" y="90" className="map-label">MBB023</text>
+                    {/* Etiquetas de manzanas */}
+                    {manzanas.map((manzana) => (
+                        <Text
+                            key={`label-${manzana.id}`}
+                            text={`M${manzana.id}`}
+                            x={(manzana.points[0] + manzana.points[4]) / 2 - 10}
+                            y={(manzana.points[1] + manzana.points[5]) / 2 -10}
+                            fontSize={16}
+                            fill="black"
+                        />
+                    ))}
+                </Layer>
+            </Stage>
 
-                        {/* Ejemplo de manzana celeste (centro de salud) */}
-                        <rect className="centro-salud" x="500" y="50" width="120" height="120" />
-                        <text x="520" y="110" className="map-label">ESSALUD</text>
-
-                        {/* Más bloques */}
-                        <rect className="vivienda" x="50" y="150" width="80" height="80" />
-                        <text x="70" y="190" className="map-label">MBA004</text>
-
-                        <rect className="vivienda" x="150" y="150" width="80" height="80" />
-                        <text x="170" y="190" className="map-label">MBA005</text>
-
-                        <rect className="colegio" x="250" y="150" width="100" height="80" />
-                        <text x="270" y="190" className="map-label">MBB010</text>
-
-                        {/* Ejemplo de área agropecuaria */}
-                        <rect className="agropecuario" x="400" y="150" width="150" height="120" />
-                        <text x="420" y="220" className="map-label">IE AGROPECUARIO</text>
-
-                        {/* Agregar tantas manzanas como sea necesario... */}
-                    </svg>
+            {/* Formulario interactivo */}
+            {openForm && (
+                <div
+                    className='modal'
+                    style={{
+                        position: 'absolute',
+                        top: formPosition.y,
+                        left: formPosition.x,
+                        backgroundColor: 'white',
+                        padding: '10px',
+                        border: '1px solid black',
+                        borderRadius: '5px',
+                        boxShadow: '0px 0px 10px rgba(0 ,0 ,0 ,0.2)',
+                    }}
+                >
+                    <FormSector closeForm={closeForm} selectedManzana={selectedManzana} />
                 </div>
-            </main>
+            )}
         </div>
-    )
-}
+    );
+};
 
-export default Sector
+export default MapaInteractivo;

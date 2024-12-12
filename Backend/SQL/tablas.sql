@@ -136,8 +136,6 @@ CREATE TABLE personal_salud (
     reset_token VARCHAR(255) DEFAULT NULL,
     fechaRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-ALTER TABLE personal_salud 
-    MODIFY COLUMN especial_cita VARCHAR(50)
 
 -- CREAMOS UNA TABLA PARA REGISTRAR TURNOS DE PERSONALES
 CREATE TABLE turnos_personal (
@@ -430,157 +428,17 @@ CREATE TABLE `nacimiento_paciente_ninos` (
     `ID_FINANCIAMENTO` int(11) DEFAULT NULL,
     `ID_PROGRAMA` int(11) DEFAULT NULL,
     `codigo_sis` varchar(12) DEFAULT NULL
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `nacimiento_paciente_ninos`
---
-
-INSERT INTO
-    `nacimiento_paciente_ninos` (
-        `ID_DATOS_NACIMIENTO`,
-        `EDAD_GESTACIONAL`,
-        `ID_PACIENTE`,
-        `PESO`,
-        `TALLA`,
-        `PERIMETRO_CEFALICO`,
-        `ID_ETNIA`,
-        `ID_FINANCIAMENTO`,
-        `ID_PROGRAMA`,
-        `codigo_sis`
-    )
-VALUES (
-        16,
-        6363,
-        3,
-        5.20,
-        1.72,
-        15.20,
-        5,
-        2,
-        3,
-        'XDXDfghj'
-    ),
-    (
-        17,
-        90,
-        9,
-        60.00,
-        1.62,
-        55.00,
-        5,
-        4,
-        4,
-        '22'
-    ),
-    (
-        18,
-        848,
-        10,
-        37.00,
-        737.00,
-        838.00,
-        4,
-        6,
-        5,
-        '888'
-    );
--- VISITAS DOMICILIARIAS 
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Servidor: 127.0.0.1
--- Tiempo de generación: 11-12-2024 a las 14:30:58
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Base de datos: `db_sais`
---
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `visita_domiciliaria`
---
+)
 
 CREATE TABLE `visita_domiciliaria` (
-  `id_visita` int(11) NOT NULL,
+  `id_visita` INT AUTO_INCREMENT PRIMARY KEY,
   `tipo` varchar(100) NOT NULL,
   `numero_visita` int(11) NOT NULL,
   `fecha_atencion` date NOT NULL,
   `opcional` varchar(255) DEFAULT NULL,
   `observaciones` text DEFAULT NULL,
   `id_paciente` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+)
 
---
--- Volcado de datos para la tabla `visita_domiciliaria`
---
-
-INSERT INTO `visita_domiciliaria` (`id_visita`, `tipo`, `numero_visita`, `fecha_atencion`, `opcional`, `observaciones`, `id_paciente`) VALUES
-(1, 'Efectiva', 1, '2024-12-11', 'Visita por Anemia', 'ANEMIA', 5),
-(2, 'No Efectiva', 2, '2024-12-23', 'Visita por Anemia', 'SID', 5),
-(3, 'Efectiva', 1, '2024-12-20', 'Supervision Suplementacion', 'sid', 6),
-(4, 'No Efectiva', 1, '2024-12-19', 'Supervision Suplementacion', 'COMPLICACIONES  MARITALES', 3),
-(5, 'Efectiva', 2, '2024-12-28', 'Supervision CRED', 'SUPLEMENTACION', 3),
-(6, 'Efectiva', 3, '2024-12-19', 'Supervision Suplementacion', 'SULFATO FERROSO', 3),
-(7, 'Efectiva', 3, '2024-12-13', NULL, 'GONORREA\n', 5),
-(8, 'Efectiva', 4, '2024-12-26', 'Visita por Anemia', 'SIDA CON CHANCRO', 5),
-(9, 'No Efectiva', 5, '2024-12-28', 'Supervision Suplementacion', 'SINDROME DE PARKINSO', 5),
-(10, 'Efectiva', 6, '2024-12-30', 'Visita por Anemia', 'SIDAS', 5),
-(12, 'Efectiva', 7, '2024-12-23', 'Supervision Suplementacion', 'SDSDSDS', 5),
-(13, 'Efectiva', 1, '2024-12-27', 'Visita por Anemia', 'vde', 8),
-(14, 'Efectiva', 1, '2024-12-13', 'Visita por Anemia', 'CON BAJO PORCENTAJE DE GRASA', 7),
-(15, 'Efectiva', 1, '2024-12-21', 'Supervision Suplementacion', 'DEFICIENCIA DE SULFATO FERROSO', 1),
-(16, 'No Efectiva', 2, '2024-12-17', 'Visita por Anemia', 'ANEMIA POR DEBAJO DE LOS -10', 1),
-(17, 'No Efectiva', 3, '2024-12-21', 'Supervision Suplementacion', 'SINDROME DE ', 1);
-
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `visita_domiciliaria`
---
-ALTER TABLE `visita_domiciliaria`
-  ADD PRIMARY KEY (`id_visita`),
-  ADD KEY `fk_paciente` (`id_paciente`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `visita_domiciliaria`
---
-ALTER TABLE `visita_domiciliaria`
-  MODIFY `id_visita` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `visita_domiciliaria`
---
 ALTER TABLE `visita_domiciliaria`
   ADD CONSTRAINT `fk_paciente` FOREIGN KEY (`id_paciente`) REFERENCES `pacientes` (`id_paciente`) ON DELETE CASCADE;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
--- -------------------

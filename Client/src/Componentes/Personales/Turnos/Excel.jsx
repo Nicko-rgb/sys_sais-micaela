@@ -5,7 +5,7 @@ import { RiFileExcel2Fill } from "react-icons/ri";
 import './excel.css';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import Leyenda from "../infoTurno/Leyendas";
+import {Leyenda} from "../infoTurno/MiniCompont";
 
 
 const ExportExcel = () => {
@@ -18,53 +18,32 @@ const ExportExcel = () => {
 
     // Cargar datos de personales, turnos y tipos de turno
     useEffect(() => {
-        const fetchPersonales = async () => {
+        const fetchDatos = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/obtener/personal-salud');
-                const data = await response.json();
-                // Filtrar solo personales activos
-                const activos = data.filter(personal => personal.estado === 'activo');
-                setPersonales(activos);
+                const [personalRes, turnosRes, tiposTurnoRes, fechasBloqueadasRes] = await Promise.all([
+                    fetch('http://localhost:5000/api/obtener/personal-salud'),
+                    fetch('http://localhost:5000/api/obtener-turnos/personal'),
+                    fetch('http://localhost:5000/api/tipos-turno'),
+                    fetch('http://localhost:5000/api/obtener-fechas-bloqueadas')
+                ]);
+    
+                const personalData = await personalRes.json();
+                const turnosData = await turnosRes.json();
+                const tiposTurnoData = await tiposTurnoRes.json();
+                const fechasBloqueadasData = await fechasBloqueadasRes.json();
+    
+                setPersonales(personalData.filter(personal => personal.estado === 'activo'));
+                setTurnos(turnosData);
+                setTiposDeTurno(tiposTurnoData);
+                setColumnasBloqueadas(fechasBloqueadasData.map(f => new Date(f.fecha).toDateString()));
             } catch (error) {
-                console.error('Error al obtener los personales de salud:', error);
+                console.error('Error al cargar los datos:', error);
             }
         };
-
-        const fetchTiposDeTurno = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/api/tipos-turno');
-                const data = await response.json();
-                setTiposDeTurno(data);
-            } catch (error) {
-                console.error('Error al obtener los tipos de turnos:', error);
-            }
-        };
-
-        const fetchTurnosPersonal = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/api/obtener-turnos/personal');
-                const data = await response.json();
-                setTurnos(data);
-            } catch (error) {
-                console.error('Error al obtener los turnos del personal:', error);
-            }
-        };
-
-        const fetchFechasBloqueadas = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/api/obtener-fechas-bloqueadas');
-                const data = await response.json();
-                setColumnasBloqueadas(data.map(f => new Date(f.fecha).toDateString()));
-            } catch (error) {
-                console.error('Error al obtener las fechas bloqueadas:', error);
-            }
-        };
-
-        fetchPersonales();
-        fetchTiposDeTurno();
-        fetchTurnosPersonal();
-        fetchFechasBloqueadas();
+    
+        fetchDatos();
     }, [mesActual]);
+    
 
     // Obtener fechas del mes actual
     const obtenerFechasDelMes = (fecha) => {

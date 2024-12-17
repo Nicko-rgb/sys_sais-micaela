@@ -221,6 +221,21 @@
   overflow-y: auto;
   /* Scroll solo si el contenido excede el área visible */
 }
+.HistorialVisitas__table-container {
+  max-height: 400px; /* Ajusta según el tamaño que desees */
+  overflow-y: auto;
+}
+
+.HistorialVisitas__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.HistorialVisitas__table thead {
+  position: sticky;
+  top: 0;
+  background-color: #f4f4f4; /* Color de fondo para cabecera fija */
+}
 
 .HistorialVisitas__header {
   display: flex;

@@ -3,6 +3,7 @@ import { FaUsersCog, FaTimes, FaUser } from "react-icons/fa";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { BiLogOutCircle } from "react-icons/bi";
 import { IoPeopleSharp } from "react-icons/io5";
+import { IoMdNotifications } from "react-icons/io";
 import EstadoSesion from '../Complementos/EstadoSesion';
 import Sidebar from './Sidebar';
 import '../Login/login.css';
@@ -71,6 +72,7 @@ const Layout = ({ children }) => {
               <div className="reloj" style={{ color: 'white', marginLeft: '10px', fontSize: "12px" }}>
                 {formatTime(currentTime)} {/* Muestra el reloj en tiempo real */}
               </div>
+              <IoMdNotifications  className='iconn ico-people' />
               <IoPeopleSharp className='iconn ico-people' onClick={openPersonal} title='USERS PERSONAL' />
               <FaUser className='iconn ico-yo-user' onClick={RutaPerfil} title='PERFIL USUARIO' />
               <BiLogOutCircle className='iconn ico-closse-sesion' onClick={openLogoutModal} title='CERRAR SESION' />

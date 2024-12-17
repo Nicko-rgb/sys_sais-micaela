@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import './personal.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import NavLogin from '../Navegadores/NavLogin';
 import NavPie from '../Navegadores/NavPie';
 import RegPersonal from '../Formularios/RegPersonal';
 import EditPersonales from './EditPersonales/EditPersonales';
+import Store from '../Store/Store_Cita_Turno';
 import VerTurnos from './Turnos/VerTurnos';
+import Informacion from './infoTurno/Informacion'
 import { IoPersonAddSharp } from 'react-icons/io5';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
 import { MdPersonSearch, MdMenuOpen } from 'react-icons/md';
-import { FaUserEdit } from 'react-icons/fa';
+import { FaUserEdit, FaMapMarkedAlt } from 'react-icons/fa';
 import { AiFillSchedule } from "react-icons/ai";
 import { FaXmark, FaCheck } from "react-icons/fa6";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import Store from '../Store/Store_Cita_Turno';
+import { GoGear } from "react-icons/go";
 
 const Personal = () => {
     const [verForm, setVerForm] = useState(false);
@@ -28,12 +30,20 @@ const Personal = () => {
     const [filterStatus, setFilterStatus] = useState('activo');
     const [verTurnos, setVerTurnos] = useState(false)
     const { personalSalud } = Store()
+    const [info, setInfo] = useState(false)
+    const [selectPer, setSelectPer] = useState(null)
+    const navigate = useNavigate()
 
     const handleForm = () => {
         setVerForm(!verForm);
+        setInfo(false)
     };
     const handleVerTurnos = () => {
         setVerTurnos(!verTurnos)
+    }
+    const handleInfo = (personal) => {
+        setInfo(true)
+        setSelectPer(personal)
     }
 
     // Filtrar la lista de personal según el término de búsqueda y el estado (activo/inactivo)
@@ -59,20 +69,26 @@ const Personal = () => {
 
     // Función para abrir el modal de edición
     const handleEditClick = (personal) => {
-        setPersonalToEdit(personal);  // Guardar el personal seleccionado
-        setIsModalOpen(true);  // Abrir el modal de edición
+        setPersonalToEdit(personal);
+        setIsModalOpen(true);
+        setInfo(false)
     };
 
     // Función para cerrar el modal de edición
     const handleCloseModal = () => {
-        setIsModalOpen(false);  // Cerrar el modal
-        setPersonalToEdit(null);  // Limpiar el estado del personal seleccionado
+        setIsModalOpen(false)
+        setPersonalToEdit(null);
+        setInfo(false)
+        setSelectPer(null)
+        setIsConfirmModalOpen(false); 
+        setPersonalToToggle(null); 
     };
 
     // Función para abrir el modal de confirmación para activar/inactivar
     const handleToggleClick = (personal) => {
-        setPersonalToToggle(personal); // Guardar el personal a activar/inactivar
-        setIsConfirmModalOpen(true);  // Abrir el modal de confirmación
+        setPersonalToToggle(personal);
+        setIsConfirmModalOpen(true); 
+        setInfo(false)
     };
 
     // Función para confirmar el cambio de estado (activar/inactivar)
@@ -95,13 +111,6 @@ const Personal = () => {
             alert('No se pudo actualizar el estado. Intenta nuevamente.'); // Retroalimentación al usuario
         }
     };
-
-    // Función para cerrar el modal de confirmación
-    const handleCloseConfirmModal = () => {
-        setIsConfirmModalOpen(false);  // Cerrar el modal
-        setPersonalToToggle(null);  // Limpiar el estado
-    };
-
     // Función para abrir/cerrar el filtro de estado
     const handleOpenFilter = () => {
         setOpenFiltro(!openFiltro);
@@ -111,6 +120,10 @@ const Personal = () => {
     const handleFilterChange = (status) => {
         setFilterStatus(status);
     };
+
+    const openMap = () => {
+        navigate('/maps-sais')
+    }
 
     return (
         <div className="personal-salud">
@@ -133,6 +146,7 @@ const Personal = () => {
                         />
                         <MdPersonSearch className='ico_buscar' />
                         <button onClick={handleVerTurnos}>VER TURNOS <AiFillSchedule className="ico-verturnos" /></button>
+                        <button onClick={openMap}><FaMapMarkedAlt style={{fontSize: '17px', marginTop: '-3px'}} />SECTORES</button>
                         <button className='btn-filtro' onClick={handleOpenFilter}>< MdMenuOpen className='ico' />Filtrar Datos</button>
                         {openFiltro && (
                             <div className="filtro">
@@ -141,6 +155,7 @@ const Personal = () => {
                                 <span onClick={() => handleFilterChange('inactivo')}>Inactivos</span>
                             </div>
                         )}
+                        <GoGear className='config-ico' />
                     </div>
                     <p className='contador'> {filterStatus}: {filteredPersonal.length} de {personalSalud.length} </p>
                     <table>
@@ -164,11 +179,11 @@ const Personal = () => {
                                     <tr key={personal.id} className={personal.estado === 'inactivo' ? 'inactivo-row' : ''} >
                                         <td style={{ textAlign: 'center' }}>{index + indexOfFirstItem + 1}</td>
                                         <td>{personal.dni}</td>
-                                        <td>{personal.paterno} {personal.materno}, {personal.nombres} </td>
+                                        <td className='name' onClick={() => handleInfo(personal)}>{personal.paterno} {personal.materno}, {personal.nombres} </td>
                                         <td>{personal.tipo_user}</td>
                                         <td>{personal.profesion}</td>
                                         <td>{personal.servicio}</td>
-                                        <td>{personal.especial_cita || '----'}</td>
+                                        <td>{personal.especial_cita ? `${personal.especial_cita} - (${personal.num_consultorio})` : '-----'}</td>
                                         <td>{personal.condicion}</td>
                                         <td>{personal.celular}</td>
                                         <td className='accion'>
@@ -224,14 +239,16 @@ const Personal = () => {
                 {verTurnos && (
                     <VerTurnos closeTurnos={handleVerTurnos} />
                 )}
-
+                {info && (
+                    <Informacion personals={selectPer} cerrarModal={handleCloseModal} />
+                )}
                 {isConfirmModalOpen && (
                     <div className="confirm-modal">
-                        <div className="content">
-                            <p>¿Está seguro de que desea {personalToToggle?.estado === 'activo' ? 'inactivar' : 'activar'} a <span> {personalToToggle?.paterno} {personalToToggle?.materno}, {personalToToggle?.nombres}? </span></p>
-                            <div className="btns-confirm">
-                                <button className='btn-save' onClick={handleConfirmToggle}>Confirmar</button>
-                                <button className='btn-cancel' onClick={handleCloseConfirmModal}>Cancelar</button>
+                        <div className={`content ${personalToToggle?.estado === 'activo' ? 'activo' : ''}`}>
+                            <p>¿Está seguro de que desea <span>{personalToToggle?.estado === 'activo' ? 'inactivar' : 'activar'}</span>  a <br /> <span> {personalToToggle?.paterno} {personalToToggle?.materno}, {personalToToggle?.nombres}? </span></p>
+                            <div className="btns">
+                                <button className={`btn-save ${personalToToggle?.estado === 'activo' ? 'btn-delete' : ''}` } onClick={handleConfirmToggle}>{personalToToggle?.estado === 'activo' ? 'Inactivar' : 'Activar'} </button>
+                                <button className='btn-cancela' onClick={handleCloseModal}>Cancelar</button>
                             </div>
                         </div>
                     </div>

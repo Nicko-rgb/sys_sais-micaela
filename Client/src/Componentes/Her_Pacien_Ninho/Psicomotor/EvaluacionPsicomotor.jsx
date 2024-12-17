@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import style from "./EvaluacionPsicomotor.module.css";
 import NavLogin from "../../Navegadores/NavLogin";
 import NavPie from "../../Navegadores/NavPie";
+import OpcionesI from "../OpcionesI";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { RiPlayReverseLargeFill } from "react-icons/ri"; 
 
@@ -23,6 +24,8 @@ const FormularioPsicomotor = () => {
       <div className={style.formulariocontainer}>
         {paciente ? (
           <>
+
+          <OpcionesI paciente={paciente}/>
             {/* Nueva estructura para alinear el título y el botón */}
             <div className={style.headerContainer}>
             <Link

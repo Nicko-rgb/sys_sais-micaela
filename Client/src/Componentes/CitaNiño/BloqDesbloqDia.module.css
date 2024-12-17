@@ -1,0 +1,67 @@
+/* BloqDesbloqDia.module.css */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fondo semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalOverlay .modalContent {
+    background-color: white;
+    padding: 10px;
+    border-radius: 6px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.modalOverlay .modalContent h2{
+    font-size: 18px;
+    /* border: green solid 2px; */
+}
+
+.modalOverlay .modalActions {
+    display: flex;
+    justify-content: space-around;
+    /* border: red solid 2px; */
+}
+
+.modalOverlay .button {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modalOverlay .button:hover {
+    background-color: #0056b3;
+}
+
+.modalOverlay .buttonCancel {
+    background-color: #dc3545;
+}
+
+.modalOverlay .buttonCancel:hover {
+    background-color: #c82333;
+}
+
+.modalOverlay .successMessageOverlay {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.modalOverlay .successMessage {
+    color: green;
+    font-size: 18px;
+    padding: -5px;
+}

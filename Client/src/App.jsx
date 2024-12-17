@@ -7,6 +7,7 @@ import DatosPaciente from './Componentes/PanelPaciente/DatosPaciente';
 import Listas from './Componentes/Lista Paciente/Listas';
 import PanelCita from './Componentes/CitaNiño/PanelCita';
 import Cita1 from './Componentes/CitaNiño/Citas1';
+import Sectores from './Componentes/Personales/Sectores/Sectores';
 import Personal from './Componentes/Personales/Personal';
 import ResetPassword from "./Componentes/Login/ResetPassword/ResetPasssord"
 import ContactAdmi from './Componentes/ContactAdministrador/contactAdmi';
@@ -16,6 +17,9 @@ import VisitaDomiciliaria from './Componentes/Her_Pacien_Ninho/Control/visitadom
 import HistorialVisitas from './Componentes/Her_Pacien_Ninho/Control/historialvisitas';
 import Control from './Componentes/Her_Pacien_Ninho/Control/control';
 import Seguimientonutricional from './Componentes/Her_Pacien_Ninho/Control/seguimientonutricional';
+import HistorialControles from './Componentes/Her_Pacien_Ninho/Control/historialcontroles';
+
+
 import ListarControles from './Componentes/Her_Pacien_Ninho/Control/listarcontroles';
 import ActualizarControles from './Componentes/Her_Pacien_Ninho/Control/actualizarControles';
 import ExportExcel from './Componentes/Personales/Turnos/Excel';
@@ -30,6 +34,7 @@ import Entregasuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Entrega
 import ListaSuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Listasumplemento';
 
 import VacunarNino from './Componentes/Her_Pacien_Ninho/vacuna/VacunarNino'
+import HistorialVacunas from './Componentes/Her_Pacien_Ninho/vacuna/HistorialVacunas';
 
 
 function App() {
@@ -46,11 +51,12 @@ function App() {
                     <Route path="/panel-cita" element={<PanelCita />} />
                     <Route path='/cita-niño/:especialidad' element={<Cita1 />} />
                     <Route path="/personal-salud" element={<Personal />} />
+                    <Route path="/maps-sais" element={<Sectores />} />
                     <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="/contact-administrador" element={<ContactAdmi />} />
                     <Route path="/new-password/:token" element={<Restablecer />} />
                     <Route path="/perfil/:name/:id" element={<Perfil />} />
-                    <Route path="/visita/:id" element={<VisitaDomiciliaria />} />
+                    <Route path="/visita/:historialClinico" element={<VisitaDomiciliaria />} />
                     <Route path="/historialvisita/:id_paciente" element={<HistorialVisitas />} />
                     <Route path="/control/:historialClinico" element={<Control />} />
                     <Route path="/seguimiento" element={<Seguimientonutricional />} />
@@ -58,6 +64,7 @@ function App() {
                     <Route path="/actualizarcontroles/:historialClinico" element={<ActualizarControles />} />
                     <Route path="/control/:historialClinico" element={<Control />} />
                     <Route path="/seguimiento/:historialClinico" element={<Seguimientonutricional />} />
+                    <Route path="/historialControles/:historialClinico" element={<HistorialControles />} />
                     <Route path="/listarcontroles" element={<ListarControles />} />
                     <Route path="/actualizarcontroles" element={<ActualizarControles />} />
                     {/* <Route path="/historialControles" element={<HistorialControles />} /> */}
@@ -71,6 +78,7 @@ function App() {
                     <Route path="/EvaluacionPsicomotor/:historialClinico" element={<EvaluacionPsicomotor />} />
                     <Route path="/HistorialPsicomotor/:historialClinico" element={<HistorialPsicomotor />} />
                     <Route path="/VacunarNino/:historialClinico" element={<VacunarNino />} />
+                    <Route path="/HistorialVacunas/:historialClinico" element={<HistorialVacunas />} />
 
                 </Routes>
             </BrowserRouter>

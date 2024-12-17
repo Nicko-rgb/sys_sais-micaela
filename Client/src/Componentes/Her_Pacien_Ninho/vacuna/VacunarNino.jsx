@@ -1,6 +1,6 @@
-import React from 'react'
-import styles from './VacunarNino.module.css'
-import { Link, useLocation } from 'react-router-dom'
+import React from 'react';
+import styles from './VacunarNino.module.css';
+import { Link, useLocation } from 'react-router-dom';
 import NavLogin from '../../Navegadores/NavLogin';
 import NavPie from '../../Navegadores/NavPie';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
@@ -28,52 +28,63 @@ const VacunarNino = () => {
   };
 
   return (
-    <div>
-      <OpcionesI paciente={paciente}/>
+    <div className={styles.bodyContent}>
+      {/* Navegador superior */}
       <NavLogin />
 
-      <div className={styles.contPrincipal}>
-        <div className={styles.btn}>
-          <Link to={`/panel/${paciente?.hist_clinico || ''}`} className={styles.volver_link}>
-            <RiPlayReverseLargeFill /> VOLVER
-          </Link>
-        </div>
-        <h1 className={styles.titulo}>VACUNAR NIÑO - {paciente.hist_clinico}</h1>
-        <div className={styles.container}>
-          {listaVacunas.map((vacuna, index) => (
-            <div key={index} className={styles.card}>
-              <div className={styles.header}>
-                <span>{vacuna.nombreVacuna} ({vacuna.codigo})</span>
-                <button className={styles.closeButton}>X</button>
-              </div>
-              <div className={styles.bodyx}>
-                <div className={styles.contFecha}>
-                  <label>Fecha:</label>
-                  <input
-                    type="date"
-                    defaultValue={new Date().toISOString().split('T')[0]}
-                    className={styles.inputDate}
-                  />
-                </div>
-
-                <div className={styles.inputs}>
-                  <label>Dx02</label>
-                  <input type="text" className={styles.inputField} />
-                  <label>Lab2</label>
-                  <input type="text" className={styles.inputField} />
-                </div>
-                <button onClick={() => handleGuardar(vacuna)} className={styles.saveButton}>
-                Guardar
-              </button>
-              </div>
-              
+      <div className={styles.contenidoPrincipal}>
+        {paciente ? (
+          <>
+            <div className={styles.btn}>
+              <Link to={`/panel/${paciente?.hist_clinico || ''}`} className={styles.volver_link}>
+                <RiPlayReverseLargeFill /> VOLVER
+              </Link>
             </div>
-          ))}
-        </div>
+            
+            <h1 className={styles.titulo}>VACUNAR NIÑO - {paciente.hist_clinico} {paciente.nombres}</h1>
+            <div className={styles.container}>
+              {listaVacunas.map((vacuna, index) => (
+                <div key={index} className={styles.card}>
+                  <div className={styles.header}>
+                    <span>{vacuna.nombreVacuna} ({vacuna.codigo})</span>
+                    <button className={styles.closeButton}>X</button>
+                  </div>
+                  <div className={styles.bodyx}>
+                    <div className={styles.contFecha}>
+                      <label>Fecha:</label>
+                      <input
+                        type="date"
+                        defaultValue={new Date().toISOString().split('T')[0]}
+                        className={styles.inputDate}
+                      />
+                    </div>
+                    <div className={styles.inputs}>
+                      <label>Dx02:</label>
+                      <input type="text" className={styles.inputField} />
+                      <label>Lab2:</label>
+                      <input type="text" className={styles.inputField} />
+                    </div>
+                    <button onClick={() => handleGuardar(vacuna)} className={styles.saveButton}>
+                      Guardar
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>) : (
+          <p>no hay datos...</p>
+        )}
+
+        {/* Menú lateral de opciones */}
+        <OpcionesI paciente={paciente} />
+
       </div>
+
+
+
+      {/* Pie de página */}
       <NavPie />
     </div>
-
   );
 };
 

@@ -17,7 +17,7 @@ const VisitaDomiciliaria = () => {
     // Función para obtener el próximo número de visita
     const fetchNumeroVisita = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/visita-domiciliaria/numero-visita/${id}`);
+            const response = await fetch(http://localhost:5000/api/visita-domiciliaria/numero-visita/${id});
             
             if (!response.ok) {
                 throw new Error("Error al obtener el número de visita");
@@ -81,7 +81,7 @@ const VisitaDomiciliaria = () => {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                alert(`Error al guardar: ${errorData.message || "Error desconocido"}`);
+                alert(Error al guardar: ${errorData.message || "Error desconocido"});
                 return;
             }
 

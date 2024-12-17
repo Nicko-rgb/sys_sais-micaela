@@ -7,20 +7,24 @@ import Informacion from '../infoTurno/Informacion';
 import { AiOutlineExport } from "react-icons/ai";
 import Store from "../../Store/Store_Cita_Turno";
 import CuerpoTabla from "./CuerpoTabla";
+import { LeyendasTurno } from "../infoTurno/MiniCompont";
+import EstadoSesion from "../../Complementos/EstadoSesion";
 
 const AsignaTurno = ({ closeTurnos }) => {
-    const {tiposDeTurno, obtenerDescripcionTurno, profesiones} = Store()
+    const { tiposDeTurno, profesiones } = Store()
     const [personales, setPersonales] = useState([]);
     const [mesActual, setMesActual] = useState(new Date());
     const [cargando, setCargando] = useState(true);
     const [filtroCondicion, setFiltroCondicion] = useState('Todos');
     const [condicionFiltro, setCondiconFiltro] = useState([])
+    const [checkCitas, setCheckCitas] = useState(false)
     const [busqueda, setBusqueda] = useState('');
     const [personalSeleccionado, setPersonalSeleccionado] = useState(null);
     const [modalAbierto, setModalAbierto] = useState(false);
     const [columnasBloqueadas, setColumnasBloqueadas] = useState([]); // Cambiar a un arreglo de fechas bloqueadas
     const [columnaSeleccionada, setColumnaSeleccionada] = useState(null);
-    const [turnos, setTurnos] = useState([]); 
+    const [turnos, setTurnos] = useState([]);
+    const { tipoUser } = EstadoSesion()
 
     useEffect(() => {
         const fetchPersonales = async () => {
@@ -105,7 +109,8 @@ const AsignaTurno = ({ closeTurnos }) => {
         const coincideBusqueda = `${personal.paterno} ${personal.materno} ${personal.nombres}`.toLowerCase().includes(busqueda.toLowerCase()) ||
             personal.dni.includes(busqueda);
         const coincideCondicion = filtroCondicion === 'Todos' || personal.condicion === filtroCondicion || personal.profesion === filtroCondicion;
-        return coincideBusqueda && coincideCondicion;
+        const personalCitado = checkCitas ? personal.especial_cita : true;
+        return coincideBusqueda && coincideCondicion && personalCitado && coincideBusqueda;
     });
 
     const activosFiltrados = personalesFiltrados.filter(personal => personal.estado === 'activo');
@@ -205,6 +210,10 @@ const AsignaTurno = ({ closeTurnos }) => {
         return turno ? turno.clave_turno : '';
     };
 
+    const handleCheckCita = () => {
+        setCheckCitas(!checkCitas)
+    }
+
     return (
         <div className="turnos-personal">
             <main>
@@ -222,7 +231,7 @@ const AsignaTurno = ({ closeTurnos }) => {
                         />
                         <MdPersonSearch className='ico_buscar' />
                         <div className="filtros">
-                            <button className="btn-filtro" style={{width: '120px'}}><MdMenuOpen className='ico' />Condición</button>
+                            <button className="btn-filtro" style={{ width: '120px' }}><MdMenuOpen className='ico' />Condición</button>
                             <div className="filtro">
                                 <span onClick={() => setFiltroCondicion('Todos')}>TODOS</span>
                                 {condicionFiltro.map((condicion, index) => (
@@ -231,7 +240,7 @@ const AsignaTurno = ({ closeTurnos }) => {
                             </div>
                         </div>
                         <div className="filtros">
-                            <button className="btn-filtro" style={{width: '120px'}}><MdMenuOpen className='ico' />Profesión</button>
+                            <button className="btn-filtro" style={{ width: '120px' }}><MdMenuOpen className='ico' />Profesión</button>
                             <div className="filtro">
                                 <span onClick={() => setFiltroCondicion('Todos')}>TODOS</span>
                                 {profesiones.map((profesion, index) => (
@@ -239,70 +248,76 @@ const AsignaTurno = ({ closeTurnos }) => {
                                 ))}
                             </div>
                         </div>
+                        <label onClick={handleCheckCita} htmlFor="chec" class="switch">
+                            <input checked={checkCitas} name="chec" type="checkbox" />
+                            <span class="slider"></span>
+                            <p>Con Citas</p>
+                        </label>
                         <div className="fecha-cambiar">
-                            <h4>{mesActual.toLocaleString('es-ES', { month: 'long', year: 'numeric' })}</h4>
                             <button type="button" onClick={manejarMesAnterior}><MdNavigateBefore className="ico-cambiar" />Mes Anterior</button>
                             <button type="button" onClick={manejarMesSiguiente}>Mes Siguiente <MdNavigateNext className="ico-cambiar" /></button>
                         </div>
-                        <Link className="btn-export" to='/exportar-turno'><AiOutlineExport className="icoExport"/>Exportar</Link>
                     </div>
-                    <p className="contador"> {filtroCondicion}: {activosFiltrados.length} de {personales.length} </p>
+                    <div className="inf">
+                        <p>{mesActual.toLocaleString('es-ES', { month: 'long', year: 'numeric' })}</p>
+                        <p className="contador"> {filtroCondicion}: {activosFiltrados.length} de {personales.length} </p>
+                    </div>
                     {cargando ? (
                         <p>Cargando datos...</p>
                     ) : (
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>N°</th>
-                                    <th className="cab">Personal</th>
-                                    {fechasDelMes.map((fecha, index) => {
-                                        const diaSemana = fecha.toLocaleString('es-ES', { weekday: 'short' });
-                                        const numeroDia = fecha.getDate();
-                                        const esDomingo = fecha.getDay() === 0;
-                                        const esHoy = fecha.toDateString() === new Date().toDateString();
+                        <div className="tbl">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>N°</th>
+                                        <th className="cab">Personal</th>
+                                        {fechasDelMes.map((fecha, index) => {
+                                            const diaSemana = fecha.toLocaleString('es-ES', { weekday: 'short' });
+                                            const numeroDia = fecha.getDate();
+                                            const esDomingo = fecha.getDay() === 0;
+                                            const esHoy = fecha.toDateString() === new Date().toDateString();
 
-                                        const columnaBloqueada = columnasBloqueadas.includes(fecha.toDateString());
+                                            const columnaBloqueada = columnasBloqueadas.includes(fecha.toDateString());
 
-                                        return (
-                                            <th
-                                                key={index}
-                                                className={`${esDomingo ? 'domingo' : ''} ${esHoy ? 'hoy' : ''} ${columnaBloqueada ? 'bloqueada' : ''}`}
-                                                onClick={() => manejarSeleccionColumna(fecha.toDateString())} // Usar la fecha como clave
-                                            >
-                                                {diaSemana.charAt(0).toUpperCase()}-{numeroDia}
-                                                {columnaSeleccionada === fecha.toDateString() && (
-                                                    <div className="accion-cabeza">
-                                                        <div className="balloon">
-                                                            <p>ACCIONES</p>
-                                                            <button onClick={() => manejarBloqueoColumna(fecha.toDateString())}>
-                                                                {columnaBloqueada ? 'Desbloquear' : 'Bloquear'}
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </th>
-                                        );
-                                    })}
-                                </tr>
-                            </thead>
-                            <CuerpoTabla 
-                                activosFiltrados = {activosFiltrados}
-                                fechasDelMes = {fechasDelMes}
-                                tiposDeTurno = {tiposDeTurno}
-                                obtenerClaveTurno = {obtenerClaveTurno}
-                                turnos = {turnos}
-                                manejarClickPersonal = {manejarClickPersonal}
-                                columnasBloqueadas = {columnasBloqueadas}
-                                manejarGuardarTurno = {manejarGuardarTurno}
-                            />
-
-                        </table>
+                                            return (
+                                                <th
+                                                    key={index}
+                                                    className={`${esDomingo ? 'domingo' : ''} ${esHoy ? 'hoy' : ''} ${columnaBloqueada ? 'bloqueada' : ''}`}
+                                                    onClick={() => manejarSeleccionColumna(fecha.toDateString())} // Usar la fecha como clave
+                                                >
+                                                    {diaSemana.charAt(0).toUpperCase()}-{numeroDia}
+                                                    {columnaSeleccionada === fecha.toDateString() && (
+                                                        tipoUser.toLowerCase() !== 'responsable' && (
+                                                            <div className="accion-cabeza">
+                                                                <div className="balloon">
+                                                                    <p>ACCIONES</p>
+                                                                    <button onClick={() => manejarBloqueoColumna(fecha.toDateString())}>
+                                                                        {columnaBloqueada ? 'Desbloquear' : 'Bloquear'}
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    )}
+                                                </th>
+                                            );
+                                        })}
+                                    </tr>
+                                </thead>
+                                <CuerpoTabla
+                                    activosFiltrados={activosFiltrados}
+                                    fechasDelMes={fechasDelMes}
+                                    tiposDeTurno={tiposDeTurno}
+                                    obtenerClaveTurno={obtenerClaveTurno}
+                                    turnos={turnos}
+                                    manejarClickPersonal={manejarClickPersonal}
+                                    columnasBloqueadas={columnasBloqueadas}
+                                    manejarGuardarTurno={manejarGuardarTurno}
+                                />
+                            </table>
+                            <Link className="btn-export" to='/exportar-turno'><AiOutlineExport className="icoExport" />Exportar</Link>
+                        </div>
                     )}
-                    <div className="leyenda-turno">
-                        {tiposDeTurno.map(tipo => (
-                            <p> {tipo.clave_turno}: {obtenerDescripcionTurno(tipo.clave_turno)}</p>
-                        ))}
-                    </div>
+                    <LeyendasTurno tiposDeTurno={tiposDeTurno} />
                 </section>
             </main>
             {modalAbierto && personalSeleccionado && (
@@ -315,7 +330,6 @@ const AsignaTurno = ({ closeTurnos }) => {
                     <Informacion
                         personals={personalSeleccionado}
                         cerrarModal={cerrarModal}
-                        tiposDeTurno={tiposDeTurno}
                     />
                 </div>
             )}

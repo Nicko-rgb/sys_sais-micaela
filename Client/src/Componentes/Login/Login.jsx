@@ -6,6 +6,7 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { Link } from 'react-router-dom';
 import EstadoSesion from '../Complementos/EstadoSesion';
 import imagen from "../../Componentes/IMG/hospital.png";
+import './login.css'
 
 const Login = () => {
     // State variables

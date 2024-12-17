@@ -1,17 +1,57 @@
-.aaa{
-    position: relative;
-    overflow-y: auto;
+.turnos-export {
+    padding-top: 30px;
 }
-.turnos-personal table{
+.turnos-export main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.turnos-export main section{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.turnos-export .volver_link {
+    left: 0;
+}
+.turnos-export .acciones {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    gap: 20px;
+}
+.turnos-export .acciones p{
+    font-weight: 500;
+    text-transform: capitalize;
+}
+.turnos-export .acciones button{
+    width: 130px;
+    height: 30px;
+    background-color: #00796bb4;
+    color: white;
+}
+.turnos-export .tbl{
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+}
+.turnos-export table{
     border-collapse: collapse;
-    margin: 0;
+    margin-top: -20px;
 }
-.turnos-personal .fecha-cambiar{
-    position: relative;
+.turnos-export .leyenda-turno{
+    font-size: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    /* gap: 10px; */
+    /* max-width: 1400px; */
 }
-.turnos-personal table .celda-vacio{
-    border: none;
-}
-.turnos-personal table .celda-vacio:hover{
-    background-color: white;
+.turnos-export .leyenda-turno p {
+    display: flex;
+    align-items: center;
 }

@@ -489,12 +489,17 @@ app.get('/api/obtener/personal-salud', async (req, res) => {
 app.put('/api/update-personal', async (req, res) => {
     const { id_personal, dni, paterno, materno, nombres, tipo_user, profesion, servicio, especial_cita, num_consultorio, condicion, celular, correo, usuario, contrasena, estado } = req.body;
 
+    // Establecer valores predeterminados si están vacíos
+    const especialidadCita = especial_cita || null;
+    const consultorio = especialidadCita === null ? null : num_consultorio;
+
+
     try {
         const [result] = await pool.query(`
             UPDATE personal_salud 
             SET dni = ?, paterno = ?, materno = ?, nombres = ?, tipo_user = ?, profesion = ?, servicio = ?, especial_cita = ?, num_consultorio = ?, condicion = ?, celular = ?, correo = ?, usuario = ?, contrasena = ?, estado = ?
             WHERE id_personal = ?
-        `, [dni, paterno, materno, nombres, tipo_user, profesion, servicio, especial_cita, num_consultorio, condicion, celular, correo, usuario, contrasena, estado, id_personal]);
+        `, [dni, paterno, materno, nombres, tipo_user, profesion, servicio, especialidadCita, consultorio, condicion, celular, correo, usuario, contrasena, estado, id_personal]);
 
         if (result.affectedRows > 0) {
             res.json({ message: 'Datos actualizados correctamente' });
@@ -617,6 +622,86 @@ app.get('/api/obtener/servicios', async (req, res) => {
         res.status(500).json({ message: 'Error al obtener servicios.' });
     }
 });
+
+// Ruta para asignar sector a personal
+app.post('/api/personal/asigna-sector', async (req, res) => {
+    const { id_sector, manzana, codigo, numero, descripcion, id_personal } = req.body;
+
+    // Consulta SQL para verificar si la combinación de id_sector e id_personal ya existe
+    const checkQuery = `
+        SELECT * FROM sector_personal 
+        WHERE id_sector = ? AND id_personal = ?
+    `;
+    
+    const checkValues = [id_sector, id_personal];
+
+    try {
+        const [existingRecords] = await pool.query(checkQuery, checkValues);
+
+        // Si ya existe un registro con esa combinación, devuelve un mensaje
+        if (existingRecords.length > 0) {
+            return res.status(201).json({ message: 'No se puede asignar dos veces al personal.' });
+        }
+
+        // Consulta SQL para insertar los datos en la tabla sector_personal
+        const insertQuery = `
+            INSERT INTO sector_personal (id_sector, manzana, codigo, numero, descripcion, id_personal)
+            VALUES (?, ?, ?, ?, ?, ?)
+        `;
+
+        const values = [id_sector, manzana, codigo, numero, descripcion || '', id_personal];
+
+        const [results] = await pool.query(insertQuery, values);
+        res.status(201).json({ message: 'Datos guardados correctamente', data: results });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al guardar los datos', error });
+    }
+});
+
+app.get('/api/personal/obtner-sector-asignado', async (req, res) => {
+
+    try {
+        // Consulta SQL para obtener todos los datos combinados
+        const query = `
+            SELECT sp.*,
+                   p.id_personal, p.nombres, p.paterno, p.materno, p.dni, p.profesion, p.estado 
+            FROM sector_personal sp
+            JOIN personal_salud p ON sp.id_personal = p.id_personal
+        `;
+
+        const [results] = await pool.query(query);
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'No hay personal asignado a este sector.' });
+        }
+
+        res.status(200).json(results); // Devuelve los resultados encontrados
+    } catch (error) {
+        console.error("Error al obtener el personal asignado:", error);
+        res.status(500).json({ message: 'Error al obtener los datos del personal.', error });
+    }
+});
+
+// Ruta para eliminar una persona del sector
+app.delete('/api/delete/sector-persona/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const [result] = await pool.query('DELETE FROM sector_personal WHERE id_sector_personal = ?', [id]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Personal no encontrado.' });
+        }
+
+        res.status(200).json({ message: 'Personal borrado del sector.' });
+    } catch (error) {
+        console.error('Error al eliminar el personal:', error);
+        res.status(500).json({ message: 'Error al eliminar el personal.' });
+    }
+});
+
+
 // Ruta para obtener los tipos de turno de personal de salud
 app.get('/api/tipos-turno', async (req, res) => {
     try {

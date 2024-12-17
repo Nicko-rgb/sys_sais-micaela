@@ -10,8 +10,8 @@ import FormCitas from './FormCitas';
 import axios from 'axios';
 import EditCita from './EditCita';
 import BorrarCita from './BorrarCita';
+import BloqDesbloqDia from './BloqDesbloqDia';
 import Store from '../Store/Store_Cita_Turno';
-
 
 const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
     const { citas, personalSalud, turnosPersonal } = Store()
@@ -21,6 +21,11 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
     const [citaSelect, setCitaSelect] = useState(null)
     const [formData, setFormData] = useState(null);
     const [blockedRows, setBlockedRows] = useState([]);
+
+    // Nuevo estado para el modal de bloqueo/desbloqueo
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedHorarioForModal, setSelectedHorarioForModal] = useState(null);
+    const [modalAction, setModalAction] = useState(null);
 
     // Obtener filas bloqueadas desde el servidor
     const fetchBlockedRows = async () => {
@@ -39,54 +44,63 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
         return `${hours?.padStart(2, '0')}:${minutes?.padStart(2, '0')}`;
     };
 
-    // Bloquear una fila
-    const handleBlockRow = async (horario) => {
+    // Abrir modal de bloqueo
+    const openBlockModal = (horario) => {
+        setSelectedHorarioForModal(horario);
+        setModalAction('block');
+        setIsModalOpen(true);
+    };
+
+    // Abrir modal de desbloqueo
+    const openUnblockModal = (horario) => {
+        setSelectedHorarioForModal(horario);
+        setModalAction('unblock');
+        setIsModalOpen(true);
+    };
+
+    // Cerrar modal
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedHorarioForModal(null);
+        setModalAction(null);
+    };
+
+    // Manejar acción de bloqueo/desbloqueo desde el modal
+    const handleModalAction = async () => {
+        if (!selectedHorarioForModal) return;
+
         const data = {
             fecha,
-            hora_inicio: formatTime(horario.hora_inicio),
-            hora_fin: formatTime(horario.hora_fin),
+            hora_inicio: formatTime(selectedHorarioForModal.hora_inicio),
+            hora_fin: formatTime(selectedHorarioForModal.hora_fin),
             consultorio,
             especialidad,
         };
 
         try {
-            await axios.post('http://localhost:5000/api/nino/bloquear-hora-cita', data);
-            setBlockedRows((prev) => [...prev, data]);
-            alert('Fila bloqueada exitosamente');
+            if (modalAction === 'block') {
+                await axios.post('http://localhost:5000/api/nino/bloquear-hora-cita', data);
+                setBlockedRows((prev) => [...prev, data]);
+                // alert('Fila bloqueada exitosamente');
+            } else {
+                await axios.delete('http://localhost:5000/api/nino/desbloquear-hora-cita', { data });
+                setBlockedRows((prev) => prev.filter(
+                    (blocked) =>
+                        blocked.fecha !== fecha ||
+                        blocked.hora_inicio !== formatTime(selectedHorarioForModal.hora_inicio) ||
+                        blocked.hora_fin !== formatTime(selectedHorarioForModal.hora_fin) ||
+                        blocked.consultorio !== consultorio ||
+                        blocked.especialidad !== especialidad
+                ));
+                // alert('Fila desbloqueada exitosamente');
+            }
+            closeModal();
         } catch (error) {
-            console.error('Error al bloquear fila:', error);
-            alert('No se pudo bloquear la fila');
+            console.error(`Error al ${modalAction === 'block' ? 'bloquear' : 'desbloquear'} fila:`, error);
+            alert(`No se pudo ${modalAction === 'block' ? 'bloquear' : 'desbloquear'} la fila`);
+            closeModal();
         }
     };
-
-    // Desbloquear una fila
-    const handleUnblockRow = async (horario) => {
-        const data = {
-            fecha,
-            hora_inicio: formatTime(horario.hora_inicio),
-            hora_fin: formatTime(horario.hora_fin),
-            consultorio,
-            especialidad,
-        };
-
-        try {
-            await axios.delete('http://localhost:5000/api/nino/desbloquear-hora-cita', { data });
-            // Actualizar el estado para eliminar la fila bloqueada de las filas bloqueadas
-            setBlockedRows((prev) => prev.filter(
-                (blocked) =>
-                    blocked.fecha !== fecha ||
-                    blocked.hora_inicio !== formatTime(horario.hora_inicio) ||
-                    blocked.hora_fin !== formatTime(horario.hora_fin) ||
-                    blocked.consultorio !== consultorio ||
-                    blocked.especialidad !== especialidad
-            ));
-            alert('Fila desbloqueada exitosamente');
-        } catch (error) {
-            console.error('Error al desbloquear fila:', error);
-            alert('No se pudo desbloquear la fila');
-        }
-    };
-
 
     // Abrir el formulario para registrar citas
     const handleOpenForm = (hora_inicio, hora_fin, profesional) => {
@@ -144,6 +158,13 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
         return texto
     }
 
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Establecer la hora a medianoche para comparar solo fechas
+
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1); // Restar un día
+
+
     return (
         <>
             <tbody>
@@ -162,19 +183,18 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                     // Encuentra al profesional responsable para atención para este horario
                     const responsable = turnosPersonal.find((res) => {
                         const isGuardiaDiurna = res.turno === 'Guardia Diurna';
-
-                        // Común a ambas condiciones
-                        const isMatchingSpecialty = res.especial_cita.toLowerCase() === especialidad.toLowerCase();
-                        const isMatchingConsultorio = Number(res.num_consultorio) === Number(consultorio);
-                        const isMatchingFecha = new Date(res.fecha).toISOString().split('T')[0] === fecha;
-
-                        // Retorna true si se cumple la condición correspondiente
-                        return (
-                            isMatchingSpecialty &&
-                            isMatchingConsultorio &&
-                            isMatchingFecha &&
-                            (isGuardiaDiurna || res.turno.toLowerCase() === horario.turno.toLowerCase())
-                        );
+                        if (res.especial_cita) {
+                            // Común a ambas condiciones
+                            const isMatchingSpecialty = res.especial_cita.toLowerCase() === especialidad.toLowerCase();
+                            const isMatchingConsultorio = Number(res.num_consultorio) === Number(consultorio);
+                            const isMatchingFecha = new Date(res.fecha).toISOString().split('T')[0] === fecha;
+                            return (
+                                isMatchingSpecialty &&
+                                isMatchingConsultorio &&
+                                isMatchingFecha &&
+                                (isGuardiaDiurna || res.turno.toLowerCase() === horario.turno.toLowerCase())
+                            );
+                        }
                     });
 
                     if (horario.tipo_atencion === 'receso') {
@@ -214,7 +234,7 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
 
                             <td className="box-ac" style={{ padding: '0' }}>
                                 <div className="accion">
-                                    {new Date(fecha) < new Date() ? (
+                                    {new Date(fecha) < yesterday ? (
                                         <CiLock style={{ color: 'red', cursor: 'initial' }} className="ico ico-" title="Fecha pasada, no editable" />
                                     ) : (
                                         !rowBlocked ? (
@@ -242,20 +262,20 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                                                         <RxValueNone
                                                             title='BLOQUEAR HORA'
                                                             className="ico ico-bloq"
-                                                            onClick={() => handleBlockRow(horario)}
+                                                            onClick={() => openBlockModal(horario)}
                                                         />
                                                     </>
                                                     : <RxValueNone
                                                         title='BLOQUEAR HORA'
                                                         className="ico ico-bloq"
-                                                        onClick={() => handleBlockRow(horario)}
+                                                        onClick={() => openBlockModal(horario)}
                                                     />
                                             )
                                         ) : (
                                             <PiLockKeyOpenFill
                                                 title='DESBLOQUEAR HORA'
                                                 className="ico ico-abi"
-                                                onClick={() => handleUnblockRow(horario)}
+                                                onClick={() => openUnblockModal(horario)}
                                             />
                                         )
                                     )}
@@ -266,6 +286,7 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                 })}
             </tbody>
 
+            {/* Modales existentes */}
             {openForm && (
                 <FormCitas
                     closeForm={closeForm}
@@ -291,6 +312,16 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                     close={closeForm}
                 />
             )}
+
+            {/* Nuevo modal de bloqueo/desbloqueo */}
+            <BloqDesbloqDia
+                isModalOpen={isModalOpen}
+                modalAction={modalAction}
+                selectedHorario={selectedHorarioForModal}
+                handleModalAction={handleModalAction}
+                closeModal={closeModal}
+                formatTime={formatTime}
+            />
         </>
     );
 };

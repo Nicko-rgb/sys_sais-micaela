@@ -5,14 +5,13 @@ import NavLogin from '../Navegadores/NavLogin';
 import NavPie from '../Navegadores/NavPie';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
 import { MdPersonSearch, MdOutlineInfo } from 'react-icons/md';
-import axios from 'axios';
 import { TbNurse } from "react-icons/tb";
 import { FaUserDoctor } from "react-icons/fa6";
 import { MdPsychology } from "react-icons/md";
 import { FaTooth, FaCalendarAlt, FaBaby } from 'react-icons/fa';
 import { LiaNutritionix } from "react-icons/lia";
 import { IoIosArrowBack, IoIosArrowForward, IoMdFemale, IoMdMale } from "react-icons/io";
-
+import Store from '../Store/Store_Cita_Turno'
 
 const OpcionesCita = () => {
     const [citasData, setCitasData] = useState([]);
@@ -21,6 +20,7 @@ const OpcionesCita = () => {
     const [searchDate, setSearchDate] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
+    const { especialidades } = Store()
 
     const navigate = useNavigate()
 
@@ -48,18 +48,6 @@ const OpcionesCita = () => {
 
     useEffect(() => {
         fetchCitas();
-    }, []);
-
-    const [especialidades, setEspecialidades] = useState([]);
-
-    useEffect(() => {
-        axios.get('http://localhost:5000/api/especialidad-unico-nino')
-            .then(response => {
-                setEspecialidades(response.data);
-            })
-            .catch(error => {
-                console.error("Error al obtener los horarios:", error);
-            });
     }, []);
 
     // Filtrado de citas según el término de búsqueda y la fecha seleccionada

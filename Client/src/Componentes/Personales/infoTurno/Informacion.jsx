@@ -27,7 +27,7 @@ const InfoPersonalModal = ({ personals, cerrarModal }) => {
                     {personals.especial_cita && <p><b>Consultorio: </b> {personals.num_consultorio} </p> }
                 </div>
             </div>
-            <div className="box-btn">
+            <div className="btns">
                 <button className='btn-save' onClick={cerrarModal}>ACEPTAR</button>
             </div>
         </div>

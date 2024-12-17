@@ -11,8 +11,8 @@
     color: black;
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 15px;
+    min-width: 450px;
 }
 .content-info .flecha{
     position: absolute;
@@ -30,6 +30,9 @@
     display: flex;
     gap: 20px;
 }
+.content-info .datos div {
+    width: 100%;
+}
 .content-info h3{
     font-size: 19px;
     margin: auto;
@@ -41,6 +44,7 @@
     font-family: 'poppins';
     text-transform: uppercase;
     color: rgb(90, 90, 90);
+    font-weight: 400;
 }
 .content-info p{
     border: none;
@@ -54,21 +58,13 @@
     text-transform: uppercase;
     color: black;
     /* border-bottom: rgba(156, 156, 156, 0.316) solid 1px; */
+    font-weight: 600;
     margin-top: 10px;
 }
-.content-info .box-btn{
-    display: flex;
-    justify-content: center;
+.content-info button {
+    margin: auto;
     margin-top: 20px;
-}
-.content-info .btn-save{
-    transition: .3s ease all;
-    background: #00796bb4;
-}
-.content-info .btn-save:hover{
-    box-shadow: none;
-    background: #0eaf9cb4;
-    ;
+    padding: 8px 20px;
 }
 @keyframes fadeIn {
     from {

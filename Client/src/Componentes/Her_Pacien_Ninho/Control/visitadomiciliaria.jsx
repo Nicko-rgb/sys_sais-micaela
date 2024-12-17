@@ -13,60 +13,55 @@ const VisitaDomiciliaria = () => {
         observaciones: "",
     });
     const [showModal, setShowModal] = useState(false); // Estado para mostrar el modal
-    // Efecto para obtener el próximo número de visita
-    useEffect(() => {
-        const fetchNumeroVisita = async () => {
-            try {
-                // Realizar una petición para obtener el próximo número de visita
-                const response = await fetch(`http://localhost:5000/api/visita-domiciliaria/numero-visita/${id}`);
-                
-                if (!response.ok) {
-                    throw new Error('Error al obtener el número de visita');
-                }
 
-                const data = await response.json();
-                
-                // Setear el número de visita en el estado del formulario
-                setFormData(prevState => ({
-                    ...prevState,
-                    numero_visita: data.proximoNumeroVisita
-                }));
-            } catch (error) {
-                console.error("Error:", error);
-                // En caso de error, establecer como 1
-                setFormData(prevState => ({
-                    ...prevState,
-                    numero_visita: 1
-                }));
+    // Función para obtener el próximo número de visita
+    const fetchNumeroVisita = async () => {
+        try {
+            const response = await fetch(http://localhost:5000/api/visita-domiciliaria/numero-visita/${id});
+            
+            if (!response.ok) {
+                throw new Error("Error al obtener el número de visita");
             }
-        };
 
-        // Llamar a la función para obtener el número de visita
-        fetchNumeroVisita();
-    }, [id]);
+            const data = await response.json();
 
+            // Actualizar el número de visita en el estado
+            setFormData((prevState) => ({
+                ...prevState,
+                numero_visita: data.proximoNumeroVisita,
+            }));
+        } catch (error) {
+            console.error("Error:", error);
+            // En caso de error, establecer como 1
+            setFormData((prevState) => ({
+                ...prevState,
+                numero_visita: 1,
+            }));
+        }
+    };
 
+    // Llamada inicial al montar el componente
     useEffect(() => {
-        console.log("ID del paciente:", id);
+        fetchNumeroVisita();
     }, [id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-       // Eliminar la capacidad de editar el número de visita
-       if (name !== 'numero_visita') {
-        setFormData({ ...formData, [name]: value });
-    }
+
+        // Eliminar la capacidad de editar el número de visita
+        if (name !== "numero_visita") {
+            setFormData({ ...formData, [name]: value });
+        }
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); // Evitar el comportamiento predeterminado del formulario
+        e.preventDefault();
 
         // Validaciones básicas
         if (!formData.tipo) {
             alert("Debe seleccionar el tipo de visita");
             return;
         }
-
         if (!formData.fecha_atencion) {
             alert("Debe seleccionar una fecha de atención");
             return;
@@ -74,30 +69,29 @@ const VisitaDomiciliaria = () => {
 
         const dataToSave = {
             ...formData,
-            id_paciente: Number(id)
+            id_paciente: Number(id),
         };
 
         try {
             const response = await fetch("http://localhost:5000/api/visita-domiciliaria", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(dataToSave),
             });
 
-            // Manejo de respuesta
             if (!response.ok) {
                 const errorData = await response.json();
-                console.error("Error en la respuesta del servidor:", errorData);
-                alert(`Error al guardar: ${errorData.message || "Error desconocido"}`);
-                return; // Salir de la función
+                alert(Error al guardar: ${errorData.message || "Error desconocido"});
+                return;
             }
 
             const result = await response.json();
-            console.log("Respuesta del servidor:", result);
+            console.log("Visita guardada:", result);
 
-            // Resetea el formulario y muestra el modal
+            // Mostrar modal de éxito
+            setShowModal(true);
+
+            // Resetear el formulario
             setFormData({
                 tipo: "",
                 numero_visita: "",
@@ -106,7 +100,8 @@ const VisitaDomiciliaria = () => {
                 observaciones: "",
             });
 
-            setShowModal(true); // Mostrar el modal de éxito
+            // Actualizar el próximo número de visita
+            fetchNumeroVisita();
         } catch (error) {
             console.error("Error en la solicitud:", error);
             alert("Error de conexión con el servidor. Inténtalo de nuevo más tarde.");
@@ -127,12 +122,10 @@ const VisitaDomiciliaria = () => {
                         />
                     )}
 
-                    {/* Resto del formulario */}
                     <div className="visitadomiciliaria-efectividad">
                         <label className="visitadomiciliaria-radio-box">
                             <input
                                 type="radio"
-                                id="efectiva"
                                 name="tipo"
                                 value="Efectiva"
                                 checked={formData.tipo === "Efectiva"}
@@ -140,11 +133,9 @@ const VisitaDomiciliaria = () => {
                             />
                             <span>Efectiva</span>
                         </label>
-
                         <label className="visitadomiciliaria-radio-box">
                             <input
                                 type="radio"
-                                id="noEfectiva"
                                 name="tipo"
                                 value="No Efectiva"
                                 checked={formData.tipo === "No Efectiva"}
@@ -154,7 +145,6 @@ const VisitaDomiciliaria = () => {
                         </label>
                     </div>
 
-                    {/* Más campos */}
                     <div>
                         <label className="visitadomiciliaria-label"># Visita:</label>
                         <input
@@ -162,9 +152,8 @@ const VisitaDomiciliaria = () => {
                             name="numero_visita"
                             className="visitadomiciliaria-input"
                             value={formData.numero_visita}
-                            onChange={handleChange}
-                            readOnly // Hace que el campo sea de solo lectura
-                            disabled 
+                            readOnly
+                            disabled
                         />
                     </div>
 
@@ -178,6 +167,7 @@ const VisitaDomiciliaria = () => {
                             onChange={handleChange}
                         />
                     </div>
+
                     <div>
                         <label className="visitadomiciliaria-label">Opcional:</label>
                         <select

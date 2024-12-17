@@ -1,0 +1,120 @@
+/* ActualizarVisitaDomiciliaria.module.css */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modalContent {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .title {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .label {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .radioGroup {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .radioLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .radioInput {
+    margin-right: 0.5rem;
+  }
+  
+  .input,
+  .select,
+  .textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .inputDisabled {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f4f4f4;
+    color: #888;
+    cursor: not-allowed;
+  }
+  
+  .textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+  
+  .buttonGroup {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .buttonSubmit,
+  .buttonCancel {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .buttonSubmit {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .buttonSubmit:hover {
+    background-color: #45a049;
+  }
+  
+  .buttonCancel {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .buttonCancel:hover {
+    background-color: #d32f2f;
+  }

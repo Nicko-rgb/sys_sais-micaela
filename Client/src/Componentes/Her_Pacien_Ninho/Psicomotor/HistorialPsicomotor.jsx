@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import style from "./HistorialPsicomotor.module.css";
 import NavLogin from "../../Navegadores/NavLogin";
 import NavPie from "../../Navegadores/NavPie";
+import OpcionesI from "../OpcionesI";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { RiPlayReverseLargeFill } from "react-icons/ri"; // Importar el ícono correctamente
 
@@ -15,6 +16,7 @@ const HistorialPsicomotor = () => {
     <div className={style.bodyformularios}>
       <NavLogin />
       <div className={style.historialcontainer}>
+        <OpcionesI paciente={paciente}/>
         <Link
           to={`/panel/${paciente.hist_clinico}`}
           className={style.volverbutton}

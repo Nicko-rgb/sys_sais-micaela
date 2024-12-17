@@ -60,7 +60,7 @@ const OpcionesD = ( {pacienteDatos, abrirLista} ) => {
                     <Link to={`/list/${pacienteDatos.tipo_paciente}`} onClick={abrirLista}> <BsPersonLinesFill />{convertirATipoPlural(pacienteDatos.tipo_paciente).plural} REGISTRADOS</Link>
                 )}
                 <Link to="/panel-cita" ><MdDateRange />AGREGAR CITA</Link>
-                <p><MdOutlineLocationOn />SECTORES</p>
+                <Link ><MdOutlineLocationOn />SECTORES</Link>
             </div>
             <div className={`opciones2 ${activeIcon === 1 ? 'show' : 'hide'}`}>
                 <Link to="/panel"> <img src={volver} alt="" />INICIO</Link>

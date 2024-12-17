@@ -1,87 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
+import styles from './BloqDesbloqDia.module.css'; // Importar el módulo CSS
 
-// BloqDesbloqDia component
 const BloqDesbloqDia = ({ isModalOpen, modalAction, selectedHorario, handleModalAction, closeModal, formatTime }) => {
+    const [successMessage, setSuccessMessage] = useState(''); // Estado para el mensaje de éxito
 
-    // Estilos en línea para el modal
-    const modalOverlayStyle = {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo semitransparente
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 1000,
-    };
-
-    const modalContentStyle = {
-        backgroundColor: 'white',
-        padding: '20px',
-        borderRadius: '8px',
-        maxWidth: '500px',
-        width: '100%',
-        textAlign: 'center',
-    };
-
-    const modalActionsStyle = {
-        display: 'flex',
-        justifyContent: 'space-around',
-    };
-
-    const buttonStyle = {
-        backgroundColor: '#007bff',
-        color: 'white',
-        padding: '10px 20px',
-        border: 'none',
-        borderRadius: '5px',
-        fontSize: '16px',
-        cursor: 'pointer',
-        transition: 'background-color 0.3s ease',
-    };
-
-    const buttonHoverStyle = {
-        backgroundColor: '#0056b3',
-    };
-
-    const buttonCancelStyle = {
-        backgroundColor: '#dc3545',
-    };
-
-    const buttonCancelHoverStyle = {
-        backgroundColor: '#c82333',
+    // Manejar la acción del modal y mostrar el mensaje de éxito
+    const handleActionWithSuccess = async () => {
+        await handleModalAction(); // Ejecutar la acción (bloquear/desbloquear)
+        setSuccessMessage(
+            modalAction === 'block' 
+                ? 'La hora ha sido bloqueada exitosamente.' 
+                : 'La hora ha sido desbloqueada exitosamente.'
+        );
+        setTimeout(() => {
+            setSuccessMessage(''); // Limpiar el mensaje después de 2 segundos
+            closeModal(); // Cerrar el modal
+        }, 1500); // 1.5 segundo de demora...
     };
 
     return (
         <div>
             {/* Modal de confirmación */}
             {isModalOpen && (
-                <div style={modalOverlayStyle}>
-                    <div style={modalContentStyle}>
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
                         <h2>
                             {modalAction === 'block' ? '¿Estás seguro de que deseas bloquear esta hora?' : '¿Estás seguro de que deseas desbloquear esta hora?'}
                         </h2>
                         <p>{`Horario: ${formatTime(selectedHorario.hora_inicio)} - ${formatTime(selectedHorario.hora_fin)}`}</p>
-                        <div style={modalActionsStyle}>
+                        <div className={styles.modalActions}>
                             <button
-                                style={buttonStyle}
-                                onClick={handleModalAction}
-                                onMouseOver={(e) => e.target.style.backgroundColor = buttonHoverStyle.backgroundColor}
-                                onMouseOut={(e) => e.target.style.backgroundColor = buttonStyle.backgroundColor}
+                                className={styles.button}
+                                onClick={handleActionWithSuccess}
                             >
                                 {modalAction === 'block' ? 'Bloquear' : 'Desbloquear'}
                             </button>
                             <button
-                                style={{...buttonStyle, ...buttonCancelStyle}}
+                                className={`${styles.button} ${styles.buttonCancel}`}
                                 onClick={closeModal}
-                                onMouseOver={(e) => e.target.style.backgroundColor = buttonCancelHoverStyle.backgroundColor}
-                                onMouseOut={(e) => e.target.style.backgroundColor = buttonCancelStyle.backgroundColor}
                             >
                                 Cancelar
                             </button>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Mensaje de éxito */}
+            {successMessage && (
+                <div className={`${styles.modalOverlay} ${styles.successMessageOverlay}`}>
+                    <div className={styles.modalContent}>
+                        <h3 className={styles.successMessage}>{successMessage}</h3>
                     </div>
                 </div>
             )}

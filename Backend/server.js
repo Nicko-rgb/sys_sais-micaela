@@ -1391,8 +1391,7 @@ app.post("/api/visita-domiciliaria", (req, res) => {
             });
         });
 });
-
-
+// obtener los resultados de tablas y concantenarlos las tablas visitas y la tabla paciente 
 app.get("/api/visita-domiciliaria/:id_paciente", (req, res) => {
     const id_paciente = parseInt(req.params.id_paciente);
 
@@ -1446,70 +1445,8 @@ app.get("/api/visita-domiciliaria/:id_paciente", (req, res) => {
             });
         });
 });
-// ACTUALIZAR VISITAS 
-app.put("/api/visita-domiciliaria/:id_paciente", (req, res) => {
-    const { id_paciente } = req.params;
-    const { tipo, fecha_atencion, opcional, observaciones } = req.body;
 
-    // Validar que el id_paciente exista y haya al menos un dato a actualizar
-    if (!id_paciente) {
-        return res.status(400).json({
-            error: "El 'id_paciente' es obligatorio.",
-        });
-    }
-    if (!tipo && !fecha_atencion && !opcional && !observaciones) {
-        return res.status(400).json({
-            error: "Al menos un campo debe ser proporcionado para actualizar.",
-        });
-    }
-
-    // Construir la consulta dinámicamente según los campos proporcionados
-    let queryActualizacion = `UPDATE visita_domiciliaria SET `;
-    const valores = [];
-    if (tipo) {
-        queryActualizacion += `tipo = ?, `;
-        valores.push(tipo);
-    }
-    if (fecha_atencion) {
-        queryActualizacion += `fecha_atencion = ?, `;
-        valores.push(fecha_atencion);
-    }
-    if (opcional) {
-        queryActualizacion += `opcional = ?, `;
-        valores.push(opcional);
-    }
-    if (observaciones) {
-        queryActualizacion += `observaciones = ?, `;
-        valores.push(observaciones);
-    }
-
-    // Quitar la última coma y agregar la cláusula WHERE
-    queryActualizacion = queryActualizacion.slice(0, -2);
-    queryActualizacion += ` WHERE id_paciente = ?`;
-    valores.push(id_paciente);
-
-    // Ejecutar la consulta
-    pool.query(queryActualizacion, valores)
-        .then((result) => {
-            if (result[0].affectedRows === 0) {
-                return res.status(404).json({
-                    error: "No se encontró un paciente con el id proporcionado.",
-                });
-            }
-            res.status(200).json({
-                message: "Visita domiciliaria actualizada con éxito.",
-            });
-        })
-        .catch((err) => {
-            console.error("Error al actualizar datos:", err);
-            res.status(500).json({
-                error: "Error al actualizar la visita domiciliaria.",
-                details: err.message,
-            });
-        });
-});
-
-// NUMERO DE VISITAS 
+// EL NUMERO DE VISITA LO ADELANTA MAS UNO  
 app.get("/api/visita-domiciliaria/numero-visita/:id_paciente", (req, res) => {
     const id_paciente = parseInt(req.params.id_paciente);
 
@@ -1535,7 +1472,7 @@ app.get("/api/visita-domiciliaria/numero-visita/:id_paciente", (req, res) => {
             });
         });
 });
-// OBTENER  DAYOS DEL PACIENTE MEDIANTE EL ID DE LA VISITA  DE TODOS LOS CAMPOS DE LA TABLA VISITAS DOMICILIARIAS
+// OBTENER  UNA VISITA MEDIANTE SU ID
 app.get("/api/visita-general-domiciliaria/:id_visita", (req, res) => {
     const { id_visita } = req.params;
 
@@ -1576,6 +1513,124 @@ app.get("/api/visita-general-domiciliaria/:id_visita", (req, res) => {
             });
         });
 });
+//METODO PARA ACTUALIZAR UNA VISITA MEDIANTE SU  ID_VISITA 
+app.put("/api/visita-general-domiciliaria/:id_visita", (req, res) => {
+    const { id_visita } = req.params;
+    const { tipo, numero_visita, fecha_atencion, opcional, observaciones, id_paciente } = req.body;
+
+    // Validar que se envió el ID de la visita y al menos algún campo para actualizar
+    if (!id_visita) {
+        return res.status(400).json({
+            error: "El 'id_visita' es obligatorio.",
+        });
+    }
+
+    if (!tipo && !numero_visita && !fecha_atencion && !opcional && !observaciones && !id_paciente) {
+        return res.status(400).json({
+            error: "Se debe proporcionar al menos un campo para actualizar.",
+        });
+    }
+
+    // Construir la consulta dinámica para actualizar los campos proporcionados
+    const fields = [];
+    const values = [];
+    if (tipo) {
+        fields.push("tipo = ?");
+        values.push(tipo);
+    }
+    if (numero_visita) {
+        fields.push("numero_visita = ?");
+        values.push(numero_visita);
+    }
+    if (fecha_atencion) {
+        fields.push("fecha_atencion = ?");
+        values.push(fecha_atencion);
+    }
+    if (opcional) {
+        fields.push("opcional = ?");
+        values.push(opcional);
+    }
+    if (observaciones) {
+        fields.push("observaciones = ?");
+        values.push(observaciones);
+    }
+    if (id_paciente) {
+        fields.push("id_paciente = ?");
+        values.push(id_paciente);
+    }
+
+    const query = `
+        UPDATE visita_domiciliaria
+        SET ${fields.join(", ")}
+        WHERE id_visita = ?
+    `;
+
+    // Agregar el ID al final de los valores
+    values.push(id_visita);
+
+    // Ejecutar la consulta
+    pool.query(query, values)
+        .then((resultado) => {
+            if (resultado[0].affectedRows === 0) {
+                return res.status(404).json({
+                    message: "No se encontró ninguna visita domiciliaria con este ID para actualizar.",
+                });
+            }
+
+            res.status(200).json({
+                message: "Visita domiciliaria actualizada exitosamente.",
+            });
+        })
+        .catch((err) => {
+            console.error("Error al actualizar la visita domiciliaria:", err);
+            res.status(500).json({
+                error: "Error al actualizar la visita domiciliaria en la base de datos.",
+                details: err.message,
+            });
+        });
+});
+// ELIMINAR DATOS MEDIANTE EL ID 
+// Ruta para eliminar una visita domiciliaria por ID
+app.delete("/api/visita-domiciliaria/:id", (req, res) => {
+    const id_visita= req.params.id;
+
+    // Validación de que se ha proporcionado un ID de visita
+    if (!id_visita) {
+        return res.status(400).json({
+            error: "El ID de la visita es obligatorio.",
+        });
+    }
+
+    // Consulta para eliminar la visita domiciliaria por su ID
+    const queryEliminacion = `
+        DELETE FROM visita_domiciliaria 
+        WHERE id_visita = ?
+    `;
+
+    pool.query(queryEliminacion, [id_visita])
+        .then((resultado) => {
+            // Verificar si se ha eliminado alguna fila
+            if (resultado.affectedRows === 0) {
+                return res.status(404).json({
+                    error: "No se encontró ninguna visita con el ID proporcionado.",
+                });
+            }
+
+            res.status(200).json({
+                message: "Visita domiciliaria eliminada con éxito.",
+            });
+        })
+        .catch((err) => {
+            console.error("Error al eliminar la visita:", err);
+
+            res.status(500).json({
+                error: "Error al eliminar la visita domiciliaria en la base de datos.",
+                details: err.message,
+            });
+        });
+});
+
+
 
 
 // *********************************************************************************************************************************************************+

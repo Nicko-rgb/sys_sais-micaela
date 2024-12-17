@@ -9,7 +9,7 @@ const NavPie = () => {
   return (
     <div className="nav-pie">
       <div>
-        <p>Copyrigth Derechos Reservados-2024  by Nixon ,Erick,Alejandro</p>
+        <p>Copyrigth Derechos Reservados-2024  by Nixon ,Erick,Alejandro , Cesar Soria</p>
       </div>
       <div className='btns'>
         <button href="www.hola.com"><IoDocumentText /> Documentación</button>

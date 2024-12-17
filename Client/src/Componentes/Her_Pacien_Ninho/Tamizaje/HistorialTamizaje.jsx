@@ -15,6 +15,15 @@ const HistorialTamizaje = () => {
     // Datos de ejemplo que puedes reemplazar con tus datos reales
     const registros = [
         {
+            id: 1,
+            fecSolicitud: '11-09-2  024',
+            tamizaje: 'Dosaje de Hemoglobina',
+            fecResultado: '11-09-2024',
+            resultado: '0',
+            fecAtencion: '11-09-2024',
+            edad: '2a 04m 06d'
+        }, {
+            id: 2,
             fecSolicitud: '11-09-2024',
             tamizaje: 'Dosaje de Hemoglobina',
             fecResultado: '11-09-2024',
@@ -30,7 +39,7 @@ const HistorialTamizaje = () => {
 
     return (
         <div>
-            <NavLogin /> 
+            <NavLogin />
             <div className={styles.contGeneral}>
 
                 {paciente ? (
@@ -92,7 +101,7 @@ const HistorialTamizaje = () => {
                 )}
 
             </div>
-            <NavPie/>
+            <NavPie />
         </div>
     )
 }

@@ -77,7 +77,8 @@
     z-index: 1; /* Para asegurar que el título esté por encima de otros elementos */
 
     h3 {
-        font-size: 2.2em; /* Aumenté el tamaño para mayor impacto */
+        margin-top: 50px;
+        font-size: 1.8em; /* Aumenté el tamaño para mayor impacto */
         font-weight: 600; /* Negrita para resaltar el título */
         margin-bottom: 10px;
         color: white;
@@ -92,7 +93,7 @@
 }
 
 .imagenDoctores img {
-    width: 100%; /* Adaptar al contenedor */
+    width: 90%; /* Adaptar al contenedor */
     max-width: 700px; /* Limitar el tamaño máximo */
     border-radius: 0; /* Elimina cualquier redondeo en los bordes si es necesario */
     object-fit: contain; /* Asegura que la imagen conserve sus proporciones */

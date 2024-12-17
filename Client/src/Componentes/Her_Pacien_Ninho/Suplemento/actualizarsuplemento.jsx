@@ -31,7 +31,7 @@ const Actualizarsuplementos = () => {
             {/* Botón Volver alineado a la izquierda */}
             <Link
               to={`/panel/${paciente.hist_clinico}`}
-              className={style.volverbutton}
+              className={style.volverbuttons}
             >
               <RiPlayReverseLargeFill /> VOLVER
             </Link>

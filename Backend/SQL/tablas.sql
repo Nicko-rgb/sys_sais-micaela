@@ -136,8 +136,6 @@ CREATE TABLE personal_salud (
     reset_token VARCHAR(255) DEFAULT NULL,
     fechaRegistro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-ALTER TABLE personal_salud 
-    MODIFY COLUMN especial_cita VARCHAR(50)
 
 -- CREAMOS UNA TABLA PARA REGISTRAR TURNOS DE PERSONALES
 CREATE TABLE turnos_personal (
@@ -430,60 +428,31 @@ CREATE TABLE `nacimiento_paciente_ninos` (
     `ID_FINANCIAMENTO` int(11) DEFAULT NULL,
     `ID_PROGRAMA` int(11) DEFAULT NULL,
     `codigo_sis` varchar(12) DEFAULT NULL
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+)
 
---
--- Volcado de datos para la tabla `nacimiento_paciente_ninos`
---
+CREATE TABLE `visita_domiciliaria` (
+  `id_visita` INT AUTO_INCREMENT PRIMARY KEY,
+  `tipo` varchar(100) NOT NULL,
+  `numero_visita` int(11) NOT NULL,
+  `fecha_atencion` date NOT NULL,
+  `opcional` varchar(255) DEFAULT NULL,
+  `observaciones` text DEFAULT NULL,
+  `id_paciente` int(11) NOT NULL
+)
 
-INSERT INTO
-    `nacimiento_paciente_ninos` (
-        `ID_DATOS_NACIMIENTO`,
-        `EDAD_GESTACIONAL`,
-        `ID_PACIENTE`,
-        `PESO`,
-        `TALLA`,
-        `PERIMETRO_CEFALICO`,
-        `ID_ETNIA`,
-        `ID_FINANCIAMENTO`,
-        `ID_PROGRAMA`,
-        `codigo_sis`
-    )
-VALUES (
-        16,
-        6363,
-        3,
-        5.20,
-        1.72,
-        15.20,
-        5,
-        2,
-        3,
-        'XDXDfghj'
-    ),
-    (
-        17,
-        90,
-        9,
-        60.00,
-        1.62,
-        55.00,
-        5,
-        4,
-        4,
-        '22'
-    ),
-    (
-        18,
-        848,
-        10,
-        37.00,
-        737.00,
-        838.00,
-        4,
-        6,
-        5,
-        '888'
-    );
+ALTER TABLE `visita_domiciliaria`
+  ADD CONSTRAINT `fk_paciente` FOREIGN KEY (`id_paciente`) REFERENCES `pacientes` (`id_paciente`) ON DELETE CASCADE;
 
--- -------------------
+USE db_sais;
+
+CREATE TABLE sector_personal (
+    id_sector_personal INT AUTO_INCREMENT PRIMARY KEY,
+    id_sector INT(11) NOT NULL,
+    manzana VARCHAR(100),
+    codigo VARCHAR(50) NOT NULL,
+    numero INT(11) NOT NULL,
+    descripcion VARCHAR(100),
+    id_personal INT(11),
+    FOREIGN KEY (id_personal) REFERENCES personal_salud (id_personal) ON DELETE SET NULL,
+    UNIQUE (id_sector, id_personal) 
+);

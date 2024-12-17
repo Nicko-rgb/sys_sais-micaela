@@ -15,13 +15,11 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
   overflow-y: auto;
 }
 .turnos-personal main {
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
 }
 .turnos-personal main>h3 {
   font-size: large;
@@ -93,6 +91,7 @@
   padding: 7px;
   color: white;
   display: none;
+  z-index: 20;
 }
 .turnos-personal .acciones div .btn-filtro:hover~.filtro{
   display: flex;
@@ -104,15 +103,6 @@
   transform: rotate(-180deg);
   font-size: 18px;
 }
-.turnos-personal .contador{
-  font-family: 'poppins';
-  font-size: 12px;
-  display: flex;
-  margin: 0;
-  margin: auto;
-  margin-bottom: 5px;
-  margin-top: 10px;
-}
 
 .turnos-personal .acciones .fecha-cambiar{
   display: flex;
@@ -120,12 +110,24 @@
   gap: 10px;
   height: 100%;
 }
-.turnos-personal .fecha-cambiar h4{
-  margin: 0;
-  white-space: nowrap;
-  font-weight: 550;
-  font-size: 15px;
+.turnos-personal .inf{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 0;
 }
+.turnos-personal .inf p{
+  text-transform: capitalize;
+  font-size: 14px;
+  font-weight: 600;
+}
+.turnos-personal .inf .contador{
+  font-size: 12px;
+  display: flex;
+  margin: 0;
+  text-transform: uppercase;
+}
+
 .turnos-personal .acciones button {
   background-color: #00796bb4;
   height: 100%;
@@ -139,20 +141,24 @@
   align-items: center;
   white-space: nowrap;
 }
-.turnos-personal .acciones .btn-export {
-  white-space: nowrap;
-  height: 100%;
-  margin: 0;
+.turnos-personal .btn-export {
   border: none;
   display: flex;
   align-items: center;
   background-color: #00796bb4;
   color: white;
   gap: 3px;
-  text-transform: capitalize;
+  margin-top: 10px;
+  width: 120px;
+  float: right;
+  transition: .3s ease;
 }
-.turnos-personal .acciones .icoExport {
+.turnos-personal .icoExport {
   font-size: 16px;
+}
+
+.turnos-personal .btn-export:hover  {
+  transform: scale(1.01);
 }
 
 .turnos-personal .acciones .ico-cambiar {
@@ -187,18 +193,6 @@
   animation: fadeIn 0.3s ease;
   padding: 10px;
 }
-.turnos-personal .leyenda-turno{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 10px;
-  font-family: 'poppins';
-  font-size: 13px;
-  font-weight: 400;
-}.turnos-personal .leyenda-turno p {
-  font-size: 12px;
-}
-
 
 @keyframes fadeIn {
   from {
@@ -254,9 +248,12 @@
   white-space: nowrap;
   padding: 2px;
   width: auto;
-  font-size: 11px;
+  font-size: 12px;
 }
 
+.turnos-personal .content-info .flecha {
+  display: flex;
+}
 .turnos-personal table .names:hover{
   text-decoration: underline;
 }
@@ -264,18 +261,18 @@
   transition: .2s ease;
 }
 .turnos-personal table tbody tr:hover{
-  background-color: rgb(206, 216, 255);
+  background-color: rgb(199, 210, 255);
 }
 
-.turnos-personal table tbody td{
+.turnos-personal table .claves {
+  width: 40px;
   padding: 0;
 }
-.turnos-personal table tbody td select{
+
+.turnos-personal table tbody td select, .turnos-personal table tbody td p {
   -webkit-appearance: none;
-  margin: 0;
-  padding: 5px;
   border: none;
-  height: 100%;
+  height: 25px;
   width: 100%;
   box-shadow: none;
   font-size: 12px;
@@ -284,16 +281,23 @@
   transition: .2s ease;
   font-weight: bold;
 }
-.turnos-personal table tbody td select:hover{
+.turnos-personal table tbody td p{
+  cursor: initial;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.turnos-personal td select:hover{
   background-color: rgb(206, 216, 255);
 }
-.turnos-personal table tbody td select:focus{
+.turnos-personal td select:focus{
+  outline: none;
   background-color: rgb(206, 216, 255);
 }
+
 .turnos-personal table tbody td select option{
-  color: black;
   background-color: white;
-  margin-top: -20px;
+  font-weight: bold;
 }
 
 .turnos-personal table .hoy {
@@ -301,11 +305,11 @@
   color: white;
   font-weight: bold;
   pointer-events: none;
-  z-index: 10;
+  z-index: 1;
 }
 
 .turnos-personal table .domingo{
-  background: rgba(128, 128, 128, 0.534);
+  background-color: rgba(128, 128, 128, 0.534);
   pointer-events: none;
   z-index: 9;
 }
@@ -314,29 +318,68 @@
   background-color: rgba(255, 117, 117, 0.689);
   border: rgb(249, 92, 92) solid 1px;
   pointer-events: none;
+  z-index: 9;
 } 
 .turnos-personal table thead tr .bloqueada{
   pointer-events: initial;
 }
 
-.turnos-personal table .mm{
-  color: red;
+
+/* Estilos del contenedor del interruptor */
+.turnos-personal .acciones .switch {
+  position: relative;
+  display: inline-block;
+  width: 70px;
+  height: 20px;
+  margin-top: -8px;
 }
-.turnos-personal table .tt{
-  color: rgb(255, 68, 168);
+
+/* Ocultar el checkbox original */
+.turnos-personal .acciones .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
-.turnos-personal table .gd{
-  color: rgb(247, 18, 255);
+
+/* Estilo del slider (el botón deslizante) */
+.turnos-personal .acciones .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 8px;
+  right: 0;
+  bottom: 0;
+  width: 50px;
+  background-color: #e5e4e4;
+  transition: .4s; /* Transición suave */
+  border-radius: 34px; /* Bordes redondeados */
+  border: rgba(1, 159, 159, 0.419) solid 1px;
 }
-.turnos-personal table .mvd{
-  color: rgb(255, 172, 39);
+
+/* Estilo del slider cuando el checkbox está activado */
+.turnos-personal .acciones input:checked + .slider {
+  background-color: #2196F3;
 }
-.turnos-personal table .gdd{
-  color: rgb(34, 255, 63);
+
+/* El círculo deslizante dentro del slider */
+.turnos-personal .acciones .slider::before {
+  position: absolute;
+  content: "";
+  height: 16px; /* Altura del círculo deslizante */
+  width: 16px; /* Ancho del círculo deslizante */
+  left: 2px; /* Espacio desde la izquierda */
+  bottom: 1px; /* Espacio desde la parte inferior */
+  background-color: white; /* Color del círculo deslizante */
+  transition: .4s; /* Transición suave */
+  border-radius: 50%; /* Hacerlo circular */
 }
-.turnos-personal table .mvsf{
-  color: gray;
+
+/* Desplazar el círculo deslizante cuando el checkbox está activado */
+.turnos-personal .acciones input:checked + .slider::before {
+  transform: translateX(30px); /* Mover el círculo a la derecha */
 }
-.turnos-personal table .ll{
-  color: rgb(1, 159, 159);
+.turnos-personal .acciones .switch p {
+  margin: 0;
+  font-size: 13px;
+  text-align: center;
 }

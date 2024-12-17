@@ -16,14 +16,14 @@ const HistorialVisitas = () => {
     const { paciente } = location.state || {}; // Extrae paciente del state...
 
     const handleNewVisitClick = () => {
-        navigate(`/visita/${paciente.hist_clinico}`, { state: { paciente } })
+        navigate(/visita/${paciente.hist_clinico}, { state: { paciente } })
     };
 
     useEffect(() => {
         const fetchVisitas = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(`http://localhost:5000/api/visita-domiciliaria/${id_paciente}`);
+                const response = await fetch(http://localhost:5000/api/visita-domiciliaria/${id_paciente});
 
                 console.log('Response status:', response.status);
                 console.log('Response headers:', response.headers);

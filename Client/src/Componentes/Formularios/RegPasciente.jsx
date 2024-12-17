@@ -179,7 +179,7 @@ const RegistrarPas = ({ onClose }) => {
             fechaNacimiento,
             edad,
             sexo,
-            discapacidad,
+            discapacidad: checkDiscapsidad ? discapacidad : null,
             celular1,
             celular2,
             localidad,
@@ -232,7 +232,7 @@ const RegistrarPas = ({ onClose }) => {
     return (
         <div className="registrar">
             <form onSubmit={handleSubmit}>
-                <img src={icoClose} alt='' className='close_reg' onClick={onClose} title='CERRAR REGISTRO'/>
+                <img src={icoClose} alt='' className='close_reg' onClick={onClose} title='CERRAR REGISTRO' />
                 <div className='center'>
                     <div className="form_paciente">
                         <h3>Datos del Nuevo Paciente</h3>
@@ -243,9 +243,9 @@ const RegistrarPas = ({ onClose }) => {
                                     onChange={(handleDniChange)}
                                     value={dni}
                                     required
-                                    maxLength={"8"}
                                     pattern='\d{8}'
                                     title='INGRESE DNI VALIDO DE 8 DIGITOS '
+                                    maxLength={"8"}
                                 />
                             </label>
                             <label>CNV en línea

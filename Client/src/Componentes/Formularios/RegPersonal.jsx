@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import './reg_personal.css';
 import Selected from './Select';
+import icoClose from '../Ico/ico-close.png'
+import Store from '../Store/Store_Cita_Turno';
+
 
 const RegPersonal = ({ handleForm }) => {
     const [dni, setDni] = useState('');
@@ -77,9 +80,8 @@ const RegPersonal = ({ handleForm }) => {
             alert('Registro Exitoso');
             handleForm();
         } catch (error) {
-            setMsg('Error al registrar el personal. Intenta nuevamente.');
-            console.error('Error:', error);
-            alert('Error al registrar');
+            console.error('Errorrr:', error.message);
+            setMsg('Error al registrar el personal. ' + error.message);
         } finally {
             setLoading(false);
         }
@@ -100,39 +102,38 @@ const RegPersonal = ({ handleForm }) => {
     return (
         <div className="reg-personal">
             <form onSubmit={handleFormData} className='form-personal'>
-                <p className='close-personal-form' onClick={handleForm}>×</p>
+                <img src={icoClose} className='close-personal-form' onClick={handleForm} />
                 <h3 style={{ fontSize: '25px' }} >Registrar Nuevo Personal de Salud</h3>
                 <div className="fc">
                     <div className="fd">
                         <div>
                             <label>DNI:
-                                <input type="tel" value={dni} onChange={(e) => setDni(e.target.value)} maxLength={8} onKeyPress={handleKeyPress} />
+                                <input className={`d ${dni ?'activo' : '' }`} value={dni} onChange={(e) => setDni(e.target.value)} maxLength={8} onKeyPress={handleKeyPress} />
                             </label>
-
                             <label>Nombre:
-                                <input type="text" value={nombres} onChange={(e) => setNombres(e.target.value)} />
+                                <input className={`${nombres ? 'activo' : ''}`} value={nombres} onChange={(e) => setNombres(e.target.value)} />
                             </label>
                         </div>
 
                         <div>
                             <label>Paterno:
-                                <input type="text" value={paterno} onChange={(e) => setPaterno(e.target.value)} />
+                                <input className={`${paterno ? 'activo' : ''}`} value={paterno} onChange={(e) => setPaterno(e.target.value)} />
                             </label>
                             <label>Materno:
-                                <input type="text" value={materno} onChange={(e) => setMaterno(e.target.value)} />
+                                <input className={`${materno ? 'activo' : ''}`} value={materno} onChange={(e) => setMaterno(e.target.value)} />
                             </label>
                         </div>
                         <div>
                             <label>Celular:
-                                <input type="text" value={celular} onChange={(e) => setCelular(e.target.value)} maxLength={9} onKeyPress={handleKeyPress} />
+                                <input  className={`${celular ?'activo' : '' }`} value={celular} onChange={(e) => setCelular(e.target.value)} maxLength={9} onKeyPress={handleKeyPress} />
                             </label>
                             <label>Correo:
-                                <input id='email' type="email" value={correo} onChange={(e) => setCorreo(e.target.value)} />
+                                <input id='email' className={`d ${correo ?'activo' : '' }`} type="email" value={correo} onChange={(e) => setCorreo(e.target.value)} />
                             </label>
                         </div>
                         <div>
                             <label>Tipo Usuario:
-                                <select value={tipoUser} onChange={(e) => setTipoUser(e.target.value)}>
+                                <select className={`${tipoUser ?'activo' : '' }`} value={tipoUser} onChange={(e) => setTipoUser(e.target.value)}>
                                     <option value="">Seleccione una opción</option>
                                     <option value="Jefe">Jefe</option>
                                     <option value="Admin">Admin</option>
@@ -140,7 +141,7 @@ const RegPersonal = ({ handleForm }) => {
                                 </select>
                             </label>
                             <label>Condición:
-                                <select value={condicion} onChange={(e) => setCondicion(e.target.value)}>
+                                <select className={`${condicion ?'activo' : '' }`} value={condicion} onChange={(e) => setCondicion(e.target.value)}>
                                     <option value="">Seleccione una opción</option>
                                     <option value="Nombrado">Nombrado</option>
                                     <option value="Contratado">Contratado</option>
@@ -168,7 +169,7 @@ const RegPersonal = ({ handleForm }) => {
                                 <>
                                     <label>
                                         Seleccione Especialidad:
-                                        <select value={especialidad} onChange={handleEspecialidadChange}>
+                                        <select className={`${especialidad ?'activo' : '' }`} value={especialidad} onChange={handleEspecialidadChange}>
                                             <option value="">Seleccione una opción</option>
                                             <option value="Enfermería">Enfermería</option>
                                             <option value="Medicina">Medicina</option>
@@ -183,7 +184,7 @@ const RegPersonal = ({ handleForm }) => {
                                     {mostrarConsultorio && (
                                         <label>
                                             N° Consultorio:
-                                            <select value={consultorio} onChange={(e) => setConsultorio(e.target.value)}>
+                                            <select className={`${consultorio ?'activo' : '' }`} value={consultorio} onChange={(e) => setConsultorio(e.target.value)}>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                             </select>
@@ -196,20 +197,20 @@ const RegPersonal = ({ handleForm }) => {
                             <fieldset>
                                 <legend>credenciales de acceso</legend>
                                 <label>Usuario(DNI):
-                                    <input type="text" value={dni} onChange={(e) => setNameUser(e.target.value)} style={{ cursor: 'no-drop' }} disabled />
+                                    <input className={`${dni ?'activo' : '' }`} value={dni} onChange={(e) => setNameUser(e.target.value)} style={{ cursor: 'no-drop' }} disabled />
                                 </label>
                                 <label>Contraseña:
-                                    <input type="text" value={contrasena} onChange={(e) => setContrasena(e.target.value)} />
+                                    <input className={`${contrasena ?'activo' : '' }`} value={contrasena} onChange={(e) => setContrasena(e.target.value)} />
                                 </label>
                                 <label>Repetir contraseña:
-                                    <input type="text" value={repitContra} onChange={(e) => setRepitContra(e.target.value)} />
+                                    <input className={`${repitContra ?'activo' : '' }`} value={repitContra} onChange={(e) => setRepitContra(e.target.value)} />
                                 </label>
                             </fieldset>
                         </div>
                         {msg && (<p className='msg-personal'> {msg} </p>)}
 
                 <div className="btns">
-                    <button type='button' className="btn-cancel" onClick={handleForm}>Cancelar</button>
+                    <button type='button' className="btn-cancela" onClick={handleForm}>Cancelar</button>
                     <button type='submit' disabled={loading} className='btn-submit'>
                         {loading ? 'Guardando...' : 'Registrar'}
                     </button>

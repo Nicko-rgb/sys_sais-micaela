@@ -16,14 +16,13 @@ button:hover {
 
 /* Botón Guardar */
 .btn-save {
-    background-color: #28a745;
+    background-color: #28a768;
     color: #FFFFFF;
 }
 
 .btn-save:hover {
-    background-color: #218838;
+    background-color: #228e58;
 }
-
 
 /* Botón Borrar */
 .btn-delete {
@@ -104,3 +103,28 @@ button:hover {
 #email {
     text-transform: none;
 }
+
+
+
+/* animacion de efecto de escala y rebote */
+
+@keyframes scaleBounce {
+    0% {
+      transform: scale(0.5);
+      /* Comienza pequeño */
+      opacity: 0;
+      /* Invisible al inicio */
+    }
+  
+    50% {
+      transform: scale(1.1);
+      /* Escala ligeramente más grande */
+      opacity: 1;
+      /* Hacerse visible */
+    }
+  
+    100% {
+      transform: scale(1);
+      /* Escala a su tamaño original */
+    }
+  }

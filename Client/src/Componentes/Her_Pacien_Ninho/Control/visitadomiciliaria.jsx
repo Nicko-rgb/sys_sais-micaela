@@ -63,7 +63,7 @@ const VisitaDomiciliaria = () => {
             if (!response.ok) {
                 const errorData = await response.json();
                 console.error("Error en la respuesta del servidor:", errorData);
-                alert(`Error al guardar: ${errorData.message || "Error desconocido"}`);
+                alert(Error al guardar: ${errorData.message || "Error desconocido"});
                 return; // Salir de la función
             }
 
@@ -91,7 +91,7 @@ const VisitaDomiciliaria = () => {
             <NavLogin />
 
             <div className={styles.btn}>
-                <Link to={`/panel/${paciente?.hist_clinico || ''}`} className={styles.volver_link}>
+                <Link to={/panel/${paciente?.hist_clinico || ''}} className={styles.volver_link}>
                     <RiPlayReverseLargeFill /> VOLVER
                 </Link>
             </div>

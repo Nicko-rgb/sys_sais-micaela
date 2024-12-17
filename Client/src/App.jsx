@@ -7,6 +7,7 @@ import DatosPaciente from './Componentes/PanelPaciente/DatosPaciente';
 import Listas from './Componentes/Lista Paciente/Listas';
 import PanelCita from './Componentes/CitaNiño/PanelCita';
 import Cita1 from './Componentes/CitaNiño/Citas1';
+import Sectores from './Componentes/Personales/Sectores/Sectores';
 import Personal from './Componentes/Personales/Personal';
 import ResetPassword from "./Componentes/Login/ResetPassword/ResetPasssord"
 import ContactAdmi from './Componentes/ContactAdministrador/contactAdmi';
@@ -50,6 +51,7 @@ function App() {
                     <Route path="/panel-cita" element={<PanelCita />} />
                     <Route path='/cita-niño/:especialidad' element={<Cita1 />} />
                     <Route path="/personal-salud" element={<Personal />} />
+                    <Route path="/maps-sais" element={<Sectores />} />
                     <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="/contact-administrador" element={<ContactAdmi />} />
                     <Route path="/new-password/:token" element={<Restablecer />} />

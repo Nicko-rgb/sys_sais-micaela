@@ -158,6 +158,13 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
         return texto
     }
 
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Establecer la hora a medianoche para comparar solo fechas
+
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1); // Restar un día
+
+
     return (
         <>
             <tbody>
@@ -176,19 +183,18 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                     // Encuentra al profesional responsable para atención para este horario
                     const responsable = turnosPersonal.find((res) => {
                         const isGuardiaDiurna = res.turno === 'Guardia Diurna';
-
-                        // Común a ambas condiciones
-                        const isMatchingSpecialty = res.especial_cita.toLowerCase() === especialidad.toLowerCase();
-                        const isMatchingConsultorio = Number(res.num_consultorio) === Number(consultorio);
-                        const isMatchingFecha = new Date(res.fecha).toISOString().split('T')[0] === fecha;
-
-                        // Retorna true si se cumple la condición correspondiente
-                        return (
-                            isMatchingSpecialty &&
-                            isMatchingConsultorio &&
-                            isMatchingFecha &&
-                            (isGuardiaDiurna || res.turno.toLowerCase() === horario.turno.toLowerCase())
-                        );
+                        if (res.especial_cita) {
+                            // Común a ambas condiciones
+                            const isMatchingSpecialty = res.especial_cita.toLowerCase() === especialidad.toLowerCase();
+                            const isMatchingConsultorio = Number(res.num_consultorio) === Number(consultorio);
+                            const isMatchingFecha = new Date(res.fecha).toISOString().split('T')[0] === fecha;
+                            return (
+                                isMatchingSpecialty &&
+                                isMatchingConsultorio &&
+                                isMatchingFecha &&
+                                (isGuardiaDiurna || res.turno.toLowerCase() === horario.turno.toLowerCase())
+                            );
+                        }
                     });
 
                     if (horario.tipo_atencion === 'receso') {
@@ -228,7 +234,7 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
 
                             <td className="box-ac" style={{ padding: '0' }}>
                                 <div className="accion">
-                                    {new Date(fecha) < new Date() ? (
+                                    {new Date(fecha) < yesterday ? (
                                         <CiLock style={{ color: 'red', cursor: 'initial' }} className="ico ico-" title="Fecha pasada, no editable" />
                                     ) : (
                                         !rowBlocked ? (

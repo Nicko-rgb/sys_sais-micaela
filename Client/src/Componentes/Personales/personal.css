@@ -73,13 +73,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
     margin: auto;
     height: 30px;
 }
 
 .personal-salud .box-buscar .buscar-personal {
-    width: 500px;
+    width: 450px;
     height: 100%;
     padding-left: 35px;
     border: none;
@@ -142,7 +142,7 @@
 .personal-salud .box-buscar .filtro {
     display: none;
     position: absolute;
-    right: 0;
+    right: 40px;
     top: 30px;
     background: rgb(48, 48, 48);
     width: 130px;
@@ -178,6 +178,18 @@
 
 .personal-salud .filtro span:hover {
     background-color: gray;
+}
+.personal-salud .config-ico {
+    background-color: rgb(227, 227, 227);
+    height: 100%;
+    width: auto;
+    padding: 6px;
+    cursor: pointer;
+    transition: .3s ease;
+}
+.personal-salud .config-ico:hover{
+    padding: 4px;
+    background-color: rgb(205, 205, 205);
 }
 
 .personal-salud .buscar-personal::placeholder {
@@ -225,6 +237,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.personal-salud table .name:hover {
+    transition: .3s ease;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 .personal-salud table tr {
     transition: .3s ease;
 }
@@ -288,16 +307,23 @@
     top: 0;
     left: 0;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.191);
+    z-index: 10;
 }
 
 .personal-salud .confirm-modal .content {
-    background: #e8feff;
+    background: #ffffff;
     border-radius: 7px;
     padding: 20px;
+    gap: 20px;
     animation: fadeIn 0.3s ease;
-    box-shadow: 0 0 10px black;
+    box-shadow: 0 0 10px #28a768;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+.personal-salud .confirm-modal .activo{
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.451);
 }
 
 @keyframes fadeIn {
@@ -315,14 +341,28 @@
 .personal-salud .confirm-modal p {
     font-family: 'poppins';
     font-size: 14px;
+    text-align: center;
 }
-
-.personal-salud .confirm-modal span {
-    font-weight: bold;
+.personal-salud .confirm-modal span{
+    font-weight: 600;
 }
-
-.personal-salud .confirm-modal .btns-confirm {
+.personal-salud .confirm-modal .btns {
     display: flex;
     justify-content: space-evenly;
     gap: 20px;
+}
+.personal-salud .confirm-modal button{
+    width: 120px;
+    height: 40px;
+    font-weight: 500;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+.personal-salud .content-info {
+    margin: auto;
+    margin-bottom: 200px;
+}
+.personal-salud .content-info .flecha{
+    display: none;
 }

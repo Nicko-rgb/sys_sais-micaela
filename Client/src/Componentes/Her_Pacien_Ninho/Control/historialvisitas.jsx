@@ -16,13 +16,13 @@ const HistorialVisitas = () => {
     const navigate = useNavigate();
 
     const handleNewVisitClick = () => {
-        navigate(/visita/${id_paciente});
+        navigate(`/visita/${id_paciente}`);
     };
 
     const handleEliminar = async (id_visita) => {
         console.log("Intentando eliminar visita con ID:", id_visita);
         try {
-            const response = await fetch(http://localhost:5000/api/visita-domiciliaria/${id_visita}, {
+            const response = await fetch(`http://localhost:5000/api/visita-domiciliaria/${id_visita}`, {
                 method: 'DELETE',
             });
             const data = await response.json();
@@ -43,7 +43,7 @@ const HistorialVisitas = () => {
     const recargarVisitas = async () => {
         try {
             setLoading(true);
-            const response = await fetch(http://localhost:5000/api/visita-domiciliaria/${id_paciente});
+            const response = await fetch(`http://localhost:5000/api/visita-domiciliaria/${id_paciente}`);
             const data = await response.json();
             setVisitas(data.visitas || []);
             setFilteredVisitas(data.visitas || []);
@@ -63,7 +63,7 @@ const HistorialVisitas = () => {
         const dia = fecha.getDate().toString().padStart(2, '0');
         const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
         const anio = fecha.getFullYear();
-        return ${dia}/${mes}/${anio};
+        return `${dia}/${mes}/${anio}`
     };
 
     const handleEditar = (id_visita) => {

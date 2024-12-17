@@ -1,0 +1,58 @@
+.opciones-right {
+    position: fixed;
+    border-left: gray solid;
+    right: 0;
+    top: 35px;
+    width: 200px;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    pointer-events: initial;
+
+    &::-webkit-scrollbar {
+        width: 0px;
+    }
+}
+
+.opciones-right .cabeza {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #00796b;
+    position: sticky;
+    top: 0;
+    color: white;
+    font-size: 18px;
+}
+
+.opciones-right .cabeza p {
+    text-decoration: underline;
+    cursor: default;
+}
+
+.opciones-right .opciones1,
+.opciones2,
+.opciones3,
+.opciones4 {
+    padding: 0 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 5px;
+}
+
+/* ESTILO PARA LAS OPCIONES DEL LADO DERECHO */
+.opciones-right button {
+    margin-top: 4px;
+    border: gray solid 1px;
+    font-family: 'poppins';
+    background-color: #f0f0f0;
+    font-size: 13px;
+    padding: 5px 5px;
+    cursor: pointer;
+    width: 190px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: center;
+    text-transform: uppercase;
+}

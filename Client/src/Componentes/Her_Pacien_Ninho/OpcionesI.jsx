@@ -7,15 +7,17 @@ import { IoBody } from "react-icons/io5";
 import { useNavigate } from "react-router-dom"
 
 
-const OpcionesI = ({ paciente = {}}) => {
+const OpcionesI = ({ paciente = {} }) => {
   const navigate = useNavigate(); // Hook de navegación
 
   const handleNewVisitClick = () => {
-    navigate(`/visita/${paciente.id_paciente}`, { state: { paciente } });
+    navigate(`/visita/${paciente.hist_clinico}`, { state: { paciente } });
   };
+
   const iraHistorialVisita = () => {
     navigate(`/historialvisita/${paciente.id_paciente}`, { state: { paciente } }); // Redirige a la ruta de "historialVisita"
   };
+
   const seguimientoNutricional = () => {
     if (paciente && paciente.hist_clinico) {
       navigate(`/seguimiento/${paciente.hist_clinico}`, { state: { paciente } });
@@ -24,12 +26,16 @@ const OpcionesI = ({ paciente = {}}) => {
     } // Redirige a la ruta de "historialVisita"
   };
 
+  const histControles = () => {
+    navigate(`/historialControles/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta de "Actualizar controles"
+  };
+  
+
   const actualizarControles = () => {
     navigate(`/actualizarcontroles/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta de "Actualizar controles"
   };
 
   const irAControl = () => {
-
     if (paciente && paciente.hist_clinico) {
       navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
     } else {
@@ -44,7 +50,7 @@ const OpcionesI = ({ paciente = {}}) => {
   const EvaluacionPsicomotor = () => {
     navigate(`/EvaluacionPsicomotor/${paciente.hist_clinico}`, { state: { paciente } });
   }
-  const HisotiriaPsicomotor = ()=> {
+  const HisotiriaPsicomotor = () => {
     navigate(`/HistorialPsicomotor/${paciente.hist_clinico}`, { state: { paciente } });
   }
 
@@ -65,6 +71,11 @@ const OpcionesI = ({ paciente = {}}) => {
   const VacunarNino = () => {
     navigate(`/VacunarNino/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
   }
+  const HistorialVacunas = () => {
+    navigate(`/HistorialVacunas/${paciente.hist_clinico}`, { state: { paciente } }); // Redirige a la ruta entregar listasuplemento
+  }
+
+
 
 
   return (
@@ -95,7 +106,7 @@ const OpcionesI = ({ paciente = {}}) => {
             </button>
           </div>
           <div className="submenu-historial-controles">
-            <button >
+            <button onClick={histControles}>
               HIST DE CONTROLES
             </button>
           </div>
@@ -141,7 +152,7 @@ const OpcionesI = ({ paciente = {}}) => {
             VACUNA
           </summary>
           <button onClick={VacunarNino}>Vacunar Niño</button>
-          <button> Historial Vacunas</button>
+          <button onClick={HistorialVacunas}> Historial Vacunas</button>
           <button> Vacunas Faltantes</button>
         </details>
       </div>

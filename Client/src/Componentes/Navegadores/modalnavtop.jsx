@@ -13,7 +13,7 @@ const Modalnavtop = ({ onClose, onConfirm }) => {
     };
 
     return (
-        <div className="modal-cerrarsesion">
+        <div className="modal-cerrarsesion"> 
             {isClosing ? (
                 <div className="modal-hijo cerrando-sesion">
                     <AiOutlineLoading3Quarters

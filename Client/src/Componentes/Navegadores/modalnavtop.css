@@ -11,16 +11,20 @@
     z-index: 1000;
 }
 
-.modal-hijo {
+.modal-cerrarsesion .modal-hijo {
     background: rgb(255, 255, 255);
     padding: 20px;
     border-radius: 8px;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
     animation: fadeIn 0.3s ease-in-out;
 }
 
-.cerrando-sesion {background: rgba(255, 255, 255, 0.459);
+.modal-cerrarsesion .modal-hijo h1{
+    font-size: 18px;
+}
+
+.modal-cerrarsesion .cerrando-sesion {background: rgba(255, 255, 255, 0.699);
     font-size: 18px;
     font-weight: bold;
     color: #333;
@@ -37,41 +41,41 @@
     }
 }
 
-.modal-botones {
+.modal-cerrarsesion .modal-botones {
     display: flex;
     justify-content: space-around;
     margin-top: 20px;
 }
 
-.btn-confirmar {
+.modal-cerrarsesion .btn-confirmar {
     background: #3498db;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.3s ease;
 }
 
-.btn-confirmar:hover {
+.modal-cerrarsesion .btn-confirmar:hover {
     background: #2874a6;
 }
 
-.btn-cancelar {
+.modal-cerrarsesion .btn-cancelar {
     background: #e74c3c;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.3s ease;
 }
 
-.btn-cancelar:hover {
+.modal-cerrarsesion .btn-cancelar:hover {
     background: #c0392b;
 }
 
-.icon-loading {
+.modal-cerrarsesion .icon-loading {
     animation: spin 1s linear infinite;
 }
 

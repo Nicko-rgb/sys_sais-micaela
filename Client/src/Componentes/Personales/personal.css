@@ -73,13 +73,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
     margin: auto;
     height: 30px;
 }
 
 .personal-salud .box-buscar .buscar-personal {
-    width: 500px;
+    width: 450px;
     height: 100%;
     padding-left: 35px;
     border: none;
@@ -142,7 +142,7 @@
 .personal-salud .box-buscar .filtro {
     display: none;
     position: absolute;
-    right: 0;
+    right: 40px;
     top: 30px;
     background: rgb(48, 48, 48);
     width: 130px;
@@ -178,6 +178,18 @@
 
 .personal-salud .filtro span:hover {
     background-color: gray;
+}
+.personal-salud .config-ico {
+    background-color: rgb(227, 227, 227);
+    height: 100%;
+    width: auto;
+    padding: 6px;
+    cursor: pointer;
+    transition: .3s ease;
+}
+.personal-salud .config-ico:hover{
+    padding: 4px;
+    background-color: rgb(205, 205, 205);
 }
 
 .personal-salud .buscar-personal::placeholder {

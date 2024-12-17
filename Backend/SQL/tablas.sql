@@ -442,3 +442,17 @@ CREATE TABLE `visita_domiciliaria` (
 
 ALTER TABLE `visita_domiciliaria`
   ADD CONSTRAINT `fk_paciente` FOREIGN KEY (`id_paciente`) REFERENCES `pacientes` (`id_paciente`) ON DELETE CASCADE;
+
+USE db_sais;
+
+CREATE TABLE sector_personal (
+    id_sector_personal INT AUTO_INCREMENT PRIMARY KEY,
+    id_sector INT(11) NOT NULL,
+    manzana VARCHAR(100),
+    codigo VARCHAR(50) NOT NULL,
+    numero INT(11) NOT NULL,
+    descripcion VARCHAR(100),
+    id_personal INT(11),
+    FOREIGN KEY (id_personal) REFERENCES personal_salud (id_personal) ON DELETE SET NULL,
+    UNIQUE (id_sector, id_personal) 
+);

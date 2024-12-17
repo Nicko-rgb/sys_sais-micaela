@@ -111,6 +111,17 @@ const Store = () => {
             });
     }, []);
 
+    // obtener datos de sector asignado a personal
+    const [sectorPer, setSectorPer] = useState([]);
+    const fetchSectorPer = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/personal/obtner-sector-asignado')
+            setSectorPer(response.data);    
+        } catch (error) {
+            console.error('Error al obtener los datos del sector:', error);
+        }
+    }
+
     // Carga de datos 
     useEffect(() => {
         fetchPersonalSalud();
@@ -123,9 +134,11 @@ const Store = () => {
     }, []);
 
     useEffect(() => {
+        fetchSectorPer()
         fetchCitas();
         const intervalId = setInterval(() => {
             fetchCitas();
+            fetchSectorPer()
         }, 1000);
 
         return () => clearInterval(intervalId);
@@ -159,16 +172,16 @@ const Store = () => {
     };
     // Definición de colores para cada tipo de turno
     const coloresTurno = {
-        'M': 'pink', // Color para Mañana (Naranja)
-        'T': '#64B5F6', // Color para Tarde (Azul claro)
-        'MT': '#81C784', // Color para Mañana y Tarde (Verde)
-        'GD': '#FFD54F', // Guardia Diurna (Amarillo)
-        'GDD': '#BA68C8', // Guardia Devolución (Púrpura)
+        'M': 'lightgreen',
+        'T': '#64B5F6',
+        'MT': '#81C784',
+        'GD': '#FFD54F',
+        'GDD': '#BA68C8',
         'MVD': '#FFAB91',
-        'TVD': '#4DB6AC', // Tarde Visita Domiciliaria (Verde agua)
-        'MVSF': 'gray', // Mañana Visita Salud Familiar (Melocotón)
-        'TVSF': '#FFF176', // Tarde Visita Salud Familiar (Amarillo claro)
-        'L': '#A1887F' // Libre (Marrón claro)
+        'TVD': '#4DB6AC',
+        'MVSF': 'gray',
+        'TVSF': '#FFF176',
+        'L': '#A1887F'
     };
     
 
@@ -177,15 +190,16 @@ const Store = () => {
         profesionFiltro,
         condicionFiltro,
         tiposDeTurno,
+        coloresTurno,
         cargando,
         obtenerDescripcionTurno,
-        coloresTurno,
         blockedRows,
         citas,
         turnosPersonal,
         profesiones,
         servicios,
-        especialidades
+        especialidades,
+        sectorPer,
     }
 }
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './personal.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import NavLogin from '../Navegadores/NavLogin';
 import NavPie from '../Navegadores/NavPie';
 import RegPersonal from '../Formularios/RegPersonal';
@@ -11,10 +11,11 @@ import Informacion from './infoTurno/Informacion'
 import { IoPersonAddSharp } from 'react-icons/io5';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
 import { MdPersonSearch, MdMenuOpen } from 'react-icons/md';
-import { FaUserEdit } from 'react-icons/fa';
+import { FaUserEdit, FaMapMarkedAlt } from 'react-icons/fa';
 import { AiFillSchedule } from "react-icons/ai";
 import { FaXmark, FaCheck } from "react-icons/fa6";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { GoGear } from "react-icons/go";
 
 const Personal = () => {
     const [verForm, setVerForm] = useState(false);
@@ -31,6 +32,7 @@ const Personal = () => {
     const { personalSalud } = Store()
     const [info, setInfo] = useState(false)
     const [selectPer, setSelectPer] = useState(null)
+    const navigate = useNavigate()
 
     const handleForm = () => {
         setVerForm(!verForm);
@@ -119,6 +121,10 @@ const Personal = () => {
         setFilterStatus(status);
     };
 
+    const openMap = () => {
+        navigate('/maps-sais')
+    }
+
     return (
         <div className="personal-salud">
             <NavLogin />
@@ -140,6 +146,7 @@ const Personal = () => {
                         />
                         <MdPersonSearch className='ico_buscar' />
                         <button onClick={handleVerTurnos}>VER TURNOS <AiFillSchedule className="ico-verturnos" /></button>
+                        <button onClick={openMap}><FaMapMarkedAlt style={{fontSize: '17px', marginTop: '-3px'}} />SECTORES</button>
                         <button className='btn-filtro' onClick={handleOpenFilter}>< MdMenuOpen className='ico' />Filtrar Datos</button>
                         {openFiltro && (
                             <div className="filtro">
@@ -148,6 +155,7 @@ const Personal = () => {
                                 <span onClick={() => handleFilterChange('inactivo')}>Inactivos</span>
                             </div>
                         )}
+                        <GoGear className='config-ico' />
                     </div>
                     <p className='contador'> {filterStatus}: {filteredPersonal.length} de {personalSalud.length} </p>
                     <table>
@@ -234,7 +242,6 @@ const Personal = () => {
                 {info && (
                     <Informacion personals={selectPer} cerrarModal={handleCloseModal} />
                 )}
-
                 {isConfirmModalOpen && (
                     <div className="confirm-modal">
                         <div className={`content ${personalToToggle?.estado === 'activo' ? 'activo' : ''}`}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './leyenda.css';
 import Store from '../../Store/Store_Cita_Turno';
 
@@ -56,25 +56,60 @@ export const LeyendasTurno = ({ tiposDeTurno }) => {
     );
 };
 
+export const TablaForSector = ({ data, searchTerm }) => {
+    if (!data || data.length === 0) {
+        return <p>No hay datos disponibles.</p>;
+    }
 
-export const FormSector = ({ closeForm, selectedManzana }) => {
+    // Eliminar espacios del término de búsqueda
+    const cleanedSearchTerm = searchTerm.replace(/\s+/g, '').toLowerCase();
+
+    // Filtrar los datos para incluir solo aquellos con estado "activo"
+    const activeData = data.filter(d => d.estado === 'activo');
+
+    // Filtrar los datos activos según el término de búsqueda, ignorando espacios
+    const filteredData = activeData.filter((d) => {
+        const fullName = `${d.paterno}${d.nombres}${d.materno}`.replace(/\s+/g, '').toLowerCase();
+        return fullName.includes(cleanedSearchTerm) || d.dni.includes(cleanedSearchTerm);
+    });
+
+    // Determinar si se debe mostrar la columna "Código - Mz"
+    const shouldShowColumn = filteredData.some(d => d.codigo);
+
+    if (filteredData.length === 0) {
+        return <p>No se encontraron resultados.</p>;
+    }
+
     return (
-        <div>
-            <h3>Asignar Responsable para Manzana {selectedManzana}</h3>
-            <form>
-                <label>
-                    Nombre del Profesional:
-                    <input type="text" placeholder="Nombre" />
-                </label>
-                <br />
-                <button type="submit">Guardar</button>
-                <button type="button" onClick={closeForm}>
-                    Cancelar
-                </button>
-            </form>
-        </div>
-    )
-}
+        <table>
+            <thead>
+                <tr>
+                    <th>DNI</th>
+                    <th>Nombres</th>
+                    <th>Profesión</th>
+                    {shouldShowColumn &&
+                        <th>Código - Mz</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                {filteredData.map((d, index) => (
+                    <tr key={index}>
+                        <td>{d.dni}</td>
+                        <td>{d.paterno} {d.nombres} {d.materno}</td>
+                        <td>{d.profesion}</td>
+                        {shouldShowColumn &&
+                            <td>{d.codigo} - {d.manzana}</td>
+                        }
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
+};
 
 
-export default { Leyenda, LeyendasTurno, FormSector }
+
+
+
+export default { Leyenda, LeyendasTurno, TablaForSector }

@@ -1,122 +1,130 @@
 import React, { useState, useEffect } from "react";
 import "./sector.css";
 import { PiGearBold, PiUsersBold } from "react-icons/pi";
-import { TbListCheck } from "react-icons/tb";
+import { TbListCheck, TbMapPinCog } from "react-icons/tb";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { GrMapLocation } from "react-icons/gr";
-import { useNavigate } from "react-router-dom";
 import { MdOutlineManageSearch } from "react-icons/md";
-import { TbMapPinCog } from "react-icons/tb";
+import { useNavigate } from "react-router-dom";
 import Store from "../../Store/Store_Cita_Turno";
 import Mapa from "./Mapa";
-import { TablaForSector } from '../infoTurno/MiniCompont';
+import { TablaForSector } from "../infoTurno/MiniCompont";
 import FormSector from "./FormSector";
 
 const Sectores = ({ personData }) => {
     const navigate = useNavigate();
-    const [viewConfig, setViewConfig] = useState(false);
-    const [viewDataMap, setViewDataMap] = useState(false)
-    const [viewPerson, setViewPerson] = useState(false);
-    const [viewList, setViewList] = useState(false);
-    const [activeIcon, setActiveIcon] = useState(null);
-    const [selectManzana, setSelectManzana] = useState(null)
-    const [searchTerm, setSearchTerm] = useState("");
     const { personalSalud, sectorPer } = Store();
 
-    const volverPage = () => {
-        navigate('/personal-salud');
+    // Estados
+    const [activeView, setActiveView] = useState(null); // Maneja las vistas activas
+    const [selectManzana, setSelectManzana] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
+
+    // Funciones de navegación
+    const volverPage = () => navigate('/personal-salud');
+
+    const handleViewChange = (view) => {
+        setActiveView(activeView === view ? null : view); // Activa o desactiva la vista seleccionada
+        setSelectManzana(null); // Reinicia la manzana seleccionada
+        setSearchTerm(""); // Limpia el término de búsqueda
     };
 
-    const handleViewList = () => {
-        setViewList(!viewList);
-        setViewConfig(false);
-        setViewPerson(false);
-        setActiveIcon('list');
-        setSearchTerm('')
-        setSelectManzana(null)
-    };
-
-    const handleViewDataMap = () => {
-        setViewDataMap(!viewDataMap)
-        setViewConfig(false);
-        setViewPerson(false);
-        setActiveIcon('map');
-        setSearchTerm('')
-        setSelectManzana(null)
-    }
-
-    const handleViewPerson = () => {
-        setViewPerson(!viewPerson);
-        setViewConfig(false);
-        setViewList(false);
-        setActiveIcon('person');
-        setSearchTerm('')
-        setSelectManzana(null)
-    };
-
-    const handleViewConfig = () => {
-        setViewConfig(!viewConfig);
-        setViewPerson(false);
-        setViewList(false);
-        setActiveIcon('config');
-        setSelectManzana(null)
-    };
-
-    const closeMenu = () => {
-        if(!viewConfig && !viewPerson && !viewList) {
-            setActiveIcon(null);
-        }
-    };
-    
     useEffect(() => {
         if (selectManzana) {
-            setViewConfig(false);
-            setViewPerson(false);
-            setViewList(false);
-            setActiveIcon(null)
+            setActiveView("datamz");
         }
     }, [selectManzana]);
 
+    // Componentes de vistas
+    const renderView = () => {
+        switch (activeView) {
+            case "config":
+                return (
+                    <div className="boxs">
+                        <h3>Configuración</h3>
+                        <button>Eliminar</button>
+                        <button>Guardar</button>
+                        <button>Cerrar</button>
+                        <button>Enviar</button>
+                    </div>
+                );
+            case "datamz":
+                return (
+                    <div className="boxs bform">
+                        {selectManzana ? (
+                            <>
+                                <FormSector manzana={selectManzana} closeForm={() => setSelectManzana(null)} />
+                                <h4 style={{marginTop: '20px'}}>Familias en esta manzana</h4>
+                                <li>{`Familia de codigo => 0B32S0`}</li>
+                                <li>{`Familia de codigo => 0B32S0`}</li>
+                                <li>{`Familia de codigo => 0B32S0`}</li>
+                                <li>{`Familia de codigo => 0B32S0`}</li>
+                            </>
+                        ) : (
+                            <p>Selecciona una manzana</p>
+                        )}
+                    </div>
+                );
+            case "person":
+                return (
+                    <div className="boxs">
+                        <div className="search">
+                            <p>PERSONALES DE SALUD</p>
+                            <input
+                                type="text"
+                                placeholder="Buscar por nombre, dni..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            <MdOutlineManageSearch className="ico-search" />
+                        </div>
+                        <TablaForSector data={personalSalud} searchTerm={searchTerm} />
+                    </div>
+                );
+            case "list":
+                return (
+                    <div className="boxs">
+                        <div className="search">
+                            <p>PROFESIONALES CON SECTOR</p>
+                            <input
+                                type="text"
+                                placeholder="Buscar..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            <MdOutlineManageSearch className="ico-search" />
+                        </div>
+                        <TablaForSector data={sectorPer} searchTerm={searchTerm} />
+                    </div>
+                );
+            default:
+                return null;
+        }
+    };
+
     return (
-        <div className="sector" onClick={closeMenu}>
-            <h3>Mapa del Centro de Salud Micaela Bastidas - SAIS {personData ? personData.nombres : "----"}</h3>
+        <div className="sector">
+            <h3>Mapa del Centro de Salud Micaela Bastidas - SAIS {personData?.nombres || "----"}</h3>
             <div className="ev">
                 <div className="menus">
-                    <div onClick={(e) => e.stopPropagation()}>
-                        <PiGearBold
-                            onClick={handleViewConfig}
-                            className={`icon ${activeIcon === 'config' ? 'active' : ''}`}
-                        />
-                        {!viewConfig &&
-                            <p className="etiqueta">Configuración</p>
-                        }
+                    <div onClick={() => handleViewChange("config")}>
+                        <PiGearBold className={`icon ${activeView === "config" ? "active" : ""}`} />
+                        <p className="etiqueta">Configuración</p>
                     </div>
-                    <div>
-                        <TbMapPinCog className={`icon ${activeIcon === 'datamap' ? 'active' : ''}`} />
-                        {!viewDataMap &&
-                            <p className="etiqueta">Datos de Manzana</p>
-                        }
+                    <div onClick={() => handleViewChange("datamz")}>
+                        <TbMapPinCog className={`icon ${activeView === "datamz" ? "active" : ""}`} />
+                        <p className="etiqueta">Datos de Manzana</p>
                     </div>
-                    <div onClick={(e) => e.stopPropagation()}>
-                        <PiUsersBold
-                            onClick={handleViewPerson}
-                            className={`icon ${activeIcon === 'person' ? 'active' : ''}`}
-                        />
-                        {!viewPerson &&
-                            <p className="etiqueta">Personales de Salud</p>
-                        }
+                    <div onClick={() => handleViewChange("person")}>
+                        <PiUsersBold className={`icon ${activeView === "person" ? "active" : ""}`} />
+                        <p className="etiqueta">Personales de Salud</p>
                     </div>
-                    <div onClick={(e) => e.stopPropagation()}>
-                        <TbListCheck
-                            onClick={handleViewList}
-                            className={`icon ${activeIcon === 'list' ? 'active' : ''}`}
-                        />
-                        {!viewList &&
-                            <p className="etiqueta">Profesionales con Sector</p>
-                        }
+                    <div onClick={() => handleViewChange("list")}>
+                        <TbListCheck className={`icon ${activeView === "list" ? "active" : ""}`} />
+                        <p className="etiqueta">Profesionales con Sector</p>
                     </div>
-                    <div>
-                        <RiLogoutCircleLine onClick={() => volverPage()} className="icon" />
+                    <div onClick={volverPage}>
+                        <RiLogoutCircleLine className="icon" />
                         <p className="etiqueta">Salir</p>
                     </div>
                     <div className="map-ico">
@@ -124,52 +132,8 @@ const Sectores = ({ personData }) => {
                         <span>SAIS</span>
                     </div>
                 </div>
-                <section className={`nodatas ${viewPerson || viewList || viewConfig || selectManzana ? 'datass' : ''} `} >
-                    {viewPerson &&
-                        <div className="boxs">
-                            <div className="search">
-                                <p>PERSONALES DE SALUD</p>
-                                <input
-                                    type="text"
-                                    placeholder="Buscar por nombre, dni...."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                />
-                                <MdOutlineManageSearch className="ico-search" />
-                            </div>
-                            <TablaForSector data={personalSalud} searchTerm={searchTerm} />
-                            
-                        </div>
-                    }
-                    {viewList &&
-                        <div className="boxs">
-                            <div className="search">
-                                <p>PROFESIONALES CON SECTOR</p>
-                                <input
-                                    type="text"
-                                    placeholder="Buscar..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                />
-                                <MdOutlineManageSearch className="ico-search" />
-                            </div>
-                            <TablaForSector data={sectorPer} searchTerm={searchTerm} />
-                        </div>
-                    }
-                    {viewConfig &&
-                        <div className="boxs">
-                            <h3>Configuracion</h3>
-                            <button>Eliminar</button>
-                            <button>Guardar</button>
-                            <button>Cerrar</button>
-                            <button>Enviar</button>
-                        </div>
-                    }
-                    {selectManzana && 
-                    <div className="boxs bform">
-                        <FormSector manzana={selectManzana} closeForm={() => setSelectManzana(null)} />
-                    </div>
-                    }
+                <section className={`nodatas ${activeView ? "datass" : ""}`}>
+                    {renderView()}
                 </section>
                 <main className="content">
                     <Mapa selectManzana={selectManzana} setSelectManzana={setSelectManzana} />

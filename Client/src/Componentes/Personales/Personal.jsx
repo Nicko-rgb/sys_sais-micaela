@@ -8,6 +8,7 @@ import EditPersonales from './EditPersonales/EditPersonales';
 import Store from '../Store/Store_Cita_Turno';
 import VerTurnos from './Turnos/VerTurnos';
 import Informacion from './infoTurno/Informacion'
+import UrlsApp from '../UrlsApp';
 import { IoPersonAddSharp } from 'react-icons/io5';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
 import { MdPersonSearch, MdMenuOpen } from 'react-icons/md';
@@ -18,6 +19,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { GoGear } from "react-icons/go";
 
 const Personal = () => {
+    const {apiUrl} = UrlsApp()
     const [verForm, setVerForm] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -95,7 +97,7 @@ const Personal = () => {
     const handleConfirmToggle = async () => {
         try {
             const updatedEstado = personalToToggle.estado === 'activo' ? 'inactivo' : 'activo';
-            const response = await fetch(`http://localhost:5000/api/personal/actualizar-estado/${personalToToggle.id_personal}`, {
+            const response = await fetch(`${apiUrl}/api/personal/actualizar-estado/${personalToToggle.id_personal}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ estado: updatedEstado })

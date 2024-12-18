@@ -159,7 +159,7 @@
 
 .sector .boxs {
   animation: fadeIn 0.5s ease;
-  transform-origin: left top;
+  transform-origin: left;
   height: 100%;
   width: 100%;
   overflow-y: auto;
@@ -181,10 +181,6 @@
   &::-webkit-scrollbar-thumb:hover {
     background-color: #555;
   }
-}
-
-.sector .bform {
-  width: 380px;
 }
 
 .sector .boxs .search {
@@ -334,17 +330,20 @@
   flex-direction: column;
   gap: 5px;
 }
+
 .form-sector .data-person .item {
   position: relative;
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
 }
+
 .form-sector .data-person li {
   text-transform: uppercase;
   font-weight: 500;
   font-size: 14px;
 }
+
 .form-sector .data-person .delete {
   color: rgb(252, 106, 106);
   font-size: 20px;
@@ -352,13 +351,16 @@
   transition: .3s ease;
   float: right;
 }
-.form-sector .data-person .delete:hover{
+
+.form-sector .data-person .delete:hover {
   transform: scale(1.05);
   text-shadow: 0 0 10px red;
 }
-.form-sector .data-person .delete:hover ~ li {
+
+.form-sector .data-person .delete:hover~li {
   color: rgb(248, 95, 95);
 }
+
 .form-sector .data-person .no-p {
   display: flex;
   align-items: center;
@@ -367,6 +369,14 @@
   white-space: nowrap;
   gap: 5px;
   text-transform: none;
+}
+
+.form-sector .btn-new {
+  background-color: #333;
+  color: white;
+  height: 25px;
+  display: flex;
+  align-items: center;
 }
 
 .form-sector form {
@@ -436,6 +446,11 @@
   position: relative;
 }
 
+.form-sector .borrar .b-msg {
+  position: relative;
+  height: 25px;
+}
+
 .form-sector form .msg {
   width: 100%;
   text-align: center;
@@ -444,9 +459,17 @@
   top: 0;
 }
 
+.form-sector .msg-success {
+  color: dodgerblue;
+}
+
+.form-sector .msg-error {
+  color: red;
+}
+
 .form-sector form .btns {
   display: flex;
-  margin-top: 30px;
+  margin-top: 20px;
   margin-bottom: 10px;
   justify-content: space-around;
 }
@@ -470,25 +493,23 @@
   animation: fadeIn .5s;
   transform-origin: right;
 }
-.form-sector .borrar p{
+
+.form-sector .borrar p {
   text-align: center;
 }
-.form-sector .borrar span{
+
+.form-sector .borrar span {
   font-weight: 600;
   text-transform: uppercase;
   text-decoration: underline;
 }
-.form-sector .msg{
-  color: dodgerblue;
-}
-.form-sector .msgEr{
-  color: rgb(255, 66, 66);
-}
+
 .form-sector .borrar .btns {
   display: flex;
   justify-content: space-evenly;
   width: 100%;
 }
+
 .form-sector .borrar button {
   width: 120px;
   height: 35px;

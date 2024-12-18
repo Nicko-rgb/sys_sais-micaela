@@ -50,10 +50,10 @@ const Sectores = ({ personData }) => {
                 );
             case "datamz":
                 return (
-                    <div className="boxs bform">
+                    <div className="boxs">
                         {selectManzana ? (
                             <>
-                                <FormSector manzana={selectManzana} closeForm={() => setSelectManzana(null)} />
+                                <FormSector manzana={selectManzana} />
                                 <h4 style={{marginTop: '20px'}}>Familias en esta manzana</h4>
                                 <li>{`Familia de codigo => 0B32S0`}</li>
                                 <li>{`Familia de codigo => 0B32S0`}</li>
@@ -61,7 +61,7 @@ const Sectores = ({ personData }) => {
                                 <li>{`Familia de codigo => 0B32S0`}</li>
                             </>
                         ) : (
-                            <p>Selecciona una manzana</p>
+                            <p style={{textAlign: 'center'}}>Selecciona una manzana</p>
                         )}
                     </div>
                 );

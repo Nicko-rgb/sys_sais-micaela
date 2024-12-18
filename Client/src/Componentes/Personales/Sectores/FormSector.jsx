@@ -3,28 +3,26 @@ import Store from '../../Store/Store_Cita_Turno';
 import axios from 'axios';
 import { GoInfo } from "react-icons/go";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { IoPersonAddOutline } from "react-icons/io5";
 
-const FormSector = ({ manzana, closeForm }) => {
-    const { personalSalud } = Store();
+const FormSector = ({ manzana }) => {
+    const { personalSalud, sectorPer } = Store();
     const [dni, setDni] = useState('');
     const [result, setResult] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [msg, setMsg] = useState('');
-    const [msgEr, setMsgEr] = useState('')
-    const [showInput, setShowInput] = useState(false);
-    const [borrar, setBorrar] = useState(false)
-    const [ selectPerson, setSelectPeron] = useState(null)
-    const { sectorPer } = Store();
+    const [message, setMessage] = useState({ text: '', type: '' });
+    const [isInputVisible, setIsInputVisible] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [selectedPerson, setSelectedPerson] = useState(null);
 
-    // Handle changes in the input field
+    // Handle input change and fetch professional by DNI
     const handleInputChange = (e) => {
         const value = e.target.value;
         setDni(value);
 
-        if (value) {
+        if (value.length === 8) {
             setLoading(true);
             const found = personalSalud.find((persona) => persona.dni === value);
-
             setTimeout(() => {
                 setResult(found || null);
                 setLoading(false);
@@ -38,12 +36,12 @@ const FormSector = ({ manzana, closeForm }) => {
         if (!/[0-9]/.test(e.key)) e.preventDefault();
     };
 
-    // Submit data to server
+    // Submit assigned professional
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setMsg('Asignando...')
+        setMessage({ text: 'Asignando...', type: 'succes' })
         if (!result) {
-            setMsg('Por favor, selecciona un profesional válido.');
+            setMessage({ text: 'Por favor, selecciona un profesional válido.', type: 'error' });
             return;
         }
 
@@ -53,84 +51,73 @@ const FormSector = ({ manzana, closeForm }) => {
             codigo: manzana.text.split('\n')[0],
             numero: manzana.text.split('\n')[1],
             descripcion: manzana.text.split('\n').slice(2).join(' '),
-            id_personal: result?.id_personal
+            id_personal: result?.id_personal,
         };
 
         try {
             const response = await axios.post('http://localhost:5000/api/personal/asigna-sector', data);
-            setMsg(response.data.message);
+            setMessage({ text: response.data.message, type: 'success' });
         } catch (error) {
             console.error(error);
-            setMsg('Error al asignar.');
+            setMessage({ text: 'Error al asignar.', type: 'error' });
         }
     };
 
+    // Delete assigned professional
     const deletePerson = async (id) => {
-        setMsgEr('')
-        setMsg('Borrando....')
+        setMessage({ text: 'Borrando...', type: '' });
+
         try {
-            const response = await fetch(`http://localhost:5000/api/delete/sector-persona/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-    
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status} - ${response.statusText}`);
-            }
-            setMsg('Personal Borrado del sector.');
+            await axios.delete(`http://localhost:5000/api/delete/sector-persona/${id}`);
+            setMessage({ text: 'Personal borrado del sector.', type: 'success' });
         } catch (error) {
-            setMsg('')
-            setMsgEr('Error al Eliminar.')
             console.error('Error al eliminar el personal:', error);
+            setMessage({ text: 'Error al eliminar.', type: 'error' });
         }
-    }
-    
-    const handleDelete = (person) => {
-        setBorrar(true)
-        setSelectPeron(person)
-    }
+    };
 
-    const handleCloseDelete = () => {
-        setBorrar(false)
-        setSelectPeron(null)|
-        setMsg('')
-        setMsgEr('')
-    }
+    const confirmDelete = (person) => {
+        setIsDeleting(true);
+        setSelectedPerson(person);
+        setMessage({ text: '', type: '' });
+        setIsInputVisible(false)
+        setDni('')
+        setResult(null)
+    };
 
-    // Find assigned personnel for this sector
-    const dataFind = sectorPer.filter(
-        (data) =>
-            data.id_sector === manzana.id &&
-            data.manzana === manzana.mz
+    const cancelTodo = () => {
+        setIsDeleting(false);
+        setSelectedPerson(null);
+        setIsInputVisible(false)
+        setMessage({ text: '', type: '' });
+        setDni('')
+        setResult(null)
+    };
+
+    const assignedPersonnel = sectorPer.filter(
+        (data) => data.id_sector === manzana.id && data.manzana === manzana.mz
     );
 
     useEffect(() => {
-        setMsg('')
+        setMessage({ text: '', type: '' });
     }, [manzana]);
 
     return (
         <div className="form-sector">
             <h3>Asignar un Profesional</h3>
             <div className="datos">
-                <p>Código
-                    <span>{manzana.text.split('\n')[0]}</span>
-                </p>
-                <p style={{ borderLeft: 'none' }}>Número
-                    <span>{manzana.text.split('\n')[1]}</span>
-                </p>
-                <p style={{ borderLeft: 'none' }}>Manzana
-                    <span>{manzana.mz}</span>
-                </p>
+                <p>Código <span>{manzana.text.split('\n')[0]}</span></p>
+                <p style={{ borderLeft: 'none' }}>Número <span>{manzana.text.split('\n')[1]}</span></p>
+                <p style={{ borderLeft: 'none' }}>Manzana <span>{manzana.mz}</span></p>
             </div>
+
             <h5>Personales Asignados</h5>
             <div className="data-person">
-                {dataFind.length > 0 ? (
-                    dataFind.map((person, index) => (
+                {assignedPersonnel.length > 0 ? (
+                    assignedPersonnel.map((person, index) => (
                         <div key={index} className="item">
-                            <RiDeleteBin6Line className='delete' onClick={() => handleDelete(person) } />
-                            <li key={person.id_personal}>
+                            <RiDeleteBin6Line className='delete' onClick={() => confirmDelete(person)} />
+                            <li>
                                 {person.paterno} {person.materno} {person.nombres} - {person.dni}
                             </li>
                         </div>
@@ -139,8 +126,9 @@ const FormSector = ({ manzana, closeForm }) => {
                     <p className='no-p'><GoInfo /> No hay ningún asignado para esta manzana.</p>
                 )}
             </div>
+
             <form onSubmit={handleSubmit}>
-                {showInput ? (
+                {isInputVisible ? (
                     <>
                         <label>
                             Ingrese DNI para asignar:
@@ -154,41 +142,61 @@ const FormSector = ({ manzana, closeForm }) => {
                             />
                         </label>
                         {loading ? (
-                            <p className='loading'>Buscando....</p>
+                            <p className='loading'>Buscando...</p>
+                        ) : result?.estado === 'activo' && result ? (
+                            <div className="result">
+                                <p style={{ borderTop: 'none' }}>Nombres:  <span>{result.paterno} {result.materno} {result.nombres}</span></p>
+                                <p>Profesión: <span> {result.profesion}</span></p>
+                                <p>Servicio: <span>{result.servicio} </span> </p>
+                                <p style={{ borderBottom: 'solid #b0b0b0 1px' }}>DNI: <span> {result.dni} </span></p>
+                            </div>
                         ) : (
-                            result?.estado === 'activo' && result ? (
-                                <div className="result">
-                                    <p style={{ borderTop: 'none' }}>Nombres:  <span>{result.paterno} {result.materno} {result.nombres}</span></p>
-                                    <p>Profesión: <span> {result.profesion}</span></p>
-                                    <p>Servicio: <span>{result.servicio} </span> </p>
-                                    <p style={{ borderBottom: 'solid #b0b0b0 1px' }}>DNI: <span> {result.dni} </span></p>
-                                </div>
-                            ) : (
-                                dni.length === 8 && !loading && (
-                                    <p className='loading' style={{ color: 'rgb(253, 104, 104)' }}>No se encontró ningún profesional con este DNI.</p>
-                                )
+                            dni.length === 8 && !loading && (
+                                <p className='loading' style={{ color: 'rgb(253, 104, 104)' }}>No se encontró ningún profesional con este DNI.</p>
                             )
                         )}
+
+                        {message.text && (
+                            <div className="b-msg">
+                                <p className={`msg ${message.type === 'success' ? 'msg-success' : 'msg-error'}`}>
+                                    {message.text}
+                                </p>
+                            </div>
+                        )}
+
+                        <div className="btns">
+                            {message.type === 'success' ?
+                                <button className="btn-save" type="button" onClick={cancelTodo}>Aceptar</button>
+                                :
+                                <>
+                                    <button className="btn-cancela" type="button" onClick={cancelTodo}>Cancelar</button>
+                                    <button className="btn-save" type="submit">Asignar</button>
+                                </>
+                            }
+                        </div>
                     </>
                 ) : (
-                    <button type='button' onClick={() => setShowInput(true)}>Añadir Nuevo</button> // Show input when clicked
+                    <button className='btn-new' type='button' onClick={() => setIsInputVisible(true)}><IoPersonAddOutline className='ico' />Añadir Nuevo</button>
                 )}
-                <div className="b-msg">
-                    <p className='msg'>{msg}</p>
-                </div>
-                <div className="btns">
-                    <button className="btn-cancela" type="button" onClick={closeForm}>Cancelar</button>
-                    <button className="btn-save" type="submit">Guardar</button>
-                </div>
             </form>
-            {borrar && (
+
+            {isDeleting && (
                 <div className="borrar">
-                    <p>Seguro que quieres borrar a <span>{selectPerson.paterno}{selectPerson.materno} { selectPerson.nombres} </span> </p>
-                    <p className='msg'>{msg} </p>
-                    <p className='msgEr'>{msgEr} </p>
+                    <p>¿Seguro que quieres borrar a <span>{selectedPerson.paterno} {selectedPerson.materno} {selectedPerson.nombres}</span>?</p>
+                    <div className="b-msg">
+                        <p className={`msg ${message.type === 'success' ? 'msg-success' : 'msg-error'}`}>
+                            {message.text}
+                        </p>
+                    </div>
                     <div className="btns">
-                        <button className="btn-cancela" type="button" onClick={() => handleCloseDelete()}>Cancelar</button>
-                        <button className='btn-delete' onClick={() => deletePerson(selectPerson.id_sector_personal)}>Borrar</button>
+                        {message.type === 'success' ?
+                            <button className="btn-save" onClick={cancelTodo}>Aceptar</button>
+                            :
+                            <>
+                                <button className="btn-cancela" onClick={cancelTodo}>Cancelar</button>
+                                <button className="btn-delete" onClick={() => deletePerson(selectedPerson.id_sector_personal)}>Borrar</button>
+                            </>
+                        }
                     </div>
                 </div>
             )}

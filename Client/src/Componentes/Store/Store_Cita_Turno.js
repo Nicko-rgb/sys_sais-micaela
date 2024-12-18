@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import UrlsApp from '../UrlsApp';
 
 const Store = () => {
-
+    const {apiUrl} = UrlsApp()
     // Logica para obtener a los personales de salud
     const [personalSalud, setPersonalSalud] = useState([])
     const [profesionFiltro, setProfesionFiltro] = useState([])
@@ -12,7 +13,7 @@ const Store = () => {
     const fetchPersonalSalud = async () => {
         setCargando(true)
         try {
-            const response = await fetch('http://localhost:5000/api/obtener/personal-salud');
+            const response = await fetch(`${apiUrl}/api/obtener/personal-salud`);
             const data = await response.json();
             setPersonalSalud(data);
 
@@ -186,6 +187,7 @@ const Store = () => {
     
 
     return {
+        apiUrl,
         personalSalud,
         profesionFiltro,
         condicionFiltro,

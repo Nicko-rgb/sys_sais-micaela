@@ -1,8 +1,8 @@
-import './panelniño.css';
+import './servicio.css';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import NavLogin from '../Navegadores/NavLogin';
-import NavPie from '../Navegadores/NavPie';
+import NavLogin from '../../Navegadores/NavLogin';
+import NavPie from '../../Navegadores/NavPie';
 import { FaCheckCircle, FaRoad, FaAmbulance } from "react-icons/fa";
 import { HiUsers } from "react-icons/hi2";
 import { FaFileCircleCheck } from "react-icons/fa6";
@@ -34,7 +34,7 @@ const Panel = () => {
             <div className="sub_panel">
                 <h5>Panel de Servicios Para el Niño</h5>
                 <div className='box_opciones'>
-                    <Link to='/panel' className='volver_link'>
+                    <Link to='/admision' className='volver_link'>
                         <RiPlayReverseLargeFill /> VOLVER
                     </Link>
                     <h4><FaFileCircleCheck />Admisión</h4>

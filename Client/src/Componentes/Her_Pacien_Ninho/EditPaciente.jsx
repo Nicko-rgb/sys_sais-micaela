@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./editarpas.css";
-import OpcionesD from "./OpcionesD";
 import NavLogin from "../Navegadores/NavLogin";
 import NavPie from "../Navegadores/NavPie";
 import axios, { formToJSON } from "axios";
@@ -10,8 +9,9 @@ import ResponsablePaciente from "./responsablepaciente";
 import { CgCalendarDates } from "react-icons/cg";
 import { FaUserEdit } from "react-icons/fa";
 import { RiParentFill } from "react-icons/ri";
+import DatosNino from "../PanelPaciente/Ninho/DatosNino.jsx";
 
-const EditPaciente = ({ paciente, onCloseEdit }) => {
+const EditPaciente = ({ paciente, onCloseEdit}) => {
 
     const [departamento, setDepartamento] = useState([]); //DEPARTAMENTO
     const [provincia, setProvincia] = useState([]);
@@ -463,7 +463,6 @@ const EditPaciente = ({ paciente, onCloseEdit }) => {
 
     return (
         <div className="editar-paciente">
-            <OpcionesD pacienteDatos={paciente} />
             <NavLogin />
             <main>
                 <section className="opcion-editar">

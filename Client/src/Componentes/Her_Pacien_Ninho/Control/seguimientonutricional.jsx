@@ -2,13 +2,10 @@ import React from "react";
 import styles from './SeguimientoNutricional.module.css';
 import NavLogin from "../../Navegadores/NavLogin";
 import NavPie from "../../Navegadores/NavPie";
-import OpcionesI from "../OpcionesI";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { RiPlayReverseLargeFill } from "react-icons/ri";
 
-const Seguimientonutricional = () => {
-  const location = useLocation();
-  const { paciente } = location.state || {}; // Extrae paciente del state...
+const Seguimientonutricional = ({paciente}) => {
 
   return (
     <div className={styles.contPadre}>
@@ -110,10 +107,6 @@ const Seguimientonutricional = () => {
           </>) : (
           <p>No hay datos para mostrar</p>
         )}
-
-        {/* Menú lateral de opciones */}
-        <OpcionesI paciente={paciente} />
-
       </div>
       <NavPie />
     </div>

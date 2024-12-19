@@ -1,13 +1,10 @@
 /* Estilo general del cuerpo */
 .bodyContent {
   font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
   margin: 0;
   padding: 0;
   display: flex;
-  min-height: 100vh;
   position: relative;
-  overflow: hidden; /* Elimina barras de desplazamiento innecesarias */
 }
 
 /* Contenido principal */
@@ -76,7 +73,7 @@
 /* Tarjetas */
 .bodyContent .card {
   background-color: #fff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
   border-radius: 8px;
   overflow: hidden;
   width: 300px;

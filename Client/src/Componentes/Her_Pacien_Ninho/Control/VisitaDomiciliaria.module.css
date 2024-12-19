@@ -4,18 +4,17 @@
     flex-direction: column;
     align-items: center;
     background-color: #f4f7fb;
-    padding: 20px;
-    min-height: 100vh;
+    border: red solid;
 }
 
 /* Botón de volver */
 .visitadomiciliariaContainer .btn {
     align-self: flex-start;
-    margin-top: 35px; /* Espacio para que no esté tapado por NavLogin */
-    margin-left: 150px;
-  }
-  
-  .visitadomiciliariaContainer .volver_link {
+    margin-top: 35px;
+    /* Espacio para que no esté tapado por NavLogin */
+}
+
+.visitadomiciliariaContainer .volver_link {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -28,14 +27,16 @@
     font-size: 14px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-  }
-  
-  .visitadomiciliariaContainer .volver_link:hover {
-    background-color: #388e3c; /* Verde más oscuro al pasar el cursor */
-    transform: translateY(-2px); /* Efecto de elevación */
+}
+
+.visitadomiciliariaContainer .volver_link:hover {
+    background-color: #388e3c;
+    /* Verde más oscuro al pasar el cursor */
+    transform: translateY(-2px);
+    /* Efecto de elevación */
     box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
     color: wheat;
-  }
+}
 
 .visitadomiciliariaFormulario {
     background-color: #fff;
@@ -78,7 +79,7 @@
     /* Margen inferior entre los grupos de campos */
 }
 
-.visitadomiciliariaFila input{
+.visitadomiciliariaFila input {
     padding: 7px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -88,7 +89,8 @@
     outline: none;
     width: 150px;
 }
-.visitadomiciliariaFila input[type="date"]{
+
+.visitadomiciliariaFila input[type="date"] {
     font-size: 15px;
 }
 
@@ -96,7 +98,8 @@
 
 
 .visitadomiciliariaInput {
-    width: 100%;/* Asegura que los campos ocupen todo el espacio disponible */
+    width: 100%;
+    /* Asegura que los campos ocupen todo el espacio disponible */
 }
 
 .visitadomiciliariaLabel {

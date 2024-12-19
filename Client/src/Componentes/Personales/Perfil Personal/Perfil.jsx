@@ -1,9 +1,9 @@
 
 import React from "react";
-import EstadoSesion from "../Complementos/EstadoSesion";
-import AdminPanel from "../Login/TiposUsuarios/admin/admi";
-import JefePanel from "../Login/TiposUsuarios/jefe/jefe"
-import PersonalPanel from "../Login/TiposUsuarios/responsable/responsable";
+import EstadoSesion from "../../Complementos/EstadoSesion";
+import AdminPanel from "../../Login/TiposUsuarios/admin/admi";
+import JefePanel from "../../Login/TiposUsuarios/jefe/jefe"
+import PersonalPanel from "../../Login/TiposUsuarios/responsable/responsable";
 
 const Perfil = () => {
   const { userPersonal, userId, tipoUser } = EstadoSesion();

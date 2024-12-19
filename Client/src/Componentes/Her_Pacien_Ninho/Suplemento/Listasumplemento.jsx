@@ -5,11 +5,12 @@ import { Link } from "react-router-dom";
 import style from "./Listasuplemento.module.css";
 import NavLogin from "../../Navegadores/NavLogin";
 import NavPie from "../../Navegadores/NavPie";
+import Entregasuplemento from "./Entregasuplemento";
 
-function Listasumplemento() {
+function Listasumplemento({paciente, cambiarVista}) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { entregas, paciente } = location.state || {};
+  const { entregas } = location.state || {};
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -100,11 +101,7 @@ function Listasumplemento() {
               </Link>
               <button
                 className={style.newsupplementbutton}
-                onClick={() =>
-                  navigate(`/Entregasuplementos/${paciente.hist_clinico}`, {
-                    state: { paciente },
-                  })
-                }
+                onClick={() => cambiarVista(<Entregasuplemento paciente={paciente} />)}
               >
                 Nuevo Suplemento
               </button>

@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import styles from "./VisitaDomiciliaria.module.css"
 import ModalExito from "../ModalExito/ModalExito";
-import { useLocation } from "react-router-dom";
-import OpcionesI from '../OpcionesI'
 import NavLogin from '../../Navegadores/NavLogin'
 import NavPie from '../../Navegadores/NavPie'
 
-const VisitaDomiciliaria = () => {
-    const location = useLocation();
-    const { paciente } = location.state || {}; // Evita errores si no hay datos
-    const { id } = useParams();
+const VisitaDomiciliaria = ({paciente}) => {
+    const id = paciente.id_paciente
     const [formData, setFormData] = useState({
         tipo: "",
         numero_visita: "",
@@ -123,7 +118,7 @@ const VisitaDomiciliaria = () => {
                 {paciente ? (
                     <>
 
-                        <form onSubmit={handleSubmit}>
+                        <form style={{margin: 'auto'}} onSubmit={handleSubmit}>
                             <h2 className={styles.visitadomiciliariaTitulo}>Visita Domiciliaria - Registrar</h2>
 
                             {/* Modal */}
@@ -223,7 +218,6 @@ const VisitaDomiciliaria = () => {
                     <p>No hay datos...</p>
                 )}
 
-                <OpcionesI paciente={paciente} />
             <NavPie />
             </div>
     );

@@ -1,0 +1,129 @@
+.panel-nino{
+    display: flex;
+    gap: 4px;
+    padding: 36px 0;
+    padding-bottom: 100px;
+    width: 100%;
+}
+.panel-nino .izquierda {
+    position: fixed;
+    top: 37px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    height: 100%;
+    border-right: #00796b solid;
+    width: 230px;
+    min-width: 230px;
+}
+.panel-nino .izquierda .cabeza {
+    background-color: #00796b;
+    color: white;
+    text-align: center;
+    font-size: 14px;
+}
+
+.panel-nino .izquierda .opciones {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: relative
+}
+.panel-nino .link_volver{
+    position: absolute;
+    right: -95px;
+    top: 10px;
+    /* width: 80px; */
+    border-bottom: green solid 1px;
+    text-decoration: none;
+    color: green;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 5px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: .3s ease;
+}
+.panel-nino .link_volver:hover{
+    background-color: rgb(230, 230, 230);
+}
+
+.panel-nino .izquierda .item {
+    transition: background-color 0.3s ease;
+}
+
+.panel-nino .izquierda .item:hover {
+    background-color: #e0f7fa;
+}
+
+.panel-nino .izquierda summary {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border: #333 solid 1px;
+    background-color: rgb(5, 177, 120);
+    color: white;
+    border-right: none;
+    padding: 5px 10px;
+    text-transform: capitalize;
+    font-weight: 500;
+}
+
+.panel-nino .izquierda .icon {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.panel-nino .izquierda button {
+    background-color: #007BFF; 
+    color: white;
+    border: none;
+    width: calc(100%);
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin-top: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Transición de color de fondo */
+}
+.panel-nino .izquierda button:hover {
+    background-color: green;
+}
+.panel-nino .izquierda .btn-active {
+    background-color: green;
+    color: #fff; 
+}
+
+/* Estilos para la animación de apertura/cierre */
+.panel-nino .izquierda details {
+    overflow: hidden; /* Ocultar contenido que se desborda */
+}
+
+.panel-nino .izquierda details[open] summary {
+    background-color: #4ddeab; /* Color de fondo cuando está abierto */
+}
+
+.panel-nino .izquierda details[open] button {
+    display: block; /* Mostrar botones solo cuando está abierto */
+}
+
+/* Ocultar botones por defecto en detalles cerrados */
+.panel-nino .izquierda details button {
+    display: none; /* Ocultar botones por defecto */
+}
+
+/* Mostrar botones cuando el elemento details está abierto */
+.panel-nino .izquierda details[open] button {
+    display: block; /* Mostrar botones cuando está abierto */
+}
+
+
+
+.panel-nino .renders {
+    margin-left: 230px;
+    /* border: #0056b3 solid 1px; */
+    width: 100%;
+}

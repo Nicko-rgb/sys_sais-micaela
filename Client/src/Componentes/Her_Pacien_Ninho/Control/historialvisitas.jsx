@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import "./estilosGeneralControl.css";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ModalExito from "../ModalExito/ModalExito";
 import ActualizarVisitaDomiciliaria from './ActualizarVisitaDomiciliaria';
+import VisitaDomiciliaria from './visitadomiciliaria';
 
-const HistorialVisitas = () => {
+const HistorialVisitas = ({ paciente, cambiarVista }) => {
     const { id_paciente } = useParams();
     const [visitas, setVisitas] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -13,11 +14,6 @@ const HistorialVisitas = () => {
     const [showEditModal, setShowEditModal] = useState(false); // Estado para mostrar el modal de edición
     const [showSuccessModal, setShowSuccessModal] = useState(false); // Estado para mostrar el modal de éxito
     const [filteredVisitas, setFilteredVisitas] = useState([]);
-    const navigate = useNavigate();
-
-    const handleNewVisitClick = () => {
-        navigate(`/visita/${id_paciente}`);
-    };
 
     const handleEliminar = async (id_visita) => {
         console.log("Intentando eliminar visita con ID:", id_visita);
@@ -75,11 +71,13 @@ const HistorialVisitas = () => {
     return (
         <div className='HistorialVisitas-container'>
             <div className="HistorialVisitas">
-                <button className="HistorialVisitas__new-visit" onClick={handleNewVisitClick}>
+                <button className="HistorialVisitas__new-visit"
+                    onClick={() => cambiarVista(<VisitaDomiciliaria paciente={paciente} cambiarVista={cambiarVista} />)}
+                >
                     + Nueva Visita
                 </button>
                 <h2 className="HistorialVisitas__title">Listado de Visitas Domiciliarias</h2>
-                
+
                 {loading ? (
                     <p>Cargando datos...</p>
                 ) : error ? (

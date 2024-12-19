@@ -41,3 +41,4 @@ export const formatFecha = (dateString) => {
 }
 
 // Otras funciones
+// Convertir a plural y determinar la ruta

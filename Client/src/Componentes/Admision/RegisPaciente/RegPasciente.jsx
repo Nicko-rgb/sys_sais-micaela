@@ -1,8 +1,8 @@
 import './reg_paciente.css';
 import React, { useState } from 'react';
 import { IoCloudUploadOutline } from "react-icons/io5";
-import icoClose from '../Ico/ico-close.png'
-import lugares from '../Complementos/lugares.js';
+import icoClose from '../../Ico/ico-close.png'
+import lugares from '../../Complementos/lugares.js';
 import { useNavigate } from 'react-router-dom';
 
 const RegistrarPas = ({ onClose }) => {

@@ -1,13 +1,6 @@
 /* Contenedor principal, sin animación al abrir */
 .editar-paciente {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0; 
-    background: #f2f4f8;
-    display: flex;
-    z-index: 50;
+    
 }
 
 /* Animación para la transición entre secciones */

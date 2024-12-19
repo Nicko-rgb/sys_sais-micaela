@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { MdPersonSearch } from 'react-icons/md';
-import RegistrarPas from '../Formularios/RegPasciente';
+import RegistrarPas from './RegisPaciente/RegPasciente';
 import EditPaciente from "../Her_Pacien_Ninho/EditPaciente";
 import './buscar.css';
 import { IoPersonAddSharp } from 'react-icons/io5';
@@ -136,7 +136,7 @@ const Buscar = () => {
                                     <tr key={index}>
                                         <td>{indexOfFirstPaciente + index + 1}</td>
                                         <td>{paciente.dni}</td>
-                                        <td>
+                                        <td className='hist'>
                                             <Link to={`/panel/${paciente.hist_clinico}`} className='hist-clinico'>
                                                 {paciente.hist_clinico}
                                             </Link>

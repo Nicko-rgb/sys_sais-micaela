@@ -1,4 +1,4 @@
-import './panel.css';
+import './admision.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import NavLogin from '../Navegadores/NavLogin';
@@ -26,7 +26,7 @@ const Panel = () => {
                     <NavLogin />
                     <div className="opciones">
                         <p>Paquete de atención integral por curso de vida </p>
-                        <Link className="box" to='/panel-niño'>
+                        <Link className="box" to='/servicios-niño'>
                             <img src={niño} alt="" />
                             <p>Niño</p>
                             <p className="edad">0 - 11 años</p>

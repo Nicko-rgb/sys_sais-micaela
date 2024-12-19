@@ -2,11 +2,9 @@
   display: flex;
   justify-content: center; /* Centra horizontalmente */
   align-items: flex-start; /* Alinea verticalmente al inicio */
-  min-height: 100vh; /* Ocupa toda la altura de la ventana */
   margin: 0;
-  padding: 60px 20px; /* Espacio para el nav en la parte superior */
+  padding: 60px 0; /* Espacio para el nav en la parte superior */
   box-sizing: border-box;
-  background-color: #f1f1f1; /* Fondo más claro para contraste */
 }
 
 .historialcontainer {

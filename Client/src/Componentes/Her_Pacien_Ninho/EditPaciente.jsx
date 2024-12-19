@@ -241,13 +241,13 @@ const EditPaciente = ({ paciente, onCloseEdit}) => {
                     <NacimientoPaciente
                         pacienteId={paciente.id_paciente}
                         pacienteDni={paciente.dni}
-                        onClose={onCloseEdit}
+                        onClose={() => onCloseEdit(<DatosNino cambiarVista={onCloseEdit} />) }
                         
                     />
                 );
             case "responsable":
                 return paciente.id_responsable ? (
-                    <ResponsablePaciente paciente={paciente} onCloseEdit={onCloseEdit} />
+                    <ResponsablePaciente paciente={paciente} onCloseEdit={() => onCloseEdit(<DatosNino cambiarVista={onCloseEdit} />) } />
                 ) : null;
             case "datos":
             default:
@@ -451,7 +451,7 @@ const EditPaciente = ({ paciente, onCloseEdit}) => {
                             </div>
                             <div className="box-botones">
                                 <button className="save" type="submit">Guardar Cambios</button>
-                                <button className="cancel" type="button" onClick={onCloseEdit}>
+                                <button className="cancel" type="button" onClick={() => onCloseEdit(<DatosNino cambiarVista={onCloseEdit} />) }>
                                     Cancelar
                                 </button>
                             </div>

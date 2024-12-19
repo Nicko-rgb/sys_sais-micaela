@@ -20,7 +20,7 @@ const Panel = () => {
 
     const { isLoggedIn } = EstadoSesion()
     return (
-        <div className="panel">
+        <div className="admision">
             {isLoggedIn ? (
                 <>
                     <NavLogin />
@@ -56,9 +56,9 @@ const Panel = () => {
                             <p>Gestante</p>
                         </Link>
                     </div>
-                    <div className="panell">
+                    <main className="main-admi">
                         <Buscar />
-                    </div>
+                    </main>
                     <NavPie />
                 </>
             ) : (

@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import { RiPlayReverseLargeFill } from "react-icons/ri";
 import NavLogin from "../../Navegadores/NavLogin";
 import NavPie from "../../Navegadores/NavPie";
-import OpcionesI from "../OpcionesI";
-import { useLocation } from "react-router-dom";
 
 const Control = ({paciente} ) => {
     const [controlNumber, setControlNumber] = useState("");

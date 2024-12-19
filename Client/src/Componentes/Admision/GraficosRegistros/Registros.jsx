@@ -181,7 +181,7 @@ const Registros = () => {
                     <option value="mes">Por Mes</option>
                 </select>
             </div>
-            <div style={{ position: 'relative', height: '30vh', width: '25vw' }}>
+            <div style={{ position: 'relative', height: '30vh', width: '430px' }}>
                 <Line data={chartData} options={options} />
             </div>
             {data.length === 0 && <p>No se encontraron datos para el intervalo seleccionado.</p>}

@@ -1330,75 +1330,33 @@ app.get('/api/etnias', async (req, res) => {
 
 //*************************************************** */ RUTAS PARA LAS VISITAS DOMICILIARIAS ****************************************************
 // Ruta para registrar visitas domiciliarias
-app.post("/api/visita-domiciliaria", (req, res) => {
-    const { tipo, fecha_atencion, opcional, observaciones, id_paciente } = req.body;
+app.post("/api/visita-domiciliaria", async (req, res) => {
+    const { tipo,numero_visita, fecha_atencion, opcional, observaciones, id_paciente } = req.body;
 
-    // Validaciones mejoradas
-    if (!tipo || !fecha_atencion || !id_paciente) {
-        return res.status(400).json({
-            error: "Los campos 'tipo', 'fecha de atención' e 'id_paciente' son obligatorios.",
-        });
+    try {
+        const [{ insertId }] = await pool.query(
+            `INSERT INTO visita_domiciliaria 
+             (tipo, numero_visita, fecha_atencion, opcional, observaciones, id_paciente) 
+             VALUES (?, ?, ?, ?, ?, ?)`,
+            [tipo, numero_visita, fecha_atencion, opcional || null, observaciones || null, id_paciente]
+        );
+
+        res.status(201).json({ message: "Visita registrada con éxito.", visitaId: insertId });
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).json({ error: "Error al registrar la visita domiciliaria." });
     }
-
-    // Consulta para obtener el último número de visita para este paciente
-    const queryUltimoNumeroVisita = `
-        SELECT COALESCE(MAX(numero_visita), 0) + 1 AS nuevo_numero_visita 
-        FROM visita_domiciliaria 
-        WHERE id_paciente = ?
-    `;
-
-    pool.query(queryUltimoNumeroVisita, [id_paciente])
-        .then((resultado) => {
-            const nuevoNumeroVisita = resultado[0][0].nuevo_numero_visita;
-
-            const queryInsercion = `
-                INSERT INTO visita_domiciliaria 
-                (tipo, numero_visita, fecha_atencion, opcional, observaciones, id_paciente) 
-                VALUES (?, ?, ?, ?, ?, ?)
-            `;
-
-            const values = [
-                tipo, 
-                nuevoNumeroVisita, 
-                fecha_atencion, 
-                opcional || null, 
-                observaciones || null, 
-                id_paciente
-            ];
-
-            return pool.query(queryInsercion, values)
-                .then((result) => {
-                    res.status(201).json({
-                        message: "Visita domiciliaria registrada con éxito.",
-                        visitaId: result[0].insertId,
-                        numeroVisita: nuevoNumeroVisita
-                    });
-                });
-        })
-        .catch((err) => {
-            console.error("Error al insertar datos:", err);
-
-            // Manejo de errores más específico
-            if (err.code === 'ER_DUP_ENTRY') {
-                return res.status(409).json({
-                    error: "Ya existe una visita con estos datos."
-                });
-            }
-
-            res.status(500).json({
-                error: "Error al guardar la visita domiciliaria en la base de datos.",
-                details: err.message
-            });
-        });
 });
+
+
 // obtener los resultados de tablas y concantenarlos las tablas visitas y la tabla paciente 
 app.get("/api/visita-domiciliaria/:id_paciente", (req, res) => {
     const id_paciente = parseInt(req.params.id_paciente);
 
     // Validación de ID
-    if (isNaN(id_paciente)) {
+    if (!id_paciente) {
         return res.status(400).json({
-            error: "ID de paciente inválido. Debe ser un número."
+            error: "ID de paciente inválido"
         });
     }
 

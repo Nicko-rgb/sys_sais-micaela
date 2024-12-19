@@ -3,6 +3,7 @@ import styles from "./VisitaDomiciliaria.module.css"
 import ModalExito from "../ModalExito/ModalExito";
 import NavLogin from '../../Navegadores/NavLogin'
 import NavPie from '../../Navegadores/NavPie'
+import UrlsApp from '../../UrlsApp'
 
 const VisitaDomiciliaria = ({paciente}) => {
     const id = paciente.id_paciente
@@ -12,13 +13,15 @@ const VisitaDomiciliaria = ({paciente}) => {
         fecha_atencion: "",
         opcional: "",
         observaciones: "",
+        id_paciente: '',
     });
-    const [showModal, setShowModal] = useState(false); // Estado para mostrar el modal
+    const [showModal, setShowModal] = useState(false);
+    const {apiUrl} = UrlsApp()
 
     // Función para obtener el próximo número de visita
     const fetchNumeroVisita = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/visita-domiciliaria/numero-visita/${id}`);
+            const response = await fetch(`${apiUrl}/api/visita-domiciliaria/numero-visita/${id}`);
             
             if (!response.ok) {
                 throw new Error("Error al obtener el número de visita");
@@ -60,19 +63,9 @@ const VisitaDomiciliaria = ({paciente}) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validaciones básicas
-        if (!formData.tipo) {
-            alert("Debe seleccionar el tipo de visita");
-            return;
-        }
-        if (!formData.fecha_atencion) {
-            alert("Debe seleccionar una fecha de atención");
-            return;
-        }
-
         const dataToSave = {
             ...formData,
-            id_paciente: Number(id),
+            id_paciente: id,
         };
 
         try {
@@ -118,7 +111,7 @@ const VisitaDomiciliaria = ({paciente}) => {
                 {paciente ? (
                     <>
 
-                        <form style={{margin: 'auto'}} onSubmit={handleSubmit}>
+                        <form className={styles.formm} onSubmit={handleSubmit}>
                             <h2 className={styles.visitadomiciliariaTitulo}>Visita Domiciliaria - Registrar</h2>
 
                             {/* Modal */}
@@ -138,6 +131,7 @@ const VisitaDomiciliaria = ({paciente}) => {
                                         value="Efectiva"
                                         checked={formData.tipo === "Efectiva"}
                                         onChange={handleChange}
+                                        required
                                     />
                                     <span>Efectiva</span>
                                 </label>
@@ -150,6 +144,7 @@ const VisitaDomiciliaria = ({paciente}) => {
                                         value="No Efectiva"
                                         checked={formData.tipo === "No Efectiva"}
                                         onChange={handleChange}
+                                        required
                                     />
                                     <span>No Efectiva</span>
                                 </label>
@@ -159,11 +154,12 @@ const VisitaDomiciliaria = ({paciente}) => {
                                 <div>
                                     <label className={styles.visitadomiciliariaLabel}># Visita:</label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         name="numero_visita"
                                         className={styles.visitadomiciliariaInput}
                                         value={formData.numero_visita}
                                         onChange={handleChange}
+                                        disabled
                                     />
                                 </div>
 
@@ -175,6 +171,7 @@ const VisitaDomiciliaria = ({paciente}) => {
                                         className={styles.visitadomiciliariaInput}
                                         value={formData.fecha_atencion}
                                         onChange={handleChange}
+                                        required
                                     />
                                 </div>
                             </div>

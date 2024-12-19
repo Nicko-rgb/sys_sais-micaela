@@ -3,20 +3,18 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { MdPersonSearch } from 'react-icons/md';
 import RegistrarPas from './RegisPaciente/RegPasciente';
-import EditPaciente from "../Her_Pacien_Ninho/EditPaciente";
+import Registros from './GraficosRegistros/Registros';
 import './buscar.css';
 import { IoPersonAddSharp } from 'react-icons/io5';
 import { FaUserEdit } from 'react-icons/fa';
 import { IoIosArrowBack, IoIosArrowForward, IoMdFemale, IoMdMale } from "react-icons/io";
-import Registros from './GraficosRegistros/Registros';
+import Menu from './Menu';
 
 const Buscar = () => {
     const [showModal, setShowModal] = useState(false);
     const [pacientes, setPacientes] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [loading, setLoading] = useState(false);
-    const [openEdit, setEdit] = useState(false);
-    const [selectedPaciente, setSelectedPaciente] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [resultsPerPage] = useState(15);
 
@@ -25,10 +23,8 @@ const Buscar = () => {
     };
 
     const navigate = useNavigate();
-    const abrirEdit = (paciente) => {
-        setSelectedPaciente(paciente); // Guardar el paciente seleccionado en el estado
+    const handleViewDato = (paciente) => {
         navigate(`/panel/${paciente.hist_clinico}`)
-        setEdit(true)
     };
 
     const obtenerPacientes = async (searchTerm = '') => {
@@ -98,21 +94,21 @@ const Buscar = () => {
 
     return (
         <div className="buscar">
+            <h3>ADMISION - SAIS</h3>
+            <div className="box_buscar">
+                <input
+                    type="text"
+                    placeholder="Ingrese Cód, HC, Nombre o Responsable a Buscar"
+                    className="buscar_input"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                />
+                <MdPersonSearch className="ico_buscar" />
+                <button onClick={toggleModal} className='btn-registrar-pas'>
+                    <IoPersonAddSharp className='ico' /> REGIST. PACIENTE
+                </button>
+            </div>
             <main>
-                <h3>LISTADO DE TODOS LOS PACIENTES REGISTRADOS</h3>
-                <div className="box_buscar">
-                    <input
-                        type="text"
-                        placeholder="Ingrese Cód, HC, Nombre o Responsable a Buscar"
-                        className="buscar_input"
-                        value={searchTerm}
-                        onChange={handleSearch}
-                    />
-                    <MdPersonSearch className="ico_buscar" />
-                    <button onClick={toggleModal} className='btn-registrar-pas'>
-                        <IoPersonAddSharp className='ico' /> REGIST. PACIENTE
-                    </button>
-                </div>
                 <section className="box_resultados">
                     {loading ? (
                         <p>Cargando...</p>
@@ -154,7 +150,7 @@ const Buscar = () => {
                                         <td>{calcularEdad(paciente.fecha_nacimiento)}</td>
                                         <td>{paciente.tipo_paciente}</td>
                                         <td>
-                                            <button onClick={() => abrirEdit(paciente)}>
+                                            <button onClick={() => handleViewDato(paciente)}>
                                                 <FaUserEdit /> Ver datos
                                             </button>
                                         </td>
@@ -165,30 +161,30 @@ const Buscar = () => {
                     ) : (
                         <p>No se encontraron resultados.</p>
                     )}
+                    <div className="paginacion">
+                        <button
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                            disabled={currentPage === 1}
+                        >
+                            <IoIosArrowBack />
+                            Anterior
+                        </button>
+                        <button
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                            disabled={indexOfLastPaciente >= pacientes.length}
+                        >
+                            Siguiente
+                            <IoIosArrowForward />
+                        </button>
+                    </div>
                 </section>
-                <div className="paginacion">
-                    <button
-                        onClick={() => setCurrentPage(currentPage - 1)}
-                        disabled={currentPage === 1}
-                    >
-                        <IoIosArrowBack />
-                        Anterior
-                    </button>
-                    <button
-                        onClick={() => setCurrentPage(currentPage + 1)}
-                        disabled={indexOfLastPaciente >= pacientes.length}
-                    >
-                        Siguiente
-                        <IoIosArrowForward />
-                    </button>
-                </div>
-                <div className="graficos">
-                    <Registros/>
-                </div>
-                <button className='btn-actual' onClick={updateAllPatients}>Actualizar Todos los Pacientes</button>
-                {showModal && <RegistrarPas onClose={toggleModal} />}
-                {openEdit && selectedPaciente && <EditPaciente paciente={selectedPaciente} onClose={() => setEdit(false)} />}
+                <Menu />
             </main>
+            <div className="graficos">
+                <Registros />
+            </div>
+            <button className='btn-actual' onClick={updateAllPatients}>Actualizar Todos los Pacientes</button>
+            {showModal && <RegistrarPas onClose={toggleModal} />}
         </div>
     );
 };

@@ -4,6 +4,7 @@ import { IoCloudUploadOutline } from "react-icons/io5";
 import icoClose from '../../Ico/ico-close.png'
 import lugares from '../../Complementos/lugares.js';
 import { useNavigate } from 'react-router-dom';
+import SelectHistoria from './SelectHistoria.jsx';
 
 const RegistrarPas = ({ onClose }) => {
     const [dni, setDni] = useState('');
@@ -44,6 +45,7 @@ const RegistrarPas = ({ onClose }) => {
     const [departamentoResponsable, setDepartamentoResponsable] = useState('');
     const [provinciaResponsable, setProvinciaResponsable] = useState('');
     const [distritoResponsable, setDistritoResponsable] = useState('')
+    const [error, setError] = useState('')
 
     //estados y codigos para la seleccion de Lugares
     const [selectedDepartment, setSelectedDepartment] = useState('');
@@ -163,6 +165,13 @@ const RegistrarPas = ({ onClose }) => {
         setDniResponsable(numericInput);
     };
 
+    const handleHistoriaChange = (e) => {
+        const input = e.target.value;
+        const numericInput = input.replace(/\D/g, '').slice(0, 8);
+        setHistoriaClinico(numericInput)
+
+    }
+
 
 
 
@@ -215,14 +224,14 @@ const RegistrarPas = ({ onClose }) => {
                 body: JSON.stringify(pacienteData),
             });
 
-            if (response.ok) {
-                // Manejar la respuesta exitosa
-                alert('Paciente guardado correctamente');
-                navigate(`/panel/${historiaClinico}`)
-                onClose();
-            } else {
-                throw new Error('Error al guardar el paciente');
+            if (!response.ok) {
+                const errorData = await response.json();
+                setError(errorData.message);
+                return;
             }
+            navigate(`/panel/${historiaClinico}`)
+            onClose()
+
         } catch (error) {
             console.error(error);
             alert('Error al guardar el paciente');
@@ -256,14 +265,7 @@ const RegistrarPas = ({ onClose }) => {
                                     required
                                 />
                             </label>
-                            <label>Hist. clínico
-                                <input
-                                    type="text"
-                                    value={historiaClinico}
-                                    onChange={(e) => setHistoriaClinico(e.target.value)}
-                                    required
-                                />
-                            </label>
+                            <SelectHistoria handleHistoria={handleHistoriaChange} value={historiaClinico}/>
                         </div>
                         <div className="form-group">
                             <label>Apellido Paterno
@@ -585,6 +587,11 @@ const RegistrarPas = ({ onClose }) => {
                     />
                     ¿Tiene Responsable?
                 </label>
+                <div className="mssgs">
+                    {error && 
+                        <p className="error" style={{color: 'red', fontSize: '14px', textAlign: 'center'}}>{error}</p>
+                    }
+                </div>
                 <div className="btns">
                     <button className='btn-submit' type="submit">Guardar<IoCloudUploadOutline className='ico_guardar' /></button>
                     <button className='btn-cancela' onClick={onClose}>Cancelar</button>

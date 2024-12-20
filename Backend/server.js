@@ -73,6 +73,66 @@ app.get('/api/obtener/pacientes', async (req, res) => {
     }
 });
 
+
+// Ruta para obtener una historia clínica disponible
+app.get('/api/paciente/historia-clinica', async (req, res) => {
+    const { historia } = req.query;
+
+    try {
+        // Obtener todas las historias clínicas existentes
+        const [rows] = await pool.query('SELECT hist_clinico FROM pacientes');
+        const historiasExistentes = new Set(rows.map((row) => parseInt(row.hist_clinico, 10)));
+
+        // Si se proporciona una historia, verificar si existe
+        if (historia) {
+            if (historia === '00000') {
+                return res.status(400).json({ message: 'Historia clínica inválida' });
+            }
+
+            const existe = historiasExistentes.has(parseInt(historia, 10));
+            if (existe) {
+                // Generar las 5 historias más pequeñas en desuso
+                const historiasRecomendadas = [];
+                let numero = 1;
+                while (historiasRecomendadas.length < 5) {
+                    if (!historiasExistentes.has(numero)) {
+                        historiasRecomendadas.push(numero.toString().padStart(5, '0'));
+                    }
+                    numero++;
+                }
+                return res.status(200).json({ existe: true, historiasRecomendadas });
+            }
+            return res.status(200).json({ existe: false });
+        }
+
+        // Si no se proporciona una historia, devolver la historia por defecto y recomendaciones
+        let historiaPorDefecto = 1;
+        while (historiasExistentes.has(historiaPorDefecto)) {
+            historiaPorDefecto++;
+        }
+        const historiaPorDefectoPadded = historiaPorDefecto.toString().padStart(5, '0');
+
+        const historiasDisponibles = [];
+        let numero = 1;
+        while (historiasDisponibles.length < 5) {
+            if (!historiasExistentes.has(numero)) {
+                historiasDisponibles.push(numero.toString().padStart(5, '0'));
+            }
+            numero++;
+        }
+
+        return res.status(200).json({
+            historiaPorDefecto: historiaPorDefectoPadded,
+            historiasDisponibles,
+        });
+    } catch (error) {
+        console.error('Error al gestionar historias clínicas:', error);
+        res.status(500).json({ message: 'Error al gestionar historias clínicas' });
+    }
+});
+
+
+
 // Endpoint para registrar pacientes
 app.post('/api/registrar/pacientes', async (req, res) => {
     const pacienteData = req.body;
@@ -82,6 +142,28 @@ app.post('/api/registrar/pacientes', async (req, res) => {
         await connection.beginTransaction(); // Iniciar transacción
 
         let idResponsable = null;
+
+        // Verificar si el DNI del responsable ya existe
+        if (pacienteData.responsable) {
+            const [existingResponsable] = await connection.execute(
+                `SELECT id_responsable FROM responsable_de_paciente WHERE dni_res = ?`,
+                [pacienteData.responsable.dniRes]
+            );
+
+            if (existingResponsable.length > 0) {
+                return res.status(400).json({ message: "El DNI del responsable ya existe." });
+            }
+        }
+
+        // Verificar si el DNI del paciente ya existe
+        const [existingPaciente] = await connection.execute(
+            `SELECT id_paciente FROM pacientes WHERE dni = ?`,
+            [pacienteData.dni]
+        );
+
+        if (existingPaciente.length > 0) {
+            return res.status(400).json({ message: "El DNI del paciente ya existe." });
+        }
 
         // Si hay responsable, insertar en responsable_de_paciente
         if (pacienteData.responsable) {
@@ -135,7 +217,7 @@ app.post('/api/registrar/pacientes', async (req, res) => {
         );
 
         await connection.commit(); // Confirmar transacción
-        res.status(201).json({ message: 'Paciente guardado correctamente', idPaciente: pacienteResult.insertId });
+        res.status(201).json({ message: 'Paciente guardado correctamente' });
     } catch (error) {
         await connection.rollback(); // Revertir transacción en caso de error
         console.error(error);
@@ -144,6 +226,7 @@ app.post('/api/registrar/pacientes', async (req, res) => {
         connection.release(); // Cerrar conexión
     }
 });
+
 
 // Función para obtener datos del paciente según un parámetro único (Hist. Clínico o DNI)
 const obtenerPaciente = async (paramName, paramValue, connection) => {

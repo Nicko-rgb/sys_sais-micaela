@@ -71,6 +71,7 @@ const SelectHistoria = ({ handleHistoria, value }) => {
     const manejarSeleccion = (historia) => {
         setMostrandoRecomendaciones(false);
         handleHistoria({ target: { value: historia } });
+        setDisponible(true)
     };
 
     return (

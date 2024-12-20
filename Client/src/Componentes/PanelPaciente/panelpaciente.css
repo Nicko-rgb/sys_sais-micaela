@@ -1,0 +1,122 @@
+.panel-paci{
+    display: flex;
+    gap: 4px;
+    padding: 36px 0;
+    padding-bottom: 100px;
+    width: 100%;
+    height: 100vh;
+    background-color: #f7f7f7;
+}
+.panel-paci .izquierda {
+    position: fixed;
+    top: 37px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    height: 100%;
+    box-shadow: 0 0 4px #00796b;
+    width: 210px;
+    min-width: 210px;
+    z-index: 10;
+}
+.panel-paci .izquierda .cabeza {
+    background-color: #00796b;
+    color: white;
+    text-align: center;
+    font-size: 14px;
+}
+
+.panel-paci .izquierda .opciones {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    position: relative
+}
+.panel-paci .link_volver{
+    position: absolute;
+    right: -95px;
+    top: 10px;
+    border-bottom: green solid 1px;
+    text-decoration: none;
+    color: green;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 5px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: .3s ease;
+}
+.panel-paci .link_volver:hover{
+    background-color: rgb(230, 230, 230);
+}
+
+.panel-paci .izquierda .icon {
+    font-weight: 700;
+    font-size: 18px;
+}
+.panel-paci .izquierda .ico-home {
+    font-size: 19px;
+    margin-top: -2px;
+}
+.panel-paci .izquierda .btn-inicio{
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+}
+.panel-paci .izquierda button {
+    background-color: rgb(233, 233, 233); 
+    color: black;
+    border: none;
+    width: calc(100%);
+    /* border-radius: 5px; */
+    padding: 8px 15px;
+    margin-top: 1%;
+    cursor: pointer;
+    font-size: 14px;
+}
+.panel-paci .izquierda button:hover {
+    /* background-color: green; */
+    font-weight: 500;
+}
+.panel-paci .izquierda .activo {
+    background-color: rgba(30, 143, 255, 0.429);
+    color: black; 
+    font-weight: 600;
+}
+.panel-paci .izquierda summary {
+    cursor: pointer;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background-color: #333;
+    background-color: rgb(7, 158, 108);
+    color: white;
+    text-transform: uppercase;
+    padding: 8px 0;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 13px;
+}
+.panel-paci .izquierda .ico-close, .panel-paci .izquierda .ico-open {
+    position: absolute;
+    right: 10px;
+    top: 9px;
+}
+
+.panel-paci .izquierda details[open] summary {
+    background-color: rgb(5, 102, 70);
+    font-weight: 600;
+}
+.panel-paci .izquierda details[open] {
+    margin-bottom: 20px;
+}
+
+.panel-paci .renders {
+    margin-left: 210px;
+    /* border: #0056b3 solid 1px; */
+    width: 100%;
+}

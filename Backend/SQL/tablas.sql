@@ -19,7 +19,7 @@ CHECK TABLE mysql.db;
 -- Crear la tabla responsable_de_paciente
 CREATE TABLE responsable_de_paciente (
     id_responsable INT AUTO_INCREMENT PRIMARY KEY,
-    dni_res VARCHAR(8) NOT NULL,
+    dni_res VARCHAR(8) NOT NULL UNIQUE,
     tipo_res VARCHAR(50) NOT NULL,
     ape_paterno_res VARCHAR(50) NOT NULL,
     ape_materno_res VARCHAR(50) NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE responsable_de_paciente (
 -- Crear la tabla pacientes
 CREATE TABLE pacientes (
     id_paciente INT AUTO_INCREMENT PRIMARY KEY,
-    dni VARCHAR(15) NOT NULL,
+    dni VARCHAR(15) NOT NULL UNIQUE,
     CNV_linea VARCHAR(50),
     hist_clinico VARCHAR(50),
     ape_paterno VARCHAR(50) NOT NULL,

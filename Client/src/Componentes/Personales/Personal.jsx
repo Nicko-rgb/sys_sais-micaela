@@ -3,7 +3,7 @@ import './personal.css';
 import { Link, useNavigate } from 'react-router-dom';
 import NavLogin from '../Navegadores/NavLogin';
 import NavPie from '../Navegadores/NavPie';
-import RegPersonal from '../Formularios/RegPersonal';
+import RegPersonal from './RegisPersonal/RegPersonal';
 import EditPersonales from './EditPersonales/EditPersonales';
 import Store from '../Store/Store_Cita_Turno';
 import VerTurnos from './Turnos/VerTurnos';
@@ -137,7 +137,7 @@ const Personal = () => {
                 </button>
                 <section>
                     <div className="box-buscar">
-                        <Link to='/panel-niño' className='volver_link'>
+                        <Link to='/servicios-niño' className='volver_link'>
                             <RiPlayReverseLargeFill /> VOLVER
                         </Link>
                         <input

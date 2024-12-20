@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 import styles from "./ActualizarControles.module.css";
-import { useNavigate } from "react-router-dom";
+import Control from '../../Her_Pacien_Ninho/Control/control';
 import NavLogin from '../../Navegadores/NavLogin';
 import NavPie from '../../Navegadores/NavPie';
-import OpcionesI from "../OpcionesI";
-import { useLocation } from 'react-router-dom';
 
-const ActualizarControles = () => {
+const ActualizarControles = ({paciente, cambiarVista}) => {
   const [showModal, setShowModal] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const navigate = useNavigate(); // Hook de navegación
-  const location = useLocation();
-  const { paciente } = location.state || {}; // Evita errores si no hay datos
 
   const initialData = [
     { rangoEdad: "Rec Nacido", tipo: "DIA", max: 5, controles: '', libre: "Texto libre 1" },
@@ -46,18 +41,9 @@ const ActualizarControles = () => {
     setShowDropdown(!showDropdown);
   };
 
-  const irAControl = () => {
-    if (paciente && paciente.hist_clinico) {
-      navigate(`/control/${paciente.hist_clinico}`, { state: { paciente } });
-    } else {
-      console.error("Paciente no definido.");
-    }
-  };
-
   return (
     <div className={styles.tablaContainer}>
       <NavLogin />
-      <OpcionesI paciente={paciente} />
       <div className={styles.tableWrapper}>
         <div className={styles.titulo}>
           <h2>Actualizar Controles Niños</h2>
@@ -67,7 +53,7 @@ const ActualizarControles = () => {
               <button onClick={toggleDropdown}>Opciones</button>
               {showDropdown && (
                 <div className={styles.dropdownContent}>
-                  <button onClick={irAControl}>Registrar control</button>
+                  <button onClick={() => cambiarVista(<Control paciente={paciente} />)}>Registrar control</button>
                   <button>Listar controles</button>
                 </div>
               )}

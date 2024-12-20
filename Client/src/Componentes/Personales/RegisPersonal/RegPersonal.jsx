@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './reg_personal.css';
 import Selected from './Select';
-import icoClose from '../Ico/ico-close.png'
-import Store from '../Store/Store_Cita_Turno';
+import icoClose from '../../Ico/ico-close.png'
+import Store from '../../Store/Store_Cita_Turno';
 
 
 const RegPersonal = ({ handleForm }) => {

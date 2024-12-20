@@ -1,0 +1,44 @@
+.selec-hist {
+    position: relative;
+}
+.selec-hist .disponibles {
+    position: absolute;
+    top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    width: 100%;
+    box-shadow: 0 0 3px dodgerblue;
+    padding: 5px;
+    gap: 3px;
+    background-color: rgb(225, 240, 255);
+    animation:  fadeIn .3s ease;
+    transform-origin: top;
+}
+.selec-hist .disponibles p{
+    font-weight: 500;
+    font-size: 13px;
+}
+.selec-hist .rojo {
+    color: rgb(252, 82, 82);
+    background-color: rgba(255, 120, 120, 0.214);
+}
+
+.selec-hist .disponibles li {
+    list-style: none;
+    cursor: pointer;
+    border: rgb(65, 240, 182) solid 1px;
+    font-size: 14px;
+    font-weight: 600;
+    width: 100%;
+    padding: 3px 0;
+    color: white;
+    background-color: dodgerblue;
+    text-align: center;
+    transition: .3s ease;
+}
+.selec-hist .disponibles li:hover {
+    background-color: rgb(11, 94, 177);
+    transform: scale(1.02);
+}

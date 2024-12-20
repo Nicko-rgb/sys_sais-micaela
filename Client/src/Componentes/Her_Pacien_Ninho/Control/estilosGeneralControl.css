@@ -7,12 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  /* Empuja el contenido hacia la parte superior */
-  height: 100vh;
-  width: 100vw;
-  background-color: #f0f4f8;
   padding-top: 50px;
-  /* Ajusta la separación desde el borde superior */
   box-sizing: border-box;
 }
 

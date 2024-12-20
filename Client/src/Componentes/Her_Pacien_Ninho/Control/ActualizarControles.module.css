@@ -1,8 +1,6 @@
 /* Estilos para el contenedor principal de la tabla */
 .tablaContainer {
     padding-top: 50px;
-    width: 86%;
-    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,7 +15,6 @@
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
     background-color: #eaeaea;
     text-align: center;
-    margin-top: -70px;
   }
   
   /* Estilo para el título y los botones */

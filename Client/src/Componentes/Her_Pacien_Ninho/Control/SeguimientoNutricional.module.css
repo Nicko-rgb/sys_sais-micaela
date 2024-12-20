@@ -1,12 +1,9 @@
 /* Estilo general del contenedor padre */
 .contPadre {
-  background-color: #f5f5f5;
   margin: 0;
   padding: 0;
   display: flex;
-  min-height: 100vh;
   position: relative;
-  overflow: hidden;
   font-family: Arial, sans-serif;
   color: #333;
 }
@@ -16,7 +13,6 @@
   flex: 1;
   padding-top: 50px;
   /* padding-bottom: 50px; */
-  margin-right: 220px;
   display: flex;
   flex-direction: column;
   align-items: center;

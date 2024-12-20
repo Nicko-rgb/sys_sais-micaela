@@ -47,7 +47,7 @@ const Login = () => {
             // Simular un retraso para que el modal sea más perceptible
             setTimeout(() => {
                 setIsLoading(false); // Ocultar modal
-                navigate('/panel'); // Redirigir después de ocultar el modal
+                navigate('/admision'); // Redirigir después de ocultar el modal
             }, 1200); // 1.2 segundo de retraso
         } catch (error) {
             if (error.response) {

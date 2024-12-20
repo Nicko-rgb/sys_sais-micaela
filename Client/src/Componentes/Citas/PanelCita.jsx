@@ -131,7 +131,7 @@ const OpcionesCita = () => {
                 <h5>ESPECIALIDADES DISPONIBLES PARA CITAS</h5>
                 <section>
                     <div className='box-citas'>
-                        <Link to='/panel-niño' className='volver_link'>
+                        <Link to='/servicios-niño' className='volver_link'>
                             <RiPlayReverseLargeFill /> Volver
                         </Link>
 

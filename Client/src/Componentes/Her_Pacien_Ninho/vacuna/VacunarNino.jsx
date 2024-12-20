@@ -1,10 +1,9 @@
 import React from 'react';
 import styles from './VacunarNino.module.css';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import NavLogin from '../../Navegadores/NavLogin';
 import NavPie from '../../Navegadores/NavPie';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
-import OpcionesI from "../OpcionesI";
 
 const listaVacunas = [
   { nombreVacuna: 'Vacuna HVA (Hep)', codigo: '90633.01' },
@@ -19,9 +18,7 @@ const listaVacunas = [
   { nombreVacuna: 'Pentavalente 1ra', codigo: '90723' },
 ];
 
-const VacunarNino = () => {
-  const location = useLocation();
-  const { paciente } = location.state || {}; // Evita errores si no hay datos
+const VacunarNino = ({paciente}) => {
 
   const handleGuardar = (vacuna) => {
     alert(`Datos guardados para ${vacuna.nombreVacuna}`);
@@ -74,14 +71,7 @@ const VacunarNino = () => {
           </>) : (
           <p>no hay datos...</p>
         )}
-
-        {/* Menú lateral de opciones */}
-        <OpcionesI paciente={paciente} />
-
       </div>
-
-
-
       {/* Pie de página */}
       <NavPie />
     </div>

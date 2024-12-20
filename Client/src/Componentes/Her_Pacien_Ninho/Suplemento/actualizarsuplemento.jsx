@@ -2,13 +2,13 @@ import React from "react";
 import style from "./actualizarsuplemento.module.css";
 import NavLogin from "../../Navegadores/NavLogin";
 import NavPie from "../../Navegadores/NavPie";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RiPlayReverseLargeFill } from "react-icons/ri";
+import Entregasuplemento from "./Entregasuplemento";
+import Listasumplemento from "./Listasumplemento";
 
-const Actualizarsuplementos = () => {
-  const location = useLocation();
+const Actualizarsuplementos = ({paciente, cambiarVista}) => {
   const navigate = useNavigate(); // Hook para navegación
-  const { paciente } = location.state || {}; // Datos del paciente
 
   const data = [
     { rangoEdad: "Suplemento 1m-5m", tipo: "MES", max: 5 },
@@ -41,18 +41,14 @@ const Actualizarsuplementos = () => {
               <div className={style.dropdownmenu}>
                 <button
                   onClick={() =>
-                    navigate(`/Entregasuplementos/${paciente.hist_clinico}`, {
-                      state: { paciente },
-                    })
+                    cambiarVista(<Entregasuplemento paciente={paciente} />)
                   }
                 >
                   Entregar Suplemento
                 </button>
                 <button
                   onClick={() =>
-                    navigate(`/Listasuplementos/${paciente.hist_clinico}`, {
-                      state: { paciente },
-                    })
+                    cambiarVista(<Listasumplemento paciente={paciente} />)
                   }
                 >
                   Listar Suplementos

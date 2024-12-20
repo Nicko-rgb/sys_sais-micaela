@@ -1,31 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import './datospaciente.css';
-import NavLogin from '../Navegadores/NavLogin';
-import NavPie from '../Navegadores/NavPie';
-import OpcionesD from '../Her_Pacien_Ninho/OpcionesD';
-import OpcionesI from '../Her_Pacien_Ninho/OpcionesI';
-import EditPaciente from '../Her_Pacien_Ninho/EditPaciente';
+import './datos.css';
+import EditPaciente from '../../Her_Pacien_Ninho/EditPaciente';
 import { FaUserEdit } from 'react-icons/fa';
 import { IoMdFemale, IoMdMale } from "react-icons/io";
-import Control from '../Her_Pacien_Ninho/Control/control';
+import { MdOutlineFamilyRestroom } from "react-icons/md";
+import Ficha from '../../FichaFamiliar/Ficha';
 
-const DatosPaciente = () => {
-    const { historialClinico } = useParams(); // Obtener el historial clínico de la ruta
+const DatosNino = ({ cambiarVista }) => {
+    const { historialClinico } = useParams();
 
     //ESTADO PARA LA VISIBILIDAD DEL PANEL DE EDITPACIENTE 
     const [paciente, setPaciente] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [edit, setEdit] = useState(false)
-
-    // Función para manejar el clic en el botón
-    const edicionPaciente = () => {
-        setEdit(!edit); // Cambia el estado a true para mostrar ComponenteB 
-    };
+    const [verFicha, setVerFicha] = useState(false)
 
     const obtenerDatosPaciente = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/obtener-pacientes/hist-clinico/${historialClinico}`); // Ajusta la ruta según tu API
+            const response = await fetch(`http://localhost:5000/api/obtener-pacientes/hist-clinico/${historialClinico}`);
             const data = await response.json();
             setPaciente(data);
             setLoading(false);
@@ -64,18 +56,18 @@ const DatosPaciente = () => {
         }
     }
 
+    const handleVerFicha = () => {
+        setVerFicha(!verFicha)
+    }
+
     return (
-        <div className="datos-paciente">
-            <NavLogin />
-            <OpcionesI paciente={paciente} />
-            <OpcionesD pacienteDatos={paciente} />
-            <main>
-                {loading ? (
-                    <p>Cargando datos del paciente...</p>
-                ) : paciente && (
-                    <div className='box-result'>
-                        <h3 className='txt1'>Datos del Paciente <span>({paciente.tipo_paciente})</span> </h3>
-                        <h5 className='name-paciente'><p>({paciente.hist_clinico})</p> {paciente.ape_paterno} {paciente.ape_materno}, {paciente.nombres}</h5>
+        <div className="datos-nino">
+            {loading ? (
+                <p>Cargando datos del paciente...</p>
+            ) : paciente && (
+                <main className='result'>
+                    <h3 className='title-page'>Datos del Paciente <span>({paciente.tipo_paciente})</span> </h3>
+                    <div className="tbl">
                         <table>
                             <thead>
                                 <tr>
@@ -95,11 +87,11 @@ const DatosPaciente = () => {
                                 <tr>
                                     <td>{paciente.dni}</td>
                                     <td>{paciente.hist_clinico}</td>
-                                    <td>{/* Mostrar ícono basado en el sexo antes del nombre */}
+                                    <td className='sexo'>
                                         {paciente.sexo === 'Femenino' ? (
-                                            <IoMdFemale style={{ color: 'hotpink', marginRight: '5px', fontSize: '15px' }} />
+                                            <IoMdFemale style={{ color: 'hotpink', marginRight: '5px', fontSize: '16px' }} />
                                         ) : (
-                                            <IoMdMale style={{ color: 'blue', marginRight: '5px', fontSize: '15px' }} />
+                                            <IoMdMale style={{ color: 'dodgerblue', marginRight: '5px', fontSize: '16px' }} />
                                         )}
                                         {paciente.ape_paterno} {paciente.ape_materno}, {paciente.nombres}</td>
                                     <td>{new Date(paciente.fecha_nacimiento).toLocaleDateString()}</td>
@@ -108,34 +100,56 @@ const DatosPaciente = () => {
                                     {paciente.id_responsable && (
                                         <td>{paciente.ape_paterno_res} {paciente.ape_materno_res}, {paciente.nombres_res}</td>
                                     )}
-                                    <td><button onClick={edicionPaciente}><FaUserEdit />Editar</button></td>
+                                    <td className='bt'><button onClick={() => cambiarVista(<EditPaciente onCloseEdit={cambiarVista} paciente={paciente} />)}><FaUserEdit />Editar</button></td>
                                 </tr>
                             </tbody>
                         </table>
-                        <div className="reportes-control">
+                    </div>
+                    {/* Aqui un componente aparte */}
+                    <div className="importantes">
+                        <h4>Información Importante</h4>
+                        <p>
+                            Aqui pueden meter algunos datos importantes como proxima cita pendiente,
+                            proxima vacuna, proxima visita etc.....
+                        </p>
+                    </div>
+                    <div className="ficha-f">
+                        <button onClick={handleVerFicha}>{verFicha ? 'Ver Datos Niño' : <><MdOutlineFamilyRestroom className='ico-famy' />Ver Ficha Familiar</>} </button>
+                    </div>
+                    {!verFicha ?
+                        <div className="reportes">
                             <aside>
-                                <p style={{ backgroundColor: '#589FC4' }}>CONTROLES CRED</p> {/* Azul claro */}
+                                <p style={{ backgroundColor: 'dodgerblue' }}>CONTROLES CRED</p> {/* Azul claro */}
+                                <div className="data">
+                                    <p>Esperando Datos.....</p>
+                                </div>
                             </aside>
                             <aside>
-                                <p style={{ backgroundColor: '#D07D10' }}>VACUNACIÓN</p> {/* Verde agua */}
+                                <p style={{ backgroundColor: 'rgb(1, 167, 112)' }}>VACUNACIÓN</p> {/* Verde agua */}
+                                <div className="data">
+                                    <p>Esperando Datos.....</p>
+                                </div>
                             </aside>
                             <aside>
                                 <p style={{ backgroundColor: '#7AA745' }}>SUPLEMENTACIÓN</p> {/* Naranja suave */}
+                                <div className="data">
+                                    <p>Esperando Datos.....</p>
+                                </div>
                             </aside>
                             <aside>
                                 <p style={{ backgroundColor: '#C95454' }}>ANEMIA</p> {/* Rojo claro */}
+                                <div className="data">
+                                    <p>Esperando Datos.....</p>
+                                </div>
                             </aside>
                         </div>
-                    </div>
-                )}
-            </main>
-
-            <NavPie />
-            {edit && (
-                <EditPaciente paciente={paciente} onCloseEdit={edicionPaciente} />
+                        :
+                        <Ficha />
+                    }
+                </main>
             )}
         </div>
     );
 };
 
-export default DatosPaciente;
+export default DatosNino;

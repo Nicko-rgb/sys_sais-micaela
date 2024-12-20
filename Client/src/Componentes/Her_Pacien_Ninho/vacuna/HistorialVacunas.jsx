@@ -1,17 +1,13 @@
 import React, { useMemo, useState } from 'react';
 import { useTable, usePagination, useGlobalFilter } from 'react-table';
 import styles from './HistorialVacunas.module.css';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FaUsers } from "react-icons/fa";
 import NavLogin from '../../Navegadores/NavLogin';
 import NavPie from '../../Navegadores/NavPie';
-import OpcionesI from '../OpcionesI';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
 
-const HistorialVacunas = ({ responsable = "Dr. Miquias Alejandro Ursua Paima" }) => {
-
-    const location = useLocation();
-    const { paciente } = location.state || {}; // Evita errores si no hay datos
+const HistorialVacunas = ({ responsable = "Dr. Miquias Alejandro Ursua Paima", paciente }) => {
 
     const [data, setData] = useState([
         {
@@ -112,8 +108,6 @@ const HistorialVacunas = ({ responsable = "Dr. Miquias Alejandro Ursua Paima" })
             <div className={styles.mainContent}>
                 {paciente ? (
                     <>
-
-                        <OpcionesI paciente={paciente} />
                         <div className={styles.contentWrapper}>
                             <h3>Listado de Vacunas - {paciente.nombres} ({paciente.hist_clinico})</h3>
                             <div className={styles.header}>

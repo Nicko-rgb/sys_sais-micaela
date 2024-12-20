@@ -1,10 +1,6 @@
 import React from 'react'
-import { useLocation } from "react-router-dom";
 
-const HistorialControles = () => {
-
-  const location = useLocation();
-  const { paciente } = location.state || {}; // Evita errores si no hay datos
+const HistorialControles = ({paciente}) => {
 
   return (
     <div>

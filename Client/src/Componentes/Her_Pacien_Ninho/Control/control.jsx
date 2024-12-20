@@ -4,10 +4,8 @@ import { Link } from "react-router-dom";
 import { RiPlayReverseLargeFill } from "react-icons/ri";
 import NavLogin from "../../Navegadores/NavLogin";
 import NavPie from "../../Navegadores/NavPie";
-import OpcionesI from "../OpcionesI";
-import { useLocation } from "react-router-dom";
 
-const Control = () => {
+const Control = ({paciente} ) => {
     const [controlNumber, setControlNumber] = useState("");
     const [date, setDate] = useState("");
     const [weight, setWeight] = useState("");
@@ -16,9 +14,6 @@ const Control = () => {
     const [selectedCare, setSelectedCare] = useState("");
     const [session, setSession] = useState("");
     const [nextAppointment, setNextAppointment] = useState("");
-
-    const location = useLocation();
-    const { paciente } = location.state || {}; // Evita errores si no hay datos
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -37,7 +32,6 @@ const Control = () => {
     return (
         <div className={styles.ControlPrincipal}>
             <NavLogin />
-            <OpcionesI paciente={paciente} />
             {paciente ? (
                 <>
                     <div className={styles.btn}>

@@ -1,3 +1,13 @@
+/* Coleres para btns */
+
+:root {
+    ---1color: #28a768;
+    ---2color: rgba(14, 171, 145, 0.812);
+    ---3color: #00796bb4;
+}
+
+
+
 /* Estilos para Botones */
 button {
     border: none;
@@ -46,13 +56,14 @@ button:hover {
 
 /* Botón Cancelar */
 .btn-cancela {
-    background-color: #6c757d;
+    background-color: #828990;
     color: #FFFFFF;
 }
 
 .btn-cancela:hover {
-    background-color: #5a6268;
+    background-color: #6c757c;
 }
+
 .msg-error {
     color: rgb(255, 59, 59);
     font-size: 14px;
@@ -100,6 +111,7 @@ button:hover {
 .volver_link:hover {
     background: rgb(216, 216, 216);
 }
+
 #email {
     text-transform: none;
 }
@@ -110,21 +122,27 @@ button:hover {
 
 @keyframes scaleBounce {
     0% {
-      transform: scale(0.5);
-      /* Comienza pequeño */
-      opacity: 0;
-      /* Invisible al inicio */
+        transform: scale(0.5);
+        /* Comienza pequeño */
+        opacity: 0;
+        /* Invisible al inicio */
     }
-  
+
     50% {
-      transform: scale(1.1);
-      /* Escala ligeramente más grande */
-      opacity: 1;
-      /* Hacerse visible */
+        transform: scale(1.1);
+        /* Escala ligeramente más grande */
+        opacity: 1;
+        /* Hacerse visible */
     }
-  
+
     100% {
-      transform: scale(1);
-      /* Escala a su tamaño original */
+        transform: scale(1);
+        /* Escala a su tamaño original */
     }
-  }
+}
+
+
+/* Stylo para alinear el numero de filas de una tabla */
+.tbl-num {
+    text-align: center;
+}

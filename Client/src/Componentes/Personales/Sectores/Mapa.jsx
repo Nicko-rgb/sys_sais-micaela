@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Stage, Layer, Rect, Text, Group, Line } from "react-konva";
+import { Stage, Layer, Text, Group, Line } from "react-konva";
 import "./sector.css";
 import Coordenada from "./Coordenada";
 
@@ -55,8 +55,9 @@ const Mapa = ({selectManzana, setSelectManzana }) => {
                 x={position.x}
                 y={position.y}
                 className="stage"
+                rotation={-8}
             >
-                <Layer>
+                <Layer >
                     {/* Renderiza calles */}
                     {calles.map((calle) => {
                         // Obtén los puntos iniciales y finales de la calle
@@ -71,12 +72,13 @@ const Mapa = ({selectManzana, setSelectManzana }) => {
                         const angleDegrees = (angleRadians * 180) / Math.PI;
 
                         return (
-                            <React.Fragment key={calle.id}>
+                            <Group key={calle.id}>
                                 {/* Dibuja la calle */}
                                 <Line
                                     points={calle.points}
                                     stroke={calle.color}
                                     strokeWidth={calle.ancho}
+                                    // rotationDeg={-8}
                                 />
                                 {/* Dibuja el texto de la calle */}
                                 <Text
@@ -91,7 +93,8 @@ const Mapa = ({selectManzana, setSelectManzana }) => {
                                     rotation={angleDegrees} // Rota el texto según la dirección de la calle
                                     offsetX={(calle.text.length * 6) / 2} // Ajusta para centrar horizontalmente
                                 />
-                            </React.Fragment>
+                            </Group>
+                            
                         );
                     })}
 
@@ -114,6 +117,7 @@ const Mapa = ({selectManzana, setSelectManzana }) => {
                                 key={manzana.id}
                                 onClick={() => handleManzanaClick(manzana)}
                                 style={{ cursor: "pointer" }}
+                                // rotation={-8}
                             >
                                 <Line
                                     points={manzana.points}

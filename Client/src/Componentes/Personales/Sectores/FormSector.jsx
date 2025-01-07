@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Store from '../../Store/Store_Cita_Turno';
 import axios from 'axios';
+import './formsector.css'
 import { GoInfo } from "react-icons/go";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoPersonAddOutline } from "react-icons/io5";
+import UrlsApp from '../../UrlsApp';
 
 const FormSector = ({ manzana }) => {
     const { personalSalud, sectorPer } = Store();
@@ -14,6 +16,7 @@ const FormSector = ({ manzana }) => {
     const [isInputVisible, setIsInputVisible] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [selectedPerson, setSelectedPerson] = useState(null);
+    const { apiUrl } = UrlsApp()
 
     // Handle input change and fetch professional by DNI
     const handleInputChange = (e) => {
@@ -55,7 +58,7 @@ const FormSector = ({ manzana }) => {
         };
 
         try {
-            const response = await axios.post('http://localhost:5000/api/personal/asigna-sector', data);
+            const response = await axios.post(`${apiUrl}/api/personal/asigna-sector`, data);
             setMessage({ text: response.data.message, type: 'success' });
         } catch (error) {
             console.error(error);
@@ -63,12 +66,12 @@ const FormSector = ({ manzana }) => {
         }
     };
 
-    // Delete assigned professional
+    // Para borrar un profesional asignado
     const deletePerson = async (id) => {
         setMessage({ text: 'Borrando...', type: '' });
 
         try {
-            await axios.delete(`http://localhost:5000/api/delete/sector-persona/${id}`);
+            await axios.delete(`${apiUrl}/api/delete/sector-persona/${id}`);
             setMessage({ text: 'Personal borrado del sector.', type: 'success' });
         } catch (error) {
             console.error('Error al eliminar el personal:', error);
@@ -104,28 +107,40 @@ const FormSector = ({ manzana }) => {
 
     return (
         <div className="form-sector">
-            <h3>Asignar un Profesional</h3>
-            <div className="datos">
+            <h3>Informacion de Manzana</h3>
+            <div className="datos-sector">
                 <p>Código <span>{manzana.text.split('\n')[0]}</span></p>
                 <p style={{ borderLeft: 'none' }}>Número <span>{manzana.text.split('\n')[1]}</span></p>
                 <p style={{ borderLeft: 'none' }}>Manzana <span>{manzana.mz}</span></p>
             </div>
 
-            <h5>Personales Asignados</h5>
-            <div className="data-person">
-                {assignedPersonnel.length > 0 ? (
-                    assignedPersonnel.map((person, index) => (
-                        <div key={index} className="item">
-                            <RiDeleteBin6Line className='delete' onClick={() => confirmDelete(person)} />
-                            <li>
-                                {person.paterno} {person.materno} {person.nombres} - {person.dni}
-                            </li>
-                        </div>
-                    ))
-                ) : (
-                    <p className='no-p'><GoInfo /> No hay ningún asignado para esta manzana.</p>
-                )}
-            </div>
+            <h5 style={{fontWeight: '600'}}>Personales Asignados</h5>
+            {assignedPersonnel.length > 0 ? (
+                <table className="person-table">
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Apellidos y Nombres</th>
+                            <th>DNI</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {assignedPersonnel.map((person, index) => (
+                            <tr key={index}>
+                                <td className='tbl-num'>{index + 1}</td>
+                                <td>{person.paterno} {person.materno} {person.nombres}</td>
+                                <td>{person.dni}</td>
+                                <td className='accion'>
+                                    <RiDeleteBin6Line className='delete' title='Eliminar' onClick={() => confirmDelete(person)} />
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            ) : (
+                <p className='no-p'><GoInfo /> No hay ningún asignado para esta manzana.</p>
+            )}
 
             <form onSubmit={handleSubmit}>
                 {isInputVisible ? (
@@ -200,7 +215,6 @@ const FormSector = ({ manzana }) => {
                     </div>
                 </div>
             )}
-            <h3>Hola mundo</h3>
         </div>
     );
 };

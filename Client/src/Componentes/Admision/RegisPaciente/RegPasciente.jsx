@@ -165,16 +165,6 @@ const RegistrarPas = ({ onClose }) => {
         setDniResponsable(numericInput);
     };
 
-    const handleHistoriaChange = (e) => {
-        const input = e.target.value;
-        const numericInput = input.replace(/\D/g, '').slice(0, 8);
-        setHistoriaClinico(numericInput)
-
-    }
-
-
-
-
     const handleSubmit = async (event) => {
         event.preventDefault(); // Evitar el comportamiento por defecto del formulario
 
@@ -265,7 +255,7 @@ const RegistrarPas = ({ onClose }) => {
                                     required
                                 />
                             </label>
-                            <SelectHistoria handleHistoria={handleHistoriaChange} value={historiaClinico}/>
+                            <SelectHistoria setHistoria={setHistoriaClinico}/>
                         </div>
                         <div className="form-group">
                             <label>Apellido Paterno
@@ -387,7 +377,6 @@ const RegistrarPas = ({ onClose }) => {
                                             type="text"
                                             value={localidad}
                                             onChange={(e) => setLocalidadPaciente(e.target.value)}
-                                            required
                                         />
                                     </label>
                                     <label>Sector
@@ -410,7 +399,6 @@ const RegistrarPas = ({ onClose }) => {
                                         type="text"
                                         value={direccion}
                                         onChange={(e) => setDireccionPaciente(e.target.value)}
-                                        required
                                     />
                                 </label>
                                 <div className='form-group'>
@@ -502,7 +490,6 @@ const RegistrarPas = ({ onClose }) => {
                                         type="text"
                                         value={celular1Responsable}
                                         onChange={(e) => setCelular1(e.target.value)}
-                                        required
                                     />
                                 </label>
 
@@ -521,7 +508,6 @@ const RegistrarPas = ({ onClose }) => {
                                         type="text"
                                         value={localidadResponsable}
                                         onChange={(e) => setLocalidad(e.target.value)}
-                                        required
                                     />
                                 </label>
                                 <label>Sector
@@ -544,7 +530,6 @@ const RegistrarPas = ({ onClose }) => {
                                     type="text"
                                     value={direccionResponsable}
                                     onChange={(e) => setDireccion(e.target.value)}
-                                    required
                                 />
                             </label>
                             <div className='form-group'>

@@ -3,9 +3,8 @@
   display: flex;
   justify-content: center; /* Centra horizontalmente */
   align-items: center; /* Centra verticalmente */
-  min-height: 100vh; /* Ocupa toda la altura de la ventana */
   margin: 0;
-  padding: 60px 20px; /* Espacio para el nav en la parte superior */
+  padding: 60px 0; /* Espacio para el nav en la parte superior */
   box-sizing: border-box;
 }
 

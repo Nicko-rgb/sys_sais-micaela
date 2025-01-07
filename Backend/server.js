@@ -73,6 +73,69 @@ app.get('/api/obtener/pacientes', async (req, res) => {
     }
 });
 
+
+// Ruta para obtener una historia clínica disponible
+app.get('/api/paciente/historia-clinica', async (req, res) => {
+    const { historia } = req.query;
+
+    try {
+        // Obtener todas las historias clínicas existentes
+        const [rows] = await pool.query('SELECT hist_clinico FROM pacientes');
+        const historiasExistentes = new Set(rows.map((row) => parseInt(row.hist_clinico, 10)));
+
+        const generarHistoriasRecomendadas = () => {
+            const historiasRecomendadas = [];
+            let numero = 1;
+            while (historiasRecomendadas.length < 5) {
+                if (!historiasExistentes.has(numero)) {
+                    historiasRecomendadas.push(numero.toString().padStart(5, '0'));
+                }
+                numero++;
+            }
+            return historiasRecomendadas;
+        };
+
+        // Si se proporciona una historia
+        if (historia) {
+            const historiaNumerica = parseInt(historia, 10);
+            if (/^0+$/.test(historia) || isNaN(historiaNumerica)) {
+                // Generar historias recomendadas si la historia es inválida (como ceros)
+                const historiasRecomendadas = generarHistoriasRecomendadas();
+                return res.status(200).json({ existe: false, historiasRecomendadas });
+            }
+
+            const existe = historiasExistentes.has(historiaNumerica);
+            if (existe) {
+                // Generar historias recomendadas si la historia existe
+                const historiasRecomendadas = generarHistoriasRecomendadas();
+                return res.status(200).json({ existe: true, historiasRecomendadas });
+            }
+
+            // Si la historia no existe
+            return res.status(200).json({ existe: false, historiasRecomendadas: generarHistoriasRecomendadas() });
+        }
+
+        // Si no se proporciona una historia, devolver la historia por defecto y recomendaciones
+        let historiaPorDefecto = 1;
+        while (historiasExistentes.has(historiaPorDefecto)) {
+            historiaPorDefecto++;
+        }
+        const historiaPorDefectoPadded = historiaPorDefecto.toString().padStart(5, '0');
+        const historiasDisponibles = generarHistoriasRecomendadas();
+
+        return res.status(200).json({
+            historiaPorDefecto: historiaPorDefectoPadded,
+            historiasDisponibles,
+        });
+    } catch (error) {
+        console.error('Error al gestionar historias clínicas:', error);
+        res.status(500).json({ message: 'Error al gestionar historias clínicas' });
+    }
+});
+
+
+
+
 // Endpoint para registrar pacientes
 app.post('/api/registrar/pacientes', async (req, res) => {
     const pacienteData = req.body;
@@ -82,6 +145,16 @@ app.post('/api/registrar/pacientes', async (req, res) => {
         await connection.beginTransaction(); // Iniciar transacción
 
         let idResponsable = null;
+
+        // Verificar si el DNI del paciente ya existe
+        const [existingPaciente] = await connection.execute(
+            `SELECT id_paciente FROM pacientes WHERE dni = ?`,
+            [pacienteData.dni]
+        );
+
+        if (existingPaciente.length > 0) {
+            return res.status(400).json({ message: "El DNI del paciente ya existe." });
+        }
 
         // Si hay responsable, insertar en responsable_de_paciente
         if (pacienteData.responsable) {
@@ -135,7 +208,7 @@ app.post('/api/registrar/pacientes', async (req, res) => {
         );
 
         await connection.commit(); // Confirmar transacción
-        res.status(201).json({ message: 'Paciente guardado correctamente', idPaciente: pacienteResult.insertId });
+        res.status(201).json({ message: 'Paciente guardado correctamente' });
     } catch (error) {
         await connection.rollback(); // Revertir transacción en caso de error
         console.error(error);
@@ -144,6 +217,7 @@ app.post('/api/registrar/pacientes', async (req, res) => {
         connection.release(); // Cerrar conexión
     }
 });
+
 
 // Función para obtener datos del paciente según un parámetro único (Hist. Clínico o DNI)
 const obtenerPaciente = async (paramName, paramValue, connection) => {
@@ -221,13 +295,10 @@ app.put("/api/actualizar/paciente/:id_paciente", async (req, res) => {
     const { id_paciente } = req.params;
     const pacienteData = req.body;
 
-    console.log("Datos recibidos para paciente:", pacienteData); // Log de los datos recibidos
-
     const connection = await pool.getConnection();
     try {
         await connection.beginTransaction();
 
-        console.log("Actualizando datos del paciente...");
         // Actualizar datos del paciente
         const [updateResult] = await connection.execute(
             `UPDATE pacientes SET 
@@ -248,14 +319,13 @@ app.put("/api/actualizar/paciente/:id_paciente", async (req, res) => {
                 id_paciente,
             ]
         );
-        console.log("Resultado de la actualización del paciente:", updateResult);
 
         await connection.commit();
         console.log("Transacción completada con éxito");
         res.json({ message: "Datos del paciente actualizados correctamente" });
     } catch (error) {
         await connection.rollback();
-        console.error("Error detallado al actualizar los datos del paciente:", error);
+        console.error("Error al actualizar los datos del paciente:", error);
         res.status(500).json({
             message: "Error al actualizar los datos del paciente",
             error: error.message,
@@ -271,13 +341,9 @@ app.put("/api/actualizar/responsable/:id_responsable", async (req, res) => {
     const { id_responsable } = req.params;
     const responsableData = req.body;
 
-    console.log("Datos recibidos para responsable:", responsableData); // Log de los datos recibidos
-
     const connection = await pool.getConnection();
     try {
         await connection.beginTransaction();
-
-        console.log("Actualizando datos del responsable...");
         // Actualizar datos del responsable
         const [updateResResult] = await connection.execute(
             `UPDATE responsable_de_paciente SET
@@ -304,14 +370,12 @@ app.put("/api/actualizar/responsable/:id_responsable", async (req, res) => {
                 id_responsable,
             ]
         );
-        console.log("Resultado de la actualización del responsable:", updateResResult);
 
         await connection.commit();
-        console.log("Transacción completada con éxito");
         res.json({ message: "Datos del responsable actualizados correctamente" });
     } catch (error) {
         await connection.rollback();
-        console.error("Error detallado al actualizar los datos del responsable:", error);
+        console.error("Error al actualizar los datos del responsable:", error);
         res.status(500).json({
             message: "Error al actualizar los datos del responsable",
             error: error.message,
@@ -489,12 +553,17 @@ app.get('/api/obtener/personal-salud', async (req, res) => {
 app.put('/api/update-personal', async (req, res) => {
     const { id_personal, dni, paterno, materno, nombres, tipo_user, profesion, servicio, especial_cita, num_consultorio, condicion, celular, correo, usuario, contrasena, estado } = req.body;
 
+    // Establecer valores predeterminados si están vacíos
+    const especialidadCita = especial_cita || null;
+    const consultorio = especialidadCita === null ? null : num_consultorio;
+
+
     try {
         const [result] = await pool.query(`
             UPDATE personal_salud 
             SET dni = ?, paterno = ?, materno = ?, nombres = ?, tipo_user = ?, profesion = ?, servicio = ?, especial_cita = ?, num_consultorio = ?, condicion = ?, celular = ?, correo = ?, usuario = ?, contrasena = ?, estado = ?
             WHERE id_personal = ?
-        `, [dni, paterno, materno, nombres, tipo_user, profesion, servicio, especial_cita, num_consultorio, condicion, celular, correo, usuario, contrasena, estado, id_personal]);
+        `, [dni, paterno, materno, nombres, tipo_user, profesion, servicio, especialidadCita, consultorio, condicion, celular, correo, usuario, contrasena, estado, id_personal]);
 
         if (result.affectedRows > 0) {
             res.json({ message: 'Datos actualizados correctamente' });
@@ -617,6 +686,86 @@ app.get('/api/obtener/servicios', async (req, res) => {
         res.status(500).json({ message: 'Error al obtener servicios.' });
     }
 });
+
+// Ruta para asignar sector a personal
+app.post('/api/personal/asigna-sector', async (req, res) => {
+    const { id_sector, manzana, codigo, numero, descripcion, id_personal } = req.body;
+
+    // Consulta SQL para verificar si la combinación de id_sector e id_personal ya existe
+    const checkQuery = `
+        SELECT * FROM sector_personal 
+        WHERE id_sector = ? AND id_personal = ?
+    `;
+    
+    const checkValues = [id_sector, id_personal];
+
+    try {
+        const [existingRecords] = await pool.query(checkQuery, checkValues);
+
+        // Si ya existe un registro con esa combinación, devuelve un mensaje
+        if (existingRecords.length > 0) {
+            return res.status(201).json({ message: 'No se puede asignar dos veces al personal.' });
+        }
+
+        // Consulta SQL para insertar los datos en la tabla sector_personal
+        const insertQuery = `
+            INSERT INTO sector_personal (id_sector, manzana, codigo, numero, descripcion, id_personal)
+            VALUES (?, ?, ?, ?, ?, ?)
+        `;
+
+        const values = [id_sector, manzana, codigo, numero, descripcion || '', id_personal];
+
+        const [results] = await pool.query(insertQuery, values);
+        res.status(201).json({ message: 'Datos guardados correctamente', data: results });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al guardar los datos', error });
+    }
+});
+
+app.get('/api/personal/obtner-sector-asignado', async (req, res) => {
+
+    try {
+        // Consulta SQL para obtener todos los datos combinados
+        const query = `
+            SELECT sp.*,
+                   p.id_personal, p.nombres, p.paterno, p.materno, p.dni, p.profesion, p.estado 
+            FROM sector_personal sp
+            JOIN personal_salud p ON sp.id_personal = p.id_personal
+        `;
+
+        const [results] = await pool.query(query);
+
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'No hay personal asignado a este sector.' });
+        }
+
+        res.status(200).json(results); // Devuelve los resultados encontrados
+    } catch (error) {
+        console.error("Error al obtener el personal asignado:", error);
+        res.status(500).json({ message: 'Error al obtener los datos del personal.', error });
+    }
+});
+
+// Ruta para eliminar una persona del sector
+app.delete('/api/delete/sector-persona/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const [result] = await pool.query('DELETE FROM sector_personal WHERE id_sector_personal = ?', [id]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Personal no encontrado.' });
+        }
+
+        res.status(200).json({ message: 'Personal borrado del sector.' });
+    } catch (error) {
+        console.error('Error al eliminar el personal:', error);
+        res.status(500).json({ message: 'Error al eliminar el personal.' });
+    }
+});
+
+
 // Ruta para obtener los tipos de turno de personal de salud
 app.get('/api/tipos-turno', async (req, res) => {
     try {
@@ -1245,75 +1394,33 @@ app.get('/api/etnias', async (req, res) => {
 
 //*************************************************** */ RUTAS PARA LAS VISITAS DOMICILIARIAS ****************************************************
 // Ruta para registrar visitas domiciliarias
-app.post("/api/visita-domiciliaria", (req, res) => {
-    const { tipo, fecha_atencion, opcional, observaciones, id_paciente } = req.body;
+app.post("/api/visita-domiciliaria", async (req, res) => {
+    const { tipo,numero_visita, fecha_atencion, opcional, observaciones, id_paciente } = req.body;
 
-    // Validaciones mejoradas
-    if (!tipo || !fecha_atencion || !id_paciente) {
-        return res.status(400).json({
-            error: "Los campos 'tipo', 'fecha de atención' e 'id_paciente' son obligatorios.",
-        });
+    try {
+        const [{ insertId }] = await pool.query(
+            `INSERT INTO visita_domiciliaria 
+             (tipo, numero_visita, fecha_atencion, opcional, observaciones, id_paciente) 
+             VALUES (?, ?, ?, ?, ?, ?)`,
+            [tipo, numero_visita, fecha_atencion, opcional || null, observaciones || null, id_paciente]
+        );
+
+        res.status(201).json({ message: "Visita registrada con éxito.", visitaId: insertId });
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).json({ error: "Error al registrar la visita domiciliaria." });
     }
-
-    // Consulta para obtener el último número de visita para este paciente
-    const queryUltimoNumeroVisita = `
-        SELECT COALESCE(MAX(numero_visita), 0) + 1 AS nuevo_numero_visita 
-        FROM visita_domiciliaria 
-        WHERE id_paciente = ?
-    `;
-
-    pool.query(queryUltimoNumeroVisita, [id_paciente])
-        .then((resultado) => {
-            const nuevoNumeroVisita = resultado[0][0].nuevo_numero_visita;
-
-            const queryInsercion = `
-                INSERT INTO visita_domiciliaria 
-                (tipo, numero_visita, fecha_atencion, opcional, observaciones, id_paciente) 
-                VALUES (?, ?, ?, ?, ?, ?)
-            `;
-
-            const values = [
-                tipo, 
-                nuevoNumeroVisita, 
-                fecha_atencion, 
-                opcional || null, 
-                observaciones || null, 
-                id_paciente
-            ];
-
-            return pool.query(queryInsercion, values)
-                .then((result) => {
-                    res.status(201).json({
-                        message: "Visita domiciliaria registrada con éxito.",
-                        visitaId: result[0].insertId,
-                        numeroVisita: nuevoNumeroVisita
-                    });
-                });
-        })
-        .catch((err) => {
-            console.error("Error al insertar datos:", err);
-
-            // Manejo de errores más específico
-            if (err.code === 'ER_DUP_ENTRY') {
-                return res.status(409).json({
-                    error: "Ya existe una visita con estos datos."
-                });
-            }
-
-            res.status(500).json({
-                error: "Error al guardar la visita domiciliaria en la base de datos.",
-                details: err.message
-            });
-        });
 });
+
+
 // obtener los resultados de tablas y concantenarlos las tablas visitas y la tabla paciente 
 app.get("/api/visita-domiciliaria/:id_paciente", (req, res) => {
     const id_paciente = parseInt(req.params.id_paciente);
 
     // Validación de ID
-    if (isNaN(id_paciente)) {
+    if (!id_paciente) {
         return res.status(400).json({
-            error: "ID de paciente inválido. Debe ser un número."
+            error: "ID de paciente inválido"
         });
     }
 

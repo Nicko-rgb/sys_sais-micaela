@@ -1,137 +1,172 @@
-html, body {
-  height: 100%;
+/* Estilo general del cuerpo */
+.bodyContent {
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  overflow: auto;
+  display: flex;
+  position: relative;
 }
 
-.contPrincipal {
-  width: 100%;
-  min-height: 100vh;
-  margin-top: 40px;
-  padding: 10px;
-  overflow-y: auto;
-  padding-bottom: 25px;
+/* Contenido principal */
+.bodyContent .contenidoPrincipal {
+  flex: 1;
+  padding: 20px;
+  margin-right: 220px; /* Deja espacio para el menú lateral */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  overflow: hidden; /* Elimina barras innecesarias */
 }
 
-.btn .volver_link {
-  position: absolute;
-  top: 30px;
-  left: 80px;
-  cursor: pointer;
-  color: green;
+/* Botón de volver */
+.bodyContent .btn {
+  align-self: flex-start;
+  margin-top: 35px; /* Espacio para que no esté tapado por NavLogin */
+  margin-left: 50px;
+}
+
+.bodyContent .volver_link {
   display: flex;
   align-items: center;
-  gap: 5px;
-  font-family: 'Poppins', sans-serif;
-  font-size: 15px;
+  justify-content: center;
+  /* background-color: #4caf50; Color verde inicial */
+  color: #4caf50;
+  /* text-decoration: none; */
+  padding: 5px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
-.volver_link:hover {
-  background: rgb(209, 209, 209);
+.bodyContent .volver_link:hover {
+  background-color: #388e3c; /* Verde más oscuro al pasar el cursor */
+  transform: translateY(-2px); /* Efecto de elevación */
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+  color: wheat;
 }
 
-.contPrincipal .titulo {
-  font-size: 25px;
-  margin: 10px 0 2px 400px;
-  width: 40%;
-  padding: 1px;
-  /* font-weight: bold; */
+.bodyContent .volver_link svg {
+  margin-right: 5px; /* Espacio entre el ícono y el texto */
 }
 
-.container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px 0;
-  justify-items: center;
-  padding: 5px 10px 60px;
-  padding-bottom: 20px;
-  width: 1100px;
+.bodyContent .titulo {
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
 
-.card {
-  border: 1px solid #ccc;
-  border-radius: 2px;
-  padding: 12px;
-  background-color: #f9f9f9;
-  width: 350px;
+/* Contenedor de tarjetas */
+.bodyContent .container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
 }
 
-.contPrincipal .header {
+/* Tarjetas */
+.bodyContent .card {
+  background-color: #fff;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  overflow: hidden;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  transition: transform 0.3s ease;
+  margin-bottom: 25px;
+}
+
+.bodyContent .card:hover {
+  transform: translateY(-5px);
+}
+
+/* Cabecera de las tarjetas */
+.bodyContent .header {
   display: flex;
   justify-content: space-between;
-  background-color: #f1c40f;
-  padding: 1px 5px;
-  border-radius: 5px 5px 0 0;
-}
-
-.contPrincipal .header span{
-  font-size: 15px;
+  align-items: center;
+  font-size: 13px;
   font-weight: bold;
-  bottom: 0;
+  color: #555;
 }
 
-/* .bodyx{
-  border: rgb(4, 23, 4) solid 2px;
-} */
+.bodyContent .closeButton {
+  background-color: transparent;
+  border: none;
+  color: #f44336;
+  font-size: 14px;
+  cursor: pointer;
+}
 
-.contFecha{
+.bodyContent .closeButton:hover {
+  color: #d32f2f;
+}
+
+/* Cuerpo de las tarjetas */
+.bodyContent .bodyx {
   display: flex;
-  /* border: blue solid 2px; */
-  margin-top: 5px;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.contFecha label{
+.bodyContent .contFecha {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.bodyContent .inputDate {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.bodyContent .inputs {
+  display: flex;
+  flex-direction: row; /* Los inputs estarán en la misma fila */
+  gap: 10px; /* Espacio entre los inputs */
+  align-items: center; /* Alineación vertical de los inputs */
+  width: 100%; /* Asegura que ocupe el 100% del contenedor disponible */
+}
+
+.bodyContent .inputs label{
   /* border: red solid 2px; */
-  width: 20%;
+  width: auto;
 }
 
-.contFecha .inputDate{
-  width: 42%;
-  padding: 5px;
-  outline: none;
+.bodyContent .inputField {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1; /* Hace que los inputs crezcan y ocupen el mismo espacio disponible */
+  min-width: 50px; /* Evita que los inputs sean demasiado pequeños */
+  max-width: 50%; /* Evita que los inputs se desborden más allá del contenedor */
 }
 
-.inputs {
-  display: flex;
-  /* justify-content: space-evenly; */
-  gap: 10px;
-  width: 100%;
-  margin-top: 5px;
-  /* border: #27ae60 solid 2px; */
-}
 
-.inputs label {
-  width: 10%;
-  text-align: left;
-  /* border: red solid 1px; */
-}
 
-.inputs .inputField {
-  width: 20%;
-  font-size: 12px;
-  padding: 0;
-  margin-left: -5px;
-  gap: 10px;
-  outline: none;
-}
-
-.saveButton {
-  background-color: #27ae60;
+.bodyContent .saveButton {
+  padding: 10px;
+  background-color: #4caf50;
   color: white;
   border: none;
-  padding: 4px;
-  border-radius: 3px;
+  border-radius: 5px;
+  font-weight: bold;
   cursor: pointer;
-  margin-left: auto;
-  margin-top: -5px;
-  /* margin-bottom: 5px; */
+  transition: background-color 0.3s ease;
 }
 
-.closeButton {
-  background: none;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  color: #e74c3c;
+.bodyContent .saveButton:hover {
+  background-color: #388e3c;
 }

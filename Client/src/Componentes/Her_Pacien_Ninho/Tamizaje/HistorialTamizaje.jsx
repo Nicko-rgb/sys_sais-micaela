@@ -1,20 +1,26 @@
 import React from 'react'
 import styles from './HistorialTamizaje.module.css';
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { RiPlayReverseLargeFill } from "react-icons/ri";
 import { MdOutlineManageHistory } from "react-icons/md";
 import NavLogin from '../../Navegadores/NavLogin'
 import NavPie from '../../Navegadores/NavPie';
+import TamizajeDozaje from './TamizajeDozaje';
 
-
-const HistorialTamizaje = () => {
-    const navigate = useNavigate();
-    const location = useLocation()
-    const { paciente } = location.state || {};
+const HistorialTamizaje = ({paciente, cambiarVista}) => {
 
     // Datos de ejemplo que puedes reemplazar con tus datos reales
     const registros = [
         {
+            id: 1,
+            fecSolicitud: '11-09-2  024',
+            tamizaje: 'Dosaje de Hemoglobina',
+            fecResultado: '11-09-2024',
+            resultado: '0',
+            fecAtencion: '11-09-2024',
+            edad: '2a 04m 06d'
+        }, {
+            id: 2,
             fecSolicitud: '11-09-2024',
             tamizaje: 'Dosaje de Hemoglobina',
             fecResultado: '11-09-2024',
@@ -24,13 +30,9 @@ const HistorialTamizaje = () => {
         }
     ];
 
-    const NuevoTamizaje = () => {
-        navigate(`/tamizaje/${paciente.hist_clinico}`, { state: { paciente } });
-    }
-
     return (
         <div>
-            <NavLogin /> 
+            <NavLogin />
             <div className={styles.contGeneral}>
 
                 {paciente ? (
@@ -45,7 +47,7 @@ const HistorialTamizaje = () => {
                         <div className={styles.container}>
                             <div className={styles.titHist}>
                                 <h3>{paciente.hist_clinico} - {paciente.nombres} {paciente.ape_paterno} {paciente.ape_materno}</h3>
-                                <button onClick={NuevoTamizaje}><MdOutlineManageHistory />Nuevo Tamizaje</button>
+                                <button onClick={()=>cambiarVista(<TamizajeDozaje cambiarVista={cambiarVista} paciente={paciente} />)}><MdOutlineManageHistory />Nuevo Tamizaje</button>
                             </div>
 
                             <div className={styles.table_responsive}>
@@ -92,7 +94,7 @@ const HistorialTamizaje = () => {
                 )}
 
             </div>
-            <NavPie/>
+            <NavPie />
         </div>
     )
 }

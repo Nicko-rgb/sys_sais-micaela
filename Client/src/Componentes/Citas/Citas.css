@@ -1,0 +1,461 @@
+.cita-nino {
+    position: relative;
+    padding-bottom: 200px;
+    height: auto;
+    overflow-y: auto;
+    padding-top: 50px;
+}
+.cita-nino main {
+    margin-top: 60px;
+}
+.cita-nino h4{
+    position: fixed;
+    width: 100%;
+    background-color: white;
+    padding-top: 15px;
+    /* text-align: center; */
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    top: 35px;
+    z-index: 2;
+}
+
+.cita-nino .react-calendar {
+    width: 340px;
+    margin-top: 90px;
+    margin-left: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+.cita-nino .md-calendar {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.202);
+    z-index: 100;
+    display: flex;
+}
+.cita-nino .md-cale {
+    position: relative;
+    margin: auto;
+    padding: 10px;
+}
+.cita-nino .custom-calendar {
+    padding: 10px;
+    background-color: white; /* Color de fondo del calendario */
+    border: #07c5afb3 solid; /* Borde del calendario */
+    border-radius: 5px; /* Bordes redondeados */
+    animation: fadeIn .5s ease;
+    margin: 0;
+    margin-bottom: 100px;
+}
+.react-calendar__navigation{
+    display: flex;
+    align-items: center;
+}
+.react-calendar__navigation__arrow {
+    background-color: #1d8175;
+    border: none;
+    margin: 2px;
+    font-size: 20px;
+    font-weight: bold;
+    width: 30px;
+    cursor: pointer;
+    transition: .3s ease;
+}
+.react-calendar__navigation__arrow:hover{
+    transform: scale(1.02);
+}
+.react-calendar__navigation__label {
+    background-color: #1d8175;
+    border: none;
+    font-size: 15px;
+    margin: auto;
+    font-family: 'Roboto', sans-serif;
+}
+/* Estilo para los días del mes */
+.react-calendar__tile {
+    border: none;
+    background-color: #07c5af1a;
+    box-shadow: #07c5af 0 0 1px, 0 0 1px #07c5af;
+    padding: 7px;
+    text-align: center;
+    border-radius: 50%;
+    width: 20px;
+    max-width: 41px;
+    height: 40px;
+    transition: .3s ease;
+}
+.react-calendar__month-view__weekdays {
+    font-size: 13px;
+    display: flex;
+    flex-direction: row;
+    padding-left: 15px;
+}
+.react-calendar__month-view__weekdays__day {
+    border: red solid 1px;
+    color: red;
+}
+
+.react-calendar .react-calendar__month-view__days {
+    display: flex;
+    gap: 4px;
+}
+/* Estilo para los días de domingo */
+.react-calendar__tile--sunday {
+    background-color: #eb6e8325; /* Color de fondo específico para domingos */
+    color: #d9534f; /* Color del texto para domingos */
+}
+
+/* Estilo al pasar el mouse sobre un día */
+.react-calendar__tile:hover {
+    background-color: #07c5af8e; /* Color de fondo al pasar el mouse */
+    cursor: pointer;
+    transform: scale(1.02);
+}
+
+/* Estilo para el día seleccionado */
+.react-calendar__tile--active {
+    background-color: #07c5af; /* Color de fondo para el día activo */
+    color: white; /* Color del texto para el día activo */
+    font-weight: bold;
+}
+
+/* Estilo para el día actual */
+.react-calendar__tile--now {
+    background-color: #007bff;
+    box-shadow: 0 0 5px #07c5af, 0 0 5px #07c5af, 0 0 5px #07c5af;
+    color: white;
+    font-weight: bold;
+}
+.react-calendar__tile--now:hover {
+    background-color: #07c5af;
+    color: black;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth{
+    background-color: #adadad85;
+}
+.cita-nino main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+.cita-nino main hr{
+    width: 80%;
+}
+.cita-nino .container-tb{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+}
+.cita-nino .volver_link {
+    top: -30px;
+}
+.cita-nino .container-tb .header-tab {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+.cita-nino .header-tab .bt {
+    background-color: rgb(25, 216, 101);
+    color: white;
+    font-weight: 600;
+    height: 30px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+}
+.cita-nino .header-tab button .icod {
+    font-size: 16px;
+}
+.cita-nino .container-tb .header-tab p{
+    text-transform: uppercase;
+}
+
+.cita-nino table {
+    border-collapse: collapse;
+}
+.cita-nino table th, td {
+    border: rgb(119, 119, 119) solid 1px;
+}
+.cita-nino table th{
+    font-size: 13px;
+    padding: 4px 6px;
+    font-weight: 540;
+    background-color: rgb(49, 162, 124);
+}
+.cita-nino table td {
+    margin: 0;
+    font-size: 12px;
+    font-family: 'Roboto', sans-serif;
+
+}
+.cita-nino table tbody .receso{
+    background-color: #a0d6cd62;
+}
+.cita-nino table tbody .receso:hover {
+    background-color: #a0d6cd62;
+}
+.cita-nino table  tbody .atencion-especial {
+    background-color: #e4ffa6c4;
+}
+.cita-nino table  tbody .atencion-especial:hover {
+    background-color: #bedf70e3;
+}
+.cita-nino table tbody tr:hover{
+    background-color: #a8e6cfae;
+}
+
+.cita-nino table tbody .bloqueada {
+    background-color: #dc354641;
+    color: #721c24; /* Texto oscuro */
+    cursor: no-drop;
+}
+.cita-nino table tbody .bloqueada:hover{
+    background-color: #dc354641;
+}
+/* .cita-nino table tbody .bloqueada td {
+    border: none;
+} */
+
+.cita-nino table .box-ac{
+    width: 100px;
+    background-color: white;
+    cursor: default;
+}
+
+.cita-nino table .accion{
+    position: relative;
+    display: flex;
+    gap: 5px;
+    padding: 0 4px;
+}
+.cita-nino table .ico-edit{
+    color: black;
+    background-color: #07c5af95;
+    width: 100%;
+}
+.cita-nino table .ico-edit:hover{
+    background-color: #30d2ffe9;
+    box-shadow: 0 0 5px #30d2ffe9;
+}
+.cita-nino table .ico {
+    margin: auto;
+    border-radius: 3px;
+    min-width: 40px;
+    height: 24px;
+    transition: .3s ease;
+    padding: 3px;
+    cursor: pointer;
+    width: 100%;
+}
+.cita-nino table .ico-mas {
+    color: green;
+    background-color: rgba(0, 128, 0, 0.206);
+}
+.cita-nino table .ico-bloq, .ico-delete {
+    color: #dc3545;
+    background-color: #dc354641;
+}
+.cita-nino table .ico-abi {
+    color: rgb(63, 138, 243);
+    background-color: rgba(63, 138, 243, 0.331);
+    width: 100%;
+}
+.cita-nino table .ico-mas:hover{
+    background-color: green;
+    color: white;
+    box-shadow: 0 0 5px green, 0 0 5px green;
+}
+.cita-nino table .ico-bloq:hover, .ico-delete:hover {
+    background-color: #dc3545;
+    color: white;
+    box-shadow: 0 0 5px #dc3545, 0 0 5px #dc3545;
+}
+.cita-nino table .ico-abi:hover {
+    background-color: rgb(63, 138, 243);
+    color: white;
+    box-shadow: 0 0 5px rgb(63, 138, 243), 0 0 5px rgb(63, 138, 243) ;
+}
+
+
+
+/* STYLO PARA MODAL DE BORRADO DE CITA */
+.borrar-cita {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 600;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.611);
+    padding: 30px 10px;
+    padding-bottom: 100px;
+    overflow-y: auto;
+}
+.borrar-cita .contend {
+    max-width: 500px;
+    width: 100%;
+    border-radius: 6px;
+    padding: 25px;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    box-shadow: 0 0 7px  #dc3545;
+    background-color: white;
+    animation: fadeIn .5s ease;
+    background-color: rgb(255, 255, 255);
+}
+.borrar-cita .contend h2 {
+    margin: 0;
+    margin-bottom: -20px;
+    text-shadow: 0 0 1px rgb(252, 74, 74);
+}
+.borrar-cita .contend span {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.borrar-cita .btns {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.borrar-cita .btns button {
+    width: 120px;
+    height: 40px;
+    border-radius: 6px;
+}
+.borrar-cita .btn-cancel {
+    background-color: #6c757d;
+    color: #FFFFFF;
+}
+.borrar-cita .btn-cancel:hover {
+    background-color: #455a64;
+}
+
+/* Estilos para el Modal de confirmación */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #333;
+}
+
+.modal-content p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-around;
+}
+
+.modal-actions button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-actions button:hover {
+    background-color: #0056b3;
+}
+
+.modal-actions button:focus {
+    outline: none;
+}
+
+.modal-actions button:last-child {
+    background-color: #dc3545;
+}
+
+.modal-actions button:last-child:hover {
+    background-color: #c82333;
+}
+
+/* Estilos generales para la tabla */
+.receso {
+    background-color: #f0f0f0;
+}
+
+.normal {
+    background-color: #ffffff;
+}
+
+.bloqueada {
+    background-color: #e7c7c7;
+}
+
+.accion {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.ico {
+    cursor: pointer;
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.ico:hover {
+    transform: scale(1.2);
+}
+
+.ico-edit {
+    color: #007bff;
+}
+
+.ico-delete {
+    color: #dc3545;
+}
+
+.ico-bloq {
+    color: #f39c12;
+}
+
+.ico-abi {
+    color: #28a745;
+}
+
+.ico- {
+    color: #6c757d;
+}

@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import style from "./HistorialPsicomotor.module.css";
 import NavLogin from "../../Navegadores/NavLogin";
 import NavPie from "../../Navegadores/NavPie";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { RiPlayReverseLargeFill } from "react-icons/ri"; // Importar el ícono correctamente
+import EvaluacionPsicomotor from './EvaluacionPsicomotor'
 
-const HistorialPsicomotor = () => {
-  const location = useLocation();
-  const { paciente } = location.state || {}; // Datos del paciente
-  const navigate = useNavigate();
+const HistorialPsicomotor = ({paciente, cambiarVista}) => {
   const [search, setSearch] = useState("");
 
   return (
@@ -37,12 +35,7 @@ const HistorialPsicomotor = () => {
                 <div className={style.dropdownmenu}>
                   <button
                     onClick={() =>
-                      navigate(
-                        `/EvaluacionPsicomotor/${paciente.hist_clinico}`,
-                        {
-                          state: { paciente },
-                        }
-                      )
+                      cambiarVista(<EvaluacionPsicomotor paciente={paciente} />)
                     }
                   >
                     + Nuevo Niño Psicomotor

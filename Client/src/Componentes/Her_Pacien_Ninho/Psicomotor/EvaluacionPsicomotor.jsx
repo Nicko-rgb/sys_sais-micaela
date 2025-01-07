@@ -2,13 +2,10 @@ import React, { useState } from "react";
 import style from "./EvaluacionPsicomotor.module.css";
 import NavLogin from "../../Navegadores/NavLogin";
 import NavPie from "../../Navegadores/NavPie";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { RiPlayReverseLargeFill } from "react-icons/ri"; 
 
-const FormularioPsicomotor = () => {
-  const location = useLocation();
-  const navigate = useNavigate(); 
-  const { paciente } = location.state || {}; 
+const FormularioPsicomotor = ({paciente}) => {
 
   const [fecha, setFecha] = useState(new Date().toISOString().slice(0, 10));
   const [observacion, setObservacion] = useState("");
@@ -23,6 +20,7 @@ const FormularioPsicomotor = () => {
       <div className={style.formulariocontainer}>
         {paciente ? (
           <>
+
             {/* Nueva estructura para alinear el título y el botón */}
             <div className={style.headerContainer}>
             <Link

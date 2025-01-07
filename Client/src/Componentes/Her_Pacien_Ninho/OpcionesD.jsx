@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
+<<<<<<< HEAD
 import { Link} from 'react-router-dom';
+=======
+import { Link } from 'react-router-dom';
+>>>>>>> main
 import './opciones.css';
 import { FaBars } from "react-icons/fa";
 import { LiaChartBarSolid } from "react-icons/lia";
@@ -55,12 +59,12 @@ const OpcionesD = ( {pacienteDatos, abrirLista} ) => {
                 <FaGears className={`icons ${activeIcon === 2 ? 'active' : ''}`} onClick={() => handleIconClick(2)} />
             </div>
             <div className={`opciones1 ${activeIcon === 0 ? 'show' : 'hide'}`}>
-                <Link to={`/panel${rutaIr}`}> <img src={volver} alt="" />INICIO</Link>
+                <Link to={`/servicios${rutaIr}`}> <img src={volver} alt="" />INICIO</Link>
                 {pacienteDatos && (
                     <Link to={`/list/${pacienteDatos.tipo_paciente}`} onClick={abrirLista}> <BsPersonLinesFill />{convertirATipoPlural(pacienteDatos.tipo_paciente).plural} REGISTRADOS</Link>
                 )}
                 <Link to="/panel-cita" ><MdDateRange />AGREGAR CITA</Link>
-                <p><MdOutlineLocationOn />SECTORES</p>
+                <Link ><MdOutlineLocationOn />SECTORES</Link>
             </div>
             <div className={`opciones2 ${activeIcon === 1 ? 'show' : 'hide'}`}>
                 <Link to="/panel"> <img src={volver} alt="" />INICIO</Link>

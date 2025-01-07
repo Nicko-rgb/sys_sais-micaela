@@ -1,0 +1,239 @@
+.reg-personal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.585);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 10px;
+    padding-bottom: 200px;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.reg-personal form {
+    animation: scaleIn 0.3s forwards;
+    position: relative;
+    padding: 20px 30px;
+    padding-bottom: 100px;
+    background-color: white;
+    box-shadow: 0 0 7px rgb(15, 157, 145);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-family: 'poppins';
+    max-width: 1200px;
+}
+
+.reg-personal form h3 {
+    margin: 0;
+    text-align: center;
+    font-size: 25px;
+    color: black;
+    padding-bottom: 20px;
+}
+
+.reg-personal .close-personal-form {
+    position: absolute;
+    top: 20px;
+    width: 33px;
+    padding: 5px;
+    right: 20px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-shadow: 0 0 1px;
+    border-radius: 50%;
+}
+
+.reg-personal .close-personal-form:hover {
+    transform: scale(1.05) rotate(180deg);
+}
+
+.reg-personal form .fc {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.reg-personal form .fd,
+.reg-personal form .fi {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.reg-personal form .fc .fd,
+.reg-personal form .fc .fi {
+    display: flex;
+    flex-direction: column;
+}
+
+.reg-personal form .fc .fd div,
+.reg-personal form .fc .fi div {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.reg-personal form div label {
+    width: 100%;
+    display: flex;
+    font-size: 16px;
+    flex-direction: column;
+    color: #4a4a4a;
+}
+
+.reg-personal form .combos {
+    width: 102%;
+}
+
+.reg-personal form input,
+.reg-personal form select {
+    font-family: 'poppins';
+    border-radius: 6px;
+    font-size: 16px;
+    padding: 8px;
+    text-transform: uppercase;
+    font-weight: bold;
+    border: rgba(14, 171, 145, 0.242) solid ;
+    outline: none;
+}
+
+.reg-personal form .activo {
+    border: rgb(15, 157, 145) solid;
+}
+.reg-personal form input:focus,
+.reg-personal form select:focus {
+    border: rgb(15, 157, 145) solid;
+}
+
+.reg-personal form input {
+    width: initial;
+    width: 100%;
+    font-weight: bold;
+    color: #413f3f;
+}
+
+.reg-personal .especialidad {
+    height: 60px;
+    margin-top: 10px;
+}
+
+.reg-personal .label-especialidad {
+    display: flex;
+    flex-direction: row;
+    font-size: 12px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.reg-personal .label-especialidad input {
+    width: auto;
+    padding: 0;
+    box-shadow: none;
+    height: 15px;
+    cursor: pointer;
+    width: 15px;
+}
+
+.reg-personal form .btns {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.reg-personal form .btns button {
+    padding: 9px 40px;
+    margin: auto;
+    margin-top: 10px;
+    font-family: 'poppins';
+    font-weight: bold;
+    border-radius: 5px;
+    color: white;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    width: 130px;
+}
+
+.reg-personal form .ico {
+    font-size: 22px;
+}
+
+.reg-personal form .flotar {
+    animation: flotar .5s;
+    transition: 4s ease;
+}
+
+@keyframes flotar {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+
+    100% {
+        transform: scaleY(0);
+    }
+}
+
+.reg-personal .box-msg {
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.reg-personal .msg-personal {
+    color: rgb(246, 58, 89);
+    font-size: 14px;
+    text-align: center;
+    margin: 0;
+}
+
+/* CREDENCIALES DE ACCESO */
+.reg-personal .credencialesAcceso {
+    margin-top: 20px;
+}
+
+.reg-personal .credencialesAcceso fieldset {
+    display: flex;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    /* Color negro más suave */
+    padding: 15px;
+    border-radius: 10px;
+    /* Aumento del radio de las esquinas */
+    gap: 18px;
+}
+
+.reg-personal .credencialesAcceso legend {
+    /* font-weight: bold; */
+    padding: 0 5px;
+    color: #000;
+}
+@media (max-width: 1100px) {
+    .reg-personal form .fc {
+        display: flex;
+        flex-direction: column;
+    }
+}

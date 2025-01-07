@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import style from './Entregasuplemento.module.css';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import NavLogin from "../../Navegadores/NavLogin";
 import NavPie from "../../Navegadores/NavPie";
 
 
-function Entregasuplemento() {
+function Entregasuplemento({paciente}) {
   const [fechaAtencion, setFechaAtencion] = useState('');
   const [entregas, setEntregas] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
   const [isRedirecting, setIsRedirecting] = useState(false);
 
-  const location = useLocation();
   const navigate = useNavigate();
-  const { paciente } = location.state || {};
 
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
@@ -53,10 +51,6 @@ function Entregasuplemento() {
 
   const handleModalClose = () => {
     setShowModal(false);
-    if (isRedirecting) {
-
-      navigate(`/Listasuplementos/${paciente.hist_clinico}`, { state: { paciente, entregas } });
-    }
   };
 
 

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import UrlsApp from '../UrlsApp';
 
 const Store = () => {
-
+    const {apiUrl} = UrlsApp()
     // Logica para obtener a los personales de salud
     const [personalSalud, setPersonalSalud] = useState([])
     const [profesionFiltro, setProfesionFiltro] = useState([])
@@ -12,7 +13,7 @@ const Store = () => {
     const fetchPersonalSalud = async () => {
         setCargando(true)
         try {
-            const response = await fetch('http://localhost:5000/api/obtener/personal-salud');
+            const response = await fetch(`${apiUrl}/api/obtener/personal-salud`);
             const data = await response.json();
             setPersonalSalud(data);
 
@@ -97,6 +98,31 @@ const Store = () => {
         }
     };
 
+
+    //Obtner especialidades de citas
+    const [especialidades, setEspecialidades] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/api/especialidad-unico-nino')
+            .then(response => {
+                setEspecialidades(response.data);
+            })
+            .catch(error => {
+                console.error("Error al obtener los horarios:", error);
+            });
+    }, []);
+
+    // obtener datos de sector asignado a personal
+    const [sectorPer, setSectorPer] = useState([]);
+    const fetchSectorPer = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/personal/obtner-sector-asignado')
+            setSectorPer(response.data);    
+        } catch (error) {
+            console.error('Error al obtener los datos del sector:', error);
+        }
+    }
+
     // Carga de datos 
     useEffect(() => {
         fetchPersonalSalud();
@@ -109,9 +135,11 @@ const Store = () => {
     }, []);
 
     useEffect(() => {
+        fetchSectorPer()
         fetchCitas();
         const intervalId = setInterval(() => {
             fetchCitas();
+            fetchSectorPer()
         }, 1000);
 
         return () => clearInterval(intervalId);
@@ -130,25 +158,41 @@ const Store = () => {
             case 'GDD':
                 return 'Guardia Devolución';
             case 'MVD':
-                return 'Mañana Variable';
+                return 'Mañana Visita Domiciliaria';
             case 'TVD':
-                return 'Tarde Variable';
+                return 'Tarde Visita Domiciliaria';
             case 'MVSF':
-                return 'Mañana Variable Sin Fines de Semana';
-            case 'TVSL':
-                return 'Tarde Variable Sin Lunes';
+                return 'Mañana Visita Salud Familiar';
+            case 'TVSF':
+                return 'Tarde Visita Salud Familiar';
             case 'L':
                 return 'Libre';
             default:
-                return 'Desconocido';
+                return 'Indefinido';
         };
     };
+    // Definición de colores para cada tipo de turno
+    const coloresTurno = {
+        'M': 'lightgreen',
+        'T': '#64B5F6',
+        'MT': '#81C784',
+        'GD': '#FFD54F',
+        'GDD': '#BA68C8',
+        'MVD': '#FFAB91',
+        'TVD': '#4DB6AC',
+        'MVSF': 'gray',
+        'TVSF': '#FFF176',
+        'L': '#A1887F'
+    };
+    
 
     return {
-        personalSalud, 
+        apiUrl,
+        personalSalud,
         profesionFiltro,
         condicionFiltro,
         tiposDeTurno,
+        coloresTurno,
         cargando,
         obtenerDescripcionTurno,
         blockedRows,
@@ -156,6 +200,8 @@ const Store = () => {
         turnosPersonal,
         profesiones,
         servicios,
+        especialidades,
+        sectorPer,
     }
 }
 

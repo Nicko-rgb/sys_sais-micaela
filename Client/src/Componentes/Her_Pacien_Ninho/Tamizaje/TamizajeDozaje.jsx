@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import styles from './TamizajeDozaje.module.css';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { RiPlayReverseLargeFill } from "react-icons/ri";
 import { MdOutlineManageHistory } from "react-icons/md";
 import NavLogin from '../../Navegadores/NavLogin';
 import NavPie from '../../Navegadores/NavPie';
+import HistorialTamizaje from './HistorialTamizaje';
 
  
-const TamizajeDozaje = () => {
+const TamizajeDozaje = ({paciente, cambiarVista}) => {
     const [fechaResultado1, setFechaResultado1] = useState('');
     const [resultado1, setResultado1] = useState('');
     const [fechaAtencion1, setFechaAtencion1] = useState('');
@@ -24,10 +25,6 @@ const TamizajeDozaje = () => {
     const [resultado4, setResultado4] = useState('');
     const [fechaAtencion4, setFechaAtencion4] = useState('');
 
-    const navigate = useNavigate();
-    const location = useLocation();
-    const { paciente } = location.state || {}; // Evita errores si no hay datos
-
     const handleGuardar = () => {
         alert('Datos guardados');
     };
@@ -36,9 +33,6 @@ const TamizajeDozaje = () => {
         alert('Solicitud realizada');
     };
 
-    const HistorialTamizaje = () => {
-        navigate(`/historialtamizaje/${paciente.hist_clinico}`, { state: { paciente } })
-    }
 
     return ( 
         <div>
@@ -53,7 +47,7 @@ const TamizajeDozaje = () => {
                         </div>
                         <div className={styles.titHist}>
                             <h3>control ({paciente.hist_clinico}) - {paciente.ape_paterno} {paciente.ape_materno}, {paciente.nombres} </h3>
-                            <button onClick={HistorialTamizaje}><MdOutlineManageHistory /> Ver Historial</button>
+                            <button onClick={() =>cambiarVista(<HistorialTamizaje cambiarVista={cambiarVista} paciente={paciente}/>)}><MdOutlineManageHistory /> Ver Historial</button>
                         </div>
                         <div className={styles.contCartas}>
                             {/* Dozaje de Hemoglobina */}

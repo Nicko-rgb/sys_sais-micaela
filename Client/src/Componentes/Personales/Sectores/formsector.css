@@ -1,0 +1,238 @@
+/* STYLO DE FORMULARIO */
+.form-sector {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transform-origin: center;
+    position: relative;
+    animation: fadeIn 0.5s ease;
+}
+
+.form-sector h3 {
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 620;
+    margin: 0;
+}
+
+.form-sector .datos-sector {
+    display: flex;
+}
+
+.form-sector .datos-sector p {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: var(---3color) solid 1px;
+    font-size: 13px;
+    font-weight: 600;
+    padding-top: 2px;
+    text-transform: uppercase;
+    line-height: 1.2;
+    text-align: center;
+    color: var(---3color);
+}
+
+.form-sector .datos-sector span {
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: none;
+    color: black;
+}
+
+.form-sector h5 {
+    text-transform: uppercase;
+    font-size: 15px;
+    text-align: center;
+    margin: 5px 0;
+}
+.form-sector .person-table{
+    border-collapse: collapse;
+    margin-top: -10px;
+}
+.form-sector .person-table th{
+    background-color: white;
+    color: var(---3color);
+    font-size: 14px;
+    font-weight: 450;
+    text-align: left;
+    padding: 1px 4px;
+}
+.form-sector .person-table tbody tr {
+    border: none;
+    border-top: var(---3color) solid 1px;
+}
+.form-sector .person-table tbody tr:hover {
+    background-color: rgba(15, 118, 96, 0.124);
+}
+.form-sector .person-table td {
+    border: none;
+    white-space: nowrap;
+    font-size: 13px;
+    text-transform: uppercase;
+    padding: 1px 4px;
+    cursor: default;
+    font-weight: 500;
+}
+.form-sector .person-table .accion svg {
+    color: red;
+    font-size: 20px;
+    display: block;
+    margin: auto;
+    cursor: pointer;
+}
+
+.form-sector .no-p {
+    display: flex;
+    align-items: center;
+    color: rgb(255, 134, 90);
+    font-size: 14px;
+    white-space: nowrap;
+    gap: 5px;
+    text-transform: none;
+}
+
+.form-sector .btn-new {
+    background-color: var(---3color);
+    color: white;
+    height: 25px;
+    display: flex;
+    align-items: center;
+}
+
+.form-sector form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+}
+
+.form-sector form label {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.form-sector form input {
+    padding: 7px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 6px;
+    border: rgba(14, 171, 145, 0.266) solid;
+    outline: none;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.form-sector form input:focus {
+    border: rgba(14, 171, 145, 0.812) solid;
+}
+
+.form-sector form .loading {
+    position: absolute;
+    color: dodgerblue;
+    width: 100%;
+    text-align: center;
+    top: 80px;
+    font-size: 14px;
+}
+
+.form-sector form .result {
+    border-radius: 10px;
+    padding: 7px;
+}
+
+.form-sector form .result p {
+    color: rgb(101, 100, 100);
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    font-size: 14px;
+    justify-content: space-between;
+    border-top: #b0b0b0 1px solid;
+}
+
+.form-sector form .result span {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 15px;
+    color: black;
+}
+
+.form-sector form .b-msg {
+    position: relative;
+}
+
+.form-sector .borrar .b-msg {
+    position: relative;
+    height: 25px;
+}
+
+.form-sector form .msg {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    position: absolute;
+    top: 0;
+}
+
+.form-sector .msg-success {
+    color: dodgerblue;
+}
+
+.form-sector .msg-error {
+    color: red;
+}
+
+.form-sector form .btns {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    justify-content: space-around;
+}
+
+.form-sector form .btns button {
+    width: 130px;
+    height: 37px;
+}
+
+.form-sector .borrar {
+    position: absolute;
+    border: red solid 1px;
+    width: 100%;
+    top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: azure;
+    padding: 10px;
+    gap: 5px;
+    animation: fadeIn .5s ease-in-out;
+    transform-origin: right;
+}
+
+.form-sector .borrar p {
+    text-align: center;
+}
+
+.form-sector .borrar span {
+    font-weight: 600;
+    text-transform: uppercase;
+    text-decoration: underline;
+}
+
+.form-sector .borrar .btns {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.form-sector .borrar button {
+    width: 120px;
+    height: 35px;
+}

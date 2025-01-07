@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaUserPlus, FaChartBar } from "react-icons/fa";
 import { MdManageAccounts, MdHistory, MdNotifications } from "react-icons/md";
@@ -8,9 +8,18 @@ import { BsListTask, BsCalendarCheck, BsClipboardData } from "react-icons/bs";
 import { AiOutlineForm, AiOutlineSetting } from "react-icons/ai";
 import { IoStatsChartOutline, IoSettingsSharp } from "react-icons/io5";
 import { AiOutlineDashboard } from 'react-icons/ai';
-import "./sidebar.css";
+import { FaTimes} from "react-icons/fa";
 
-const Sidebar = ({ tipoUser }) => {
+import './nav.css'
+
+const Sidebar = ({ tipoUser, toggleSidebar, sidebarOpen }) => {
+
+  const [clic, setClic] = useState(false)
+
+  const click = () => {
+    setClic(!clic)
+  }
+
   const renderMenuItems = () => {
     switch (tipoUser) {
       case 'Admin':
@@ -47,13 +56,12 @@ const Sidebar = ({ tipoUser }) => {
             <li><Link to="/personal/configuracion"><IoSettingsSharp /> Configuración Personal</Link></li>
           </>
         );
-      default:
-        return <li>No hay opciones disponibles</li>;
     }
   };
   return (
-    <div className="sidebar-content">
+    <div className={`sidebar ${sidebarOpen? 'active' : ''} `} >
       <h3>{tipoUser}</h3>
+      <FaTimes className="close-icon" onClick={toggleSidebar} />
       <nav>
         <ul>
           {renderMenuItems()}

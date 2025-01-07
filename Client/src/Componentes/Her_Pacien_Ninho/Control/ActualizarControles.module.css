@@ -1,0 +1,145 @@
+/* Estilos para el contenedor principal de la tabla */
+.tablaContainer {
+    padding-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Estilos del contenedor de la tabla */
+  .tableWrapper {
+    width: 70%;
+    max-width: 50%;
+    padding: 10px;
+    border: rgb(230, 228, 228) solid 2px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+    background-color: #eaeaea;
+    text-align: center;
+  }
+  
+  /* Estilo para el título y los botones */
+  .titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 5px;
+  }
+  
+  /* Estilos de los botones a la derecha */
+  .botonesDerecha {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .botonesDerecha button {
+    padding: 8px 12px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .botonesDerecha button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Estilo para el menú desplegable */
+  .dropdown {
+    position: relative;
+  }
+  
+  .dropdownContent {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+  }
+  
+  .dropdownContent button {
+    background-color: white;
+    color: black;
+    padding: 8px 12px;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+  }
+  
+  .dropdownContent button:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Estilos para el modal */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modalContent {
+    background-color: white;
+    padding: 20px;
+    border-radius: 4px;
+    width: 300px;
+    position: relative;
+  }
+  
+  .modal .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+  }
+  
+  /* Estilo de la tabla */
+  .customTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  
+  /* Estilos para los encabezados de la tabla */
+  .customTable th {
+    padding: 8px;
+    border: 1px solid #ddd;
+    background-color: #f2f2f2;
+    text-align: left;
+  }
+  
+  /* Estilos para las celdas de la tabla */
+  .customTable td {
+    padding: 6px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  /* Estilo de los inputs dentro de las celdas */
+  .customTable input[type="text"] {
+    width: 65%;
+    padding: 4px;
+    outline: none;
+  }
+  
+  /* Estilo para las filas pares */
+  .evenRow {
+    background-color: #f9f9f9;
+  }
+  
+  /* Estilo para las filas impares */
+  .oddRow {
+    background-color: #fff;
+  }
+  

@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import "./estilosGeneralControl.css";
+import styles from "./VisitaDomiciliaria.module.css"
 import ModalExito from "../ModalExito/ModalExito";
+import NavLogin from '../../Navegadores/NavLogin'
+import NavPie from '../../Navegadores/NavPie'
+import UrlsApp from '../../UrlsApp'
 
-const VisitaDomiciliaria = () => {
-    const { id } = useParams();
+const VisitaDomiciliaria = ({paciente}) => {
+    const id = paciente.id_paciente
     const [formData, setFormData] = useState({
         tipo: "",
         numero_visita: "",
         fecha_atencion: "",
         opcional: "",
         observaciones: "",
+        id_paciente: '',
     });
-    const [showModal, setShowModal] = useState(false); // Estado para mostrar el modal
+    const [showModal, setShowModal] = useState(false);
+    const {apiUrl} = UrlsApp()
 
     // Función para obtener el próximo número de visita
     const fetchNumeroVisita = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/visita-domiciliaria/numero-visita/${id}`);
+            const response = await fetch(`${apiUrl}/api/visita-domiciliaria/numero-visita/${id}`);
             
             if (!response.ok) {
                 throw new Error("Error al obtener el número de visita");
@@ -45,6 +49,7 @@ const VisitaDomiciliaria = () => {
         fetchNumeroVisita();
     }, [id]);
 
+
     const handleChange = (e) => {
         const { name, value } = e.target;
 
@@ -54,22 +59,13 @@ const VisitaDomiciliaria = () => {
         }
     };
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validaciones básicas
-        if (!formData.tipo) {
-            alert("Debe seleccionar el tipo de visita");
-            return;
-        }
-        if (!formData.fecha_atencion) {
-            alert("Debe seleccionar una fecha de atención");
-            return;
-        }
-
         const dataToSave = {
             ...formData,
-            id_paciente: Number(id),
+            id_paciente: id,
         };
 
         try {
@@ -108,102 +104,119 @@ const VisitaDomiciliaria = () => {
         }
     };
 
+
     return (
-        <div className="visitadomiciliaria-container">
-            <div className="visitadomiciliaria-formulario">
-                <form onSubmit={handleSubmit}>
-                    <h2 className="visitadomiciliaria-titulo">Visita Domiciliaria - Registrar</h2>
+            <div className={styles.visitadomiciliariaFormulario}>
+                <NavLogin />
+                {paciente ? (
+                    <>
 
-                    {/* Modal */}
-                    {showModal && (
-                        <ModalExito
-                            mensaje="¡Visita registrada con éxito!"
-                            onClose={() => setShowModal(false)}
-                        />
-                    )}
+                        <form className={styles.formm} onSubmit={handleSubmit}>
+                            <h2 className={styles.visitadomiciliariaTitulo}>Visita Domiciliaria - Registrar</h2>
 
-                    <div className="visitadomiciliaria-efectividad">
-                        <label className="visitadomiciliaria-radio-box">
-                            <input
-                                type="radio"
-                                name="tipo"
-                                value="Efectiva"
-                                checked={formData.tipo === "Efectiva"}
-                                onChange={handleChange}
-                            />
-                            <span>Efectiva</span>
-                        </label>
-                        <label className="visitadomiciliaria-radio-box">
-                            <input
-                                type="radio"
-                                name="tipo"
-                                value="No Efectiva"
-                                checked={formData.tipo === "No Efectiva"}
-                                onChange={handleChange}
-                            />
-                            <span>No Efectiva</span>
-                        </label>
-                    </div>
+                            {/* Modal */}
+                            {showModal && (
+                                <ModalExito
+                                    mensaje="¡Visita registrada con éxito!"
+                                    onClose={() => setShowModal(false)}
+                                />
+                            )}
 
-                    <div>
-                        <label className="visitadomiciliaria-label"># Visita:</label>
-                        <input
-                            type="number"
-                            name="numero_visita"
-                            className="visitadomiciliaria-input"
-                            value={formData.numero_visita}
-                            readOnly
-                            disabled
-                        />
-                    </div>
+                            <div className={styles.visitadomiciliariaEfectividad}>
+                                <label className={styles.visitadomiciliariaRadioBox}>
+                                    <input
+                                        type="radio"
+                                        id="efectiva"
+                                        name="tipo"
+                                        value="Efectiva"
+                                        checked={formData.tipo === "Efectiva"}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <span>Efectiva</span>
+                                </label>
 
-                    <div>
-                        <label className="visitadomiciliaria-label">Fecha Atención:</label>
-                        <input
-                            type="date"
-                            name="fecha_atencion"
-                            className="visitadomiciliaria-input"
-                            value={formData.fecha_atencion}
-                            onChange={handleChange}
-                        />
-                    </div>
+                                <label className={styles.visitadomiciliariaRadioBox}>
+                                    <input
+                                        type="radio"
+                                        id="noEfectiva"
+                                        name="tipo"
+                                        value="No Efectiva"
+                                        checked={formData.tipo === "No Efectiva"}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <span>No Efectiva</span>
+                                </label>
+                            </div>
 
-                    <div>
-                        <label className="visitadomiciliaria-label">Opcional:</label>
-                        <select
-                            name="opcional"
-                            className="visitadomiciliaria-select"
-                            value={formData.opcional}
-                            onChange={handleChange}
-                        >
-                            <option value="Sin Motivo Opcional">Sin Motivo Opcional</option>
-                            <option value="Supervision CRED">Supervisión CRED</option>
-                            <option value="Supervision Suplementacion">Supervisión Suplementación</option>
-                            <option value="Visita por Anemia">Visita por Anemia</option>
-                        </select>
-                    </div>
+                            <div className={styles.visitadomiciliariaFila}>
+                                <div>
+                                    <label className={styles.visitadomiciliariaLabel}># Visita:</label>
+                                    <input
+                                        type="text"
+                                        name="numero_visita"
+                                        className={styles.visitadomiciliariaInput}
+                                        value={formData.numero_visita}
+                                        onChange={handleChange}
+                                        disabled
+                                    />
+                                </div>
 
-                    <div>
-                        <label className="visitadomiciliaria-label">Observaciones:</label>
-                        <textarea
-                            name="observaciones"
-                            className="visitadomiciliaria-textarea"
-                            value={formData.observaciones}
-                            onChange={handleChange}
-                        />
-                    </div>
+                                <div>
+                                    <label className={styles.visitadomiciliariaLabel}>Fecha Atención:</label>
+                                    <input
+                                        type="date"
+                                        name="fecha_atencion"
+                                        className={styles.visitadomiciliariaInput}
+                                        value={formData.fecha_atencion}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                            </div>
 
-                    <div className="visitadomiciliaria-botones">
-                        <button type="submit" className="visitadomiciliaria-guardar">
-                            Guardar
-                        </button>
-                        <button type="button" className="visitadomiciliaria-cancelar">
-                            Cancelar
-                        </button>
-                    </div>
-                </form>
+                            <div>
+                                <label className={styles.visitadomiciliariaLabel}>Opcional:</label>
+                                <select
+                                    name="opcional"
+                                    className={styles.visitadomiciliariaSelect}
+                                    value={formData.opcional}
+                                    onChange={handleChange}
+                                >
+                                    <option value="Sin Motivo Opcional">Sin Motivo Opcional</option>
+                                    <option value="Supervision CRED">Supervisión CRED</option>
+                                    <option value="Supervision Suplementacion">Supervisión Suplementación</option>
+                                    <option value="Visita por Anemia">Visita por Anemia</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label className={styles.visitadomiciliariaLabel}>Observaciones:</label>
+                                <textarea
+                                    name="observaciones"
+                                    className={styles.visitadomiciliariaTextarea}
+                                    value={formData.observaciones}
+                                    onChange={handleChange}
+                                />
+                            </div>
+
+                            <div className={styles.visitadomiciliariaBotones}>
+                                <button type="button" className={styles.visitadomiciliariaCancelar}>
+                                    Cancelar
+                                </button>
+                                <button type="submit" className={styles.visitadomiciliariaGuardar}>
+                                    Guardar
+                                </button>
+                            </div>
+                        </form>
+                    </>
+                ) : (
+                    <p>No hay datos...</p>
+                )}
+
+            <NavPie />
             </div>
-        </div>
     );
 };
 

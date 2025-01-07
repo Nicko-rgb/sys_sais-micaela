@@ -1,0 +1,11 @@
+.familias {
+    border-left: var(---3color) solid;
+    padding-left: 10px;
+    margin-top: 20px;
+}
+.familias h5{
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+}

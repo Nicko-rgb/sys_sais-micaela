@@ -94,7 +94,7 @@ const Buscar = () => {
 
     return (
         <div className="buscar">
-            <h3>ADMISION - SAIS</h3>
+            <h3 className='h3'>ADMISION - SAIS</h3>
             <div className="box_buscar">
                 <input
                     type="text"

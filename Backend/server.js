@@ -83,26 +83,36 @@ app.get('/api/paciente/historia-clinica', async (req, res) => {
         const [rows] = await pool.query('SELECT hist_clinico FROM pacientes');
         const historiasExistentes = new Set(rows.map((row) => parseInt(row.hist_clinico, 10)));
 
-        // Si se proporciona una historia, verificar si existe
+        const generarHistoriasRecomendadas = () => {
+            const historiasRecomendadas = [];
+            let numero = 1;
+            while (historiasRecomendadas.length < 5) {
+                if (!historiasExistentes.has(numero)) {
+                    historiasRecomendadas.push(numero.toString().padStart(5, '0'));
+                }
+                numero++;
+            }
+            return historiasRecomendadas;
+        };
+
+        // Si se proporciona una historia
         if (historia) {
-            if (historia === '00000') {
-                return res.status(400).json({ message: 'Historia clínica inválida' });
+            const historiaNumerica = parseInt(historia, 10);
+            if (/^0+$/.test(historia) || isNaN(historiaNumerica)) {
+                // Generar historias recomendadas si la historia es inválida (como ceros)
+                const historiasRecomendadas = generarHistoriasRecomendadas();
+                return res.status(200).json({ existe: false, historiasRecomendadas });
             }
 
-            const existe = historiasExistentes.has(parseInt(historia, 10));
+            const existe = historiasExistentes.has(historiaNumerica);
             if (existe) {
-                // Generar las 5 historias más pequeñas en desuso
-                const historiasRecomendadas = [];
-                let numero = 1;
-                while (historiasRecomendadas.length < 5) {
-                    if (!historiasExistentes.has(numero)) {
-                        historiasRecomendadas.push(numero.toString().padStart(5, '0'));
-                    }
-                    numero++;
-                }
+                // Generar historias recomendadas si la historia existe
+                const historiasRecomendadas = generarHistoriasRecomendadas();
                 return res.status(200).json({ existe: true, historiasRecomendadas });
             }
-            return res.status(200).json({ existe: false });
+
+            // Si la historia no existe
+            return res.status(200).json({ existe: false, historiasRecomendadas: generarHistoriasRecomendadas() });
         }
 
         // Si no se proporciona una historia, devolver la historia por defecto y recomendaciones
@@ -111,15 +121,7 @@ app.get('/api/paciente/historia-clinica', async (req, res) => {
             historiaPorDefecto++;
         }
         const historiaPorDefectoPadded = historiaPorDefecto.toString().padStart(5, '0');
-
-        const historiasDisponibles = [];
-        let numero = 1;
-        while (historiasDisponibles.length < 5) {
-            if (!historiasExistentes.has(numero)) {
-                historiasDisponibles.push(numero.toString().padStart(5, '0'));
-            }
-            numero++;
-        }
+        const historiasDisponibles = generarHistoriasRecomendadas();
 
         return res.status(200).json({
             historiaPorDefecto: historiaPorDefectoPadded,
@@ -133,6 +135,7 @@ app.get('/api/paciente/historia-clinica', async (req, res) => {
 
 
 
+
 // Endpoint para registrar pacientes
 app.post('/api/registrar/pacientes', async (req, res) => {
     const pacienteData = req.body;
@@ -142,18 +145,6 @@ app.post('/api/registrar/pacientes', async (req, res) => {
         await connection.beginTransaction(); // Iniciar transacción
 
         let idResponsable = null;
-
-        // Verificar si el DNI del responsable ya existe
-        if (pacienteData.responsable) {
-            const [existingResponsable] = await connection.execute(
-                `SELECT id_responsable FROM responsable_de_paciente WHERE dni_res = ?`,
-                [pacienteData.responsable.dniRes]
-            );
-
-            if (existingResponsable.length > 0) {
-                return res.status(400).json({ message: "El DNI del responsable ya existe." });
-            }
-        }
 
         // Verificar si el DNI del paciente ya existe
         const [existingPaciente] = await connection.execute(
@@ -304,13 +295,10 @@ app.put("/api/actualizar/paciente/:id_paciente", async (req, res) => {
     const { id_paciente } = req.params;
     const pacienteData = req.body;
 
-    console.log("Datos recibidos para paciente:", pacienteData); // Log de los datos recibidos
-
     const connection = await pool.getConnection();
     try {
         await connection.beginTransaction();
 
-        console.log("Actualizando datos del paciente...");
         // Actualizar datos del paciente
         const [updateResult] = await connection.execute(
             `UPDATE pacientes SET 
@@ -331,14 +319,13 @@ app.put("/api/actualizar/paciente/:id_paciente", async (req, res) => {
                 id_paciente,
             ]
         );
-        console.log("Resultado de la actualización del paciente:", updateResult);
 
         await connection.commit();
         console.log("Transacción completada con éxito");
         res.json({ message: "Datos del paciente actualizados correctamente" });
     } catch (error) {
         await connection.rollback();
-        console.error("Error detallado al actualizar los datos del paciente:", error);
+        console.error("Error al actualizar los datos del paciente:", error);
         res.status(500).json({
             message: "Error al actualizar los datos del paciente",
             error: error.message,
@@ -354,13 +341,9 @@ app.put("/api/actualizar/responsable/:id_responsable", async (req, res) => {
     const { id_responsable } = req.params;
     const responsableData = req.body;
 
-    console.log("Datos recibidos para responsable:", responsableData); // Log de los datos recibidos
-
     const connection = await pool.getConnection();
     try {
         await connection.beginTransaction();
-
-        console.log("Actualizando datos del responsable...");
         // Actualizar datos del responsable
         const [updateResResult] = await connection.execute(
             `UPDATE responsable_de_paciente SET
@@ -387,14 +370,12 @@ app.put("/api/actualizar/responsable/:id_responsable", async (req, res) => {
                 id_responsable,
             ]
         );
-        console.log("Resultado de la actualización del responsable:", updateResResult);
 
         await connection.commit();
-        console.log("Transacción completada con éxito");
         res.json({ message: "Datos del responsable actualizados correctamente" });
     } catch (error) {
         await connection.rollback();
-        console.error("Error detallado al actualizar los datos del responsable:", error);
+        console.error("Error al actualizar los datos del responsable:", error);
         res.status(500).json({
             message: "Error al actualizar los datos del responsable",
             error: error.message,

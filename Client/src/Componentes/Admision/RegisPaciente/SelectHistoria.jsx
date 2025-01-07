@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import UrlsApp from '../../UrlsApp';
 import './select.css';
 
-const SelectHistoria = ({ handleHistoria, value }) => {
+const SelectHistoria = ({ setHistoria }) => {
     const { apiUrl } = UrlsApp();
     const [disponible, setDisponible] = useState(true);
     const [historiasRecomendadas, setHistoriasRecomendadas] = useState([]);
-    const [historiaPorDefecto, setHistoriaPorDefecto] = useState('');
+    const [historia, setHistoriaLocal] = useState(''); // Estado local del valor del input
     const [mostrandoRecomendaciones, setMostrandoRecomendaciones] = useState(false);
 
     useEffect(() => {
@@ -15,14 +15,15 @@ const SelectHistoria = ({ handleHistoria, value }) => {
             try {
                 const response = await fetch(`${apiUrl}/api/paciente/historia-clinica`);
                 const data = await response.json();
-                setHistoriaPorDefecto(data.historiaPorDefecto);
+                setHistoriaLocal(data.historiaPorDefecto);
+                setHistoria(data.historiaPorDefecto); // Enviar al componente padre
             } catch (error) {
                 console.error('Error al obtener historia por defecto:', error);
             }
         };
 
         fetchHistoriaPorDefecto();
-    }, [apiUrl]);
+    }, [apiUrl, setHistoria]);
 
     const validarHistoria = async (historia) => {
         try {
@@ -43,10 +44,11 @@ const SelectHistoria = ({ handleHistoria, value }) => {
     };
 
     const manejarCambio = (e) => {
-        const nuevaHistoria = e.target.value;
-        handleHistoria(e); // Propagar cambio al componente padre
+        const nuevaHistoria = e.target.value.replace(/\D/g, '').slice(0, 5); // Solo números, máximo 5 dígitos
+        setHistoriaLocal(nuevaHistoria); // Actualizar estado local
+        setHistoria(nuevaHistoria); // Enviar valor al componente padre
 
-        // Si el valor es vacío, mostrar recomendaciones y no autocompletar
+        // Si el campo queda vacío, mostrar recomendaciones
         if (!nuevaHistoria) {
             setDisponible(false);
             setMostrandoRecomendaciones(true);
@@ -59,19 +61,20 @@ const SelectHistoria = ({ handleHistoria, value }) => {
             setMostrandoRecomendaciones(true);
             return;
         }
-        
+
         if (nuevaHistoria.length === 5 && nuevaHistoria !== '00000') {
-            validarHistoria(nuevaHistoria); 
+            validarHistoria(nuevaHistoria);
         } else {
             setDisponible(true); // Asumir disponible si no tiene 5 dígitos
             setMostrandoRecomendaciones(false);
         }
     };
 
-    const manejarSeleccion = (historia) => {
+    const manejarSeleccion = (historiaSeleccionada) => {
+        setHistoriaLocal(historiaSeleccionada); // Actualizar estado local
+        setHistoria(historiaSeleccionada); // Enviar valor al componente padre
         setMostrandoRecomendaciones(false);
-        handleHistoria({ target: { value: historia } });
-        setDisponible(true)
+        setDisponible(true);
     };
 
     return (
@@ -81,15 +84,15 @@ const SelectHistoria = ({ handleHistoria, value }) => {
                 className={disponible ? '' : 'rojo'}
                 type="text"
                 onChange={manejarCambio}
-                value={value || historiaPorDefecto}
+                value={historia} // Vinculado al estado local
                 required
                 pattern="\d{5}"
-                title="INGRESE HISTORIA CLINICA VALIDA DE 5 DIGITOS"
+                title="INGRESE HISTORIA CLINICA VÁLIDA DE 5 DÍGITOS"
                 maxLength={5}
             />
             {!disponible && mostrandoRecomendaciones && (
                 <div className="disponibles">
-                    <p>Historias recomendadas:</p>
+                    <p>Recomendadas</p>
                     {historiasRecomendadas.map((historia) => (
                         <li key={historia} onClick={() => manejarSeleccion(historia)}>
                             {historia}

@@ -2,31 +2,38 @@ import React, { useState, useEffect } from "react";
 import "./sector.css";
 import { PiGearBold, PiUsersBold } from "react-icons/pi";
 import { TbListCheck, TbMapPinCog } from "react-icons/tb";
-import { RiLogoutCircleLine } from "react-icons/ri";
+import { RiLogoutCircleLine, RiPuzzleFill } from "react-icons/ri";
 import { GrMapLocation } from "react-icons/gr";
-import { MdOutlineManageSearch } from "react-icons/md";
+import { FaRoad } from "react-icons/fa6";
+import { MdOutlineManageSearch, MdTsunami, MdOutlineViewInAr} from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Store from "../../Store/Store_Cita_Turno";
 import Mapa from "./Mapa";
 import { TablaForSector } from "../infoTurno/MiniCompont";
 import FormSector from "./FormSector";
+import Familias from "./Familias";
+import Coordenada from "./Coordenada";
+import puntoCar from '../../IMG/puntoCardinal.png'
+import Minimap from "./Minimap";
 
-const Sectores = ({ personData }) => {
+const Sectores = () => {
     const navigate = useNavigate();
     const { personalSalud, sectorPer } = Store();
+    const {colors} = Coordenada
 
     // Estados
     const [activeView, setActiveView] = useState(null); // Maneja las vistas activas
     const [selectManzana, setSelectManzana] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
+    const [viewDataMap, setViewDataMap] = useState(true)    
 
     // Funciones de navegación
     const volverPage = () => navigate('/personal-salud');
 
     const handleViewChange = (view) => {
         setActiveView(activeView === view ? null : view); // Activa o desactiva la vista seleccionada
-        setSelectManzana(null); // Reinicia la manzana seleccionada
-        setSearchTerm(""); // Limpia el término de búsqueda
+        setSelectManzana(null);
+        setSearchTerm("");
     };
 
     useEffect(() => {
@@ -54,14 +61,10 @@ const Sectores = ({ personData }) => {
                         {selectManzana ? (
                             <>
                                 <FormSector manzana={selectManzana} />
-                                <h4 style={{marginTop: '20px'}}>Familias en esta manzana</h4>
-                                <li>{`Familia de codigo => 0B32S0`}</li>
-                                <li>{`Familia de codigo => 0B32S0`}</li>
-                                <li>{`Familia de codigo => 0B32S0`}</li>
-                                <li>{`Familia de codigo => 0B32S0`}</li>
+                                <Familias />
                             </>
                         ) : (
-                            <p style={{textAlign: 'center'}}>Selecciona una manzana</p>
+                            <p style={{ textAlign: 'center' }}>Selecciona una manzana</p>
                         )}
                     </div>
                 );
@@ -104,7 +107,7 @@ const Sectores = ({ personData }) => {
 
     return (
         <div className="sector">
-            <h3>Mapa del Centro de Salud Micaela Bastidas - SAIS {personData?.nombres || "----"}</h3>
+            <h3>Mapa del Centro de Salud Micaela Bastidas</h3>
             <div className="ev">
                 <div className="menus">
                     <div onClick={() => handleViewChange("config")}>
@@ -127,7 +130,11 @@ const Sectores = ({ personData }) => {
                         <RiLogoutCircleLine className="icon" />
                         <p className="etiqueta">Salir</p>
                     </div>
-                    <div className="map-ico">
+                    <div onClick={() => setViewDataMap(!viewDataMap)} className={`mapIco ${viewDataMap ? 'active' : ''}`} style={{bottom: '50px'}}>
+                        <MdOutlineViewInAr className="icon" />
+                        <p className="etiqueta">Ver Datos</p>
+                    </div>
+                    <div className="mapIco">
                         <GrMapLocation className="map" />
                         <span>SAIS</span>
                     </div>
@@ -135,7 +142,29 @@ const Sectores = ({ personData }) => {
                 <section className={`nodatas ${activeView ? "datass" : ""}`}>
                     {renderView()}
                 </section>
-                <main className="content">
+                <main className="mapa-box">
+                    <h3 className={`h4 ${viewDataMap ? '' : 'noView'}`}>
+                        PLANO DE LA JURISDICCION DEL EESS <br />
+                        CENTRO DE SALUD MICAELA BASTIDA
+                    </h3>
+                    <div className={`legend ${viewDataMap ? '' : 'noView'}`}>
+                        <h4>Leyenda</h4>
+                        <h5>Categorias</h5>
+                        <p><RiPuzzleFill style={{color: colors.deporte}}/>Deporte</p>
+                        <p><RiPuzzleFill style={{color: colors.educacion}}/>Educación</p>
+                        <p><RiPuzzleFill style={{color: colors.espacimiento}}/>Esparcimiento</p>
+                        <p><RiPuzzleFill style={{color: colors.estado}}/>Estado</p>
+                        <p><RiPuzzleFill style={{color: colors.iglesia}}/>Iglesia</p>
+                        <p><RiPuzzleFill style={{color: colors.industria}}/>Industria</p>
+                        <p><RiPuzzleFill style={{color: colors.mercado}}/>Mercado</p>
+                        <p><RiPuzzleFill style={{color: colors.salud}}/>Salud</p>
+                        <p><RiPuzzleFill style={{color: colors.viviendas}}/>Viviendas</p>
+                        <p><MdTsunami style={{color: colors.hidrografia}}/>Hidrografía</p>
+                        <p><FaRoad style={{color: colors.calles}}/>Vias_Final</p>
+                        <p><span style={{backgroundColor: colors.mz2021}}/>Manzanas_2021</p>
+                    </div>
+                    <img  className={`${viewDataMap ? '' : 'noView'}`} src={puntoCar} alt="" />
+                    <Minimap viewDataMap={viewDataMap}/>
                     <Mapa selectManzana={selectManzana} setSelectManzana={setSelectManzana} />
                 </main>
             </div>

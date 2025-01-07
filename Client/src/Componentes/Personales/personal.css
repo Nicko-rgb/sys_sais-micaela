@@ -97,7 +97,7 @@
 }
 .personal-salud .box-buscar button {
     width: 120px;
-    background-color: #00796bb4;
+    background-color: var(---3color);
     color: white;
     font-weight: bold;
     font-size: 12px;

@@ -81,12 +81,16 @@ export const TablaForSector = ({ data, searchTerm }) => {
     }
 
     return (
-        <table>
+        <table className='tbl-person'>
             <thead>
                 <tr>
                     <th>DNI</th>
                     <th>Nombres</th>
-                    <th>Profesión</th>
+                    {shouldShowColumn ?
+                        <></>
+                        :
+                        <th>Profesión</th>
+                    }
                     {shouldShowColumn &&
                         <th>Código - Mz</th>
                     }
@@ -97,7 +101,10 @@ export const TablaForSector = ({ data, searchTerm }) => {
                     <tr key={index}>
                         <td>{d.dni}</td>
                         <td>{d.paterno} {d.nombres} {d.materno}</td>
-                        <td>{d.profesion}</td>
+                        {shouldShowColumn ?
+                            <></> :
+                            <td>{d.profesion}</td>
+                        }
                         {shouldShowColumn &&
                             <td>{d.codigo} - {d.manzana}</td>
                         }

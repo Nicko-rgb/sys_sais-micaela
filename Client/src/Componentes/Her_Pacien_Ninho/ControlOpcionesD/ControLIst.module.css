@@ -1,0 +1,191 @@
+/* Estilo general de la aplicación */
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .dateInput {
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+  }
+  
+  .userInfo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative; /* Necesario para posicionar el menú */
+  }
+  
+  .nameSelect {
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+  }
+  
+  .printButton {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .printButton:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Menú desplegable */
+  .menu {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    z-index: 100;
+  }
+  
+  .menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .menu li {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .menu li:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Barra de búsqueda */
+  .searchBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .searchInput {
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    flex-grow: 1;
+  }
+  
+  .showSelect {
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+  }
+  
+  /* Tabla */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .th, .cell {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .row:nth-child(even) {
+    background-color: #f8f9fa;
+  }
+  
+  /* Paginación */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .paginationButton {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #ffffff;
+    cursor: pointer;
+  }
+  
+  .paginationButton:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  .mainContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .contentWrapper {
+    display: flex;
+    flex: 1;
+  }
+  
+  .mainContent {
+    flex-grow: 1;
+    padding: 20px;
+  }
+  
+  .sidebar {
+    width: 250px; /* Adjust width as needed */
+    background-color: #f0f0f0;
+    border-left: 1px solid #ddd;
+  }
+  
+  /* Existing styles remain the same */
+  .container {
+    width: 100%;
+  }
+  .mainContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .contentWrapper {
+    display: flex;
+    flex: 1;
+  }
+  
+  .sidebarLeft {
+    width: 250px; /* Adjust width as needed */
+    background-color: #f0f0f0;
+    border-right: 1px solid #ddd;
+  }
+  
+  .mainContent {
+    flex-grow: 1;
+    padding: 20px;
+  }
+  
+  .sidebarRight {
+    width: 250px; /* Adjust width as needed */
+    background-color: #f0f0f0;
+    border-left: 1px solid #ddd;
+  }
+  
+  /* Existing styles remain the same */
+  .container {
+    width: 100%;
+  }

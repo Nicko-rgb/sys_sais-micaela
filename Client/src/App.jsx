@@ -28,6 +28,7 @@ import TamizajeDozaje from './Componentes/Her_Pacien_Ninho/Tamizaje/TamizajeDoza
 import HistorialTamizaje from './Componentes/Her_Pacien_Ninho/Tamizaje/HistorialTamizaje';
 import Entregasuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Entregasuplemento';
 import ListaSuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Listasumplemento';
+import ControlList from './Componentes/Her_Pacien_Ninho/ControlOpcionesD/ControlList';
 
 import VacunarNino from './Componentes/Her_Pacien_Ninho/vacuna/VacunarNino'
 
@@ -39,6 +40,7 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Login />} />
+                    <Route path="/controlList" element={<ControlList />} />
                     <Route path="/panel" element={<Panel />} />
                     <Route path="/panel-niño" element={<PanelNiño />} />
                     <Route path="/panel/:historialClinico" element={<DatosPaciente />} />

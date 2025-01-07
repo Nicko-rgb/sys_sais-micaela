@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link , useParams} from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import './opciones.css';
 import { FaBars } from "react-icons/fa";
 import { LiaChartBarSolid } from "react-icons/lia";
@@ -64,7 +64,7 @@ const OpcionesD = ( {pacienteDatos, abrirLista} ) => {
             </div>
             <div className={`opciones2 ${activeIcon === 1 ? 'show' : 'hide'}`}>
                 <Link to="/panel"> <img src={volver} alt="" />INICIO</Link>
-                <p><BiCalendarEdit />REGISTRO DIARIO</p>
+                <Link to="/controlList" ><BiCalendarEdit />REGISTRO DIARIO</Link>
                 <p><AiOutlineMonitor />SEGUIMIENTO Y MONITOREO</p>
                 <p><VscGraph />CONSOLIDADO CRED</p> 
                 <p>CONSOLIDADO VACUNA</p>

@@ -7,7 +7,7 @@ import NavLogin from "../../Navegadores/NavLogin";
 import NavPie from "../../Navegadores/NavPie";
 import Entregasuplemento from "./Entregasuplemento";
 
-function Listasumplemento({paciente, cambiarVista}) {
+function Listasumplemento({ paciente, cambiarVista }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { entregas } = location.state || {};
@@ -92,20 +92,15 @@ function Listasumplemento({paciente, cambiarVista}) {
       <div className={style.listasumplementocontainer}>
         {paciente ? (
           <div className={style.contentwrapper}>
-            <div className={style.header}>
-              <Link
-                to={`/panel/${paciente.hist_clinico}`}
-                className={style.backlink}
-              >
-                <RiPlayReverseLargeFill /> VOLVER
-              </Link>
-              <button
-                className={style.newsupplementbutton}
-                onClick={() => cambiarVista(<Entregasuplemento paciente={paciente} />)}
-              >
-                Nuevo Suplemento
-              </button>
-            </div>
+            <button
+              className={style.newsupplementbutton}
+              onClick={() =>
+                cambiarVista(<Entregasuplemento paciente={paciente} />)
+              }
+            >
+              Nuevo Suplemento
+            </button>
+
             <div className={style.pac}>
               <h2>LISTA DE ENTREGAS</h2>
               <h3>
@@ -159,9 +154,8 @@ function Listasumplemento({paciente, cambiarVista}) {
         ) : (
           <p>No hay datos..</p>
         )}
-         
       </div>
-      <NavPie/>
+      <NavPie />
 
       {/* Modal para editar */}
       {isModalOpen && (

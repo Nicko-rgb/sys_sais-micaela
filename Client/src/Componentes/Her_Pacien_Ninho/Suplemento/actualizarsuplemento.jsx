@@ -7,7 +7,7 @@ import { RiPlayReverseLargeFill } from "react-icons/ri";
 import Entregasuplemento from "./Entregasuplemento";
 import Listasumplemento from "./Listasumplemento";
 
-const Actualizarsuplementos = ({paciente, cambiarVista}) => {
+const Actualizarsuplementos = ({ paciente, cambiarVista }) => {
   const navigate = useNavigate(); // Hook para navegación
 
   const data = [
@@ -28,13 +28,7 @@ const Actualizarsuplementos = ({paciente, cambiarVista}) => {
         {paciente ? (
           <>
             <h3>Actualizar Suplementos Niño</h3>
-            {/* Botón Volver alineado a la izquierda */}
-            <Link
-              to={`/panel/${paciente.hist_clinico}`}
-              className={style.volverbuttons}
-            >
-              <RiPlayReverseLargeFill /> VOLVER
-            </Link>
+
             {/* Dropdown en la esquina superior derecha */}
             <div className={style.dropdown}>
               <button className={style.dropdownbutton}>⚙</button>

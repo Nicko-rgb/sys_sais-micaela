@@ -248,5 +248,4 @@ const Coordenada = () => {
     return { manzanas, calles, colors }
 }
 
-
 export default Coordenada

@@ -69,7 +69,7 @@ const PanelPaciente = () => {
                     <Link to='/admision' className="link_volver"><IoCaretBack className='ico-volver' />VOLVER</Link>
                     <button className={`btn-inicio ${botonActivo === 'inicio' ? 'activo' : ''}`} onClick={() => { setBotonActivo('inicio'); renderComponente(<DatosNino cambiarVista={renderComponente} />); }} ><GoHome className='ico-home' />Inicio</button>
                     <details name='opcion'>
-                        <summary onClick={() => toggleMenu('control')}><PiNotePencil className="icon" />Contro{menuState.control ? <IoIosArrowDown className='ico-open' /> : <IoIosArrowForward className='ico-close' />} </summary>
+                        <summary onClick={() => toggleMenu('control')}><PiNotePencil className="icon" />Control{menuState.control ? <IoIosArrowDown className='ico-open' /> : <IoIosArrowForward className='ico-close' />} </summary>
                         <button className={botonActivo === 'btn1' ? 'activo' : ''} onClick={() => { setBotonActivo('btn1'); renderComponente(<Control paciente={paciente} />) }}>Control Niño</button>
                         <button className={botonActivo === 'btn2' ? 'activo' : ''} onClick={() => { setBotonActivo('btn2'); renderComponente(<Seguimientonutricional paciente={paciente} />); }}>Seguimiento Nutricional</button>
                         <button className={botonActivo === 'btn3' ? 'activo' : ''} onClick={() => { setBotonActivo('btn3'); renderComponente(<HistorialControles paciente={paciente} />); }}> Hist de Controles</button>

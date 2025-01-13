@@ -4,21 +4,15 @@ import NavLogin from "../../Navegadores/NavLogin";
 import NavPie from "../../Navegadores/NavPie";
 import { Link } from "react-router-dom";
 import { RiPlayReverseLargeFill } from "react-icons/ri"; // Importar el ícono correctamente
-import EvaluacionPsicomotor from './EvaluacionPsicomotor'
+import EvaluacionPsicomotor from "./EvaluacionPsicomotor";
 
-const HistorialPsicomotor = ({paciente, cambiarVista}) => {
+const HistorialPsicomotor = ({ paciente, cambiarVista }) => {
   const [search, setSearch] = useState("");
 
   return (
     <div className={style.bodyformularios}>
       <NavLogin />
       <div className={style.historialcontainer}>
-        <Link
-          to={`/panel/${paciente.hist_clinico}`}
-          className={style.volverbutton}
-        >
-          <RiPlayReverseLargeFill /> VOLVER
-        </Link>
         {paciente ? (
           <>
             <h3>Historial de Evaluación Psicomotor</h3>

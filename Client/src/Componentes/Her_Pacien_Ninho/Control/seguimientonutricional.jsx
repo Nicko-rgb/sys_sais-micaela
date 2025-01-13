@@ -1,24 +1,17 @@
 import React from "react";
-import styles from './SeguimientoNutricional.module.css';
+import styles from "./SeguimientoNutricional.module.css";
 import NavLogin from "../../Navegadores/NavLogin";
 import NavPie from "../../Navegadores/NavPie";
 import { Link } from "react-router-dom";
 import { RiPlayReverseLargeFill } from "react-icons/ri";
 
-const Seguimientonutricional = ({paciente}) => {
-
+const Seguimientonutricional = ({ paciente }) => {
   return (
     <div className={styles.contPadre}>
       <NavLogin />
       <div className={styles.contenidoPrincipal}>
         {paciente ? (
           <>
-            <div className={styles.btn}>
-              <Link to={`/panel/${paciente?.hist_clinico || ''}`} className={styles.volver_link}>
-                <RiPlayReverseLargeFill /> VOLVER
-              </Link>
-            </div>
-
             <div className={styles.container}>
               <form className={styles.seguimientoForm} action="">
                 <div className={styles.seguimientoTitulo}>
@@ -52,7 +45,7 @@ const Seguimientonutricional = ({paciente}) => {
                       <input type="text" id="peso" />
                     </div>
                     <div className={styles.seguimientoControl}>
-                      <label >Talla:</label>
+                      <label>Talla:</label>
                       <input type="text" id="talla" />
                     </div>
                     <div className={styles.seguimientoControl}>
@@ -68,16 +61,19 @@ const Seguimientonutricional = ({paciente}) => {
                     <legend>Servicios</legend>
                     <div className={styles.seguimientoControl}>
                       <div>
-                        <label>Consejería Nutricional  <input type="checkbox" id="consejeriaNutricional" /> </label>
-
-
+                        <label>
+                          Consejería Nutricional{" "}
+                          <input type="checkbox" id="consejeriaNutricional" />{" "}
+                        </label>
                       </div>
 
-                      <label>Estimulación Temprana  <input type="checkbox" id="estimulacionTemprana" /></label>
+                      <label>
+                        Estimulación Temprana{" "}
+                        <input type="checkbox" id="estimulacionTemprana" />
+                      </label>
 
                       <label>Sesión: </label>
                       <input type="text" id="sesion" />
-
                     </div>
                   </fieldset>
 
@@ -85,14 +81,13 @@ const Seguimientonutricional = ({paciente}) => {
                   <fieldset className={styles.seguimientoCuartobloque}>
                     <legend>Próxima Cita</legend>
                     <div className={styles.seguimientoControl}>
-                      <label >Próx. Cita:</label>
+                      <label>Próx. Cita:</label>
                       <input type="date" id="proximaCita" />
-                      <label >- # Citados:</label>
+                      <label>- # Citados:</label>
                       <input type="text" id="citados" />
                     </div>
                   </fieldset>
                 </div>
-
 
                 {/* Botones de acción */}
                 <div className={styles.seguimientoBotones}>
@@ -101,16 +96,14 @@ const Seguimientonutricional = ({paciente}) => {
                   <button type="button">Cancelar</button>
                 </div>
               </form>
-
             </div>
-
-          </>) : (
+          </>
+        ) : (
           <p>No hay datos para mostrar</p>
         )}
       </div>
       <NavPie />
     </div>
-
   );
 };
 

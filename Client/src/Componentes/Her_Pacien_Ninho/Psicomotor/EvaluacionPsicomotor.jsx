@@ -3,10 +3,9 @@ import style from "./EvaluacionPsicomotor.module.css";
 import NavLogin from "../../Navegadores/NavLogin";
 import NavPie from "../../Navegadores/NavPie";
 import { Link } from "react-router-dom";
-import { RiPlayReverseLargeFill } from "react-icons/ri"; 
+import { RiPlayReverseLargeFill } from "react-icons/ri";
 
-const FormularioPsicomotor = ({paciente}) => {
-
+const FormularioPsicomotor = ({ paciente }) => {
   const [fecha, setFecha] = useState(new Date().toISOString().slice(0, 10));
   const [observacion, setObservacion] = useState("");
 
@@ -20,17 +19,9 @@ const FormularioPsicomotor = ({paciente}) => {
       <div className={style.formulariocontainer}>
         {paciente ? (
           <>
-
             {/* Nueva estructura para alinear el título y el botón */}
             <div className={style.headerContainer}>
-            <Link
-                to={`/panel/${paciente.hist_clinico}`}
-                className={style.volverbutton}
-              >
-                <RiPlayReverseLargeFill /> VOLVER
-              </Link>
               <h2>Formulario - Desarrollo Psicomotor</h2>
-             
             </div>
 
             <div className={style.formulario}>

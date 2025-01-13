@@ -5,7 +5,7 @@ import Coordenada from "./Coordenada";
 
 const Mapa = ({selectManzana, setSelectManzana }) => {
 
-    const { manzanas, calles } = Coordenada;
+    const { manzanas, calles } = Coordenada();
     const [scale, setScale] = useState(1); // Escala inicial para el zoom
     const [position, setPosition] = useState({ x: 0, y: 0 }); // Posición inicial del mapa
 
@@ -78,14 +78,13 @@ const Mapa = ({selectManzana, setSelectManzana }) => {
                                     points={calle.points}
                                     stroke={calle.color}
                                     strokeWidth={calle.ancho}
-                                    // rotationDeg={-8}
                                 />
                                 {/* Dibuja el texto de la calle */}
                                 <Text
                                     text={calle.text}
                                     x={centerX + 6}
                                     y={centerY + -5}
-                                    fontSize={12}
+                                    fontSize={13}
                                     fill="black"
                                     fontStyle="italic"
                                     align="center"
@@ -105,8 +104,6 @@ const Mapa = ({selectManzana, setSelectManzana }) => {
                         const yCoords = manzana.points.filter((_, i) => i % 2 !== 0);
                         const centerX = (Math.min(...xCoords) + Math.max(...xCoords)) / 2;
                         const centerY = (Math.min(...yCoords) + Math.max(...yCoords)) / 2;
-                        const topRightX = Math.max(...xCoords) - 10;
-                        const topRightY = Math.min(...yCoords) + 15;
 
                         // Divide el texto en líneas
                         const textLines = manzana.text.split("\n");
@@ -136,16 +133,17 @@ const Mapa = ({selectManzana, setSelectManzana }) => {
                                         fontStyle="bold"
                                         text={text}
                                         align="center"
+                                        rotation={manzana.rotartxt}
                                         offsetX={text.length * 3.5} // Ajusta este valor según la fuente y tamaño
                                     />
                                 ))}
                                 <Text
-                                    x={topRightX - 25}
-                                    y={topRightY - 11}
+                                    x={Math.min(...xCoords) + 5}
+                                    y={Math.min(...yCoords) + 5}
                                     fontSize={11}
                                     fill="black"
                                     text={manzana.mz}
-                                    align="right"
+                                    align="left"
                                 />
                             </Group>
                         );

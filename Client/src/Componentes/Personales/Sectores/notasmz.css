@@ -1,0 +1,162 @@
+.notasmz {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: gray solid;
+    border-top-style: double;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    position: relative;
+}
+.notasmz .btn-nota {
+    background-color: var(---3color);
+    color: white;
+    padding: 4px 10px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    margin-left: auto;
+}
+.notasmz .btn-nota svg {
+    font-size: 16px;
+}
+.notasmz h3 {
+    font-size: 15px;
+    text-transform: uppercase;
+}
+
+.notasmz .nota-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(255, 134, 90);
+    font-size: 14px;
+    gap: 5px;
+    margin-top: -25px;
+}
+.notasmz .boxs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: -30px;
+    padding-bottom: 0;
+}
+.notasmz .boxs .box {
+    border-radius: 7px;
+    position: relative;
+    padding: 10px;
+    background-color: bisque;
+    font-size: 12.5px;
+    padding-left: 30px;
+    padding-bottom: 35px;
+    cursor: default;
+}
+.notasmz .boxs svg {
+    position: absolute;
+}
+.notasmz .boxs .ico {
+    font-size: 16px;
+    left: 8px;
+    top: 12px;
+}
+.notasmz .boxs .delete {
+    color: red;
+    bottom: 2px;
+    font-size: 25px;
+    left: 7px;
+    cursor: pointer;
+    border: red solid 1px;
+    padding: 3px;
+    border-radius: 50%;
+    transition: .3s ease;
+    z-index: 1;
+}
+.notasmz .boxs .delete:hover {
+    background-color: rgb(249, 144, 144);
+    color: white;
+    border: none;
+}
+.notasmz .boxs .delete:hover ~ p {
+    color: red;
+}
+.notasmz .boxs .fecha {
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    font-weight: 550;
+}
+.notasmz .boxs .msg {
+    text-align: center;
+    font-size: 12px;
+    width: 100%;
+    color: dodgerblue;
+}
+.notasmz .boxs .error {
+    color: red;
+}
+.notasmz form  {
+    height: 0;
+    overflow: hidden;
+    transition: .5s ease;
+    visibility: hidden;
+}
+.notasmz form.open {
+    height: 210px;
+    transition: .5s ease;
+    visibility: visible;
+}
+.notasmz form textarea {
+    resize: vertical;
+    font-size: 14px;
+    color: black;
+    outline: none;
+    border: rgba(89, 93, 91, 0.482) solid;
+    min-height:100px;
+    max-height: 100px;
+    height: auto;
+}
+.notasmz form textarea::placeholder {
+    color: gray;
+    font-style: italic;
+}
+.notasmz form label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    white-space: nowrap;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 500;
+}
+.notasmz form input {
+    outline: none;
+    font-size: 14px;
+    border: rgba(89, 93, 91, 0.482) solid;
+}
+.notasmz form .msg.success {
+    color: dodgerblue;
+    font-size: 13px;
+    text-align: center;
+    margin-top: 0px;
+    position: absolute;
+    width: 100%;
+}
+.notasmz form .msg.error {
+    color: red;
+    font-size: 13px;
+    text-align: center;
+    margin-top: 0px;
+    position: absolute;
+    width: 100%;
+}
+.notasmz form .btns {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 30px;
+    gap: 30px;
+}
+.notasmz form .btns button {
+    width: 130px;
+    height: 37px;
+}

@@ -14,7 +14,7 @@ import BloqDesbloqDia from './BloqDesbloqDia';
 import Store from '../Store/Store_Cita_Turno';
 
 const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
-    const { citas, personalSalud, turnosPersonal } = Store()
+    const { citas, turnosPersonal } = Store()
     const [openForm, setOpenForm] = useState(false);
     const [openEdit, setOpenEdit] = useState(false)
     const [openDelete, setOpenDelete] = useState(false)
@@ -230,7 +230,7 @@ const CuerpoTabla = ({ horarios, especialidad, fecha, consultorio }) => {
                             {especialidad === 'Obstetricia_CPN' && <td>{cita ? cita.semEmbarazo : '---'}</td>}
                             {especialidad === 'Planificación' && <td>{cita ? cita.metodo : '---'}</td>}
                             <td>{recortarTexto(cita ? cita.motivoConsulta : '---')}</td>
-                            <td>{responsable ? `${responsable.paterno} ${responsable.materno}, ${responsable.nombres}` : 'Ninguno, asignar en turnos.'}  </td>
+                            <td className={`${responsable ? 'responsable' : ''}`}>{responsable ? `${responsable.paterno} ${responsable.materno}, ${responsable.nombres}` : 'Ninguno, asignar en turnos.'}  </td>
 
                             <td className="box-ac" style={{ padding: '0' }}>
                                 <div className="accion">

@@ -5,7 +5,7 @@ import { TbListCheck, TbMapPinCog } from "react-icons/tb";
 import { RiLogoutCircleLine, RiPuzzleFill } from "react-icons/ri";
 import { GrMapLocation } from "react-icons/gr";
 import { FaRoad } from "react-icons/fa6";
-import { MdOutlineManageSearch, MdTsunami, MdOutlineViewInAr} from "react-icons/md";
+import { MdOutlineManageSearch, MdTsunami, MdOutlineViewInAr } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Store from "../../Store/Store_Cita_Turno";
 import Mapa from "./Mapa";
@@ -14,24 +14,27 @@ import FormSector from "./FormSector";
 import Familias from "./Familias";
 import Coordenada from "./Coordenada";
 import puntoCar from '../../IMG/puntoCardinal.png'
+import mbba_b from '../../IMG/mbba-mmba.png'
 import Minimap from "./Minimap";
+import Config from "./Config";
+import NotasManzana from "./NotasManzana";
 
 const Sectores = () => {
     const navigate = useNavigate();
     const { personalSalud, sectorPer } = Store();
-    const {colors} = Coordenada
+    const { colors } = Coordenada()
 
     // Estados
-    const [activeView, setActiveView] = useState(null); // Maneja las vistas activas
+    const [activeView, setActiveView] = useState(null);
     const [selectManzana, setSelectManzana] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
-    const [viewDataMap, setViewDataMap] = useState(true)    
+    const [viewDataMap, setViewDataMap] = useState(true)
 
     // Funciones de navegación
     const volverPage = () => navigate('/personal-salud');
 
     const handleViewChange = (view) => {
-        setActiveView(activeView === view ? null : view); // Activa o desactiva la vista seleccionada
+        setActiveView(activeView === view ? null : view);
         setSelectManzana(null);
         setSearchTerm("");
     };
@@ -48,11 +51,7 @@ const Sectores = () => {
             case "config":
                 return (
                     <div className="boxs">
-                        <h3>Configuración</h3>
-                        <button>Eliminar</button>
-                        <button>Guardar</button>
-                        <button>Cerrar</button>
-                        <button>Enviar</button>
+                        <Config />
                     </div>
                 );
             case "datamz":
@@ -61,6 +60,7 @@ const Sectores = () => {
                         {selectManzana ? (
                             <>
                                 <FormSector manzana={selectManzana} />
+                                <NotasManzana manzana={selectManzana} />
                                 <Familias />
                             </>
                         ) : (
@@ -130,7 +130,7 @@ const Sectores = () => {
                         <RiLogoutCircleLine className="icon" />
                         <p className="etiqueta">Salir</p>
                     </div>
-                    <div onClick={() => setViewDataMap(!viewDataMap)} className={`mapIco ${viewDataMap ? 'active' : ''}`} style={{bottom: '50px'}}>
+                    <div onClick={() => setViewDataMap(!viewDataMap)} className={`mapIco ${viewDataMap ? 'active' : ''}`} style={{ bottom: '50px' }}>
                         <MdOutlineViewInAr className="icon" />
                         <p className="etiqueta">Ver Datos</p>
                     </div>
@@ -150,21 +150,22 @@ const Sectores = () => {
                     <div className={`legend ${viewDataMap ? '' : 'noView'}`}>
                         <h4>Leyenda</h4>
                         <h5>Categorias</h5>
-                        <p><RiPuzzleFill style={{color: colors.deporte}}/>Deporte</p>
-                        <p><RiPuzzleFill style={{color: colors.educacion}}/>Educación</p>
-                        <p><RiPuzzleFill style={{color: colors.espacimiento}}/>Esparcimiento</p>
-                        <p><RiPuzzleFill style={{color: colors.estado}}/>Estado</p>
-                        <p><RiPuzzleFill style={{color: colors.iglesia}}/>Iglesia</p>
-                        <p><RiPuzzleFill style={{color: colors.industria}}/>Industria</p>
-                        <p><RiPuzzleFill style={{color: colors.mercado}}/>Mercado</p>
-                        <p><RiPuzzleFill style={{color: colors.salud}}/>Salud</p>
-                        <p><RiPuzzleFill style={{color: colors.viviendas}}/>Viviendas</p>
-                        <p><MdTsunami style={{color: colors.hidrografia}}/>Hidrografía</p>
-                        <p><FaRoad style={{color: colors.calles}}/>Vias_Final</p>
-                        <p><span style={{backgroundColor: colors.mz2021}}/>Manzanas_2021</p>
+                        <p><RiPuzzleFill style={{ color: colors.deporte }} />Deporte</p>
+                        <p><RiPuzzleFill style={{ color: colors.educacion }} />Educación</p>
+                        <p><RiPuzzleFill style={{ color: colors.espacimiento }} />Esparcimiento</p>
+                        <p><RiPuzzleFill style={{ color: colors.estado }} />Estado</p>
+                        <p><RiPuzzleFill style={{ color: colors.iglesia }} />Iglesia</p>
+                        <p><RiPuzzleFill style={{ color: colors.industria }} />Industria</p>
+                        <p><RiPuzzleFill style={{ color: colors.mercado }} />Mercado</p>
+                        <p><RiPuzzleFill style={{ color: colors.salud }} />Salud</p>
+                        <p><RiPuzzleFill style={{ color: colors.viviendas }} />Viviendas</p>
+                        <p><MdTsunami style={{ color: colors.hidrografia }} />Hidrografía</p>
+                        <p><FaRoad style={{ color: colors.calles }} />Vias_Final</p>
+                        <p><span style={{ backgroundColor: colors.mz2021 }} />Manzanas_2021</p>
                     </div>
-                    <img  className={`${viewDataMap ? '' : 'noView'}`} src={puntoCar} alt="" />
-                    <Minimap viewDataMap={viewDataMap}/>
+                    <img className={`img1 ${viewDataMap ? '' : 'noView'}`} src={mbba_b} alt="" />
+                    <img className={`img2 ${viewDataMap ? '' : 'noView'}`} src={puntoCar} alt="" />
+                    <Minimap viewDataMap={viewDataMap} />
                     <Mapa selectManzana={selectManzana} setSelectManzana={setSelectManzana} />
                 </main>
             </div>

@@ -447,6 +447,7 @@ USE db_sais;
 
 CREATE TABLE sector_personal (
     id_sector_personal INT AUTO_INCREMENT PRIMARY KEY,
+    -- id_sector es id_manzana
     id_sector INT(11) NOT NULL,
     manzana VARCHAR(100),
     codigo VARCHAR(50) NOT NULL,
@@ -456,3 +457,13 @@ CREATE TABLE sector_personal (
     FOREIGN KEY (id_personal) REFERENCES personal_salud (id_personal) ON DELETE SET NULL,
     UNIQUE (id_sector, id_personal) 
 );
+
+CREATE TABLE notas_manzana (
+    id_notas_manzana INT AUTO_INCREMENT PRIMARY KEY,
+    id_manzana INT(11) NOT NULL,
+    codigo VARCHAR(100) NOT NULL,
+    manzana VARCHAR(100) NOT NULL,
+    nota VARCHAR(1000) NOT NULL,
+    fecha_recordatorio VARCHAR(100),
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)

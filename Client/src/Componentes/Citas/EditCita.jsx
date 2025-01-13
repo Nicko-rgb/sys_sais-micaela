@@ -109,7 +109,7 @@ const EditCita = ({ closeForm, citaData, horarios, formatTime, especialidad }) =
                     </label>
                 </div>
                 <div className="btnss">
-                    <button className="btn-cancel" type="button" onClick={closeForm}>
+                    <button className="btn-cancela" type="button" onClick={closeForm}>
                         Cancelar
                     </button>
                     <button className="btn-save" type="submit">

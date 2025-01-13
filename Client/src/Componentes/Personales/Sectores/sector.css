@@ -160,6 +160,7 @@
   width: 100%;
   overflow-y: auto;
   padding: 10px;
+  padding-bottom: 200px;
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -275,7 +276,7 @@
 
 .sector .mapa-box .legend {
   position: absolute;
-  bottom: 10px;
+  bottom: 120px;
   z-index: 1;
   background-color: rgba(255, 255, 255, 0.572);
   backdrop-filter: blur(10px);
@@ -310,8 +311,17 @@
   height: 18px;
   border: gray solid 1px;
 }
-
-.sector .mapa-box img {
+.sector .mapa-box .img1 {
+  position: absolute;
+  z-index: 1;
+  border: #333 solid;
+  height: 100px;
+  background-color: rgba(255, 255, 255, 0.572);
+  backdrop-filter: blur(10px);
+  bottom: 10px;
+  animation: scaleBounce .5s ease-in-out;
+}
+.sector .mapa-box .img2 {
   position: absolute;
   z-index: 1;
   width: 70px;

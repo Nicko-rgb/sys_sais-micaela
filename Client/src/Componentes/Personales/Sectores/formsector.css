@@ -96,9 +96,11 @@
 .form-sector .btn-new {
     background-color: var(---3color);
     color: white;
-    height: 25px;
+    padding: 4px 10px;
     display: flex;
-    align-items: center;
+    margin-left: auto;
+    font-size: 12.5px;
+    margin-top: 5px;
 }
 
 .form-sector form {
@@ -106,6 +108,18 @@
     flex-direction: column;
     gap: 15px;
     position: relative;
+    height: 0;
+    visibility: hidden;
+    transition: .5s ease;
+    overflow: hidden;
+}
+.form-sector form.result {
+    height: auto;
+    visibility: visible;
+}
+.form-sector form.open {
+    visibility: visible;
+    height: 155px;
 }
 
 .form-sector form label {

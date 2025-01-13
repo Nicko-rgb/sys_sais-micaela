@@ -13,7 +13,7 @@ const FormSector = ({ manzana }) => {
     const [result, setResult] = useState(null);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState({ text: '', type: '' });
-    const [isInputVisible, setIsInputVisible] = useState(false);
+    const [formVisible, setFormVisible] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [selectedPerson, setSelectedPerson] = useState(null);
     const { apiUrl } = UrlsApp()
@@ -83,7 +83,7 @@ const FormSector = ({ manzana }) => {
         setIsDeleting(true);
         setSelectedPerson(person);
         setMessage({ text: '', type: '' });
-        setIsInputVisible(false)
+        setFormVisible(false)
         setDni('')
         setResult(null)
     };
@@ -91,14 +91,16 @@ const FormSector = ({ manzana }) => {
     const cancelTodo = () => {
         setIsDeleting(false);
         setSelectedPerson(null);
-        setIsInputVisible(false)
+        setFormVisible(false)
         setMessage({ text: '', type: '' });
         setDni('')
         setResult(null)
     };
 
     const assignedPersonnel = sectorPer.filter(
-        (data) => data.id_sector === manzana.id && data.manzana === manzana.mz
+        (data) =>
+            data.id_sector === manzana.id &&
+            data.manzana === manzana.mz
     );
 
     useEffect(() => {
@@ -114,7 +116,7 @@ const FormSector = ({ manzana }) => {
                 <p style={{ borderLeft: 'none' }}>Manzana <span>{manzana.mz}</span></p>
             </div>
 
-            <h5 style={{fontWeight: '600'}}>Personales Asignados</h5>
+            <h5 style={{ fontWeight: '600' }}>Personales Asignados</h5>
             {assignedPersonnel.length > 0 ? (
                 <table className="person-table">
                     <thead>
@@ -141,58 +143,54 @@ const FormSector = ({ manzana }) => {
             ) : (
                 <p className='no-p'><GoInfo /> No hay ningún asignado para esta manzana.</p>
             )}
-
-            <form onSubmit={handleSubmit}>
-                {isInputVisible ? (
-                    <>
-                        <label>
-                            Ingrese DNI para asignar:
-                            <input
-                                type="text"
-                                placeholder="DNI"
-                                value={dni}
-                                onChange={handleInputChange}
-                                maxLength={8}
-                                onKeyPress={handleKeyPress}
-                            />
-                        </label>
-                        {loading ? (
-                            <p className='loading'>Buscando...</p>
-                        ) : result?.estado === 'activo' && result ? (
-                            <div className="result">
-                                <p style={{ borderTop: 'none' }}>Nombres:  <span>{result.paterno} {result.materno} {result.nombres}</span></p>
-                                <p>Profesión: <span> {result.profesion}</span></p>
-                                <p>Servicio: <span>{result.servicio} </span> </p>
-                                <p style={{ borderBottom: 'solid #b0b0b0 1px' }}>DNI: <span> {result.dni} </span></p>
-                            </div>
-                        ) : (
-                            dni.length === 8 && !loading && (
-                                <p className='loading' style={{ color: 'rgb(253, 104, 104)' }}>No se encontró ningún profesional con este DNI.</p>
-                            )
-                        )}
-
-                        {message.text && (
-                            <div className="b-msg">
-                                <p className={`msg ${message.type === 'success' ? 'msg-success' : 'msg-error'}`}>
-                                    {message.text}
-                                </p>
-                            </div>
-                        )}
-
-                        <div className="btns">
-                            {message.type === 'success' ?
-                                <button className="btn-save" type="button" onClick={cancelTodo}>Aceptar</button>
-                                :
-                                <>
-                                    <button className="btn-cancela" type="button" onClick={cancelTodo}>Cancelar</button>
-                                    <button className="btn-save" type="submit">Asignar</button>
-                                </>
-                            }
-                        </div>
-                    </>
+            {!formVisible && 
+                <button className='btn-new' type='button' onClick={() => setFormVisible(true)}><IoPersonAddOutline className='ico' />Añadir Nuevo</button>
+            }
+            <form className={`${formVisible ? result ? 'result' : 'open' : ''}`} onSubmit={handleSubmit}>
+                <label>
+                    Ingrese DNI para asignar:
+                    <input
+                        type="text"
+                        placeholder="DNI"
+                        value={dni}
+                        onChange={handleInputChange}
+                        maxLength={8}
+                        onKeyPress={handleKeyPress}
+                    />
+                </label>
+                {loading ? (
+                    <p className='loading'>Buscando...</p>
+                ) : result?.estado === 'activo' && result ? (
+                    <div className="result">
+                        <p style={{ borderTop: 'none' }}>Nombres:  <span>{result.paterno} {result.materno} {result.nombres}</span></p>
+                        <p>Profesión: <span> {result.profesion}</span></p>
+                        <p>Servicio: <span>{result.servicio} </span> </p>
+                        <p style={{ borderBottom: 'solid #b0b0b0 1px' }}>DNI: <span> {result.dni} </span></p>
+                    </div>
                 ) : (
-                    <button className='btn-new' type='button' onClick={() => setIsInputVisible(true)}><IoPersonAddOutline className='ico' />Añadir Nuevo</button>
+                    dni.length === 8 && !loading && (
+                        <p className='loading' style={{ color: 'rgb(253, 104, 104)' }}>No se encontró ningún profesional con este DNI.</p>
+                    )
                 )}
+
+                {message.text && (
+                    <div className="b-msg">
+                        <p className={`msg ${message.type === 'success' ? 'msg-success' : 'msg-error'}`}>
+                            {message.text}
+                        </p>
+                    </div>
+                )}
+
+                <div className="btns">
+                    {message.type === 'success' ?
+                        <button className="btn-save" type="button" onClick={cancelTodo}>Aceptar</button>
+                        :
+                        <>
+                            <button className="btn-cancela" type="button" onClick={cancelTodo}>Cancelar</button>
+                            <button className="btn-save" type="submit">Asignar</button>
+                        </>
+                    }
+                </div>
             </form>
 
             {isDeleting && (

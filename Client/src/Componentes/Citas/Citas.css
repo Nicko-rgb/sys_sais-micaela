@@ -165,13 +165,13 @@
     position: relative;
 }
 .cita-nino .header-tab .bt {
-    background-color: rgb(25, 216, 101);
+    background-color: var(---2color);
     color: white;
-    font-weight: 600;
-    height: 30px;
-    text-transform: uppercase;
+    font-weight: 500;
     display: flex;
     align-items: center;
+    padding: 3px 5px;
+    gap: 0;
 }
 .cita-nino .header-tab button .icod {
     font-size: 16px;
@@ -184,25 +184,29 @@
     border-collapse: collapse;
 }
 .cita-nino table th, td {
-    border: rgb(119, 119, 119) solid 1px;
+    border: rgba(72, 70, 70, 0.513) solid 1px;
 }
 .cita-nino table th{
     font-size: 13px;
     padding: 4px 6px;
-    font-weight: 540;
-    background-color: rgb(49, 162, 124);
+    font-weight: 500;
+    background-color: var(---2color);
+    color: white;
+}
+.cita-nino table thead tr {
+    background-color: transparent;
 }
 .cita-nino table td {
     margin: 0;
     font-size: 12px;
-    font-family: 'Roboto', sans-serif;
-
+    padding: 2px 5px;
+    /* font-family: Arial, sans-serif; */
 }
 .cita-nino table tbody .receso{
-    background-color: #a0d6cd62;
+    background-color: #9fe7db62;
 }
 .cita-nino table tbody .receso:hover {
-    background-color: #a0d6cd62;
+    background-color: #9fe7db62;
 }
 .cita-nino table  tbody .atencion-especial {
     background-color: #e4ffa6c4;
@@ -222,21 +226,20 @@
 .cita-nino table tbody .bloqueada:hover{
     background-color: #dc354641;
 }
-/* .cita-nino table tbody .bloqueada td {
-    border: none;
-} */
 
 .cita-nino table .box-ac{
     width: 100px;
     background-color: white;
     cursor: default;
 }
-
+.cita-nino table .responsable {
+    text-transform: uppercase;
+}
 .cita-nino table .accion{
     position: relative;
     display: flex;
     gap: 5px;
-    padding: 0 4px;
+    padding: 1px 4px;
 }
 .cita-nino table .ico-edit{
     color: black;
@@ -259,7 +262,7 @@
 }
 .cita-nino table .ico-mas {
     color: green;
-    background-color: rgba(0, 128, 0, 0.206);
+    background-color: rgba(14, 171, 145, 0.289);
 }
 .cita-nino table .ico-bloq, .ico-delete {
     color: #dc3545;
@@ -271,9 +274,9 @@
     width: 100%;
 }
 .cita-nino table .ico-mas:hover{
-    background-color: green;
+    background-color: var(---2color);
     color: white;
-    box-shadow: 0 0 5px green, 0 0 5px green;
+    box-shadow: 0 0 5px var(---2color), 0 0 5px var(---2color);
 }
 .cita-nino table .ico-bloq:hover, .ico-delete:hover {
     background-color: #dc3545;
@@ -284,6 +287,9 @@
     background-color: rgb(63, 138, 243);
     color: white;
     box-shadow: 0 0 5px rgb(63, 138, 243), 0 0 5px rgb(63, 138, 243) ;
+}
+.cita-nino table .accion svg:hover{
+    transform: scale(1.05);
 }
 
 
@@ -312,15 +318,15 @@
     flex-direction: column;
     justify-content: center;
     margin: auto;
-    box-shadow: 0 0 7px  #dc3545;
+    box-shadow: 0 0 7px  #f66e7b;
     background-color: white;
     animation: fadeIn .5s ease;
     background-color: rgb(255, 255, 255);
 }
 .borrar-cita .contend h2 {
     margin: 0;
-    margin-bottom: -20px;
-    text-shadow: 0 0 1px rgb(252, 74, 74);
+    margin-bottom: -10px;
+    text-decoration: underline;
 }
 .borrar-cita .contend span {
     font-weight: bold;
@@ -342,120 +348,4 @@
 }
 .borrar-cita .btn-cancel:hover {
     background-color: #455a64;
-}
-
-/* Estilos para el Modal de confirmación */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 500px;
-    width: 100%;
-    text-align: center;
-}
-
-.modal-content h2 {
-    margin-bottom: 20px;
-    font-size: 20px;
-    color: #333;
-}
-
-.modal-content p {
-    font-size: 16px;
-    margin-bottom: 20px;
-    color: #555;
-}
-
-.modal-actions {
-    display: flex;
-    justify-content: space-around;
-}
-
-.modal-actions button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.modal-actions button:hover {
-    background-color: #0056b3;
-}
-
-.modal-actions button:focus {
-    outline: none;
-}
-
-.modal-actions button:last-child {
-    background-color: #dc3545;
-}
-
-.modal-actions button:last-child:hover {
-    background-color: #c82333;
-}
-
-/* Estilos generales para la tabla */
-.receso {
-    background-color: #f0f0f0;
-}
-
-.normal {
-    background-color: #ffffff;
-}
-
-.bloqueada {
-    background-color: #e7c7c7;
-}
-
-.accion {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.ico {
-    cursor: pointer;
-    font-size: 18px;
-    transition: transform 0.3s ease;
-}
-
-.ico:hover {
-    transform: scale(1.2);
-}
-
-.ico-edit {
-    color: #007bff;
-}
-
-.ico-delete {
-    color: #dc3545;
-}
-
-.ico-bloq {
-    color: #f39c12;
-}
-
-.ico-abi {
-    color: #28a745;
-}
-
-.ico- {
-    color: #6c757d;
 }

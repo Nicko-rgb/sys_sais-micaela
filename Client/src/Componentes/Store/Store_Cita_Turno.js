@@ -116,7 +116,7 @@ const Store = () => {
     const [sectorPer, setSectorPer] = useState([]);
     const fetchSectorPer = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/personal/obtner-sector-asignado')
+            const response = await axios.get('http://localhost:5000/api/personal/obtener-sector-asignado');
             setSectorPer(response.data);    
         } catch (error) {
             console.error('Error al obtener los datos del sector:', error);

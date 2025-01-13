@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './formcita.css';
 import { TfiWrite } from "react-icons/tfi";
 import { MdOpenInNew } from "react-icons/md";
+import { formatFecha } from '../Complementos/Funciones';
 
 // Componente de formulario para agregar una cita
 const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio, profesional }) => {
@@ -21,21 +22,27 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio, profesio
     const [metodo, setMetodo] = useState('');
     const [idRespons, setIdRespons] = useState('');
 
-    // Estados para los modales
-    const [isLoading, setIsLoading] = useState(false); // Modal de carga
-    const [modalMessage, setModalMessage] = useState(null); // Modal de resultado
+    const [isLoading, setIsLoading] = useState(false);
+    const [modalMessage, setModalMessage] = useState(null);
+    const [msg, setMsg] = useState({ text: '', type: '' });
 
-    // Función para buscar paciente por Hist. Clínico
+    // Function to search for a patient by Clinical History
     const handleHisClinicoChange = async (e) => {
         const value = e.target.value.trim();
         setHisClinico(value);
 
+        // Clear previous messages when input changes
         if (value) {
+            setMsg({ text: 'Buscando...', type: 'success' }); // Fixed typo here
             try {
                 const response = await fetch(`http://localhost:5000/api/obtener-pacientes/hist-clinico/${value}`);
                 const data = await response.json();
 
-                // Completar los campos con la información del paciente
+                if (!data) {
+                    throw new Error('No data found');
+                }
+
+                // Complete fields with patient information
                 setIdPaciente(data.id_paciente);
                 setIdRespons(data.id_responsable);
                 setDni(data.dni);
@@ -48,45 +55,61 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio, profesio
                 setEdad(data.edad);
                 setTelefono(data.celular1 || data.celular2 || data.celular1_res);
                 setDireccion(data.direccion || data.direccion_res);
+                setMsg({ text: '', type: '' });
             } catch (error) {
                 console.error('Error al buscar paciente:', error);
+                setMsg({ text: 'Paciente no encontrado!!', type: 'error' });
                 clearFields();
-                setDni('')
+                setDni('');
             }
+        } else {
+            setMsg({ text: '', type: '' });
         }
     };
+
 
     // Función para buscar paciente por DNI
     const handleDniChange = async (e) => {
         const value = e.target.value.trim();
         setDni(value);
 
-        try {
-            setIsLoading(true); // Mostrar modal de carga
-            const response = await fetch('http://localhost:5000/api/registrar/cita-nino', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(citaData),
-            });
+        if (value) {
+            try {
+                if(value.length === 8) {
+                    setMsg({ text: 'Buscando...', type: 'success' });
+                } else {
+                    setMsg({ text: '', type: '' });
+                }
+                const response = await fetch(`http://localhost:5000/api/obtener-pacientes/dni/${value}`);
+                const data = await response.json();
 
-            const result = await response.json();
+                setTimeout(() => {
+                    setIdPaciente(data.id_paciente);
+                    setIdRespons(data.id_responsable);
+                    setHisClinico(data.hist_clinico);
+                    setApellidos(`${data.ape_paterno} ${data.ape_materno}`);
+                    setNombres(data.nombres);
 
-            if (!response.ok) {
-                throw new Error(result.error || 'Error al registrar la cita');
+                    const formattedDate = new Date(data.fecha_nacimiento).toISOString().split('T')[0];
+                    setFechaNacimiento(formattedDate);
+
+                    setEdad(data.edad);
+                    setTelefono(data.celular1 || data.celular2 || data.celular1_res);
+                    setDireccion(data.direccion || data.direccion_res);
+                    setMsg({ text: '', type: '' });
+                }, 1000);
+
+            } catch (error) {
+                console.error('Error al buscar paciente:', error);
+                clearFields();
+                setHisClinico('');
+                if(value.length === 8) {
+                    setMsg({ text: 'Paciente no encontrado!!', type: 'error' });
+                }
             }
-
-            // Mostrar modal de éxito
-            setModalMessage(result.message || 'Cita registrada con éxito');
-            closeForm(); // Opcional: cerrar el formulario principal
-        } catch (error) {
-            // Mostrar modal de error
-            setModalMessage(`Error: ${error.message}`);
-        } finally {
-            setIsLoading(false); // Ocultar modal de carga
         }
     };
+
 
     // Función para limpiar campos
     const clearFields = () => {
@@ -136,11 +159,8 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio, profesio
             if (!response.ok) {
                 throw new Error(result.error || 'Error al registrar la cita');
             }
-
-            // Mostrar modal de éxito
             setModalMessage('Cita registrada con éxito');
         } catch (error) {
-            // Mostrar modal de error si ocurre un problema
             setModalMessage(`Error: ${error.message}`);
         } finally {
             setIsLoading(false); // Ocultar modal de carga después de completar la operación
@@ -190,7 +210,7 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio, profesio
                 <div className="fechas">
                     <div className="box-fechas">
                         <p>FECHA</p>
-                        <span>{new Date(fecha).toLocaleDateString()} </span>
+                        <span>{formatFecha(fecha)} </span>
                     </div>
                     <div className="box-fechas">
                         <p>HORA</p>
@@ -213,9 +233,10 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio, profesio
                     </label>
                     <label>
                         DNI:
-                        <input value={dni} onChange={handleDniChange} required />
+                        <input value={dni} maxLength={8} onChange={handleDniChange} required />
                     </label>
-                    <p>Filtra datos por Historia clínica o DNI</p>
+                    <p className='tx'>Filtra datos por Historia clínica o DNI</p>
+                    <p className={`msg ${msg.type === 'success' ? '' : 'msgError'}`}>{msg.text} </p>
                 </div>
                 <div>
                     <label>
@@ -236,35 +257,36 @@ const FormCitas = ({ especialidad, closeForm, hora, fecha, consultorio, profesio
                         Edad:
                         <input type="text" className='noo' value={edad} disabled required />
                     </label>
+                    <label>
+                        Celular:
+                        <input type="text" placeholder='Escribe aquí....' className='siEdit' value={telefono} onChange={(e) => setTelefono(e.target.value)} required />
+                    </label>
                 </div>
-                <label>
-                    Celular:
-                    <input type="text" className='siEdit' value={telefono} onChange={(e) => setTelefono(e.target.value)} required />
-                </label>
                 {especialidad === 'Medicina' && (
                     <label>
                         Dirección:
-                        <input type="text" className='siEdit' value={direccion} onChange={(e) => setDireccion(e.target.value)} required />
+                        <input type="text" placeholder='Escribe aquí....' className='siEdit' value={direccion} onChange={(e) => setDireccion(e.target.value)} required />
                     </label>
                 )}
                 {especialidad === 'Planificación' && (
                     <label>
                         Método de Planificación:
-                        <input type="text" className='siEdit' value={metodo} onChange={(e) => setMetodo(e.target.value)} required />
+                        <input type="text" placeholder='Escribe aquí....' className='siEdit' value={metodo} onChange={(e) => setMetodo(e.target.value)} required />
                     </label>
                 )}
                 {especialidad === 'Obstetricia_CPN' && (
                     <label>
                         Semanas de embarazo:
-                        <input type="text" className='siEdit' value={semEmbarazo} onChange={(e) => setSemEmbarazo(e.target.value)} required />
+                        <input type="text" placeholder='Escribe aquí....' className='siEdit' value={semEmbarazo} onChange={(e) => setSemEmbarazo(e.target.value)} required />
                     </label>
                 )}
                 <label>
                     Motivo de Consulta:
-                    <textarea className='siEdit' value={motivoConsulta} onChange={(e) => setMotivoConsulta(e.target.value)} required />
+                    <textarea className='siEdit' placeholder='Escribe aquí....' value={motivoConsulta} onChange={(e) => setMotivoConsulta(e.target.value)} required />
                 </label>
                 <div className="btnss">
-                    <button className="btn-submit" type="submit"><TfiWrite /> Guardar Cita</button>
+                    <button className='btn-cancela' type='button' onClick={closeForm}>Cancelar</button>
+                    <button className="btn-save" type="submit"><TfiWrite /> Guardar Cita</button>
                 </div>
             </form>
         </div>

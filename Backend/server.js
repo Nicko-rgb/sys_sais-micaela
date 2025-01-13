@@ -696,7 +696,7 @@ app.post('/api/personal/asigna-sector', async (req, res) => {
         SELECT * FROM sector_personal 
         WHERE id_sector = ? AND id_personal = ?
     `;
-    
+
     const checkValues = [id_sector, id_personal];
 
     try {
@@ -723,8 +723,7 @@ app.post('/api/personal/asigna-sector', async (req, res) => {
     }
 });
 
-app.get('/api/personal/obtner-sector-asignado', async (req, res) => {
-
+app.get('/api/personal/obtener-sector-asignado', async (req, res) => {
     try {
         // Consulta SQL para obtener todos los datos combinados
         const query = `
@@ -735,11 +734,6 @@ app.get('/api/personal/obtner-sector-asignado', async (req, res) => {
         `;
 
         const [results] = await pool.query(query);
-
-        if (results.length === 0) {
-            return res.status(404).json({ message: 'No hay personal asignado a este sector.' });
-        }
-
         res.status(200).json(results); // Devuelve los resultados encontrados
     } catch (error) {
         console.error("Error al obtener el personal asignado:", error);
@@ -764,6 +758,64 @@ app.delete('/api/delete/sector-persona/:id', async (req, res) => {
         res.status(500).json({ message: 'Error al eliminar el personal.' });
     }
 });
+
+// Ruta para registrar un nota de las manzanas del mapa
+app.post('/api/registrar/nota-manzana', async (req, res) => {
+    const { id_manzana, codigo, manzana, nota, fechaRecordar } = req.body;
+
+    // Consulta SQL para insertar los datos
+    const sql = `
+        INSERT INTO notas_manzana (id_manzana, codigo, manzana, nota, fecha_recordatorio) VALUES (?, ?, ?, ?, ?)`;
+
+    try {
+        await pool.query(sql, [id_manzana, codigo, manzana, nota, fechaRecordar || null]);
+        res.status(201).json({ message: 'Nota registrada exitosamente.'});
+    } catch (error) {
+        console.error('Error al insertar los datos:', error);
+        res.status(500).json({ message: 'Error al registrar la notaaa.' });
+    }
+});
+
+// Ruta para obtener notas de las manzanas 
+app.get('/api/obtener/notas-manzana', async (req, res) => {
+    try {
+        const sql = 'SELECT * FROM notas_manzana ORDER BY fecha_recordatorio ASC'; 
+        const [results] = await pool.query(sql); 
+
+        res.status(200).json(results);
+    } catch (error) {
+        console.error('Error al obtener notas:', error);
+        res.status(500).json({ message: 'Error al obtener las notas.' });
+    }
+});
+
+// Ruta para eliminar una nota por ID
+app.delete('/api/eliminar/nota-manzana/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const sql = 'DELETE FROM notas_manzana WHERE id_notas_manzana = ?';
+        await pool.query(sql, [id]);
+        
+        res.status(200).json({ message: 'Nota eliminada con éxitooo.' });
+    } catch (error) {
+        console.error('Error al eliminar la nota:', error);
+        res.status(500).json({ message: 'Error al eliminar la nota.' });
+    }
+});
+
+// ruta para exportar datos de las manzanas del mapa
+app.get('/api/manzana/export-notas', async (req, res) => {
+    try {
+        const query = `SELECT id_manzana, codigo, manzana, nota, fecha_recordatorio FROM notas_manzana`;
+        const [rows] = await pool.query(query); // Destructurar para obtener solo las filas
+        res.json(rows); // Enviar solo las filas como respuesta
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Error al obtener los datos' });
+    }
+});
+
 
 
 // Ruta para obtener los tipos de turno de personal de salud
@@ -1395,7 +1447,7 @@ app.get('/api/etnias', async (req, res) => {
 //*************************************************** */ RUTAS PARA LAS VISITAS DOMICILIARIAS ****************************************************
 // Ruta para registrar visitas domiciliarias
 app.post("/api/visita-domiciliaria", async (req, res) => {
-    const { tipo,numero_visita, fecha_atencion, opcional, observaciones, id_paciente } = req.body;
+    const { tipo, numero_visita, fecha_atencion, opcional, observaciones, id_paciente } = req.body;
 
     try {
         const [{ insertId }] = await pool.query(
@@ -1481,7 +1533,7 @@ app.get("/api/visita-domiciliaria/numero-visita/:id_paciente", (req, res) => {
     pool.query(query, [id_paciente])
         .then((resultado) => {
             const proximoNumeroVisita = resultado[0][0].proximoNumeroVisita;
-            
+
             res.status(200).json({
                 proximoNumeroVisita
             });
@@ -1614,7 +1666,7 @@ app.put("/api/visita-general-domiciliaria/:id_visita", (req, res) => {
 // ELIMINAR DATOS MEDIANTE EL ID 
 // Ruta para eliminar una visita domiciliaria por ID
 app.delete("/api/visita-domiciliaria/:id", (req, res) => {
-    const id_visita= req.params.id;
+    const id_visita = req.params.id;
 
     // Validación de que se ha proporcionado un ID de visita
     if (!id_visita) {

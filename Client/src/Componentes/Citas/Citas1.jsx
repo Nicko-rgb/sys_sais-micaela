@@ -92,7 +92,7 @@ const Cita1 = () => {
                             </div>
                         )}
                         <p className="sub-title-page">CONSULTORIO N° {consultorio1}  </p>
-                        <button className='bt' onClick={handleCalendar}><FaCalendarCheck />{openCalendar ? 'Cerrar Calendario' : 'Abrir Calendario'} </button>
+                        <button className='bt' onClick={handleCalendar} style={{gap: '4px'}}><FaCalendarCheck />{openCalendar ? 'Cerrar Calendario' : 'Abrir Calendario'} </button>
                         <button className='bt' onClick={handlePreviousDay}><IoIosArrowBack className='icod' /> Anterior</button>
                         <button className='bt' onClick={handleNextDay}>Siguiente <IoIosArrowForward className='icod' /></button>
                         <p className='sub-title-page'>{fechaFormateada} </p>

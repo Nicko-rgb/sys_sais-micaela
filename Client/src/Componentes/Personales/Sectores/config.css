@@ -1,0 +1,90 @@
+.configmz {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.configmz .prf {
+    font-size: 14px;
+    margin-top: -10px;
+    font-weight: 500;
+    line-height: 1.1;
+    color: black;
+}
+.configmz .info {
+    font-size: 13px;
+    color: rgb(253, 151, 151);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.configmz .info svg {
+    font-size: 16px;
+}
+.configmz .btns {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.configmz .btns button {
+    padding: 3px 10px;
+    background-color: var(---3color);
+    color: white;
+}
+
+.configmz .boxs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+    padding-bottom: 10px;
+}
+.configmz .boxs .box {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+.configmz .boxs .box div {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+.configmz .boxs label {
+    text-transform: capitalize;
+}
+.configmz .boxs .box input {
+    outline: none;
+    border: none;
+    cursor: pointer;
+    background-color: rgb(215, 215, 215);
+}
+.configmz .colors-mapa .restablece {
+    display: flex;
+    margin: auto;
+    width: 35px;
+    position: relative;
+}
+.configmz .restablece svg {
+    font-size: 27px;
+    padding: 4px;
+    padding-top: 5px;
+    background-color: rgb(220, 220, 220);
+    cursor: pointer;
+    display: grid;
+}
+.configmz .restablece .etiqueta {
+    position: absolute;
+    background-color: #333;
+    color: white;
+    font-size: 13px;
+    padding: 2px 10px;
+    border-radius: 5px;
+    top: 3px;
+    left: 100%;
+    visibility: hidden;
+    transition: .3s ease;
+    transform: scale(0);
+    transform-origin: left;
+}
+.configmz .restablece svg:hover ~ .etiqueta {
+    visibility: visible;
+    transform: scale(1);
+}

@@ -169,7 +169,7 @@ const FormSector = ({ manzana }) => {
                     </div>
                 ) : (
                     dni.length === 8 && !loading && (
-                        <p className='loading' style={{ color: 'rgb(253, 104, 104)' }}>No se encontró ningún profesional con este DNI.</p>
+                        <p className='loading' stzyle={{ color: 'rgb(253, 104, 104)' }}>No se encontró ningún profesional con este DNI.</p>
                     )
                 )}
 
@@ -187,7 +187,7 @@ const FormSector = ({ manzana }) => {
                         :
                         <>
                             <button className="btn-cancela" type="button" onClick={cancelTodo}>Cancelar</button>
-                            <button className="btn-save" type="submit">Asignar</button>
+                            <button className="btn-save" disabled={!result} type="submit">Asignar</button>
                         </>
                     }
                 </div>

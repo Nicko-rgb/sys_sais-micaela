@@ -1,0 +1,76 @@
+/* Tabla.module.css */
+
+.tablaContainer {
+
+    margin: 20px auto;
+    padding: 10px;
+    max-width: 90%;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-x: auto; /* Para manejar el desplazamiento horizontal en pantallas pequeñas */
+  }
+  
+  .tabla {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-family: Arial, sans-serif;
+    background-color: white;
+    border: 1px solid #ddd;
+  }
+  
+  .tabla th, .tabla td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    white-space: nowrap; /* Evitar que el texto se corte en celdas pequeñas */
+  }
+  
+  .tabla th {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+  }
+  
+  .tabla tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .tabla tr:hover {
+    background-color: #ddd;
+  }
+  
+  .positivo {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .negativo {
+    color: red;
+    font-weight: bold;
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 768px) {
+    .tabla th, .tabla td {
+      padding: 8px; /* Reducir el padding en pantallas pequeñas */
+      font-size: 14px;
+    }
+  
+    .tabla th {
+      font-size: 14px;
+      text-align: left; /* Alinear texto a la izquierda en pantallas pequeñas */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .tablaContainer {
+      padding: 5px; /* Reducir el padding general */
+    }
+  
+    .tabla th, .tabla td {
+      font-size: 12px; /* Reducir el tamaño del texto en pantallas muy pequeñas */
+      padding: 6px;
+    }
+  }
+  

@@ -22,17 +22,9 @@ import ExportExcel from './Componentes/Personales/Turnos/Excel';
 // import VisitaDomiciliaria from './Componentes/Her_Pacien_Ninho/Control/visitadomiciliaria';
 // import HistorialVisitas from './Componentes/Her_Pacien_Ninho/Control/historialvisitas';
 
-<<<<<<< HEAD
-import TamizajeDozaje from './Componentes/Her_Pacien_Ninho/Tamizaje/TamizajeDozaje';
-import HistorialTamizaje from './Componentes/Her_Pacien_Ninho/Tamizaje/HistorialTamizaje';
-import Entregasuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Entregasuplemento';
-import ListaSuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Listasumplemento';
-import ControlList from './Componentes/Her_Pacien_Ninho/ControlOpcionesD/ControlList';
-=======
 // import Entregasuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Entregasuplemento';
 // import ListaSuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/Listasumplemento';
 // import Actualizarsuplemento from './Componentes/Her_Pacien_Ninho/Suplemento/actualizarsuplemento';
->>>>>>> main
 
 // import ListarControles from './Componentes/Her_Pacien_Ninho/Control/listarcontroles';
 
@@ -53,16 +45,9 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Login />} />
-<<<<<<< HEAD
-                    <Route path="/controlList" element={<ControlList />} />
-                    <Route path="/panel" element={<Panel />} />
-                    <Route path="/panel-niño" element={<PanelNiño />} />
-                    <Route path="/panel/:historialClinico" element={<DatosPaciente />} />
-=======
                     <Route path="/admision" element={<Admision />} />
                     <Route path="/servicios-niño" element={<ServicioNino />} />
                     <Route path="/panel/:historialClinico" element={<PanelPaciente />} />
->>>>>>> main
                     <Route path="/list/:tipo" element={<Listas />} />
                     <Route path="/panel-cita" element={<PanelCita />} />
                     <Route path='/cita-niño/:especialidad' element={<Cita1 />} />

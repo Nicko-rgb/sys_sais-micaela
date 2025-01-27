@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-<<<<<<< HEAD
-import { Link} from 'react-router-dom';
-=======
 import { Link } from 'react-router-dom';
->>>>>>> main
 import './opciones.css';
 import { FaBars } from "react-icons/fa";
 import { LiaChartBarSolid } from "react-icons/lia";

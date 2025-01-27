@@ -116,12 +116,20 @@ const Store = () => {
     const [sectorPer, setSectorPer] = useState([]);
     const fetchSectorPer = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/personal/obtner-sector-asignado')
-            setSectorPer(response.data);    
+            const response = await axios.get('http://localhost:5000/api/personal/obtner-sector-asignado');
+            
+            // Si no hay datos, actualiza el estado como vacío y muestra un mensaje en consola
+            if (response.data.length === 0) {
+                console.warn('No hay personal asignado a este sector.');
+                setSectorPer([]); // Deja el estado vacío
+            } else {
+                setSectorPer(response.data); // Actualiza con los datos recibidos
+            }
         } catch (error) {
-            console.error('Error al obtener los datos del sector:', error);
+            console.error('Error al obtener los datos del sector:', error.message);
         }
-    }
+    };
+    
 
     // Carga de datos 
     useEffect(() => {

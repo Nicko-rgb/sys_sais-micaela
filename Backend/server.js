@@ -724,7 +724,6 @@ app.post('/api/personal/asigna-sector', async (req, res) => {
 });
 
 app.get('/api/personal/obtner-sector-asignado', async (req, res) => {
-
     try {
         // Consulta SQL para obtener todos los datos combinados
         const query = `
@@ -736,8 +735,9 @@ app.get('/api/personal/obtner-sector-asignado', async (req, res) => {
 
         const [results] = await pool.query(query);
 
+        // Si no hay resultados, devuelve un array vacío con código 200
         if (results.length === 0) {
-            return res.status(404).json({ message: 'No hay personal asignado a este sector.' });
+            return res.status(200).json([]); // Array vacío
         }
 
         res.status(200).json(results); // Devuelve los resultados encontrados
@@ -746,6 +746,7 @@ app.get('/api/personal/obtner-sector-asignado', async (req, res) => {
         res.status(500).json({ message: 'Error al obtener los datos del personal.', error });
     }
 });
+
 
 // Ruta para eliminar una persona del sector
 app.delete('/api/delete/sector-persona/:id', async (req, res) => {
@@ -1014,7 +1015,7 @@ app.put("/api/nacimiento/:id_paciente", async (req, res) => {
         res.status(500).json({ message: "Error al actualizar los datos" });
     }
 });
-//   PARA LISTAR LOS DATOS
+//   PARA LISTAR LOS DATOS DE ACUERDO A SU ID DEL PACIENTE 
 
 app.get("/api/nacimiento/:id_paciente", async (req, res) => {
     const { id_paciente } = req.params;
@@ -1651,6 +1652,8 @@ app.delete("/api/visita-domiciliaria/:id", (req, res) => {
             });
         });
 });
+
+// 
 
 
 
